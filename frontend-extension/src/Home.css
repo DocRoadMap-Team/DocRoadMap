@@ -3,54 +3,50 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f8f9fa;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
+  padding-top: 60px;
 }
 
 .home-container {
   text-align: center;
-  width: 350px;
-  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  padding: 20px;
   background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 10px auto;
 }
 
 .home-container h1 {
-  font-size: 28px;
+  font-size: 20px;
   color: #333333;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 .home-container p {
-  font-size: 16px;
+  font-size: 15px;
   color: #666666;
-  margin-bottom: 25px;
+  margin-bottom: 16px;
 }
 
 .home-container button {
-  width: 100%;
+  width: 70%;
   padding: 10px;
-  margin: 10px 0;
-  font-size: 16px;
+  margin: 6px auto;
+  font-size: 15px;
   color: #ffffff;
   background-color: #007bff;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
+  display: block;
 }
 
 .home-container button:hover {
-  background-color: #0056b3;
-}
-
-.home-container button:last-child {
-  background-color: #007bff;
-}
-
-.home-container button:last-child:hover {
   background-color: #0056b3;
 }
 
@@ -58,10 +54,10 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .DocRoadMap-Logo img {
-  width: 200px;
+  width: 150px;
   height: auto;
 }

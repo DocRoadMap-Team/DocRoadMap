@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
-import App from "./InjectedComponent";
 import "../i18n";
+import App from "./InjectedComponent";
 
 const shadowContainer = document.createElement("div");
 document.body.appendChild(shadowContainer);

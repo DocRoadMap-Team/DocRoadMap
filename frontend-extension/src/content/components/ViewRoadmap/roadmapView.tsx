@@ -6,7 +6,7 @@ import getToken from "../../utils/utils";
 const isDev = process.env.NODE_ENV !== "production";
 const basePath = isDev ? "./assets/" : "./assets/";
 
-const backendUrl = "http://localhost:8082";
+const backendUrl = "https://www.docroadmap.fr";
 
 const normalize = (str: string): string =>
   str

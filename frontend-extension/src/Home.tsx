@@ -28,7 +28,7 @@ function Home() {
 
     getToken().then((token) => {
       if (token) {
-        navigate("/roadmap");
+        navigate("/docroadmap");
       }
     });
   }, [navigate]);

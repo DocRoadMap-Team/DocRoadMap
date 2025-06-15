@@ -35,38 +35,42 @@ describe("LanguageSelector component", () => {
     jest.clearAllMocks();
   });
 
-  it("renders all language buttons and title", () => {
+  it("renders title and all flag images", () => {
     renderWithRouter();
     expect(screen.getByText("languageTitle")).toBeInTheDocument();
-    expect(screen.getByText("french")).toBeInTheDocument();
-    expect(screen.getByText("english")).toBeInTheDocument();
-    expect(screen.getByText("spanish")).toBeInTheDocument();
+    expect(screen.getByAltText("French flag")).toBeInTheDocument();
+    expect(screen.getByAltText("English flag")).toBeInTheDocument();
+    expect(screen.getByAltText("Spanish flag")).toBeInTheDocument();
   });
 
-  it("changes language and navigates back when French is selected", () => {
+  it("changes language and navigates back when French flag button is clicked", () => {
     renderWithRouter();
-    fireEvent.click(screen.getByText("french"));
+    const buttons = screen.getAllByRole("button");
+    fireEvent.click(buttons[1]);
     expect(mockChangeLanguage).toHaveBeenCalledWith("fr");
     expect(mockNavigate).toHaveBeenCalledWith(-1);
   });
 
-  it("changes language and navigates back when English is selected", () => {
+  it("changes language and navigates back when English flag button is clicked", () => {
     renderWithRouter();
-    fireEvent.click(screen.getByText("english"));
+    const buttons = screen.getAllByRole("button");
+    fireEvent.click(buttons[2]);
     expect(mockChangeLanguage).toHaveBeenCalledWith("en");
     expect(mockNavigate).toHaveBeenCalledWith(-1);
   });
 
-  it("changes language and navigates back when Spanish is selected", () => {
+  it("changes language and navigates back when Spanish flag button is clicked", () => {
     renderWithRouter();
-    fireEvent.click(screen.getByText("spanish"));
+    const buttons = screen.getAllByRole("button");
+    fireEvent.click(buttons[3]);
     expect(mockChangeLanguage).toHaveBeenCalledWith("es");
     expect(mockNavigate).toHaveBeenCalledWith(-1);
   });
 
   it("navigates back when back button is clicked", () => {
     renderWithRouter();
-    fireEvent.click(screen.getByRole("button", { name: "" }));
+    const backButton = screen.getAllByRole("button")[0];
+    fireEvent.click(backButton);
     expect(mockNavigate).toHaveBeenCalledWith(-1);
   });
 });

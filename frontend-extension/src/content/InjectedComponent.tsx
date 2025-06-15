@@ -5,17 +5,15 @@ import {
   FaRegFileAlt,
   FaRoad,
   FaRobot,
-  FaUniversalAccess,
 } from "react-icons/fa";
 import Chatbot from "./components/Chatbot/chatbot";
 import RoadmapView from "./components/ViewRoadmap/roadmapView";
-import RoadmapCreation from "./components/roadmapCreation/roadmapCreation";
 import StepsCalendar from "./components/Calendar/calendar";
 import getToken from "./utils/utils";
+import DecisionTreeChat from "./components/roadmapCreation/decisionTree";
 
 const buttonData = [
-  { icon: <FaUniversalAccess />, label: "Accessibilité" },
-  { icon: <FaRoad />, label: "Générer Roadmap" },
+  { icon: <FaRoad />, label: "CreateRoadmapChat" },
   { icon: <FaEye />, label: "Voir Roadmap" },
   { icon: <FaRobot />, label: "Chatbot" },
   { icon: <FaCalendar />, label: "Calendrier" },
@@ -23,15 +21,17 @@ const buttonData = [
 
 interface PanelProps {
   activePanel: string | null;
+  isOpen: boolean;
 }
 
-const Panel: React.FC<PanelProps> = ({ activePanel }) => (
+const Panel: React.FC<PanelProps> = ({ activePanel, isOpen }) => (
   <div
     style={{
       position: "fixed",
       bottom: "90px",
       right: "80px",
       width: "300px",
+      maxWidth: "300px",
       height: "450px",
       background: "#fff",
       border: "1px solid #1976d2",
@@ -39,10 +39,13 @@ const Panel: React.FC<PanelProps> = ({ activePanel }) => (
       boxShadow: "0 2px 16px rgba(0,0,0,0.2)",
       zIndex: 10000,
       padding: 8,
+      opacity: 1,
+      transform: isOpen ? "translateX(0)" : "translateX(120%)",
+      transition: "transform 0.4s cubic-bezier(.4,0,.2,1)",
+      pointerEvents: isOpen ? "auto" : "none",
     }}
   >
-    {/* {activePanel === "Accessibilité" && < />} */}
-    {activePanel === "Générer Roadmap" && <RoadmapCreation />}
+    {activePanel === "CreateRoadmapChat" && <DecisionTreeChat />}
     {activePanel === "Voir Roadmap" && <RoadmapView />}
     {activePanel === "Chatbot" && <Chatbot />}
     {activePanel === "Calendrier" && <StepsCalendar />}
@@ -53,12 +56,13 @@ const DocRoadmapBar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [activePanel, setActivePanel] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [isPanelMounted, setIsPanelMounted] = useState(false);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
 
+  // Token logic
   useEffect(() => {
     getToken().then(setToken);
-    // adding listener to asynchronously check when the user is logged in or not (token is set or not)
-    // if token is set : display the button at bottom right of screen
-    // if not : nothing gets displayed at bottom right of screen
+
     if (typeof chrome !== "undefined" && chrome.storage?.local) {
       const onChanged = (
         changes: { [key: string]: chrome.storage.StorageChange },
@@ -85,9 +89,19 @@ const DocRoadmapBar: React.FC = () => {
     }
   }, []);
 
-  if (!token) {
-    return null;
-  }
+  // Panel mounting/unmounting and animation logic
+  useEffect(() => {
+    if (activePanel) {
+      setIsPanelMounted(true);
+      setTimeout(() => setIsPanelOpen(true), 10);
+    } else if (isPanelMounted) {
+      setIsPanelOpen(false);
+      const timeout = setTimeout(() => setIsPanelMounted(false), 400);
+      return () => clearTimeout(timeout);
+    }
+  }, [activePanel, isPanelMounted]);
+
+  if (!token) return null;
 
   const handleButtonClick = (label: string) => {
     setActivePanel((cur) => (cur === label ? null : label));
@@ -95,7 +109,9 @@ const DocRoadmapBar: React.FC = () => {
 
   return (
     <>
-      {activePanel && <Panel activePanel={activePanel} />}
+      {isPanelMounted && (
+        <Panel activePanel={activePanel} isOpen={isPanelOpen} />
+      )}
 
       <div
         style={{
@@ -129,17 +145,31 @@ const DocRoadmapBar: React.FC = () => {
           <FaRegFileAlt />
         </button>
 
+        {/* Animated Bar */}
         <div
           style={{
             display: "flex",
             flexDirection: "row",
-            transition: "width 0.3s",
+            transition: "width 0.4s cubic-bezier(.4,0,.2,1)", // match panel
             overflow: "hidden",
             width: open ? 300 : 0,
+            opacity: 1,
+            pointerEvents: open ? "auto" : "none",
+            background: "transparent",
           }}
         >
-          {open &&
-            buttonData.map((btn) => (
+          {/* Slide content in/out */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              transform: open ? "translateX(0)" : "translateX(100%)",
+              transition: "transform 0.4s cubic-bezier(.4,0,.2,1)",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            {buttonData.map((btn) => (
               <button
                 key={btn.label}
                 onClick={() => handleButtonClick(btn.label)}
@@ -163,9 +193,11 @@ const DocRoadmapBar: React.FC = () => {
                 {btn.icon}
               </button>
             ))}
+          </div>
         </div>
       </div>
     </>
   );
 };
+
 export default DocRoadmapBar;
