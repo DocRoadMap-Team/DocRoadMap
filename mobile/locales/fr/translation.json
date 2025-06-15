@@ -29,7 +29,8 @@
     "generate_roadmap": "Liste des démarches disponibles",
     "my_reminders": "Mes rappels",
     "error": "Erreur",
-    "error_message": "Impossible de récupérer les cartes des démarches administratives. Veuillez réessayer"
+    "error_message": "Impossible de récupérer les cartes des démarches administratives. Veuillez réessayer",
+    "close": "Fermer"
   },
   "change_theme": "Changer de thème",
   "back_to_profile": "Retour au profil",
@@ -62,7 +63,7 @@
   "validationError": "Erreur de validation",
   "fillAllFields": "Veuillez remplir tous les champs",
   "success": "Réussite",
-  "processCreated": "Création de la démarche!",
+  "processCreated": " ✅ Création de la démarche!",
   "creationFailed": "Échec lors de la création de la démarche administrative. Veuillez réessayer plus tard",
   "processNamePlaceholder": "Nom de la démarche administrative",
   "processDescriptionPlaceholder": "Description de la démarche administrative",
@@ -73,5 +74,8 @@
   "sendButton": "Envoyé",
   "fr": "Français",
   "en": "Anglais",
-  "es": "Espagnol"
+  "es": "Espagnol",
+  "follow": "Étapes à suivre :",
+  "restart": "🔁 Recommencer",
+  "enterProcess":"Écris le nom de la démarche (logement, déménagement, emploi, indépendance)"
 }

@@ -29,7 +29,8 @@
     "generate_roadmap": "Generate new roadmap",
     "my_reminders": "My reminders",
     "error": "Error",
-    "error_message": "Unable to retrieve administrative process cards. Please try again"
+    "error_message": "Unable to retrieve administrative process cards. Please try again",
+    "close": "Close"
   },
   "change_theme": "Change Theme",
   "back_to_profile": "Back to Profile",
@@ -63,7 +64,7 @@
   "validationError": "Validation Error",
   "fillAllFields": "Please fill in all fields",
   "success": "Success",
-  "processCreated": "Process Created!",
+  "processCreated": " ✅ Process Created!",
   "creationFailed": "Failed to create the administrative process. Please try again later",
   "processNamePlaceholder": "Administrative process name",
   "processDescriptionPlaceholder": "Administrative process description",
@@ -75,5 +76,9 @@
   "sendButton": "Send",
   "fr": "French",
   "en": "English",
-  "es": "Spanish"
+  "es": "Spanish",
+  "follow": "Steps to follow",
+  "restart": "🔁 Restart",
+  "enterProcess": "Write the name of the process (housing, moving, employment, independence)"
+  
 }

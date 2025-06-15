@@ -29,7 +29,8 @@
     "generate_roadmap": "Generar nueva hoja de ruta",
     "my_reminders": "Mis recordatorios",
     "error": "Error",
-    "error_message": "No se pueden recuperar las tarjetas de los procesos administrativos. Por favor, intente de nuevo"
+    "error_message": "No se pueden recuperar las tarjetas de los procesos administrativos. Por favor, intente de nuevo",
+    "close": "Cerca"
   },
   "change_theme": "Cambiar Tema",
   "back_to_profile": "Volver al Perfil",
@@ -62,7 +63,7 @@
   "validationError": "Error de validación",
   "fillAllFields": "Por favor, complete todos los campos",
   "success": "Éxito",
-  "processCreated": "¡Proceso creado!",
+  "processCreated": "  ✅ ¡Proceso creado!",
   "creationFailed": "Error al crear el proceso administrativo. Inténtelo más tarde",
   "processNamePlaceholder": "Nombre del proceso administrativo",
   "processDescriptionPlaceholder": "Descripción del proceso administrativo",
@@ -74,5 +75,8 @@
   "sendButton": "Enviar",
   "fr": "Francés",
   "en": "Inglés",
-  "es": "Español"
+  "es": "Español",
+  "follow": "Pasos a seguir:",
+  "restart": "🔁  Empezar de nuevo",
+  "enterProcess":"Escribe el nombre del proceso (vivienda, mudanza, empleo, independencia)"
 }
