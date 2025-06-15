@@ -1,0 +1,81 @@
+# 📱 DocRoadMap Mobile - Documentation Utilisateur
+
+---
+
+## 1. Introduction
+
+**DocRoadMap** est une solution mobile complète conçue pour accompagner les utilisateurs dans leurs démarches administratives, de manière simple et personnalisée. L'application propose un parcours guidé, étape par étape, adapté à chaque situation. Elle vient en complément de l’**extension web**, assurant une expérience fluide sur tous vos appareils.
+
+**Fonctionnalités clés** :
+- Parcours administratifs personnalisés selon votre situation.
+- Assistance visuelle et interactive étape par étape.
+- **Chatbot Mistral AI** pour un accompagnement à la demande.
+- Support multilingue.
+- Conformité aux normes d’accessibilité (WCAG et RGAA).
+- Rappels et notifications pour les échéances importantes.
+
+---
+
+## 2. Premiers Pas
+
+### 1. Télécharger et installer
+
+- À venir
+
+### 2. Créer un compte / Se connecter
+
+1. Ouvrez l’application et choisissez **Créer un compte** ou **Se connecter**.  
+2. Saisissez votre adresse email et un mot de passe sécurisé.  
+3. Un email de vérification vous sera envoyé pour confirmer votre adresse.  
+4. Une fois votre compte validé, connectez-vous pour accéder à votre tableau de bord personnalisé.
+
+---
+
+## 3. Fonctionnalités Principales
+
+### Authentification
+
+- Connexion et déconnexion sécurisées.  
+- Affichage d’erreurs en cas d’identifiants incorrects.
+
+### Création d'une Démarche
+
+Le **chatbot Mistral AI** vous guide dans la création de démarches administratives personnalisées, en fonction de vos réponses à une série de questions.
+
+1. Cliquez sur **Créer une démarche** dans l’interface du chatbot.  
+2. Répondez aux questions concernant votre situation (ex : « Que faire après l’achat d’une maison ? »).  
+3. Mistral AI génère les étapes nécessaires selon vos réponses.  
+4. Votre nouvelle démarche apparaîtra dans l’onglet **Mes démarches**.
+
+### Navigation par Carrousel
+
+L’application présente (pour le moment) un carrousel de démarches que vous pouvez faire défiler horizontalement. Chaque carte contient une icône, des éléments visuels et des instructions détaillées.
+
+- **Glissez à gauche/droite** pour parcourir les démarches.  
+- **Appuyez sur une carte** pour voir les détails et lancer la démarche.
+
+### Chatbot Mistral AI
+
+Le chatbot répond à toutes vos questions liées aux démarches. Ouvrez simplement la fenêtre de chat en bas à droite et posez votre question : les réponses seront adaptées à votre situation.
+
+### Accessibilité
+
+- **Compatibilité lecteur d’écran** : prise en charge complète de **TalkBack (Android)**.  
+- **Ajustements du texte** : taille de police modifiable selon les réglages de votre appareil.  
+- **Contrastes adaptés** : respect des normes **WCAG** pour une lisibilité optimale.  
+- **Mode clair / mode sombre** : choisissez le thème le plus confortable pour vous.
+
+---
+
+## 4. Dépannage
+
+En cas de problème :
+
+1. **Problème de connexion** : vérifiez vos identifiants, votre connexion internet, ou réinitialisez votre mot de passe via la fonction **Mot de passe oublié**.  
+2. **Application bloquée** : redémarrez l’application ou votre appareil.
+
+---
+
+## 5. Conclusion
+
+L'application mobile **DocRoadMap** est pensée pour simplifier vos démarches administratives grâce à des parcours personnalisés, une navigation intuitive et une assistance intelligente intégrée. Finies les galères administratives : suivez le guide, étape par étape.
