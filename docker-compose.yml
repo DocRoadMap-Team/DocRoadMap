@@ -33,16 +33,19 @@ services:
       - POSTGRES_HOST=DocRoadMapDatabase
       - POSTGRES_PORT=5432
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=1234
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=DocRoadMapDatabase
+      - FRONTEND_URL=https://docroadmap.fr
+      - MAIL_HOST=smtp.mail.ovh.net
+      - MAIL_PORT=465
+      - MAIL_USER=no_reply@docroadmap.fr
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
       - AI_URL=http://DocRoadMapApiIA:8083
     networks:
       - postgres
       - ia
     depends_on:
       postgres:
-          condition: service_healthy
-      flask_app:
           condition: service_healthy
     restart: always
 

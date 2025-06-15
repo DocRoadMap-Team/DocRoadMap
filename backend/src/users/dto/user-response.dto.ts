@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateProcessDto } from 'src/process/dto/create-process.dto';
-import { Process } from 'src/process/entities/process.entity';
+import { CreateProcessDto } from '../../process/dto/create-process.dto';
+import { Process } from '../../process/entities/process.entity';
 
 export class UserDtoResponse {
     @ApiProperty({

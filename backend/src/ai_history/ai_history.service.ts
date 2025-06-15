@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { AiHistory } from './entities/ai_history.entity';
 import { CreateAiHistoryDto } from './dto/create-ai_history.dto';
 import { UpdateAiHistoryDto } from './dto/update-ai_history.dto';
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class AiHistoryService {

@@ -3,11 +3,11 @@ import axios from "axios"
 import { SendQueryResponseDTO } from "./dto/send-query-response.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { AiHistory } from "src/ai_history/entities/ai_history.entity";
-import { User } from "src/users/entities/user.entity";
-import { AiHistoryService } from "src/ai_history/ai_history.service";
-import { Process } from "src/process/entities/process.entity";
-import { Step } from "src/steps/entities/step.entity";
+import { AiHistory } from "../ai_history/entities/ai_history.entity";
+import { User } from "../users/entities/user.entity";
+import { AiHistoryService } from "../ai_history/ai_history.service";
+import { Process } from "../process/entities/process.entity";
+import { Step } from "../steps/entities/step.entity";
 
 @Injectable()
 export class AiService {
