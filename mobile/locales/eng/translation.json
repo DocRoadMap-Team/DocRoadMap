@@ -79,6 +79,24 @@
   "es": "Spanish",
   "follow": "Steps to follow",
   "restart": "🔁 Restart",
-  "enterProcess": "Write the name of the process (housing, moving, employment, independence)"
+  "enterProcess": "Write the name of the process (housing, moving, employment, independence)",
+  "rappel": "Reminder",
+  "begin_soon": "Your event begin soon",
+  "added_event": "📅 Event added",
+  "real_calendar": "📅 You add an event in your real phone's calendar",
+  "error_date": "Error, Please choose a date",
+  "error_event_name": "Error, Please choose an event's name",
+  "error_imposible_add": "Error, Impossible to add the event",
+  "add_event": "Add an event",
+  "today_event": "Events of today :",
+  "event_name": "Name of the event",
+  "event_description": "Event's description",
+  "event_date": "Choose the date of the event",
+  "event_end": "Choose the ending date of the event",
+  "notification_choose": "Do you want to recieve a reminder ?",
+  "yes": "Yes",
+  "no": "No",
+  "reminder_time": "How much time before the event?",
+  "cancel": "Cancel"
   
 }
