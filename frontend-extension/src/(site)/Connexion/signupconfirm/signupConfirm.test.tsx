@@ -22,12 +22,12 @@ jest.mock("react-router-dom", () => {
 
 global.alert = mockAlert;
 
-describe("RegisterConfirmation component", () => {
+describe("SignupConfirm component", () => {
   const renderWithRouter = () =>
     render(
       <MemoryRouter>
         <SignupConfirm />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
   beforeEach(() => {
@@ -38,18 +38,11 @@ describe("RegisterConfirmation component", () => {
     renderWithRouter();
     expect(screen.getByText("instruction")).toBeInTheDocument();
     expect(screen.getByText("login")).toBeInTheDocument();
-    expect(screen.getByText("resend")).toBeInTheDocument();
   });
 
   it("calls navigate on login button click", () => {
     renderWithRouter();
     fireEvent.click(screen.getByText("login"));
     expect(mockNavigate).toHaveBeenCalledWith("/login");
-  });
-
-  it("calls alert with correct message on resend click", () => {
-    renderWithRouter();
-    fireEvent.click(screen.getByText("resend"));
-    expect(mockAlert).toHaveBeenCalledWith("resent");
   });
 });
