@@ -3,16 +3,17 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import "./register.css";
+import "./signup.css";
+
+const backendUrl = "https://www.docroadmap.fr";
 
 const isDev = process.env.NODE_ENV !== "production";
-const backendUrl = "https://www.docroadmap.fr";
 const docroadmapImg = isDev
   ? "/assets/docroadmap.png"
   : "../assets/docroadmap.png";
 const ArrowLeftIcon = FaArrowLeft as unknown as React.FC<any>;
 
-function Register() {
+function Signup() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -32,7 +33,6 @@ function Register() {
       console.log("Passwords do not match");
       return;
     }
-
     axios
       .post(`${backendUrl}/auth/register`, {
         firstName,
@@ -135,4 +135,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Signup;

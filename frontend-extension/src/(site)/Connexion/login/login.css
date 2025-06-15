@@ -19,6 +19,16 @@
   position: relative;
 }
 
+.login-header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.login-header img {
+  max-width: 100px;
+  height: auto;
+}
+
 .back-button {
   position: absolute;
   top: 5px;
@@ -29,16 +39,6 @@
   color: #007bff;
   cursor: pointer;
   z-index: 10;
-}
-
-.login-header {
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.login-header img {
-  max-width: 100px;
-  height: auto;
 }
 
 .input-group.small {

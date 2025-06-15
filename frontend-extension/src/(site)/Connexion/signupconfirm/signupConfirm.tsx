@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import "./registerConfirmation.css";
+import "./signupConfirm.css";
 
 const isDev = process.env.NODE_ENV !== "production";
 
@@ -8,7 +8,7 @@ const docroadmapImg = isDev
   ? "/assets/docroadmap.png"
   : "../assets/docroadmap.png";
 
-function RegisterConfirmation() {
+function SignupConfirm() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -35,4 +35,4 @@ function RegisterConfirmation() {
   );
 }
 
-export default RegisterConfirmation;
+export default SignupConfirm;

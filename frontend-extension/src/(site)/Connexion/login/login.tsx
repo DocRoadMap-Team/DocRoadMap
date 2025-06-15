@@ -5,11 +5,13 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 
-const isDev = process.env.NODE_ENV !== "production";
 const backendUrl = "https://www.docroadmap.fr";
+
+const isDev = process.env.NODE_ENV !== "production";
 const docroadmapImg = isDev
   ? "/assets/docroadmap.png"
   : "../assets/docroadmap.png";
+
 const ArrowLeftIcon = FaArrowLeft as unknown as React.FC<
   React.SVGProps<SVGSVGElement>
 >;
@@ -65,7 +67,6 @@ function Login() {
         <div className="login-header">
           <img src={docroadmapImg} alt="DocRoadMap" />
         </div>
-
         {!isResetMode ? (
           <>
             {error && <p className="error-message">{error}</p>}

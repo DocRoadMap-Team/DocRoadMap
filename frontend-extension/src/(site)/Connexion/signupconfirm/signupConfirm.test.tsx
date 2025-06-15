@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import RegisterConfirmation from "./registerConfirmation";
+import SignupConfirm from "./signupConfirm";
 
 const mockNavigate = jest.fn();
 const mockAlert = jest.fn();
@@ -26,7 +26,7 @@ describe("RegisterConfirmation component", () => {
   const renderWithRouter = () =>
     render(
       <MemoryRouter>
-        <RegisterConfirmation />
+        <SignupConfirm />
       </MemoryRouter>,
     );
 

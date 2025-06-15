@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
 import axios from "axios";
 import { MemoryRouter } from "react-router-dom";
-import Register from "./register";
+import Signup from "./signup";
 
 jest.mock("axios");
 
@@ -32,7 +32,7 @@ describe("Register Component", () => {
   const renderWithRouter = () =>
     render(
       <MemoryRouter>
-        <Register />
+        <Signup />
       </MemoryRouter>,
     );
 

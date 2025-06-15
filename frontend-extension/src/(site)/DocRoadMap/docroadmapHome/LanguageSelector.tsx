@@ -3,11 +3,12 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "./docroadmapHome.css";
 
-const ArrowLeftIcon = FaArrowLeft as unknown as React.FC<any>;
 const isDev = process.env.NODE_ENV !== "production";
 const frenchImg = isDev ? "/assets/France.png" : "../assets/France.png";
 const englishImg = isDev ? "/assets/England.png" : "../assets/England.png";
 const spanishImg = isDev ? "/assets/Spain.png" : "../assets/Spain.png";
+
+const ArrowLeftIcon = FaArrowLeft as unknown as React.FC<any>;
 
 const LanguageSelector: React.FC = () => {
   const { i18n, t } = useTranslation();

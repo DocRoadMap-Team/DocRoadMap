@@ -1,20 +1,19 @@
 {
-  "name": "frontend-extention",
+  "name": "frontend-extension",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "test": "jest --coverage",
-    "dev": "vite",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "preview": "vite preview",
     "build": "tsc -b && vite build",
     "build:copy": "vite build && bash ./copy-to-windows.sh",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "test": "jest --coverage",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint ."
   },
   "dependencies": {
-    "frontend-extention": "file:",
+    "frontend-extension": "file:",
     "i18next": "^25.2.1",
     "i18next-browser-languagedetector": "^8.1.0",
     "react": "^19.1.0",
