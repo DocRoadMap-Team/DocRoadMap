@@ -136,15 +136,6 @@ export default function ConnectionPage() {
           secureTextEntry
         />
       </View>
-      <View style={styles.checkboxContainer}>
-        <CustomCheckbox
-          value={stayConnected}
-          onValueChange={setStayConnected}
-        />
-        <Text style={[styles.checkboxLabel, { color: theme.text }]}>
-          {t("connexion.rememberMe")}
-        </Text>
-      </View>
       <View style={styles.loginButtonContainer}>
         <TouchableOpacity
           style={[styles.loginButton, { backgroundColor: theme.primary }]}
