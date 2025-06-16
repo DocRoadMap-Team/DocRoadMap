@@ -97,6 +97,7 @@
   "yes": "Yes",
   "no": "No",
   "reminder_time": "How much time before the event?",
+
   "cancel": "Cancel",
   "start_question": "What procedure would you like to carry out?",
   "start_option_dem": "Moving within France",
@@ -389,4 +390,5 @@
 
   "emploi_step_6_title": "I may be eligible for employment-related financial assistance",
   "emploi_step_6_answer_1": "Under certain conditions, I may be eligible for the activity bonus: https://www.service-public.fr/particuliers/vosdroits/N31477"
+
 }

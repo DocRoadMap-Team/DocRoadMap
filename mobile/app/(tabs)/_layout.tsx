@@ -108,40 +108,6 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="process"
-        options={{
-          title: "Process",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "code-slash" : "code-slash-outline"}
-              color={color}
-            />
-          ),
-          href: null,
-          headerShown: false,
-          tabBarStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="steps"
-        options={{
-          title: "Steps",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "code-slash" : "code-slash-outline"}
-              color={color}
-            />
-          ),
-          href: null,
-          headerShown: false,
-          tabBarStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
         name="settings"
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
