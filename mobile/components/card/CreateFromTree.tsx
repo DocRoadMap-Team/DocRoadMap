@@ -3,6 +3,7 @@ import request from "@/constants/Request";
 import rawTree from "@/locales/decision-tree/decisionTree.json";
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "expo-router";
 
 
 type StepData = {
@@ -49,6 +50,7 @@ export const CreateFromTree = async ({
   const lowerName = name.toLowerCase();
   const answerKey = processNameToAnswerKey[lowerName];
   const { t } = useTranslation();
+  const router = useRouter();
 
   if (!answerKey || !decisionTree[answerKey]) {
     Alert.alert("Erreur", `Aucune démarche trouvée pour "${name}".`);
@@ -109,6 +111,14 @@ export const CreateFromTree = async ({
     Alert.alert(t("step_created_success"));
   } catch (err) {
     console.error(err);
-    Alert.alert(t("create_step_error"));
+    Alert.alert(
+      t("create_step_error"),
+      "",
+      [
+        {
+          onPress: () => router.replace("/home"),
+        },
+      ]
+    );
   }
 };

@@ -97,6 +97,298 @@
   "yes": "Yes",
   "no": "No",
   "reminder_time": "How much time before the event?",
-  "cancel": "Cancel"
-  
+  "cancel": "Cancel",
+  "start_question": "What procedure would you like to carry out?",
+  "start_option_dem": "Moving within France",
+  "start_option_logement": "Housing assistance",
+  "start_option_independance": "I'm moving out of my parents' home",
+  "start_option_emploi": "I'm looking for a job",
+
+  "dem_1_question": "What is your situation before moving?",
+  "dem_1_option_locataire": "I am a tenant",
+  "dem_1_option_proprietaire": "I am a homeowner",
+
+  "dem_2_question": "Where are you moving to?",
+  "dem_2_option_meme_commune": "Within the same municipality",
+  "dem_2_option_autre_commune": "To another municipality",
+
+  "dem_3_question": "What is your nationality?",
+  "dem_3_option_francais": "French",
+  "dem_3_option_ue": "European (EU)",
+  "dem_3_option_etranger": "Foreigner (non-EU country)",
+
+  "dem_4_question": "Do you have one or more children?",
+  "dem_4_option_oui": "Yes",
+  "dem_4_option_non": "No",
+
+  "dem_5_question": "What is your professional situation?",
+  "dem_5_option_salarie": "Private sector employee",
+  "dem_5_option_agent_public": "Public sector employee",
+  "dem_5_option_demandeur": "Job seeker",
+  "dem_5_option_retraite": "Retired",
+
+  "dem_step_1_title": "Steps related to the housing I'm leaving",
+  "dem_step_1_option_1": "I am a tenant",
+  "dem_step_1_answer_1": "Before leaving my accommodation:\n- I must give notice to my landlord, respecting a notice period of 1 to 3 months.\n- I must carry out an exit inspection with the landlord or their representative (real estate agent). At that time, I provide my new address. If they refuse, I can request a bailiff to conduct the inspection.\nI will recover my security deposit within 1 to 2 months after moving out.\nNote:\nI must keep all documents related to this accommodation for a certain period of time.",
+  "dem_step_1_option_2": "I am a homeowner",
+  "dem_step_1_answer_2": "If I am a co-owner and I sell a unit, I must inform the property management and request a balance of charges.\nNote: I must keep all documents related to this property for a certain period of time.",
+
+  "dem_step_2_title": "Children",
+  "dem_step_2_option_1": "Yes",
+  "dem_step_2_answer_1": "- If my children are in preschool or primary school, I must request a school transfer or keep them in their current school.\n- If they are in middle or high school, it may be necessary to change schools. I can inquire about available transport assistance.\n- It may also be necessary to reorganize childcare outside school hours.\nNote:\nIn case of separation, the other parent must be informed, and visitation/custody arrangements may need to be adjusted.",
+  "dem_step_2_option_2": "No",
+
+  "dem_step_3_title": "Choosing transportation (moving company)",
+  "dem_step_3_answer_1": "If I hire a professional mover:\n\n- The mover is liable for loss or damage during transport. I can request compensation.\n- I may be compensated in case of delays\n- I can get a free estimate\n- I can check if the mover is registered with the transport authority\n\nIf I do not use a professional:\n\n- I will not be compensated for theft or damage during the move\n- I am personally liable for any material or bodily damage\n- I can be prosecuted if I use undeclared labor",
+
+  "dem_step_4_title": "Assistance with moving expenses",
+  "dem_step_4_option_1": "Yes",
+  "dem_step_4_answer_1": "Whether I live alone or as a couple, I can contact my town hall or departmental authorities to request financial assistance for moving (mover invoice, truck rental...) or setting up (buying essential furniture...). This includes assistance from the Housing Solidarity Fund (FSL).\n\nIf I have at least 3 children (born or expected), I can receive a moving grant from the Caf or MSA to help cover moving costs. I must apply within 6 months after the move.\n\nReminder:\n\nAs an employee, I check my collective agreement to see if my employer covers all or part of moving costs.\n\nIf I’ve recently joined the civil service (trainee or confirmed), I may be eligible for the State Installation Assistance (AIP), under certain conditions.",
+  "dem_step_4_option_2": "No",
+  "dem_step_4_answer_2": "Whether I live alone or as a couple, I can contact my town hall or departmental authorities to request financial assistance for moving (mover invoice, truck rental...) or setting up (buying essential furniture...). This includes assistance from the Housing Solidarity Fund (FSL).\n\nReminder:\n\nAs an employee, I check my collective agreement to see if my employer covers all or part of moving costs.\n\nIf I’ve recently joined the civil service (trainee or confirmed), I may be eligible for the State Installation Assistance (AIP), under certain conditions.",
+
+  "dem_step_5_title": "Days off",
+  "dem_step_5_option_1": "Private sector employee",
+  "dem_step_5_answer_1": "I may be eligible for moving leave, if provided for in my company’s collective agreement.",
+  "dem_step_5_option_2": "Public sector employee",
+  "dem_step_5_answer_2": "I may be eligible for an authorized absence.",
+  "dem_step_5_option_3": "Job seeker",
+  "dem_step_5_option_4": "Retired",
+
+  "dem_step_6_title": "Home insurance",
+  "dem_step_6_answer_1": "If I had a home insurance contract for my previous accommodation, I must cancel it.\n\nRegarding my new accommodation:\n\nIf I am a tenant, I must sign an insurance policy covering rental risks. I can also add extra coverage for better protection in case of damage.\nIf I am a roommate, the insurance requirements depend on the type of rental agreement (joint or separate).\nIf I am a homeowner, I can choose to take out insurance, though it’s not mandatory. However, if my home is in a co-ownership, I am required to subscribe to the co-ownership’s mandatory insurance.",
+
+  "dem_step_7_title": "Water, electricity, gas, telephone, television, internet",
+  "dem_step_7_answer_1": "Electricity, gas\nI take the necessary steps with my electricity and gas suppliers.\nI can check which electricity or gas suppliers operate in my new municipality:\nFind suppliers by municipality: https://comparateur-offres.energie-info.fr/calculette/process/suppliers-list?zipcode=\n\nWater, telephone, TV, internet\nI notify the companies that manage my current or future subscriptions: water services, telecom operators, TV, internet.\nI find out how to get internet access in my new home.\nNote:\n\nIf my internet provider doesn't offer service at my new address, I can cancel my contract without fees for legitimate reasons.",
+
+  "dem_step_8_title": "Mail forwarding",
+  "dem_step_8_answer_1": "I can forward my mail to my new address using the paid forwarding service from La Poste: https://www.laposte.fr/demenagement-absence",
+
+  "dem_step_9_title": "Address change declaration",
+  "dem_step_9_option_1": "Private sector employee",
+  "dem_step_9_answer_1": "Single online declaration to CPAM, tax office, EDF, France Travail, Caf...\n\nI can declare my address change online, in one go, to several organizations (CPAM, tax office, EDF, France Travail, Caf...):\nOnline form: https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=balzS22bLtXcqK4vPbGsMCexPyi-qidsA0V0Dyz_uGc%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid_connect_login&nonce=pHLCVO3vzTvUwKBtj8XD_KNRQRZds1akgBjlyyDSk6Q\n\nAdministration\nI must inform the tax authorities.\n\nSocial agencies\nI must inform the organizations that handle my benefits:\n- Family Allowance Fund (Caf) or Agricultural Social Mutual Fund (MSA)\n- Primary health insurance fund (CPAM) or other, if I’m a public employee\n- Complementary health insurance, mutual\n\nBank - Insurance\nI provide my new address to:\n- My bank accounts\n- My car insurance\n- My life insurance\n\nEmployment\nIf I’m an employee, I must inform my employer.\n\nCo-ownership management\nIf I own one or more lots (apartment, parking, etc.), I inform the co-ownership management so I can be notified of the next general assembly.",
+
+  "dem_step_9_option_2": "Public sector employee",
+  "dem_step_9_answer_2": "Single online declaration to CPAM, tax office, EDF, France Travail, Caf...\n\nI can declare my address change online, in one go, to several organizations:\nOnline form: https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=balzS22bLtXcqK4vPbGsMCexPyi-qidsA0V0Dyz_uGc%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid_connect_login&nonce=pHLCVO3vzTvUwKBtj8XD_KNRQRZds1akgBjlyyDSk6Q\n\nAdministration\nI must inform the tax authorities.\n\nSocial agencies\n- Family Allowance Fund (Caf) or MSA\n- CPAM or other agency if I’m a public employee\n- Complementary health insurance, mutual\n\nBank - Insurance\n- My bank accounts\n- My car insurance\n- My life insurance\n\nEmployment\nIf I’m a public employee, I must inform my administration.\n\nCo-ownership management\nSame process if I’m a co-owner.",
+
+  "dem_step_9_option_3": "Job seeker",
+  "dem_step_9_answer_3": "Single online declaration to CPAM, tax office, EDF, France Travail, Caf...\n\nI can declare my address change online to several organizations:\nOnline form: https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=balzS22bLtXcqK4vPbGsMCexPyi-qidsA0V0Dyz_uGc%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid_connect_login&nonce=pHLCVO3vzTvUwKBtj8XD_KNRQRZds1akgBjlyyDSk6Q\n\nAdministration and social agencies: same process\n\nEmployment\nI must update my situation with France Travail.\n\nCo-ownership\nSame applies if I’m a co-owner.",
+
+  "dem_step_9_option_4": "Retired",
+  "dem_step_9_answer_4": "Single online declaration to CPAM, tax office, EDF, France Travail, Caf...\n\nI can declare my address change online to several organizations:\nOnline form: https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=LeJS-NUeAnHarFZ52rZL282HZTJQctIA42c2mcNtuzg%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid_connect_login&nonce=pTx0lOl6v80wV7lKEuDPamIUUhyX_m_tOZZkZbuJG7c\n\nOrganizations to notify:\n- Family Allowance Fund, MSA\n- CPAM or other agency\n- Complementary health insurance\n- Pension fund\n- Bank and insurance companies\n\nCo-ownership, if applicable",
+
+  "dem_step_10_title": "Vehicle registration and driver's license",
+  "dem_step_10_answer_1": "Vehicle registration\n\nGeneral case\n\nI must register my new address on the vehicle registration (carte grise).\n\nLeasing or long-term rental\n\nIf my vehicle is leased or rented long-term (LLD), I must contact the lender to process the address change.\n\nDriver's license\n\nI am not required to update the address on my license. I can do it when applying for a new license (e.g. in case of loss or theft).",
+
+  "dem_step_11_title": "Identity documents",
+  "dem_step_11_option_1": "French",
+  "dem_step_11_answer_1": "I am French\n\nI am not required to update the address on my ID card or passport.\nHowever, if I want the new address to appear, I must request a renewal.\nIf I’m between 16 and 25, I must notify my national service center.",
+
+  "dem_step_11_option_2": "European (EU)",
+  "dem_step_11_answer_2": "If I’m an EU citizen and I have an EU residence card (optional), I must update it.",
+
+  "dem_step_11_option_3": "Foreigner (non-EU)",
+  "dem_step_11_answer_3": "I must update my residence permit: https://www.service-public.fr/particuliers/vosdroits/N110",
+
+  "dem_step_12_title": "Electoral lists",
+  "dem_step_12_option_1": "In the same municipality",
+  "dem_step_12_answer_1": "TO DO",
+  "dem_step_12_option_2": "In another municipality",
+  "dem_step_12_answer_2": "TO DO",
+
+  "dem_step_13_title": "Pet",
+  "dem_step_13_answer_1": "If I have a dog, cat, or ferret that is identified (tattooed or microchipped), I must register my new address in the national domestic carnivore identification file (I-Cad).",
+
+  "dem_step_14_title": "Health",
+  "dem_step_14_answer_1": "I can choose a new general practitioner, for example if their office is closer to my new home.",
+
+  "logement_1_question": "Do you have a signed rental contract?",
+  "logement_1_option_1": "Yes",
+  "logement_1_option_2": "No",
+
+  "aide_log_step_1_title": "Housing",
+  "aide_log_step_1_question": "logement_1",
+  "aide_log_step_1_option_1": "Yes",
+  "aide_log_step_1_answer_1": "You can apply for APL at https://www.caf.fr/. You’ll need: your lease, your bank details (RIB), your ID, and your recipient number (if you have one).",
+  "aide_log_step_1_option_2": "No",
+  "aide_log_step_1_answer_2": "You must first sign a lease to be eligible for APL. Be sure to look for housing that qualifies for assistance.",
+
+  "independance_1_question": "What is your situation?",
+  "independance_1_option_1": "I am a student (including apprentice/alternating)",
+  "independance_1_option_2": "Other",
+
+  "independance_2_question": "What type of housing are you looking for?",
+  "independance_2_option_1": "Crous housing (social housing)",
+  "independance_2_option_2": "Private landlord housing",
+  "independance_2_option_3": "Furnished room in a private home",
+
+  "independance_2bis_question": "What type of housing are you looking for?",
+  "independance_2bis_option_1": "Social housing",
+  "independance_2bis_option_2": "Private landlord housing",
+
+  "independance_2_5_question": "What is your professional situation?",
+  "independance_2_5_option_1": "I am an employee",
+  "independance_2_5_option_2": "I am a public servant (civil servant or contract worker)",
+  "independance_2_5_option_3": "Other",
+
+  "independance_3_question": "What is your nationality?",
+  "independance_3_option_1": "French",
+  "independance_3_option_2": "European (EU)",
+  "independance_3_option_3": "Other situation",
+
+  "independance_step_1_title": "Type of housing",
+  "independance_step_1_question": "independance_2",
+  "independance_step_1_option_1": "Crous housing (social housing)",
+  "independance_step_1_answer_1": "I can apply for student housing through the Crous.\n\nI must use this online service:\n\nMy Student Services\n\nThis type of housing, located in a university residence or other student-designated building, is allocated based on financial need.\n\nI have priority if I receive a scholarship based on social criteria.\n\nWhen I move in, I will need to:\n\n- Provide a security deposit. If needed, I can apply for the Loca-pass advance (an interest-free loan)\n- Present a guarantor who agrees to pay rent and charges if I can’t. This can be a person (parent, friend…) or an organization (such as the Visale guarantee).",
+  "independance_step_1_option_2": "Private landlord housing",
+  "independance_step_1_answer_2": "I can rent:\n\n- An unfurnished property, with a standard lease\n- A furnished property, with a classic lease or mobility lease (in certain cases)\n\nNote:\n\nI can be the sole tenant, live in shared accommodation, or rent as a couple (married, civil union, or cohabiting).\n\nTo find housing, I can:\n\n- Check listings on Lokaviz\n- Use a real estate agency (additional fees may apply for visits, files, inspections...)\n- Use DossierFacile.fr to show the landlord I’m a serious applicant\n\nBefore signing the lease, the landlord may require a guarantor. This can be a person or an organization (e.g. Visale).\n\nI can also:\n\n- Apply for the Loca-pass advance (interest-free loan) to cover the deposit\n- Apply for help from the Housing Solidarity Fund (FSL) to assist with moving in\n\nAt the key handover, I must complete an entry inspection with the landlord or their representative (e.g. real estate agent).",
+  "independance_step_1_option_3": "Furnished room in a private home",
+  "independance_step_1_answer_3": "I can rent a furnished room in a private home.\n\nThe room must be at least 9 m², have a window, be heated, and include minimum furniture (bed, table, chair, storage, lighting).\n\nIf the room lacks kitchen or private bathroom facilities, a lease must include an annex stating that the owner shares those facilities with the tenant.\n\nIn all cases, it’s recommended to sign a standard lease for a furnished rental or a mobility lease.\n\nTo find this type of housing, I can check listings on Lokaviz.",
+
+  "independance_step_1bis_title": "Type of housing",
+  "independance_step_1bis_question": "independance_2bis",
+  "independance_step_1bis_option_1": "Social housing",
+  "independance_step_1bis_answer_1": "I apply for social housing, which is allocated based on financial need.\n\nI can consult the Bienvéo website to see available social housing:\n\nApply online (or renew your application)\n\nIf I’m a State employee assigned to Île-de-France:\n\nI also have access to the State Agents Housing Exchange (BALAE) which lists available interministerial social housing.\nI can also consider temporary housing.\nI can apply for a Loca-pass advance (interest-free loan) to cover the deposit required by the landlord.\n\nTo apply, I must use this service:\n\nApply for Loca-Pass advance\n\nNote:\n\nI must not overlook the inventory. It is mandatory and must be done with the landlord when I receive the keys.",
+  "independance_step_1bis_option_2": "Private landlord housing",
+  "independance_step_1bis_answer_2": "I can rent:\n\n- An unfurnished property, with a standard lease\n- A furnished property, with a classic lease or mobility lease (in certain cases)\n\nNote:\n\nI can be the only tenant, live in shared housing, or rent as a couple.\n\nTo find housing, I can:\n\n- Use a real estate agency (note that this may incur visit, file, and inspection fees)\n- Use DossierFacile to show the landlord the seriousness of my application\n\nBefore signing, the landlord may require a guarantor. This may be a person (parent, friend…) or an organization (e.g. Visale).\n\nI can also:\n\n- Request a Loca-pass advance to finance the deposit\n- Apply for help from the Housing Solidarity Fund (FSL) to help me move in\n\nAt the time of key handover, I carry out the inventory with the landlord or their representative (e.g. estate agent).",
+
+  "independance_step_2_title": "Choose the moving method",
+  "independance_step_2_question": "independance_1",
+  "independance_step_2_option_1": "I am a student (including apprentice/alternating)",
+  "independance_step_2_option_2": "Other",
+  "independance_step_2_answer_2": "If I hire a professional mover, they are liable for any loss or damage, and I can request compensation.\n\nAlso, I can:\n\n- Receive compensation in case of delays\n- Get a free quote\n- Check if the mover is registered as a transport operator\n\nIf I don't use a professional:\n\n- I have no recourse if my items are damaged or stolen\n- I am liable for any property damage or personal injury\n- I may be prosecuted if I use undeclared labor (if applicable)",
+
+  "independance_step_3_title": "Financial aid for moving",
+  "independance_step_3_question": "independance_2_5",
+  "independance_step_3_option_1": "I am an employee",
+  "independance_step_3_answer_1": "My municipality or department may offer financial aid for individuals or couples moving house (mover invoice, truck rental...), especially through the Housing Solidarity Fund (FSL). It may also cover installation costs (first-necessity furniture, etc.).\n\nI inquire with my town hall.\n\nAs an employee, I may be eligible for moving assistance under certain conditions:\n\nI should check my collective agreement to see if my company covers part or all of my moving costs.",
+  "independance_step_3_option_2": "I am a public servant (civil servant or contract worker)",
+  "independance_step_3_answer_2": "My municipality or department may offer financial aid for individuals or couples moving house (mover invoice, truck rental...), especially through the Housing Solidarity Fund (FSL). It may also cover installation costs (first-necessity furniture, etc.).\n\nI inquire with my town hall.\n\nIf I’ve recently joined the French civil service, I may be eligible for the State Installation Assistance (AIP), under certain conditions.",
+  "independance_step_3_option_3": "Other",
+
+  "independance_step_4_title": "Heating, water, electricity and internet",
+  "independance_step_4_question": "independance_2",
+  "independance_step_4_option_1": "Crous housing (social housing)",
+  "independance_step_4_answer_1": "The cost of water and electricity is included in the rent.\nInternet access is available in the room and possibly in a shared area of the residence. Its cost is included in the rent.",
+  "independance_step_4_option_2": "Private landlord housing",
+  "independance_step_4_answer_2": "I subscribe to an offer from a telecom, TV, or internet provider. The cost of these services is my responsibility.\nI must also pay for water, gas, and electricity consumption, which are part of the rental charges.\nNote:\n\nAny maintenance or minor repairs are my responsibility throughout the rental period.",
+  "independance_step_4_option_3": "Furnished room in a private home",
+  "independance_step_4_answer_3": "Most of the time, the owner does not ask the student to contribute to the internet cost.\n\nHowever, they usually charge a flat fee for electricity, gas, and water. This fee must be specified in the rental agreement.",
+
+  "independance_step_4bis_title": "Heating, water, electricity and internet",
+  "independance_step_4bis_question": "independance_1",
+  "independance_step_4bis_option_1": "I am a student (including apprentice/alternating)",
+  "independance_step_4bis_option_2": "Other",
+  "independance_step_4bis_answer_2": "I subscribe to an offer from a telecom, TV, or internet provider. The cost of these services is my responsibility.\nI must also pay for water, gas, and electricity consumption, which are part of the rental charges.\nNote:\n\nAny maintenance or minor repairs are my responsibility throughout the rental period.",
+
+  "independance_step_5_title": "Housing assistance (APL, ALS, ALF)",
+  "independance_step_5_question": "independance_2",
+  "independance_step_5_option_1": "Crous housing (social housing)",
+  "independance_step_5_answer_1": "I can apply for housing assistance (APL) through the Caf.\n\nTo apply, I use this online service:\n\nOnline housing aid application\n\nTo check my eligibility and estimate the amount I can receive, I use this simulator:\n\nCaf: estimate your housing aid eligibility and amount\n\nNote:\n\nIf I have a work-study contract in a private agricultural company, I may be eligible for the Agri-Mobili-Jeune aid. I can check my eligibility and apply online.\n\nIf I have a work-study contract in another private sector company, I may also be eligible for the Mobili-Jeune aid. I can check my eligibility and apply online.",
+  "independance_step_5_option_2": "Private landlord housing",
+  "independance_step_5_answer_2": "I can receive housing assistance from the Caf under certain conditions.\n\nTo apply, I use this online service:\n\nOnline housing aid application\n\nTo check my eligibility and estimate the amount I can receive, I use this simulator:\n\nCaf: estimate your housing aid eligibility and amount\n\nNote:\n\nIf I have a work-study contract in a private agricultural company, I may be eligible for the Agri-Mobili-Jeune aid. I can check my eligibility and apply online.\n\nIf I have a work-study contract in another private sector company, I may also be eligible for the Mobili-Jeune aid. I can check my eligibility and apply online.",
+  "independance_step_5_option_3": "Furnished room in a private home",
+  "independance_step_5_answer_3": "I can apply for housing assistance from the Caf, provided I have signed a lease.\n\nTo do so, I use this online service:\n\nOnline housing aid application\n\nTo check my eligibility and estimate the amount I can receive, I use this simulator:\n\nCaf: estimate your housing aid eligibility and amount\n\nNote:\n\nIf I have a work-study contract in a private agricultural company, I may be eligible for the Agri-Mobili-Jeune aid. I can check my eligibility and apply online.\n\nIf I have a work-study contract in another private sector company, I may also be eligible for the Mobili-Jeune aid. I can check my eligibility and apply online.",
+
+  "independance_step_5bis_title": "Housing assistance (APL, ALS, ALF)",
+  "independance_step_5bis_question": "independance_1",
+  "independance_step_5bis_option_1": "I am a student (including apprentice/alternating)",
+  "independance_step_5bis_option_2": "Other",
+  "independance_step_5bis_answer_2": "I may be eligible for housing assistance from the Caf, under certain conditions.\nI must apply using this online service:\nOnline housing aid application\nTo check if I qualify and how much I could receive, I use this simulator:\nCaf: estimate your housing aid eligibility and amount",
+
+  "independance_step_6_title": "Home insurance",
+  "independance_step_6_answer_1": "If I am a tenant, I must take out insurance covering rental risks. I can also purchase additional coverage to be better protected in case of damage. However, if I rent a furnished room in a private home and the owner already has comprehensive insurance, I am not required to take out my own policy.\nIf I am a roommate, the insurance requirements depend on the type of lease (shared or individual).",
+
+  "independance_step_7_title": "Housing insurance",
+  "independance_step_7_question": "independance_1",
+  "independance_step_7_option_1": "I am a student (including apprentice/alternating)",
+  "independance_step_7_option_2": "Other",
+  "independance_step_7_answer_2": "As a tenant, I must take out insurance for the rented property.",
+
+  "independance_step_8_title": "Mail forwarding",
+  "independance_step_8_question": "independance_1",
+  "independance_step_8_option_1": "I am a student (including apprentice/alternating)",
+  "independance_step_8_answer_1": "I must inform my school of my address change.\n\nI can have my mail forwarded to my new address using the service offered by La Poste:\n\nForward your mail when moving",
+  "independance_step_8_option_2": "Other",
+  "independance_step_8_answer_2": "I can have my mail forwarded to my new address using the service offered by La Poste:\n\nForward your mail when moving",
+
+  "independance_step_9_title": "National Defense and Citizenship Day (JDC)",
+  "independance_step_9_question": "independance_1",
+  "independance_step_9_option_1": "I am a student (including apprentice/alternating)",
+  "independance_step_9_answer_1": "After completing my citizen census at age 16, I must participate in the JDC.\nIf I want to attend my JDC near my new address, I must notify my national service center.\nNote:\nUntil I turn 25, I must report any change in status (family, professional, or housing) to the national service center.",
+  "independance_step_9_option_2": "Other",
+
+  "independance_step_10_title": "Aid for using public transport",
+  "independance_step_10_answer_1": "I find out about available transport assistance here: https://www.service-public.fr/particuliers/vosdroits/F34964",
+
+  "independance_step_11_title": "Taxes",
+  "independance_step_11_question": "independance_1",
+  "independance_step_11_option_1": "I am a student (including apprentice/alternating)",
+  "independance_step_11_answer_1": "If I rent a home owned by a private landlord, I may be required to pay a household waste collection tax or fee in some municipalities.",
+  "independance_step_11_option_2": "Other",
+  "independance_step_11_answer_2": "In some municipalities, I am required to pay a tax or fee for the collection of household waste.\nReminder:\nFrom the age of 18, if I am no longer part of my parents' tax household, I must file my own income tax return.",
+
+  "independance_step_12_title": "Health",
+  "independance_step_12_question": "independance_1",
+  "independance_step_12_option_1": "I am a student (including apprentice/alternating)",
+  "independance_step_12_answer_1": "I can choose a new general practitioner, for example if their office is closer to my new address.\nI check the current rules regarding student affiliation to social security.",
+  "independance_step_12_option_2": "Other",
+  "independance_step_12_answer_2": "I can choose a new general practitioner, for example if their office is closer to my new address.",
+
+  "independance_step_13_title": "If my move is permanent",
+  "independance_step_13_question": "independance_3",
+  "independance_step_13_option_1": "I am French",
+  "independance_step_13_answer_1": "If I permanently move out of my parents' home, I must:\n\n- Declare my address change to various organizations and companies. I can do this online and all at once with La Poste, France Travail (formerly Pôle emploi), the tax office, etc.\n- Update my information with companies managing my contracts and subscriptions (bank, phone provider, car insurance...)\n- Register my new address on the vehicle registration certificate. It is not necessary to change the address on my driver’s license unless I apply for a new one (lost, stolen, new category...)\n- Update my ID and voter registration based on my nationality:\n  Answer the successive questions to access personalized guidance\n  I am French\n\nUpdate\n\nIf I am of legal age, I must register on the electoral roll of my new municipality (or new district in Paris, Lyon, or Marseille).\n\nNote:\n\nIf I don’t have time to do this and remain registered in my previous municipality, I can still vote there, either by proxy or by going in person on election day.\n\nIf I am over 16 and under 25, I must notify my national service center of my new address.\n\nImportant:\nI am not required to change the address on my national ID card or passport.",
+
+  "independance_step_13_option_2": "I am European",
+  "independance_step_13_answer_2": "If I permanently move out of my parents' home, I must:\n\n- Declare my address change to various organizations and companies. I can do this online and all at once with La Poste, France Travail (formerly Pôle emploi), the tax office, etc.\n- Update my information with companies managing my contracts and subscriptions (bank, phone provider, car insurance...)\n- Register my new address on the vehicle registration certificate. It is not necessary to change the address on my driver’s license unless I apply for a new one (lost, stolen, new category...)\n- Update my ID and voter registration based on my nationality:\n  Answer the successive questions to access personalized guidance\n  I am European\n\nUpdate\n\nIf I am a citizen of another EU member state:\n\n- I can register on the electoral roll of my new municipality to vote in local or European elections in France\n- If I have an EU residence permit (optional), I must update it.",
+
+  "independance_step_13_option_3": "Other situation",
+  "independance_step_13_answer_3": "If I permanently move out of my parents' home, I must:\n\n- Declare my address change to various organizations and companies. I can do this online and all at once with La Poste, France Travail (formerly Pôle emploi), the tax office, etc.\n- Update my information with companies managing my contracts and subscriptions (bank, phone provider, car insurance...)\n- Register my new address on the vehicle registration certificate. It is not necessary to change the address on my driver’s license unless I apply for a new one (lost, stolen, new category...)\n- Update my ID and voter registration based on my nationality:\n  Answer the successive questions to access personalized guidance\n  Other situation\n\nUpdate\n\nI must update my residence permit.",
+
+  "emploi_1_question": "What is your situation?",
+  "emploi_1_option_1": "I’m looking for my first job",
+  "emploi_1_option_2": "I’ve already worked (with an employment contract)",
+
+  "emploi_step_1_title": "I register with France Travail",
+  "emploi_step_1_question": "emploi_1",
+  "emploi_step_1_option_1": "I’m looking for my first job",
+  "emploi_step_1_answer_1": "I register with France Travail as a job seeker.\nI attend my appointment at the local agency to get personalized support and develop my Personalized Employment Access Plan (PPAE).\nImportant:\n\nI must update my situation online, by phone or in person, to confirm I’m still looking for a job.\nIf I forget, I risk being removed from the list of job seekers.",
+  "emploi_step_1_option_2": "I’ve already worked (with an employment contract)",
+  "emploi_step_1_answer_2": "I register with France Travail as a job seeker.\nI attend my appointment at the local agency to get personalized support and develop my Personalized Employment Access Plan (PPAE).\nI must update my situation to confirm that I am still job seeking. If I forget, I risk being removed from the job seekers list.\nNote:\n\nFor employees affected by economic redundancy, France Travail may provide support as part of a Job Security Contract (CSP).",
+
+  "emploi_step_2_title": "I'm looking for a job",
+  "emploi_step_2_question": "emploi_1",
+  "emploi_step_2_option_1": "I’m looking for my first job",
+  "emploi_step_2_answer_1": "I use 'La Bonne Boîte' to find companies hiring without posting job offers: https://labonneboite.francetravail.fr/\n- I browse job offers on France Travail (https://candidat.francetravail.fr/offres/emploi) and manage applications with Memo\n- I consult job offers from the Youth Information and Documentation Center (CIDJ)\n- I check the executive job portal (Apec): https://www.apec.fr/candidat.html\n- I visit the ‘Choose the public service’ portal: https://choisirleservicepublic.gouv.fr/\n- I check the possibility of short-term contracts or temporary work: https://www.service-public.fr/particuliers/vosdroits/F32476\n- I apply for an integration assistance contract, depending on my situation (youth, senior, etc.)\n- I broaden my job search to other EU countries or beyond",
+
+  "emploi_step_2_option_2": "I’ve already worked (with an employment contract)",
+  "emploi_step_2_answer_2": "I use 'La Bonne Boîte' to find companies hiring without posting job offers: https://labonneboite.francetravail.fr/\n- I browse job offers on France Travail (https://candidat.francetravail.fr/offres/emploi) and manage applications with Memo\n- I check the executive job portal (Apec): https://www.apec.fr/candidat.html\n- I visit the ‘Choose the public service’ portal: https://choisirleservicepublic.gouv.fr/\n- I check the possibility of short-term contracts or temporary work: https://www.service-public.fr/particuliers/vosdroits/F32476\n- I apply for an integration assistance contract, depending on my situation (youth, senior, etc.)\n- I broaden my job search to other EU countries or beyond\n\nNote:\n\nIf I am in my notice period due to redundancy, the employer may allow time off to search for a job.",
+
+  "emploi_step_3_title": "I may be eligible for financial assistance",
+  "emploi_step_3_question": "emploi_1",
+  "emploi_step_3_option_1": "I’m looking for my first job",
+  "emploi_step_3_answer_1": "Registering with France Travail allows me to find out about available financial assistance.\nI also check what other support I may qualify for:\n- Active Solidarity Income (RSA), under certain conditions\n- Mobility aid (e.g., SNCF transport vouchers)\n- Help with obtaining a driving license (category B)\n- Specific solidarity allowance (ASS), under certain conditions\n- Business start-up or takeover aid (Arce), under certain conditions\n- Childcare assistance, under certain conditions",
+
+  "emploi_step_3_option_2": "I’ve already worked (with an employment contract)",
+  "emploi_step_3_answer_2": "Registering with France Travail allows me to apply for the Return to Work Allowance (ARE). This unemployment benefit is granted under certain conditions (including after resignation).\nI can estimate my rights with the simulator: https://candidat.francetravail.fr/portail-simulateurs/\nI also check what other support I may qualify for:\n- Active Solidarity Income (RSA), under certain conditions\n- Mobility aid (e.g., SNCF transport vouchers)\n- Help with obtaining a driving license (category B)\n- Specific solidarity allowance (ASS), under certain conditions\n- Business start-up or takeover aid (Arce), under certain conditions\n- Childcare assistance for single parents (Agepi), under certain conditions\nDue to income loss:\n- I may be eligible for the activity bonus\n- If I rent social housing, I inform my landlord. I may qualify for a reduction in my solidarity rent surcharge (SLS)",
+
+  "emploi_step_4_title": "I can access training",
+  "emploi_step_4_question": "emploi_1",
+  "emploi_step_4_option_1": "I’m looking for my first job",
+  "emploi_step_4_answer_1": "- I can request a skills assessment from France Travail\n- I can search for training on the France Travail website (https://candidat.francetravail.fr/formations/recherche) and on the Centre Inffo platform (https://www.orientation-pour-tous.fr/)\n- I can also engage in a voluntary mission that provides training and compensation",
+  "emploi_step_4_option_2": "I’ve already worked (with an employment contract)",
+  "emploi_step_4_answer_2": "- I request a skills assessment from France Travail\n- I search for training on the France Travail website (https://candidat.francetravail.fr/formations/recherche) and on the Centre Inffo platform (https://www.orientation-pour-tous.fr/)\n- I can also engage in a voluntary mission that provides training and compensation\n- I can apply for a Validation of Acquired Experience (VAE)",
+
+  "emploi_step_5_title": "I’ve found a job",
+  "emploi_step_5_question": "emploi_1",
+  "emploi_step_5_option_1": "I’m looking for my first job",
+  "emploi_step_5_answer_1": "I must notify the following of my change in situation:\n\n- My France Travail agency\n- My family benefits office (Caf)\n- My national service center if I am under 25",
+  "emploi_step_5_option_2": "I’ve already worked (with an employment contract)",
+  "emploi_step_5_answer_2": "I must notify the following of my change in situation:\n\n- My France Travail agency\n- My family benefits office (Caf)\n- My national service center if I am under 25\n- My insurer or bank (if I have a loan covered for loss of employment)",
+
+  "emploi_step_6_title": "I may be eligible for employment-related financial assistance",
+  "emploi_step_6_answer_1": "Under certain conditions, I may be eligible for the activity bonus: https://www.service-public.fr/particuliers/vosdroits/N31477"
 }
+  
+
