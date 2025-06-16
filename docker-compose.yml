@@ -40,6 +40,7 @@ services:
       - MAIL_PORT=465
       - MAIL_USER=no_reply@docroadmap.fr
       - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
       - AI_URL=http://DocRoadMapApiIA:8083
     networks:
       - postgres
