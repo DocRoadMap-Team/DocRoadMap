@@ -37,28 +37,6 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="emailConfirmation"
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          href: null,
-          headerShown: false,
-          tabBarStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="forgottenPassword"
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          href: null,
-          headerShown: false,
-          tabBarStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
         name="index"
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
