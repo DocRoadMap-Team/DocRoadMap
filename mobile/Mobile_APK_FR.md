@@ -20,7 +20,7 @@ Avant d’installer un fichier APK, votre téléphone doit être autorisé à in
 2. Activez **Sources inconnues** ou **Installer des apps inconnues**.
 3. Si demandé, autorisez uniquement pour l’application utilisée (ex : Chrome, Gmail, ou votre gestionnaire de fichiers).
 
-> 🔐 *Cette autorisation n’est nécessaire qu’une seule fois. Vous pouvez la désactiver après l’installation.*
+> 🔐 _Cette autorisation n’est nécessaire qu’une seule fois. Vous pouvez la désactiver après l’installation._
 
 ---
 
@@ -44,8 +44,8 @@ Avant d’installer un fichier APK, votre téléphone doit être autorisé à in
 
 En cas de problème :
 
-1. **Installation bloquée** : vérifiez que les sources inconnues sont bien autorisées pour l'application utilisée.  
-2. **Message “Application non installée”** : désinstallez d’abord toute ancienne version de l’application.  
+1. **Installation bloquée** : vérifiez que les sources inconnues sont bien autorisées pour l'application utilisée.
+2. **Message “Application non installée”** : désinstallez d’abord toute ancienne version de l’application.
 3. **Téléchargement impossible** : essayez un autre navigateur ou vérifiez votre connexion Internet.
 4. **Contacter un membre de l'équipe**: un mp discord ou instagram pour nous prévenir de tout souci.
 
@@ -53,8 +53,8 @@ En cas de problème :
 
 ## 4. Sécurité
 
-- Assurez-vous que le fichier APK provient d’une **source fiable**, c'est à dire un membre administrateur du groupe DocRoadMap ou du serveur bêta.  
-- Évitez les fichiers provenant d'autres individus car le téléchargement d'une apk provenant de source tiers peuvent être dangereux.  
+- Assurez-vous que le fichier APK provient d’une **source fiable**, c'est à dire un membre administrateur du groupe DocRoadMap ou du serveur bêta.
+- Évitez les fichiers provenant d'autres individus car le téléchargement d'une apk provenant de source tiers peuvent être dangereux.
 - Ne partagez pas votre APK si elle contient des données personnelles ou sensibles.
 
 ---

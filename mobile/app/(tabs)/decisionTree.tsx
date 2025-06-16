@@ -134,7 +134,6 @@ export default function DecisionTree() {
 
       Alert.alert(t("close"));
 
-
       setHistory((prev) => [
         ...prev,
         { type: "answer", label: inputText },
@@ -191,7 +190,7 @@ export default function DecisionTree() {
           {showSteps && (
             <View style={styles.botBubble}>
               <Text style={[styles.botText, { fontWeight: "bold" }]}>
-              {t("follow")}
+                {t("follow")}
               </Text>
               {steps.map((step, idx) => (
                 <View key={idx} style={{ marginTop: 8 }}>

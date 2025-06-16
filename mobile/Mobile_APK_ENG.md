@@ -20,7 +20,7 @@ Before installing an APK file, your phone must be allowed to install apps from s
 2. Enable **Unknown Sources** or **Install Unknown Apps**.
 3. If prompted, allow this permission only for the app you are using (e.g., Chrome, Gmail, or your file manager).
 
-> 🔐 *This permission is required only once. You can disable it after installation.*
+> 🔐 _This permission is required only once. You can disable it after installation._
 
 ---
 
@@ -44,17 +44,17 @@ Before installing an APK file, your phone must be allowed to install apps from s
 
 If you encounter issues:
 
-1. **Installation blocked**: Make sure that unknown sources are enabled for the app you're using.  
-2. **"App not installed" message**: Uninstall any previous version of the app first.  
-3. **Download not working**: Try using a different browser or check your internet connection.  
+1. **Installation blocked**: Make sure that unknown sources are enabled for the app you're using.
+2. **"App not installed" message**: Uninstall any previous version of the app first.
+3. **Download not working**: Try using a different browser or check your internet connection.
 4. **Contact a team member**: Send a private message via Discord or Instagram to inform us of any issues.
 
 ---
 
 ## 4. Security
 
-- Ensure that the APK file comes from a **trusted source**, such as an administrator member of the DocRoadMap group or the beta server.  
-- Avoid APKs from other individuals, as downloading APKs from third-party sources can be risky.  
+- Ensure that the APK file comes from a **trusted source**, such as an administrator member of the DocRoadMap group or the beta server.
+- Avoid APKs from other individuals, as downloading APKs from third-party sources can be risky.
 - Do not share your APK if it contains personal or sensitive data.
 
 ---

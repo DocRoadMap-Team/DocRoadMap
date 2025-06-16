@@ -4,7 +4,6 @@ import rawTree from "@/locales/decision-tree/decisionTree.json";
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import { useTranslation } from "react-i18next";
 
-
 type StepData = {
   name: string;
   description: string;
