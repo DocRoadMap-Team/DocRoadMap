@@ -162,12 +162,12 @@ const CalendarScreen = () => {
 
   const addEventWithReset = async () => {
     if (!calendarId || !eventName) {
-      Alert.alert(t("error_event_name"))
+      Alert.alert(t("error_event_name"));
       return;
     }
 
     if (!selectedDate) {
-      Alert.alert(t("error_date"))
+      Alert.alert(t("error_date"));
       return;
     }
 
@@ -181,14 +181,14 @@ const CalendarScreen = () => {
     );
 
     try {
-        await Calendar.createEventAsync(calendarId, {
-          title: eventName,
-          startDate,
-          endDate,
-          timeZone: "Europe/Paris",
-          location: "Chez toi",
-          notes: eventDescription,
-        });
+      await Calendar.createEventAsync(calendarId, {
+        title: eventName,
+        startDate,
+        endDate,
+        timeZone: "Europe/Paris",
+        location: "Chez toi",
+        notes: eventDescription,
+      });
 
       if (notify) {
         await scheduleNotification(startDate);
@@ -196,12 +196,12 @@ const CalendarScreen = () => {
       await notifyEventAdded();
 
       Alert.alert(t("real_calendar")),
-      handleDayPress({ dateString: selectedDate });
+        handleDayPress({ dateString: selectedDate });
       setModalVisible(false);
       resetForm();
     } catch (error) {
       console.error(error);
-      Alert.alert(t("error_impossible_add"))
+      Alert.alert(t("error_impossible_add"));
     }
   };
 
@@ -259,9 +259,7 @@ const CalendarScreen = () => {
                 placeholder={t("event_name")}
               />
 
-              <Text style={styles.modalTitle}>
-              {t("event_description")}
-              </Text>
+              <Text style={styles.modalTitle}>{t("event_description")}</Text>
               <TextInput
                 style={styles.input}
                 value={eventDescription}
@@ -271,9 +269,7 @@ const CalendarScreen = () => {
                 numberOfLines={4}
               />
 
-              <Text style={styles.modalTitle}>
-              {t("event_date")}
-              </Text>
+              <Text style={styles.modalTitle}>{t("event_date")}</Text>
               <View style={styles.pickerContainer}>
                 <Picker
                   selectedValue={eventTime.hour}
@@ -307,9 +303,7 @@ const CalendarScreen = () => {
                 </Picker>
               </View>
 
-              <Text style={styles.modalTitle}>
-                {t("event_end")}
-              </Text>
+              <Text style={styles.modalTitle}>{t("event_end")}</Text>
               <View style={styles.pickerContainer}>
                 <Picker
                   selectedValue={eventEndTime.hour}
@@ -343,9 +337,7 @@ const CalendarScreen = () => {
                 </Picker>
               </View>
 
-              <Text style={styles.modalTitle}>
-              {t("notification_choose")}
-              </Text>
+              <Text style={styles.modalTitle}>{t("notification_choose")}</Text>
               <View style={styles.buttonRow}>
                 {isNotificationSelected === false && (
                   <>
@@ -373,9 +365,7 @@ const CalendarScreen = () => {
 
               {isNotificationSelected && notify && (
                 <>
-                  <Text style={styles.modalTitle}>
-                  {t("reminder_time")}
-                  </Text>
+                  <Text style={styles.modalTitle}>{t("reminder_time")}</Text>
                   <Picker
                     selectedValue={notificationDelay}
                     onValueChange={(itemValue) =>
@@ -396,7 +386,7 @@ const CalendarScreen = () => {
 
               {isNotificationSelected && (
                 <View style={styles.buttonWrapper}>
-                  <Button title={t("add_event")}onPress={addEventWithReset} />
+                  <Button title={t("add_event")} onPress={addEventWithReset} />
                 </View>
               )}
 

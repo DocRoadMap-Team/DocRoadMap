@@ -5,7 +5,6 @@ import React, { useState, useEffect, useCallback, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "expo-router";
 
-
 type StepData = {
   name: string;
   description: string;
@@ -111,14 +110,10 @@ export const CreateFromTree = async ({
     Alert.alert(t("step_created_success"));
   } catch (err) {
     console.error(err);
-    Alert.alert(
-      t("create_step_error"),
-      "",
-      [
-        {
-          onPress: () => router.replace("/home"),
-        },
-      ]
-    );
+    Alert.alert(t("create_step_error"), "", [
+      {
+        onPress: () => router.replace("/home"),
+      },
+    ]);
   }
 };

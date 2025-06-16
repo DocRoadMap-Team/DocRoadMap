@@ -189,7 +189,7 @@ export default function HomePage() {
         <SafeAreaView style={{ flex: 1, padding: 20 }}>
           <TouchableOpacity onPress={() => setModalVisible(false)}>
             <Text style={{ fontSize: 18, color: "blue", textAlign: "right" }}>
-            {t("close")}
+              {t("close")}
             </Text>
           </TouchableOpacity>
 
