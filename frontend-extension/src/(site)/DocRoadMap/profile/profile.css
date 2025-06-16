@@ -1,27 +1,97 @@
-body {
+body,
+html {
   margin: 0;
+  padding: 0;
   font-family: Arial, sans-serif;
   background-color: #f4f4f9;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-container {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  background-color: #ffffff;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  box-sizing: border-box;
+}
+
+.profile-title {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+  width: 100%;
+}
+
+.profile-picture {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0px;
+}
+
+.profile-picture svg {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.profile-info {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.profile-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.profile-item:last-child {
+  border-bottom: none;
+}
+
+.profile-label {
+  font-size: 12px;
+  color: #555;
+  display: flex;
+  align-items: center;
+}
+
+.profile-value {
+  font-size: 12px;
+  color: #333;
+  flex: 1;
+  text-align: left;
 }
 
 .back-button {
   position: absolute;
-  top: 15px;
-  left: 15px;
-  width: 45px;
-  height: 45px;
+  top: 20px;
+  left: 10px;
+  width: 30px;
+  height: 30px;
   background-color: transparent;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 18px;
   color: #007bff;
   transition:
     transform 0.2s ease-in-out,
@@ -31,140 +101,4 @@ body {
 .back-button:hover {
   color: #0056b3;
   transform: scale(1.1);
-}
-
-.profile-container {
-  position: relative;
-  width: 100%;
-  max-width: 400px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  min-width: 200px;
-  min-height: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.profile-title {
-  font-size: 25px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.profile-picture img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 15px;
-}
-
-.profile-info {
-  text-align: left;
-  margin-top: 15px;
-  padding-right: 20px;
-}
-
-.profile-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 12px 0;
-  border-bottom: 1px solid #ddd;
-}
-
-.profile-item:last-child {
-  border-bottom: none;
-}
-
-.profile-label {
-  font-size: 14px;
-  color: #555;
-  font-weight: bold;
-  flex: 1;
-}
-
-.profile-value {
-  font-size: 14px;
-  color: #333;
-  flex: 2;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 200px;
-  max-width: 200px;
-}
-
-.edit-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 2px 6px;
-  font-size: 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
-  white-space: nowrap;
-  flex-shrink: 0;
-  width: auto;
-}
-
-.edit-button:hover {
-  background-color: #0056b3;
-}
-
-.edit-container {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  min-width: 150px;
-}
-
-.edit-input {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 5px;
-  font-size: 14px;
-  width: 100px;
-  min-width: 100px;
-}
-
-.confirm-button,
-.cancel-button {
-  border: none;
-  font-size: 14px;
-  cursor: pointer;
-  transition:
-    background 0.3s ease-in-out,
-    transform 0.2s ease-in-out;
-  width: 25px;
-  height: 25px;
-  border-radius: 6px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  color: white;
-}
-
-.confirm-button {
-  background-color: #28a745;
-}
-
-.confirm-button:hover {
-  background-color: #218838;
-}
-
-.cancel-button {
-  background-color: #dc3545;
-}
-
-.cancel-button:hover {
-  background-color: #c82333;
 }

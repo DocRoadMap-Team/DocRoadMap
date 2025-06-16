@@ -3,10 +3,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import getToken from "../../utils/utils";
+import DecisionTreeChat from "./decisionTree";
 
 const basePath = "./assets/";
 
-const backendUrl = "http://localhost:8082";
+const backendUrl = "https://www.docroadmap.fr";
 
 const normalize = (str: string): string =>
   str
@@ -46,10 +47,11 @@ interface Step {
 
 const RoadmapCreation: React.FC = () => {
   const { t } = useTranslation();
-  const [user, setUser] = useState<any>(null);
+  const [, setUser] = useState<any>(null); //user
   const [stepsData, setStepsData] = useState<Step[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [usedStepsIds, setUsedStepsIds] = useState<number[]>([]);
+  // const [usedStepsIds, setUsedStepsIds] = useState<number[]>([]);
+  const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,44 +89,44 @@ const RoadmapCreation: React.FC = () => {
     fetchData();
   }, [t]);
 
-  const generateUniqueStepsId = (): number => {
-    let id: number;
-    do {
-      id = Math.floor(Math.random() * 900) + 101;
-    } while (usedStepsIds.includes(id));
-    setUsedStepsIds((prev) => [...prev, id]);
-    return id;
-  };
+  // const generateUniqueStepsId = (): number => {
+  //   let id: number;
+  //   do {
+  //     id = Math.floor(Math.random() * 900) + 101;
+  //   } while (usedStepsIds.includes(id));
+  //   setUsedStepsIds((prev) => [...prev, id]);
+  //   return id;
+  // };
 
-  const handleCreateCard = async (step: Step) => {
-    const token = await getToken();
-    if (!user?.id || !token) return;
+  // const handleCreateCard = async (step: Step) => {
+  //   const token = await getToken();
+  //   if (!user?.id || !token) return;
 
-    try {
-      const stepsId = generateUniqueStepsId();
+  //   try {
+  //     const stepsId = generateUniqueStepsId();
 
-      await axios.post(
-        `${backendUrl}/process/create`,
-        {
-          name: step.name,
-          description: step.collection_name,
-          status: "PENDING",
-          userId: user.id,
-          stepsId,
-          endedAt: "2024-12-12, 12:00:00",
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-    } catch (error) {
-      console.error("Erreur lors de la création :", error);
-      setError(t("createError"));
-    }
-  };
+  //     await axios.post(
+  //       "http://51.91.161.226:8082/process/create",
+  //       {
+  //         name: step.name,
+  //         description: step.collection_name,
+  //         status: "PENDING",
+  //         userId: user.id,
+  //         stepsId,
+  //         endedAt: "2024-12-12, 12:00:00",
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       },
+  //     );
+  //   } catch (error) {
+  //     console.error("Erreur lors de la création :", error);
+  //     setError(t("createError"));
+  //   }
+  // };
 
   return (
     <div className="roadmap-panel-container">
@@ -244,22 +246,42 @@ const RoadmapCreation: React.FC = () => {
       </div>
 
       {error && <p className="error-message">{error}</p>}
+      {showChat ? (
+        <DecisionTreeChat onClose={() => setShowChat(false)} />
+      ) : (
+        <div className="carousel-container">
+          {stepsData.map((step) => (
+            <div className="card" key={step.id}>
+              <img
+                className="card-image"
+                src={step.image}
+                alt={t("imageAlt")}
+              />
+              <div className="card-header">
+                <h3>{step.name}</h3>
+              </div>
+              <div className="card-body">
+                <button
+                  onClick={() => {
+                    setShowChat(true);
+                  }}
+                >
+                  {" "}
+                  {/* handleCreateCard(step); */}
+                  {t("createThis")}
+                </button>
+                {showChat && (
+                  <DecisionTreeChat onClose={() => setShowChat(false)} />
+                )}
 
-      <div className="carousel-container">
-        {stepsData.map((step) => (
-          <div className="card" key={step.id}>
-            <img className="card-image" src={step.image} alt={t("imageAlt")} />
-            <div className="card-header">
-              <h3>{step.name}</h3>
-            </div>
-            <div className="card-body">
-              <button onClick={() => handleCreateCard(step)}>
+                {/* <button onClick={() => handleCreateCard(step)}>
                 {t("createThis")}
-              </button>
+              </button> */}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

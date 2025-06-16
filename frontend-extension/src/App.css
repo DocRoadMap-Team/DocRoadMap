@@ -1,10 +1,12 @@
 .App {
+  width: 400px;
+  height: 600px;
   color: #333;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #f0f0f0;
-  max-width: 550px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
