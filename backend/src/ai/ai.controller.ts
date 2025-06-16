@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Request } from "@nestjs/common";
 import { AiService } from "./ai.service";
 import { SendQueryGenerateRoadmapDTO } from "./dto/send-query-roadmap.dto";
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBadRequestResponse, ApiBearerAuth, ApiInternalServerErrorResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { SendQueryResponseDTO } from "./dto/send-query-response.dto";
 import { StartConversationDTO } from "./dto/start-conversation.dto";
 import { SendQueryDto } from "./dto/send-query.dto";
@@ -30,6 +30,12 @@ export class AiController {
     @ApiBearerAuth()
     @ApiTags('AI')
     @ApiOkResponse()
+    @ApiBadRequestResponse(
+        { description: 'Bad Request - Invalid input data' }
+    )
+    @ApiInternalServerErrorResponse(
+        { description: 'Internal Server Error - An unexpected error occurred' }
+    )
     async queryChatGPT(@Body() SendQueryDto: SendQueryDto): Promise<{ response: string }> {
         const response = await this.aiService.query(SendQueryDto.prompt, SendQueryDto.model);
         return { response };

@@ -1,4 +1,4 @@
-import { Injectable, Inject } from "@nestjs/common";
+import { Injectable, Inject, BadRequestException, InternalServerErrorException } from "@nestjs/common";
 import axios from "axios"
 import { SendQueryResponseDTO } from "./dto/send-query-response.dto";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -127,13 +127,16 @@ export class AiService {
     }
 
     async query(prompt: string, model: string): Promise<string> {
+        if (!prompt || !model) {
+            throw new BadRequestException("Prompt and model are required");
+        }
+        const apiKey = process.env.OPENAI_API_KEY;
+
+        if (!apiKey) {
+            throw new BadRequestException("OPENAI_API_KEY is not set");
+        }
+
         try {
-            const apiKey = process.env.OPENAI_API_KEY;
-
-            if (!apiKey) {
-                throw new Error("OPENAI_API_KEY is not set");
-            }
-
             const response = await axios.post(
                 "https://api.openai.com/v1/chat/completions",
                 {
@@ -157,11 +160,16 @@ export class AiService {
             ) {
                 return response.data.choices[0].message.content;
             } else {
-                throw new Error("Invalid response from OpenAI API");
+                throw new BadRequestException("Invalid response from OpenAI API");
             }
         } catch (error) {
             console.error("Error during API call:", error);
-            throw new Error("Error communicating with the AI service");
+            if (axios.isAxiosError(error) && error.response) {
+                throw new BadRequestException(
+                    error.response.data?.error?.message || "Error communicating with the AI service"
+                );
+            }
+            throw new InternalServerErrorException("Erreur interne du serveur lors de la communication avec le service IA");
         }
     }
 }
