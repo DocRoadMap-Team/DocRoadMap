@@ -125,4 +125,43 @@ export class AiService {
             throw new Error("Erreur de communication avec le service IA");
         }
     }
+
+    async query(prompt: string, model: string): Promise<string> {
+        try {
+            const apiKey = process.env.OPENAI_API_KEY;
+
+            if (!apiKey) {
+                throw new Error("OPENAI_API_KEY is not set");
+            }
+
+            const response = await axios.post(
+                "https://api.openai.com/v1/chat/completions",
+                {
+                    model: model,
+                    messages: [{ role: "user", content: prompt }],
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${apiKey}`,
+                    },
+                }
+            );
+
+            if (
+                response.data &&
+                response.data.choices &&
+                response.data.choices.length > 0 &&
+                response.data.choices[0].message &&
+                response.data.choices[0].message.content
+            ) {
+                return response.data.choices[0].message.content;
+            } else {
+                throw new Error("Invalid response from OpenAI API");
+            }
+        } catch (error) {
+            console.error("Error during API call:", error);
+            throw new Error("Error communicating with the AI service");
+        }
+    }
 }
