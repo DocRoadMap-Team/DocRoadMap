@@ -40,7 +40,7 @@ function Home() {
       </div>
       <button onClick={() => navigate("/login")}>{t("login")}</button>
 
-      <button onClick={() => navigate("/register")}>{t("register")}</button>
+      <button onClick={() => navigate("/signup")}>{t("signup")}</button>
     </div>
   );
 }
