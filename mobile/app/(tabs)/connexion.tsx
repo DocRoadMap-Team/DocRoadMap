@@ -152,11 +152,6 @@ export default function ConnectionPage() {
           </Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={() => router.push("/forgottenPassword")}>
-        <Text style={{ color: theme.text }} allowFontScaling={true}>
-          {t("connexion.forgotPassword")}
-        </Text>
-      </TouchableOpacity>
       <View>
         <TouchableOpacity onPress={() => router.push("/register")}>
           <Text style={{ color: theme.text }} allowFontScaling={true}>

@@ -6,7 +6,8 @@
     "password": "Contraseña",
     "create_account": "Crear Cuenta",
     "back_to_home": "Volver al Inicio",
-    "error": "Error, por favor revisa tu información"
+    "error": "Error, por favor revisa tu información",
+    "check_mail": "Por favor, revisa la bandeja de entrada o de spam del correo proporcionado durante el registro para confirmar tu cuenta."
   },
   "profile": {
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget aliquam ultricies.",
