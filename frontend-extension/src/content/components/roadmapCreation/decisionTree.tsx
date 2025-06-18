@@ -94,6 +94,7 @@ function getProcessAnswersKey(processKey: string): string | null {
   if (processKey === "aide_logement_answers") return "aide_logement_answers";
   if (processKey === "independance_answers") return "independance_answers";
   if (processKey === "emploi_answers") return "emploi_answers";
+  if (processKey === "aides_etudiants_answers") return "aides_etudiants_answers";
   return null;
 }
 

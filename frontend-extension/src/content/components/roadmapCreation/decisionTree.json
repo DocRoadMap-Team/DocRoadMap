@@ -7,6 +7,10 @@
         "next": "dem_1"
       },
       {
+        "label": "Aides financières pour étudiants",
+        "next": "aides_etudiants_1"
+      },
+      {
         "label": "Aides au logement",
         "next": "logement_1"
       },
@@ -298,6 +302,193 @@
         {
           "label": null,
           "answer": "Je peux choisir un nouveau médecin traitant, si son cabinet est plus proche de mon nouveau logement, par exemple."
+        }
+      ]
+    }
+  },
+
+  "aides_etudiants_1": {
+    "question": "Quel organisme dépends-tu ?",
+    "options": [
+      {
+        "label": "Caf",
+        "next": "aides_etudiants_answers"
+      },
+      {
+        "label": "MSA",
+        "next": "aides_etudiants_answers"
+      }
+    ]
+  },
+
+  "aides_etudiants_answers": {
+    "aides_etudiants_step_1": {
+      "step_title": "Bourses et aides liées",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Si vous intégrez l'enseignement supérieur après avoir obtenu la mention Très bien au bac et que vous avez obtenu une bourse sur critères sociaux, vous avez droit à l'aide au mérite. Le montant annuel de l'aide est de 900 €.\n\nSi vous venez d'obtenir le bac et que vous entrez dans l'enseignement supérieur en dehors de votre académie de résidence, vous pouvez, sous conditions, bénéficier de l'aide à la mobilité Parcoursup. Son montant est de 500 €.\n\nSi vous rencontrez des difficultés matérielles pour poursuivre des études supérieures, vous pouvez obtenir une bourse sur critères sociaux (BCS). Son montant est variable. Vous pouvez faire une estimation de votre droit à la BCS en utilisant un simulateur.\n\nSi vous n'avez pas droit à la BCS, mais que vous rencontrez des difficultés financières, vous pouvez obtenir sous plusieurs conditions l'aide spécifique annuelle. Si les difficultés financières que vous rencontrez sont passagères, vous pouvez demander l'aide ponctuelle. Le montant de ces aides est variable.\n\nSi vous percevez la BCS, que vous venez d'obtenir une licence et que vous souhaitez vous inscrire en Master 1 dans une autre région, vous pouvez obtenir l'aide à la mobilité pour l'inscription en Master 1. Son montant est de 1 000 €.\n\nLes conseils régionaux versent également des aides aux étudiants sous certaines conditions(https://www.etudiant.gouv.fr/fr/aides-des-regions-et-des-outre-mer-2006).\n\nSi vous étudiez en outre-mer, les départements et collectivités d'outre-mer peuvent vous verser une ou des aides financières."
+        }
+      ]
+    },
+    "aides_etudiants_step_2": {
+      "step_title": "Aides pour le logement",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Plusieurs organismes peuvent vous aider pour vos dépenses liées à un déménagement(https://www.service-public.fr/particuliers/vosdroits/F38492), à la location d'un logement(https://www.service-public.fr/particuliers/vosdroits/F1563), le paiement des factures(https://www.service-public.fr/particuliers/vosdroits/F38589), etc."
+        }
+      ]
+    },
+    "aides_etudiants_step_3": {
+      "step_title": "Aide pour les repas",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Si vous percevez la bourse sur critères sociaux, vous bénéficiez d'un tarif très social à 1 € pour un repas en restaurant universitaire géré par le Crous.\n\nSi vous êtes en situation de précarité, vous pouvez également bénéficier de ce tarif à 1 € sous conditions(https://www.etudiant.gouv.fr/fr/comment-beneficier-du-repas-crous-1-eu-3123)."
+        }
+      ]
+    },
+    "aides_etudiants_step_4": {
+      "step_title": "Aide pour la santé",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Certaines régions proposent également des aides au financement de votre complémentaire santé ou des mutuelles à tarifs réduits. Renseignez-vous sur le site internet de votre conseil régional(https://lannuaire.service-public.fr/navigation/cr).\n\nSous certaines conditions, vous pouvez obtenir la complémentaire santé solidaire (C2S). Elle prend en charge les frais de santé qui ne sont pas remboursés par l’Assurance Maladie.(https://www.service-public.fr/particuliers/vosdroits/F10027)"
+        }
+      ]
+    },
+    "aides_etudiants_step_5": {
+      "step_title": "Aides pour bénéficier d'un tarif réduit pour les transports en commun",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "En tant qu'étudiant, vous pouvez bénéficier de tarifs réduits et d'offres spécifiques pour voyager en transports en commun."
+        }
+      ]
+    },
+    "aides_etudiants_step_6": {
+      "step_title": "Aides pour passer le permis de conduire",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Plusieurs dispositifs permettent d'obtenir une aide financière pour passer le permis de conduire(https://www.service-public.fr/particuliers/vosdroits/F38575)."
+        }
+      ]
+    },
+    "aides_etudiants_step_7": {
+      "step_title": "Aides pour acheter un véhicule peu polluant",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Si vous voulez acheter (ou louer dans le cadre d'un contrat d'une durée d'au moins 2 ans) un véhicule neuf ou d'occasion ayant une empreinte carbone peu élevée, vous pouvez bénéficier sous conditions d'une aide (https://www.service-public.fr/particuliers/vosdroits/F38576). Plusieurs dispositifs existent."
+        }
+      ]
+    },
+    "aides_etudiants_step_8": {
+      "step_title": "Aides pour acheter un vélo",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Si vous voulez acheter (ou louer dans le cadre d'un contrat d'une durée d'au moins 2 ans) un vélo à assistance électrique (VAE) ou un vélo classique, qu'il soit neuf ou d'occasion, vous pouvez bénéficier sous conditions d'une aide (https://www.service-public.fr/particuliers/vosdroits/F38577). Plusieurs dispositifs existent."
+        }
+      ]
+    },
+    "aides_etudiants_step_9": {
+      "step_title": "Aide pour l'inscription à un club sportif",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Si vous percevez une bourse sur critères sociaux ou une aide annuelle du Crous ou l'allocation aux adultes handicapés (AAH), vous pouvez bénéficier d'une déduction de 50 € (https://www.pass.sports.gouv.fr/) si vous vous inscrivez dans un club sportif."
+        }
+      ]
+    },
+    "aides_etudiants_step_10": {
+      "step_title": "Aides pour accéder à l'offre culturelle à tarif réduit",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Plusieurs dispositifs permettent d'obtenir des aides financières et des offres spécifiques (https://www.etudiant.gouv.fr/fr/se-cultiver-sans-se-ruiner-1348)."
+        }
+      ]
+    },
+    "aides_etudiants_step_11": {
+      "step_title": "Aides pour financer un projet culturel ou artistique ou solidaire",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Plusieurs dispositifs permettent d'obtenir un soutien financier (https://www.etudiant.gouv.fr/fr/des-aides-pour-vos-projets-culturels-et-artistiques-1342."
+        }
+      ]
+    },
+    "aides_etudiants_step_12": {
+      "step_title": "Aides pour passer le brevet d'aptitude aux fonctions d'animateur (Bafa)",
+      "step_question": "aides_etudiants_1",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Caf",
+          "answer": "Votre caisse d'allocations familiales (Caf) peut vous accorder une aide pour financer votre Bafa.\n\nIl existe les 2 types d'aides suivants :\n- Aide nationale d'un montant de 200 €\n- Aides locales.\n\nPour demander l'aide de 200 €, vous devez utiliser le formulaire suivant :\nhttps://www.caf.fr/sites/default/files/medias/493/Allocataires/Vie%20personnelle/pdf/ASBAF006_demande%20d'aide%20pour%20le%20Bafa.pdf\n\nVous devez envoyer votre demande dans un délai de 3 mois maximum après votre inscription à la session d'approfondissement (ou de qualification).\n\nVotre Caf locale peut vous accorder une aide complémentaire.\n\nRenseignez-vous auprès de la Caf de votre département."
+        },
+        {
+          "label": "MSA",
+          "answer": "Certaines caisses de la MSA (Mutualité sociale agricole) proposent une aide pour financer la formation Bafa.\nRenseignez-vous auprès de votre caisse MSA."
+        }
+      ]
+    },
+    "aides_etudiants_step_13": {
+      "step_title": "Aide pour préparer certains concours de la fonction publique",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Les bourses Talents (https://www.service-public.fr/particuliers/vosdroits/F17482) permettent de soutenir financièrement les candidats les plus méritants à préparer certains concours de la fonction publique. Elles sont versées sous plusieurs conditions (notamment) de ressources, de diplôme et de motivation."
+        }
+      ]
+    },
+    "aides_etudiants_step_14": {
+      "step_title": "Aides pour les étudiants étrangers",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Des aides spécifiques peuvent vous être versées si vous êtes étudiant étranger en France."
+
+        }
+      ]
+    },
+    "aides_etudiants_step_15": {
+      "step_title":  "À connaître : le simulateur 1jeune1solution",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Le simulateur 1jeune1solution permet d'estimer vos droits aux aides existantes en renseignant des informations sur votre profil, votre foyer, votre logement, vos revenus et vos projets :\n\n1jeune1solution : découvrez toutes les aides auxquelles vous avez droit (https://www.1jeune1solution.gouv.fr/mes-aides)."
         }
       ]
     }
