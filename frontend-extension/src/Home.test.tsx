@@ -61,7 +61,7 @@ describe("Home", () => {
     );
     render(<Home />);
     await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith("/roadmap");
+      expect(mockNavigate).toHaveBeenCalledWith("/docroadmap");
     });
   });
 });

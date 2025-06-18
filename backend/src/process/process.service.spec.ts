@@ -4,156 +4,127 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Process } from './entities/process.entity';
 import { Step } from '../steps/entities/step.entity';
 import { User } from '../users/entities/user.entity';
-import { Repository } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
-import { Status } from '../enum/status.enum';
+
+const mockProcessRepository = {
+  create: jest.fn(),
+  save: jest.fn(),
+  find: jest.fn(),
+  findOne: jest.fn(),
+  update: jest.fn(),
+  delete: jest.fn(),
+};
+const mockStepRepository = {
+  findByIds: jest.fn(),
+};
+const mockUserRepository = {
+  findOne: jest.fn(),
+};
 
 describe('ProcessService', () => {
   let service: ProcessService;
-  let processRepository: Repository<Process>;
-  let stepRepository: Repository<Step>;
-  let userRepository: Repository<User>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ProcessService,
-        {
-          provide: getRepositoryToken(Process),
-          useClass: Repository,
-        },
-        {
-          provide: getRepositoryToken(Step),
-          useClass: Repository,
-        },
-        {
-          provide: getRepositoryToken(User),
-          useClass: Repository,
-        },
+        { provide: getRepositoryToken(Process), useValue: mockProcessRepository },
+        { provide: getRepositoryToken(Step), useValue: mockStepRepository },
+        { provide: getRepositoryToken(User), useValue: mockUserRepository },
       ],
     }).compile();
 
     service = module.get<ProcessService>(ProcessService);
-    processRepository = module.get<Repository<Process>>(getRepositoryToken(Process));
-    stepRepository = module.get<Repository<Step>>(getRepositoryToken(Step));
-    userRepository = module.get<Repository<User>>(getRepositoryToken(User));
-  });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+    jest.clearAllMocks();
   });
 
   describe('create', () => {
-    it('should create a new process', async () => {
-      const createProcessDto = {
-        stepsId: [1, 2],
-        userId: 1,
-        name: 'Test Process',
-        description: 'Test Description',
-        status: Status.IN_PROGRESS,
-        endedAt: null,
-      };
+    it('should create and return a process', async () => {
+      const dto = { name: 'p', description: 'd', userId: 1, stepsId: [1, 2] };
+      const user = { id: 1 };
+      const steps = [{ id: 1 }, { id: 2 }];
+      const process = { ...dto, user, steps };
 
-      const user = { id: 1, name: 'Test User' };
-      const steps = [{ id: 1, name: 'Step 1' }, { id: 2, name: 'Step 2' }];
-      const createdProcess = { id: 1, ...createProcessDto, user, steps };
+      mockUserRepository.findOne.mockResolvedValue(user);
+      mockStepRepository.findByIds.mockResolvedValue(steps);
+      mockProcessRepository.create.mockReturnValue(process);
+      mockProcessRepository.save.mockResolvedValue(process);
 
-      jest.spyOn(userRepository, 'findOne').mockResolvedValue(user as any);
-      jest.spyOn(stepRepository, 'findByIds').mockResolvedValue(steps as any);
-      jest.spyOn(processRepository, 'create').mockReturnValue(createdProcess as any);
-      jest.spyOn(processRepository, 'save').mockResolvedValue(createdProcess as any);
-
-      expect(await service.create(createProcessDto)).toEqual(createdProcess);
+      const result = await service.create(dto as any);
+      expect(result).toEqual(process);
+      expect(mockUserRepository.findOne).toHaveBeenCalledWith({ where: { id: 1 } });
+      expect(mockStepRepository.findByIds).toHaveBeenCalledWith([1, 2]);
+      expect(mockProcessRepository.create).toHaveBeenCalledWith({ name: 'p', description: 'd', user, steps });
+      expect(mockProcessRepository.save).toHaveBeenCalledWith(process);
     });
 
-    it('should throw NotFoundException if user not found', async () => {
-      const createProcessDto = {
-        stepsId: [1, 2],
-        userId: 1,
-        name: 'Test Process',
-        description: 'Test Description',
-        status: Status.IN_PROGRESS,
-        endedAt: null,
-      };
-
-      jest.spyOn(userRepository, 'findOne').mockResolvedValue(null);
-
-      await expect(service.create(createProcessDto)).rejects.toThrow(NotFoundException);
+    it('should throw if user not found', async () => {
+      mockUserRepository.findOne.mockResolvedValue(undefined);
+      await expect(service.create({ userId: 1 } as any)).rejects.toThrow(NotFoundException);
     });
 
-    it('should throw NotFoundException if some steps not found', async () => {
-      const createProcessDto = {
-        stepsId: [1, 2],
-        userId: 1,
-        name: 'Test Process',
-        description: 'Test Description',
-        status: Status.IN_PROGRESS,
-        endedAt: null,
-      };
-
-      const user = { id: 1, name: 'Test User' };
-
-      jest.spyOn(userRepository, 'findOne').mockResolvedValue(user as any);
-      jest.spyOn(stepRepository, 'findByIds').mockResolvedValue([{ id: 1, name: 'Step 1' }] as any);
-
-      await expect(service.create(createProcessDto)).rejects.toThrow(NotFoundException);
+    it('should throw if some steps not found', async () => {
+      mockUserRepository.findOne.mockResolvedValue({ id: 1 });
+      mockStepRepository.findByIds.mockResolvedValue([{ id: 1 }]);
+      await expect(service.create({ userId: 1, stepsId: [1, 2] } as any)).rejects.toThrow(NotFoundException);
     });
   });
 
   describe('findAll', () => {
-    it('should return an array of processes', async () => {
-      const processes = [{ id: 1, name: 'Test Process' }];
-      jest.spyOn(processRepository, 'find').mockResolvedValue(processes as any);
-      expect(await service.findAll()).toEqual(processes);
+    it('should return all processes', async () => {
+      const processes = [{ id: 1 }];
+      mockProcessRepository.find.mockResolvedValue(processes);
+      const result = await service.findAll();
+      expect(result).toEqual(processes);
+      expect(mockProcessRepository.find).toHaveBeenCalledWith({ relations: ['user', 'steps'] });
     });
   });
 
   describe('findOne', () => {
     it('should return a process', async () => {
-      const process = { id: 1, name: 'Test Process' };
-      jest.spyOn(processRepository, 'findOne').mockResolvedValue(process as any);
-      expect(await service.findOne(1)).toEqual(process);
+      const process = { id: 1 };
+      mockProcessRepository.findOne.mockResolvedValue(process);
+      const result = await service.findOne(1);
+      expect(result).toEqual(process);
+      expect(mockProcessRepository.findOne).toHaveBeenCalledWith({
+        where: { id: 1 },
+        relations: ['user', 'steps'],
+      });
     });
 
-    it('should throw NotFoundException if process not found', async () => {
-      jest.spyOn(processRepository, 'findOne').mockResolvedValue(null);
+    it('should throw if process not found', async () => {
+      mockProcessRepository.findOne.mockResolvedValue(undefined);
       await expect(service.findOne(1)).rejects.toThrow(NotFoundException);
     });
   });
 
   describe('update', () => {
     it('should update a process', async () => {
-      const updateProcessDto = { name: 'Updated Process' };
-      const process = { id: 1, name: 'Test Process' };
-
-      jest.spyOn(processRepository, 'findOne').mockResolvedValue(process as any);
-      jest.spyOn(processRepository, 'update').mockResolvedValue({ affected: 1 } as any);
-
-      expect(await service.update(1, updateProcessDto)).toEqual({ affected: 1 });
+      mockProcessRepository.findOne.mockResolvedValue({ id: 1 });
+      mockProcessRepository.update.mockResolvedValue({ affected: 1 });
+      const result = await service.update(1, { name: 'new' } as any);
+      expect(result).toEqual({ affected: 1 });
+      expect(mockProcessRepository.update).toHaveBeenCalledWith(1, { name: 'new' });
     });
 
-    it('should throw NotFoundException if process not found', async () => {
-      const updateProcessDto = { name: 'Updated Process' };
-
-      jest.spyOn(processRepository, 'findOne').mockResolvedValue(null);
-
-      await expect(service.update(1, updateProcessDto)).rejects.toThrow(NotFoundException);
+    it('should throw if process not found', async () => {
+      mockProcessRepository.findOne.mockResolvedValue(undefined);
+      await expect(service.update(1, {} as any)).rejects.toThrow(NotFoundException);
     });
   });
 
   describe('remove', () => {
     it('should remove a process', async () => {
-      const process = { id: 1, name: 'Test Process' };
-
-      jest.spyOn(processRepository, 'findOne').mockResolvedValue(process as any);
-      jest.spyOn(processRepository, 'delete').mockResolvedValue({ affected: 1 } as any);
-
-      expect(await service.remove(1)).toEqual({ affected: 1 });
+      mockProcessRepository.findOne.mockResolvedValue({ id: 1 });
+      mockProcessRepository.delete.mockResolvedValue({ affected: 1 });
+      const result = await service.remove(1);
+      expect(result).toEqual({ affected: 1 });
+      expect(mockProcessRepository.delete).toHaveBeenCalledWith(1);
     });
 
-    it('should throw NotFoundException if process not found', async () => {
-      jest.spyOn(processRepository, 'findOne').mockResolvedValue(null);
-
+    it('should throw if process not found', async () => {
+      mockProcessRepository.findOne.mockResolvedValue(undefined);
       await expect(service.remove(1)).rejects.toThrow(NotFoundException);
     });
   });

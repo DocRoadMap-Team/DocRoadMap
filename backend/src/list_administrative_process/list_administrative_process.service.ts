@@ -28,11 +28,17 @@ export class ListAdministrativeProcessService {
   }
 
   async update(id: number, dto: UpdateListAdministrativeProcessDto): Promise<ListAdministrativeProcess> {
-    await this.repo.update(id, dto);
+    const result = await this.repo.update(id, dto);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Process with ID ${id} not found`);
+    }
     return this.findOne(id);
   }
 
   async remove(id: number): Promise<void> {
-    await this.repo.delete(id);
+    const result = await this.repo.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Process with ID ${id} not found`);
+    }
   }
 }

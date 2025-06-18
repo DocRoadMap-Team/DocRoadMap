@@ -37,28 +37,6 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="emailConfirmation"
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          href: null,
-          headerShown: false,
-          tabBarStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="forgottenPassword"
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          href: null,
-          headerShown: false,
-          tabBarStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
         name="index"
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
@@ -105,40 +83,6 @@ export default function TabLayout() {
               color={color}
             />
           ),
-        }}
-      />
-      <Tabs.Screen
-        name="process"
-        options={{
-          title: "Process",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "code-slash" : "code-slash-outline"}
-              color={color}
-            />
-          ),
-          href: null,
-          headerShown: false,
-          tabBarStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="steps"
-        options={{
-          title: "Steps",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "code-slash" : "code-slash-outline"}
-              color={color}
-            />
-          ),
-          href: null,
-          headerShown: false,
-          tabBarStyle: {
-            display: "none",
-          },
         }}
       />
       <Tabs.Screen

@@ -29,7 +29,8 @@
     "generate_roadmap": "Generar nueva hoja de ruta",
     "my_reminders": "Mis recordatorios",
     "error": "Error",
-    "error_message": "No se pueden recuperar las tarjetas de los procesos administrativos. Por favor, intente de nuevo"
+    "error_message": "No se pueden recuperar las tarjetas de los procesos administrativos. Por favor, intente de nuevo",
+    "close": "Cerca"
   },
   "change_theme": "Cambiar Tema",
   "back_to_profile": "Volver al Perfil",
@@ -62,7 +63,7 @@
   "validationError": "Error de validación",
   "fillAllFields": "Por favor, complete todos los campos",
   "success": "Éxito",
-  "processCreated": "¡Proceso creado!",
+  "processCreated": "  ✅ ¡Proceso creado!",
   "creationFailed": "Error al crear el proceso administrativo. Inténtelo más tarde",
   "processNamePlaceholder": "Nombre del proceso administrativo",
   "processDescriptionPlaceholder": "Descripción del proceso administrativo",
@@ -74,5 +75,321 @@
   "sendButton": "Enviar",
   "fr": "Francés",
   "en": "Inglés",
-  "es": "Español"
+  "es": "Español",
+  "follow": "Pasos a seguir:",
+  "restart": "🔁  Empezar de nuevo",
+  "enterProcess": "Escribe el nombre del proceso (vivienda, mudanza, empleo, independencia)",
+  "rappel": "Recordatorio",
+  "begin_soon": "Tu evento comienza pronto",
+  "added_event": "📅 Evento añadido",
+  "real_calendar": "📅 Has añadido un evento al calendario real de tu teléfono",
+  "error_date": "Error, por favor elige una fecha",
+  "error_event_name": "Error, por favor elige un nombre para el evento",
+  "error_imposible_add": "Error, no se pudo añadir el evento",
+  "add_event": "Añadir un evento",
+  "today_event": "Eventos de hoy:",
+  "event_name": "Nombre del evento",
+  "event_description": "Descripción del evento",
+  "event_date": "Elige la fecha del evento",
+  "event_end": "Elige la fecha de finalización del evento",
+  "notification_choose": "¿Quieres recibir un recordatorio?",
+  "yes": "Sí",
+  "no": "No",
+  "reminder_time": "¿Cuánto tiempo antes del evento?",
+  "cancel": "Cancelar",
+  "start_question": "¿Qué trámite deseas realizar?",
+  "start_option_dem": "Mudanza en Francia",
+  "start_option_logement": "Ayudas para el alojamiento",
+  "start_option_independance": "Me voy de casa de mis padres",
+  "start_option_emploi": "Estoy buscando empleo",
+
+  "dem_1_question": "¿Cuál es tu situación antes de mudarte?",
+  "dem_1_option_locataire": "Soy inquilino",
+  "dem_1_option_proprietaire": "Soy propietario",
+
+  "dem_2_question": "¿A dónde te mudas?",
+  "dem_2_option_meme_commune": "Dentro del mismo municipio",
+  "dem_2_option_autre_commune": "A otro municipio",
+
+  "dem_3_question": "¿Cuál es tu nacionalidad?",
+  "dem_3_option_francais": "Francés",
+  "dem_3_option_ue": "Europeo (UE)",
+  "dem_3_option_etranger": "Extranjero (otro país)",
+
+  "dem_4_question": "¿Tienes uno o varios hijos?",
+  "dem_4_option_oui": "Sí",
+  "dem_4_option_non": "No",
+
+  "dem_5_question": "¿Cuál es tu situación profesional?",
+  "dem_5_option_salarie": "Empleado del sector privado",
+  "dem_5_option_agent_public": "Funcionario público",
+  "dem_5_option_demandeur": "Buscador de empleo",
+  "dem_5_option_retraite": "Jubilado",
+
+  "dem_step_1_title": "Trámites relacionados con la vivienda que dejo",
+  "dem_step_1_option_1": "Soy inquilino",
+  "dem_step_1_answer_1": "Antes de dejar mi vivienda:\n- Debo notificar a mi propietario (o arrendador) respetando un plazo de preaviso, que puede ser de 1 o 3 meses.\n- Luego debo hacer un inventario de salida con él o su representante (agente inmobiliario). En esa ocasión, le indico mi nueva dirección. Si se niega a hacerlo, puedo acudir a un agente judicial (anteriormente alguacil de justicia o comisario-priseur).\nRecuperaré el depósito de garantía que le pagué en el plazo de 1 o 2 meses tras mi salida.\nAtención:\nDebo conservar los documentos relacionados con esta vivienda durante un tiempo determinado.",
+
+  "dem_step_1_option_2": "Soy propietario",
+  "dem_step_1_answer_2": "Si soy copropietario y vendo un lote de copropiedad, debo informar al administrador del edificio de mi nueva dirección y pedir un estado de cuenta de los gastos comunes.\nAtención: Debo conservar los documentos relacionados con esta vivienda durante un tiempo determinado.",
+
+  "dem_step_2_title": "Hijos",
+  "dem_step_2_option_1": "Sí",
+  "dem_step_2_answer_1": "- Si mis hijos están en preescolar o primaria, debo solicitar el cambio de escuela o mantenerlos en su antigua escuela.\n- Si están en secundaria o preparatoria, puede ser necesario cambiar de establecimiento. Puedo informarme sobre las ayudas disponibles para el transporte escolar.\n- Es posible que deba reorganizar el cuidado de los niños fuera del horario escolar.\nAtención:\nEn caso de separación, se debe informar al otro progenitor y, si es necesario, adaptar el derecho de visita y custodia.",
+  "dem_step_2_option_2": "No",
+
+  "dem_step_3_title": "Elegir el transporte (empresa de mudanza)",
+  "dem_step_3_answer_1": "Cuando contrato a una empresa de mudanza profesional:\n\n- La empresa es responsable en caso de pérdida o daño durante el transporte. Puedo solicitar una compensación.\n- Puedo recibir una indemnización por retraso\n- Puedo obtener un presupuesto gratuito\n- Puedo verificar si la empresa está registrada oficialmente\n\nSi no contrato a un profesional:\n\nNo recibiré compensación por robos o daños durante el transporte\n- Soy responsable por daños materiales (al inmueble) o accidentes corporales\n- Puedo ser procesado judicialmente si recurro al trabajo ilegal",
+
+  "dem_step_4_title": "Ayudas para el pago de los gastos de mudanza",
+  "dem_step_4_option_1": "Sí",
+  "dem_step_4_answer_1": "Viva solo o en pareja, puedo contactar con mi ayuntamiento o mi departamento para, eventualmente, obtener una ayuda para pagar mis gastos de mudanza (factura del servicio de mudanza, alquiler de camión...) o de instalación (compra de muebles de primera necesidad...). Se trata especialmente de la ayuda proporcionada por el Fondo de Solidaridad para la Vivienda (FSL).\n\nSi tengo al menos 3 hijos (nacidos o por nacer), puedo obtener una prima de mudanza de la Caf o la MSA para ayudarme a cubrir los gastos de mudanza (factura del servicio de mudanza, alquiler de camión...). Debo solicitarla en los 6 meses posteriores a la mudanza.\n\nRecordatorio:\n\nComo trabajador asalariado, consulto el convenio colectivo al que pertenezco para saber si mi empresa cubre total o parcialmente mis gastos de mudanza.\n\nSi acabo de ingresar a la función pública estatal (como funcionario en prácticas o titular), puedo obtener la Ayuda para la Instalación del Personal del Estado (AIP), bajo ciertas condiciones.",
+
+  "dem_step_4_option_2": "No",
+  "dem_step_4_answer_2": "Viva solo o en pareja, puedo contactar con mi ayuntamiento o mi departamento para, eventualmente, obtener una ayuda para pagar mis gastos de mudanza (factura del servicio de mudanza, alquiler de camión...) o de instalación (compra de muebles de primera necesidad...). Se trata especialmente de la ayuda proporcionada por el Fondo de Solidaridad para la Vivienda (FSL).\n\nRecordatorio:\n\nComo trabajador asalariado, consulto el convenio colectivo al que pertenezco para saber si mi empresa cubre total o parcialmente mis gastos de mudanza.\n\nSi acabo de ingresar a la función pública estatal (como funcionario en prácticas o titular), puedo obtener la Ayuda para la Instalación del Personal del Estado (AIP), bajo ciertas condiciones.",
+
+  "dem_step_5_title": "Días de permiso",
+  "dem_step_5_option_1": "Empleado del sector privado",
+  "dem_step_5_answer_1": "Puedo obtener eventualmente un permiso por mudanza, si está previsto por un acuerdo colectivo o por el convenio colectivo aplicable en mi empresa.",
+  "dem_step_5_option_2": "Funcionario público",
+  "dem_step_5_answer_2": "Puedo obtener eventualmente una autorización de ausencia.",
+  "dem_step_5_option_3": "Persona en búsqueda de empleo",
+  "dem_step_5_option_4": "Jubilado",
+
+  "dem_step_6_title": "Seguro de vivienda",
+  "dem_step_6_answer_1": "Si había contratado un seguro de vivienda para el alojamiento que dejo, debo cancelarlo.\n\nEn cuanto a mi nuevo alojamiento:\n\nSi soy inquilino, debo firmar un contrato de seguro que cubra los riesgos locativos. También puedo contratar garantías adicionales para estar mejor cubierto en caso de siniestros.\nSi soy copropietario, las reglas de suscripción del seguro de vivienda dependen del tipo de copropiedad (con un solo o varios contratos de alquiler).\nSi soy propietario, puedo contratar un seguro de vivienda, aunque no estoy obligado. Pero si mi vivienda está en una copropiedad, debo suscribir el seguro impuesto por la copropiedad.",
+
+  "dem_step_7_title": "Agua, electricidad, gas, teléfono, televisión, internet",
+  "dem_step_7_answer_1": "Electricidad, gas\nRealizo los trámites necesarios con mis proveedores de electricidad y gas.\nPuedo consultar los proveedores disponibles en mi futuro municipio:\nIdentificar los proveedores de electricidad o gas por municipio: https://comparateur-offres.energie-info.fr/calculette/process/suppliers-list?zipcode=\n\nAgua, teléfono, televisión, internet\nInformo a las empresas que gestionan mis cuentas o suscripciones actuales o futuras: servicios de agua, operadores de telefonía, televisión, internet.\nMe informo sobre cómo puedo tener acceso a internet en mi nuevo alojamiento.\nNota\n\nSi mi operador no ofrece servicio en mi nuevo domicilio, puedo solicitar la cancelación del contrato sin penalización por motivo legítimo.",
+
+  "dem_step_8_title": "Reenvío de correo",
+  "dem_step_8_answer_1": "Puedo reenviar mi correo a mi nueva dirección utilizando el servicio de pago de La Poste: https://www.laposte.fr/demenagement-absence",
+
+  "dem_step_9_title": "Declaración de cambio de domicilio",
+  "dem_step_9_option_1": "Empleado del sector privado",
+  "dem_step_9_answer_1": "Declaración única y en línea a la CPAM, impuestos, EDF, France Travail, Caf...\n\nPuedo declarar en línea y en una sola operación mi cambio de dirección ante varios organismos (CPAM, impuestos, EDF, France Travail, Caf...):\nDeclaración en línea: https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=balzS22bLtXcqK4vPbGsMCexPyi-qidsA0V0Dyz_uGc%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid_connect_login&nonce=pHLCVO3vzTvUwKBtj8XD_KNRQRZds1akgBjlyyDSk6Q\n\nAdministraciones\nDebo informar al servicio de impuestos.\n\nOrganismos sociales\nDebo informar a los organismos que gestionan las prestaciones que me conciernen:\n- Caja de asignaciones familiares (Caf) o Mutualidad Social Agrícola (MSA)\n- Caja primaria del seguro de enfermedad (CPAM) u otro organismo si soy funcionario público\n- Seguro complementario de salud, mutua\n\nBanco - Seguros\nDebo comunicar mi nueva dirección a:\n- Mis bancos\n- Mi aseguradora de automóvil\n- Mi aseguradora de vida\n\nEmpleo - Trabajo\nSi soy asalariado, debo informar a mi empleador.\n\nAdministrador de copropiedad\nSi tengo uno o varios lotes en copropiedad (apartamento, parking...), informo al administrador para que me avise de la próxima asamblea general.",
+
+  "dem_step_9_option_2": "Funcionario público",
+  "dem_step_9_answer_2": "Declaración única y en línea a la CPAM, impuestos, EDF, France Travail, Caf...\n\nPuedo declarar en línea y en una sola operación mi cambio de dirección ante varios organismos:\nDeclaración en línea: https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=balzS22bLtXcqK4vPbGsMCexPyi-qidsA0V0Dyz_uGc%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid_connect_login&nonce=pHLCVO3vzTvUwKBtj8XD_KNRQRZds1akgBjlyyDSk6Q\n\nAdministraciones\nDebo informar al servicio de impuestos.\n\nOrganismos sociales\n- Caja de asignaciones familiares (Caf) o Mutualidad Social Agrícola (MSA)\n- Caja primaria del seguro de enfermedad (CPAM) u otro organismo si soy funcionario\n- Seguro complementario de salud, mutua\n\nBanco - Seguros\n- Mis bancos\n- Mi aseguradora de automóvil\n- Mi aseguradora de vida\n\nEmpleo - Trabajo\nSi soy funcionario, debo informar a mi administración.\n\nAdministrador de copropiedad\nMismo procedimiento si soy copropietario.",
+
+  "dem_step_9_option_3": "Persona en búsqueda de empleo",
+  "dem_step_9_answer_3": "Declaración única y en línea a la CPAM, Hacienda, EDF, France Travail, Caf...\n\nPuedo declarar en línea mi cambio de dirección ante varios organismos:\nDeclaración en línea: https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=balzS22bLtXcqK4vPbGsMCexPyi-qidsA0V0Dyz_uGc%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid_connect_login&nonce=pHLCVO3vzTvUwKBtj8XD_KNRQRZds1akgBjlyyDSk6Q\n\nAdministraciones y organismos sociales: mismos trámites\n\nEmpleo - Trabajo\nDebo actualizar mi situación en France Travail.\n\nAdministrador de copropiedad\nLo mismo si soy copropietario.",
+
+  "dem_step_9_option_4": "Jubilado",
+  "dem_step_9_answer_4": "Declaración única y en línea a la CPAM, Hacienda, EDF, France Travail, Caf...\n\nPuedo declarar en línea mi cambio de dirección ante varios organismos:\nDeclaración en línea: https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=LeJS-NUeAnHarFZ52rZL282HZTJQctIA42c2mcNtuzg%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid_connect_login&nonce=pTx0lOl6v80wV7lKEuDPamIUUhyX_m_tOZZkZbuJG7c\n\nOrganismos a informar:\n- Caja de asignaciones familiares (Caf), MSA\n- CPAM u otro organismo\n- Mutua o seguro de salud complementario\n- Caja de jubilación\n- Banco y aseguradoras\n\nAdministrador de copropiedad si aplica",
+
+  "dem_step_10_title": "Permiso de circulación y carné de conducir",
+  "dem_step_10_answer_1": "Permiso de circulación\n\nCaso general\n\nDebo registrar mi nueva dirección en el permiso de circulación (carte grise).\n\nArrendamiento o alquiler de larga duración\n\nSi mi vehículo está en leasing o alquiler a largo plazo (LLD), debo contactar con la entidad financiera para que haga el trámite de cambio de dirección.\n\nCarné de conducir\n\nNo estoy obligado a cambiar la dirección en mi carné de conducir. Por ejemplo, podré hacerlo si solicito uno nuevo en caso de pérdida, robo, etc.",
+
+  "dem_step_11_title": "Documentos de identidad",
+  "dem_step_11_option_1": "Francés",
+  "dem_step_11_answer_1": "Soy francés\n\nNo estoy obligado a modificar la dirección que figura en mi documento nacional de identidad ni en mi pasaporte.\nPero si quiero que aparezca mi nueva dirección, debo solicitar la renovación de mi documento de identidad y pasaporte.\nSi tengo entre 16 y 25 años, debo informar a mi centro de servicio nacional.",
+
+  "dem_step_11_option_2": "Europeo (UE)",
+  "dem_step_11_answer_2": "Si soy ciudadano de un Estado miembro de la Unión Europea y tengo una tarjeta de residencia UE (no obligatoria), debo solicitar su modificación.",
+
+  "dem_step_11_option_3": "Extranjero (otro país)",
+  "dem_step_11_answer_3": "Debo solicitar la modificación de mi permiso de residencia: https://www.service-public.fr/particuliers/vosdroits/N110",
+
+  "dem_step_12_title": "Listas electorales",
+  "dem_step_12_option_1": "En el mismo municipio",
+  "dem_step_12_answer_1": "POR HACER",
+  "dem_step_12_option_2": "En otro municipio",
+  "dem_step_12_answer_2": "POR HACER",
+
+  "dem_step_13_title": "Mascota",
+  "dem_step_13_answer_1": "Si tengo un perro, un gato o un hurón identificado (tatuado o con microchip), debo indicar mi nueva dirección en el fichero nacional de identificación de carnívoros domésticos (fichero I-Cad).",
+
+  "dem_step_14_title": "Salud",
+  "dem_step_14_answer_1": "Puedo elegir un nuevo médico de cabecera, por ejemplo si su consulta está más cerca de mi nuevo domicilio.",
+
+  "logement_1_question": "¿Tienes un contrato de alquiler firmado?",
+  "logement_1_option_1": "Sí",
+  "logement_1_option_2": "No",
+
+  "aide_log_step_1_title": "Alojamiento",
+  "aide_log_step_1_question": "logement_1",
+  "aide_log_step_1_option_1": "Sí",
+  "aide_log_step_1_answer_1": "Puedes solicitar la APL en https://www.caf.fr/. Necesitarás: tu contrato de alquiler, tu RIB, tu documento de identidad y tu número de beneficiario (si tienes uno).",
+  "aide_log_step_1_option_2": "No",
+  "aide_log_step_1_answer_2": "Primero debes firmar un contrato de alquiler para ser elegible para la APL. Piensa en buscar un alojamiento que cumpla los requisitos para recibir ayudas.",
+
+  "independance_1_question": "¿Cuál es tu situación?",
+  "independance_1_option_1": "Soy estudiante (incluido aprendiz o en alternancia)",
+  "independance_1_option_2": "Otro",
+
+  "independance_2_question": "¿Qué tipo de alojamiento estás buscando?",
+  "independance_2_option_1": "Alojamiento del Crous (vivienda social)",
+  "independance_2_option_2": "Alojamiento de un propietario",
+  "independance_2_option_3": "Habitación amueblada en casa particular",
+
+  "independance_2bis_question": "¿Qué tipo de alojamiento estás buscando?",
+  "independance_2bis_option_1": "Vivienda social",
+  "independance_2bis_option_2": "Alojamiento de un propietario",
+
+  "independance_2_5_question": "¿Cuál es tu situación profesional?",
+  "independance_2_5_option_1": "Soy asalariado",
+  "independance_2_5_option_2": "Soy funcionario público (titular o contratado)",
+  "independance_2_5_option_3": "Otro",
+
+  "independance_3_question": "¿Cuál es tu nacionalidad?",
+  "independance_3_option_1": "Francés",
+  "independance_3_option_2": "Europeo (UE)",
+  "independance_3_option_3": "Otra situación",
+
+  "independance_step_1_title": "Tipo de alojamiento",
+  "independance_step_1_question": "independance_2",
+  "independance_step_1_option_1": "Alojamiento del Crous (vivienda social)",
+  "independance_step_1_answer_1": "Puedo solicitar una vivienda estudiantil al Crous.\n\nDebo utilizar este teleservicio:\n\nMis servicios estudiantiles\n\nEste alojamiento, ubicado en una residencia universitaria u otra residencia dedicada a estudiantes, se asigna según condiciones de recursos.\n\nTengo prioridad para este tipo de vivienda si recibo una beca basada en criterios sociales.\n\nAl instalarme en la vivienda, debo:\n\n- Proporcionar un depósito de garantía. Si es necesario, puedo solicitar el adelanto loca-pass (préstamo sin intereses)\n- Presentar una fianza que se comprometa a pagar el alquiler y los gastos si no puedo hacerlo. Puede ser una persona física (padre, amigo...) o una persona moral (como la garantía Visale).",
+  "independance_step_1_option_2": "Alojamiento de un propietario",
+  "independance_step_1_answer_2": "Puedo convertirme en inquilino:\n\n- De una vivienda vacía, con contrato de arrendamiento habitual\n- De una vivienda amueblada, con contrato de arrendamiento clásico o contrato de movilidad (en ciertas condiciones)\n\nNota:\n\nPuedo ser el único inquilino, compartir con otros (colocación), o alquilarla con mi pareja (casado, pareja de hecho, conviviente).\n\nPara encontrar el alojamiento, puedo:\n\n- Consultar ofertas en Lokaviz\n- Acudir a una agencia inmobiliaria (tendré que pagar gastos de visita, expediente, estado de entrada...)\n- Usar DossierFacile.fr para mostrar la seriedad de mi candidatura al propietario\n\nAntes de firmar el contrato, el propietario puede exigir una fianza. Esta puede ser una persona física (padre, amigo...) o una entidad como Visale.\n\nAdemás, puedo:\n\n- Solicitar el adelanto loca-pass para cubrir el depósito de garantía exigido al firmar el contrato\n- Solicitar ayuda del Fondo de Solidaridad para la Vivienda (FSL) para instalarme\n\nAl recibir las llaves, debo realizar el inventario de entrada con el propietario o su representante (por ejemplo, agente inmobiliario).",
+  "independance_step_1_option_3": "Habitación amueblada en casa particular",
+  "independance_step_1_answer_3": "Puedo alquilar una habitación amueblada en casa de un particular.\n\nLa habitación debe tener al menos 9 m², una ventana, calefacción y estar amueblada con lo básico (cama, mesa, silla, almacenamiento, iluminación).\n\nSi no tiene cocina ni baño privado, se debe redactar un contrato con un anexo que indique que el propietario comparte esas instalaciones con el inquilino.\n\nEn todos los casos, se recomienda firmar un contrato de arrendamiento clásico para vivienda amueblada o un contrato de movilidad.\n\nPara encontrar este alojamiento, puedo consultar ofertas en Lokaviz.",
+
+  "independance_step_1bis_title": "Tipo de alojamiento",
+  "independance_step_1bis_question": "independance_2bis",
+  "independance_step_1bis_option_1": "Vivienda social",
+  "independance_step_1bis_answer_1": "Hago una solicitud de vivienda social, que se asigna según condiciones de ingresos.\n\nPuedo consultar el sitio Bienvéo para ver las viviendas disponibles:\n\nSolicitud de vivienda social en línea (y renovación)\n\nSi soy funcionario del Estado en Île-de-France:\n\nTengo acceso a la Bolsa de Vivienda de los Funcionarios del Estado (BALAE) con ofertas interministeriales.\nTambién puedo recurrir a una solución de alojamiento temporal.\nPuedo solicitar el adelanto Loca-Pass para cubrir el depósito de garantía exigido al firmar el contrato.\n\nPara hacer la solicitud, debo usar este teleservicio:\n\nSolicitar un adelanto Loca-Pass\n\nAtención\n\nNo debo olvidar el inventario. Es obligatorio y debe realizarse con el arrendador al momento de entregar las llaves.",
+  "independance_step_1bis_option_2": "Alojamiento de un propietario",
+  "independance_step_1bis_answer_2": "Puedo convertirme en inquilino:\n\n- De una vivienda vacía, con contrato de arrendamiento\n- De una vivienda amueblada, con contrato clásico o de movilidad (en ciertas condiciones)\n\nNota:\n\nPuedo ser el único inquilino, compartir el alojamiento o vivir con mi pareja.\n\nPara encontrar el alojamiento, puedo:\n\n- Acudir a una agencia inmobiliaria (puede implicar gastos de visita, expediente...)\n- Usar DossierFacile para mostrar la seriedad de mi candidatura\n\nEl propietario puede requerir una fianza (persona física o garantía Visale).\n\nAdemás:\n\n- Puedo solicitar el adelanto loca-pass para cubrir el depósito de garantía\n- Puedo solicitar ayuda del FSL para instalarme\n\nAl entregar las llaves, se debe realizar el inventario de entrada con el propietario o su representante.",
+
+  "independance_step_2_title": "Elegir el modo de mudanza",
+  "independance_step_2_question": "independance_1",
+  "independance_step_2_option_1": "Soy estudiante (incluido aprendiz o en alternancia)",
+  "independance_step_2_option_2": "Otro",
+  "independance_step_2_answer_2": "Si recurro a un profesional de la mudanza, este es responsable en caso de pérdida o daño de objetos, y puedo reclamar una compensación.\n\nAdemás:\n\n- Puedo recibir una indemnización en caso de retraso\n- Obtener un presupuesto gratuito\n- Verificar si está inscrito en el registro oficial de transportistas\n\nSi no recurro a un profesional:\n\n- No tengo recurso si hay daños o robos\n- Soy responsable de los daños al edificio o de accidentes\n- Puedo ser sancionado por recurrir al trabajo ilegal (si aplica)",
+
+  "independance_step_3_title": "Ayudas económicas para la mudanza",
+  "independance_step_3_question": "independance_2_5",
+  "independance_step_3_option_1": "Soy asalariado",
+  "independance_step_3_answer_1": "Mi municipio o departamento puede ofrecer ayudas económicas para personas solas o en pareja que se mudan (factura del servicio de mudanza, alquiler de camión, etc.), a través del Fondo de Solidaridad para la Vivienda (FSL). También puede tratarse de una ayuda para la instalación (compra de muebles esenciales).\n\nMe informo en el ayuntamiento.\n\nComo asalariado, puedo recibir una ayuda para la mudanza, bajo ciertas condiciones:\n\nDebo consultar el convenio colectivo al que pertenezco para saber si mi empresa cubre estos gastos.",
+  "independance_step_3_option_2": "Soy funcionario público (titular o contratado)",
+  "independance_step_3_answer_2": "Mi municipio o departamento puede ofrecer ayudas económicas para personas solas o en pareja que se mudan (factura del servicio de mudanza, alquiler de camión, etc.), a través del Fondo de Solidaridad para la Vivienda (FSL). También puede tratarse de una ayuda para la instalación (compra de muebles esenciales).\n\nMe informo en el ayuntamiento.\n\nSi acabo de entrar en la función pública estatal, puedo solicitar la Ayuda a la Instalación del Personal del Estado (AIP), bajo ciertas condiciones.",
+  "independance_step_3_option_3": "Otro",
+
+  "independance_step_4_title": "Calefacción, agua, electricidad e internet",
+  "independance_step_4_question": "independance_2",
+  "independance_step_4_option_1": "Alojamiento del Crous (vivienda social)",
+  "independance_step_4_answer_1": "El precio del consumo de agua y electricidad está incluido en el alquiler.\nLa conexión a internet está disponible en la habitación y posiblemente en una sala común. Su coste también está incluido en el alquiler.",
+  "independance_step_4_option_2": "Alojamiento de un propietario",
+  "independance_step_4_answer_2": "Contrato una oferta con un operador de telefonía, televisión e internet. Estos gastos corren por mi cuenta.\nDebo pagar el consumo de agua, gas y electricidad, que forman parte de los cargos del alquiler.\nNota:\n\nLas posibles reparaciones locativas son mi responsabilidad durante todo el contrato.",
+  "independance_step_4_option_3": "Habitación amueblada en casa particular",
+  "independance_step_4_answer_3": "Normalmente, el propietario no pide al estudiante que pague la conexión a internet.\n\nSin embargo, sí cobra un paquete de gastos por electricidad, gas y agua. Este debe figurar en el contrato de alquiler.",
+
+  "independance_step_4bis_title": "Calefacción, agua, electricidad e internet",
+  "independance_step_4bis_question": "independance_1",
+  "independance_step_4bis_option_1": "Soy estudiante (incluido aprendiz o en alternancia)",
+  "independance_step_4bis_option_2": "Otro",
+  "independance_step_4bis_answer_2": "Contrato una oferta con un operador de telefonía, televisión e internet. El coste de estas comunicaciones corre por mi cuenta.\nDebo pagar los gastos de consumo de agua, gas y electricidad que forman parte de los cargos del alquiler.\nNota:\n\nLas posibles reparaciones locativas corren por mi cuenta durante toda la duración del contrato.",
+
+  "independance_step_5_title": "Ayuda para el alojamiento (APL, ALS, ALF)",
+  "independance_step_5_question": "independance_2",
+  "independance_step_5_option_1": "Alojamiento del Crous (vivienda social)",
+  "independance_step_5_answer_1": "Puedo solicitar una ayuda para el alojamiento a la Caf.\n\nPara solicitarla, utilizo este teleservicio:\n\nSolicitud de ayuda para el alojamiento en línea\n\nPara saber si tengo derecho a estas ayudas y cuál es su importe, utilizo este simulador:\n\nCaf: estimar el derecho a las ayudas al alojamiento y calcular su importe\n\nNota:\n\nSi tengo un contrato de alternancia en una empresa del sector agrícola privado, puedo obtener la ayuda Agri-Mobili-Jeune en ciertos casos. Puedo comprobar mi elegibilidad y hacer la solicitud a través de un teleservicio.\n\nSi tengo un contrato de alternancia en otra empresa del sector privado, también puedo obtener la ayuda Mobili-Jeune en ciertos casos. Puedo comprobar mi elegibilidad y hacer la solicitud a través de un teleservicio.",
+
+  "independance_step_5_option_2": "Alojamiento de un propietario",
+  "independance_step_5_answer_2": "Puedo beneficiarme de una ayuda para el alojamiento de la Caf bajo ciertas condiciones.\n\nPara solicitarla, utilizo este teleservicio:\n\nSolicitud de ayuda para el alojamiento en línea\n\nPara saber si tengo derecho a estas ayudas y cuál es su importe, utilizo este simulador:\n\nCaf: estimar el derecho a las ayudas al alojamiento y calcular su importe\n\nNota:\n\nSi tengo un contrato de alternancia en una empresa del sector agrícola privado, puedo obtener la ayuda Agri-Mobili-Jeune en ciertos casos. Puedo comprobar mi elegibilidad y hacer la solicitud a través de un teleservicio.\n\nSi tengo un contrato de alternancia en otra empresa del sector privado, también puedo obtener la ayuda Mobili-Jeune en ciertos casos. Puedo comprobar mi elegibilidad y hacer la solicitud a través de un teleservicio.",
+
+  "independance_step_5_option_3": "Habitación amueblada en casa particular",
+  "independance_step_5_answer_3": "Puedo solicitar una ayuda al alojamiento de la Caf, siempre que haya firmado un contrato de alquiler.\n\nPara ello, utilizo este teleservicio:\n\nSolicitud de ayuda para el alojamiento en línea\n\nPara saber si tengo derecho a estas ayudas y cuál es su importe, utilizo este simulador:\n\nCaf: estimar el derecho a las ayudas al alojamiento y calcular su importe\n\nNota:\n\nSi tengo un contrato de alternancia en una empresa del sector agrícola privado, puedo obtener la ayuda Agri-Mobili-Jeune en ciertos casos. Puedo comprobar mi elegibilidad y hacer la solicitud a través de un teleservicio.\n\nSi tengo un contrato de alternancia en otra empresa del sector privado, también puedo obtener la ayuda Mobili-Jeune en ciertos casos. Puedo comprobar mi elegibilidad y hacer la solicitud a través de un teleservicio.",
+
+  "independance_step_5bis_title": "Ayuda para el alojamiento (APL, ALS, ALF)",
+  "independance_step_5bis_question": "independance_1",
+  "independance_step_5bis_option_1": "Soy estudiante (incluido aprendiz o en alternancia)",
+  "independance_step_5bis_option_2": "Otro",
+  "independance_step_5bis_answer_2": "Puedo beneficiarme de una ayuda al alojamiento de la Caf, bajo ciertas condiciones.\nDebo solicitarla mediante este teleservicio:\nSolicitud de ayuda para el alojamiento en línea\nPara saber si tengo derecho y cuál sería el importe, utilizo este simulador:\nCaf: estimar el derecho a las ayudas al alojamiento y calcular su importe",
+
+  "independance_step_6_title": "Seguro de vivienda",
+  "independance_step_6_answer_1": "Si soy inquilino, debo contratar un seguro que cubra los riesgos locativos. También puedo contratar garantías adicionales para estar mejor cubierto en caso de siniestros. Pero si alquilo una habitación amueblada en casa de un particular y el propietario ya ha contratado un seguro completo, no estoy obligado a contratar otro seguro.\nSi soy copropietario, las normas de suscripción del seguro de vivienda dependen del tipo de contrato de arrendamiento (único o múltiple).",
+
+  "independance_step_7_title": "Seguro del alojamiento",
+  "independance_step_7_question": "independance_1",
+  "independance_step_7_option_1": "Soy estudiante (incluido aprendiz o en alternancia)",
+  "independance_step_7_option_2": "Otro",
+  "independance_step_7_answer_2": "Como inquilino, debo contratar un seguro para el alojamiento alquilado.",
+
+  "independance_step_8_title": "Reenvío del correo",
+  "independance_step_8_question": "independance_1",
+  "independance_step_8_option_1": "Soy estudiante (incluido aprendiz o en alternancia)",
+  "independance_step_8_answer_1": "Debo informar a mi centro educativo de mi cambio de dirección.\n\nPuedo reenviar mi correo a mi nueva dirección utilizando el servicio ofrecido por La Poste:\n\nReenvío de correo en caso de mudanza",
+  "independance_step_8_option_2": "Otro",
+  "independance_step_8_answer_2": "Puedo reenviar mi correo a mi nueva dirección utilizando el servicio ofrecido por La Poste:\n\nReenvío de correo en caso de mudanza",
+
+  "independance_step_9_title": "Jornada de defensa y ciudadanía (JDC)",
+  "independance_step_9_question": "independance_1",
+  "independance_step_9_option_1": "Soy estudiante (incluido aprendiz o en alternancia)",
+  "independance_step_9_answer_1": "Después de haberme registrado como ciudadano a los 16 años, debo participar en una JDC.\nSi quiero hacer la JDC cerca de mi nueva dirección, debo notificarla a mi centro de servicio nacional.\nNota\nHasta los 25 años, debo informar a mi centro de servicio nacional de cualquier cambio de situación (familiar, profesional, mudanza) que me afecte.",
+  "independance_step_9_option_2": "Otro",
+
+  "independance_step_10_title": "Ayudas para utilizar el transporte público",
+  "independance_step_10_answer_1": "Me informo sobre las ayudas a las que puedo acceder: https://www.service-public.fr/particuliers/vosdroits/F34964",
+
+  "independance_step_11_title": "Impuestos",
+  "independance_step_11_question": "independance_1",
+  "independance_step_11_option_1": "Soy estudiante (incluido aprendiz o en alternancia)",
+  "independance_step_11_answer_1": "Si soy inquilino de una vivienda que pertenece a un propietario privado, debo pagar una tasa o contribución por la recolección de residuos, en algunas comunas.",
+  "independance_step_11_option_2": "Otro",
+  "independance_step_11_answer_2": "En algunas comunas, debo pagar una tasa o contribución por la recolección de residuos domésticos para financiar el servicio.\nRecordatorio\nA partir de los 18 años, si no estoy incluido en la declaración fiscal de mis padres, debo presentar mi propia declaración de impuestos.",
+
+  "independance_step_12_title": "Salud",
+  "independance_step_12_question": "independance_1",
+  "independance_step_12_option_1": "Soy estudiante (incluido aprendiz o en alternancia)",
+  "independance_step_12_answer_1": "Puedo elegir un nuevo médico de cabecera, por ejemplo si su consultorio está más cerca de mi nuevo domicilio.\nMe informo sobre las normas vigentes respecto a la afiliación de los estudiantes a la seguridad social.",
+  "independance_step_12_option_2": "Otro",
+  "independance_step_12_answer_2": "Puedo elegir un nuevo médico de cabecera, por ejemplo si su consultorio está más cerca de mi nuevo domicilio.",
+
+  "independance_step_13_title": "Si mi mudanza es definitiva",
+  "independance_step_13_question": "independance_3",
+  "independance_step_13_option_1": "Soy francés",
+  "independance_step_13_answer_1": "Si dejo el domicilio de mis padres de forma definitiva, debo:\n\n- Declarar mi cambio de dirección ante diversos organismos y empresas. Puedo hacerlo por internet y en una sola operación para La Poste, France Travail (antes Pôle emploi), Hacienda, etc.\n- Actualizar mi situación ante las empresas que gestionan mis contratos y suscripciones (banco, teléfono, seguro de coche...)\n- Registrar mi nueva dirección en el certificado de matriculación (carte grise) de mi coche. No es necesario cambiar la dirección del permiso de conducir; podré hacerlo al solicitar un nuevo permiso (por pérdida, robo, nueva categoría...)\n- Modificar mis documentos de identidad y mi tarjeta electoral, según mi nacionalidad:\n  Responde a las preguntas sucesivas y las respuestas aparecerán automáticamente\n  Soy francés\n\nModificar\n\nSi soy mayor de edad, debo inscribirme en las listas electorales de mi nuevo municipio (o nuevo distrito en París, Lyon o Marsella).\n\nNota\n\nSi no tengo tiempo para hacer este trámite y sigo inscrito en mi antiguo municipio, puedo votar allí, por ejemplo mediante una autorización (procuración) antes del día de la elección o acudiendo directamente a mi mesa electoral.\n\nSi tengo más de 16 años y menos de 25, debo informar a mi centro de servicio nacional de mi cambio de dirección.\n\nImportante:\nNo estoy obligado a modificar la dirección que figura en mi documento de identidad o pasaporte.",
+
+  "independance_step_13_option_2": "Soy europeo",
+  "independance_step_13_answer_2": "Si dejo el domicilio de mis padres de forma definitiva, debo:\n\n- Declarar mi cambio de dirección ante diversos organismos y empresas. Puedo hacerlo por internet y en una sola operación para La Poste, France Travail (antes Pôle emploi), Hacienda, etc.\n- Actualizar mi situación ante las empresas que gestionan mis contratos y suscripciones (banco, teléfono, seguro de coche...)\n- Registrar mi nueva dirección en el certificado de matriculación (carte grise) de mi coche. No es necesario cambiar la dirección del permiso de conducir; podré hacerlo al solicitar un nuevo permiso (por pérdida, robo, nueva categoría...)\n- Modificar mis documentos de identidad y mi tarjeta electoral, según mi nacionalidad:\n  Responde a las preguntas sucesivas y las respuestas aparecerán automáticamente\n  Soy europeo\n\nModificar\n\nSi soy ciudadano de otro Estado miembro de la Unión Europea:\n\n- Puedo inscribirme en las listas electorales de mi nuevo municipio para participar en las elecciones municipales y/o las elecciones europeas 2024 (para elegir a los representantes franceses en el Parlamento Europeo)\n- Si tengo una tarjeta de residencia UE (no obligatoria), debo modificarla.",
+
+  "independance_step_13_option_3": "Otra situación",
+  "independance_step_13_answer_3": "Si dejo el domicilio de mis padres de forma definitiva, debo:\n\n- Declarar mi cambio de dirección ante diversos organismos y empresas. Puedo hacerlo por internet y en una sola operación para La Poste, France Travail (antes Pôle emploi), Hacienda, etc.\n- Actualizar mi situación ante las empresas que gestionan mis contratos y suscripciones (banco, teléfono, seguro de coche...)\n- Registrar mi nueva dirección en el certificado de matriculación (carte grise) de mi coche. No es necesario cambiar la dirección del permiso de conducir; podré hacerlo al solicitar un nuevo permiso (por pérdida, robo, nueva categoría...)\n- Modificar mis documentos de identidad y mi tarjeta electoral, según mi nacionalidad:\n  Responde a las preguntas sucesivas y las respuestas aparecerán automáticamente\n  Otra situación\n\nModificar\n\nDebo modificar mi permiso de residencia.",
+
+  "emploi_1_question": "¿Cuál es tu situación?",
+  "emploi_1_option_1": "Estoy buscando mi primer empleo",
+  "emploi_1_option_2": "Ya he trabajado (con contrato laboral)",
+
+  "emploi_step_1_title": "Me inscribo en France Travail",
+  "emploi_step_1_question": "emploi_1",
+  "emploi_step_1_option_1": "Estoy buscando mi primer empleo",
+  "emploi_step_1_answer_1": "Me inscribo en France Travail como demandante de empleo.\nAsisto a mi cita con la agencia de France Travail para recibir seguimiento personalizado y construir mi proyecto personalizado de acceso al empleo (PPAE).\nAtención\n\nEstoy obligado a actualizar mi situación por internet, teléfono o directamente en la agencia para confirmar que sigo en búsqueda de empleo.\nSi olvido hacerlo, corro el riesgo de ser dado de baja de la lista de demandantes de empleo.",
+  "emploi_step_1_option_2": "Ya he trabajado (con contrato laboral)",
+  "emploi_step_1_answer_2": "Me inscribo en France Travail como demandante de empleo.\nAsisto a mi cita con la agencia de France Travail para recibir seguimiento personalizado y construir mi proyecto personalizado de acceso al empleo (PPAE).\nDebo actualizar mi situación para confirmar que sigo en búsqueda activa. Si lo olvido, puedo ser dado de baja de la lista de demandantes de empleo.\nNota:\n\nPara algunos trabajadores afectados por despido económico, el acompañamiento de France Travail puede formar parte de un Contrato de Seguridad Profesional (CSP).",
+
+  "emploi_step_2_title": "Estoy buscando empleo",
+  "emploi_step_2_question": "emploi_1",
+  "emploi_step_2_option_1": "Estoy buscando mi primer empleo",
+  "emploi_step_2_answer_1": "Utilizo 'la bonne boîte' para conocer empresas que contratan sin publicar ofertas de empleo: https://labonneboite.francetravail.fr/\n- Consulto ofertas en el sitio de France Travail: https://candidat.francetravail.fr/offres/emploi y gestiono mis candidaturas con Memo\n- Consulto ofertas del Centro de Información y Documentación para la Juventud (CIDJ)\n- Consulto el sitio de la Asociación para el Empleo de Ejecutivos (Apec): https://www.apec.fr/candidat.html\n- Consulto el portal 'Elige el servicio público': https://choisirleservicepublic.gouv.fr/\n- Me informo sobre los contratos de duración determinada o el uso de la contratación temporal: https://www.service-public.fr/particuliers/vosdroits/F32476\n- Solicito un contrato de ayuda a la inserción si corresponde (joven, senior, etc.)\n- Amplío mi búsqueda a otros países de la UE o del mundo",
+
+  "emploi_step_2_option_2": "Ya he trabajado (con contrato laboral)",
+  "emploi_step_2_answer_2": "Utilizo 'la bonne boîte' para conocer empresas que contratan sin publicar ofertas de empleo: https://labonneboite.francetravail.fr/\n- Consulto ofertas en el sitio de France Travail: https://candidat.francetravail.fr/offres/emploi y gestiono mis candidaturas con Memo\n- Consulto el sitio de la Asociación para el Empleo de Ejecutivos (Apec): https://www.apec.fr/candidat.html\n- Consulto el portal 'Elige el servicio público': https://choisirleservicepublic.gouv.fr/\n- Me informo sobre los contratos de duración determinada o el uso de la contratación temporal: https://www.service-public.fr/particuliers/vosdroits/F32476\n- Solicito un contrato de ayuda a la inserción si corresponde (joven, senior, etc.)\n- Amplío mi búsqueda a otros países de la UE o del mundo\n\nNota:\n\nSi estoy en período de preaviso de despido, el empleador puede autorizarme a ausentarme algunas horas para buscar empleo.",
+
+  "emploi_step_3_title": "Puedo beneficiarme de ayudas económicas",
+  "emploi_step_3_question": "emploi_1",
+  "emploi_step_3_option_1": "Estoy buscando mi primer empleo",
+  "emploi_step_3_answer_1": "Inscribirme en France Travail me permite informarme sobre las ayudas económicas disponibles.\nTambién me informo sobre otras ayudas a las que puedo tener derecho:\n- Ingreso de Solidaridad Activa (RSA), bajo ciertas condiciones\n- Ayuda a la movilidad (bonos de transporte, SNCF, etc.)\n- Ayuda para obtener el permiso de conducir B\n- Asignación específica de solidaridad (ASS), bajo condiciones\n- Ayuda para iniciar o retomar una actividad (Arce)\n- Ayuda para el cuidado infantil, bajo ciertas condiciones",
+
+  "emploi_step_3_option_2": "Ya he trabajado (con contrato laboral)",
+  "emploi_step_3_answer_2": "Inscribirme en France Travail me permite solicitar la Asignación de Ayuda al Retorno al Empleo (ARE). Esta prestación por desempleo se concede bajo ciertas condiciones (incluso en caso de dimisión).\nPuedo estimar mis derechos con este simulador: https://candidat.francetravail.fr/portail-simulateurs/\nTambién me informo sobre otras ayudas a las que puedo tener derecho:\n- Ingreso de Solidaridad Activa (RSA), bajo condiciones\n- Ayuda a la movilidad (bonos de transporte, SNCF, etc.)\n- Ayuda al permiso B\n- Asignación específica de solidaridad (ASS)\n- Ayuda a la creación o recuperación de empresa (Arce)\n- Ayuda a la guarda de hijos para progenitores solteros (Agepi)\nSi mis ingresos han bajado:\n- Puedo, en ciertos casos, solicitar la prima de actividad\n- Si soy inquilino de vivienda social, informo al casero de mi cambio de situación. En ciertos casos, puedo obtener una reducción del suplemento de alquiler de solidaridad (SLS)",
+
+  "emploi_step_4_title": "Puedo obtener una formación",
+  "emploi_step_4_question": "emploi_1",
+  "emploi_step_4_option_1": "Estoy buscando mi primer empleo",
+  "emploi_step_4_answer_1": "- Puedo solicitar a France Travail la realización de un balance de competencias\n- Puedo buscar una formación en el sitio web de France Travail (https://candidat.francetravail.fr/formations/recherche) y en el del Centro para el desarrollo de la información sobre la formación (Centre Inffo: https://www.orientation-pour-tous.fr/)\n- También puedo comprometerme en una misión de voluntariado, formativa y remunerada",
+  "emploi_step_4_option_2": "Ya he trabajado (con contrato laboral)",
+  "emploi_step_4_answer_2": "- Solicito a France Travail un balance de competencias\n- Busco una formación en el sitio de France Travail (https://candidat.francetravail.fr/formations/recherche) y en el del Centre Inffo (https://www.orientation-pour-tous.fr/)\n- También puedo comprometerme en una misión de voluntariado, formativa y remunerada\n- Puedo solicitar una validación de los aprendizajes adquiridos por la experiencia (VAE)",
+
+  "emploi_step_5_title": "He encontrado un empleo",
+  "emploi_step_5_question": "emploi_1",
+  "emploi_step_5_option_1": "Estoy buscando mi primer empleo",
+  "emploi_step_5_answer_1": "Debo informar de mi cambio de situación a:\n\n- Mi agencia France Travail\n- Mi caja de asignaciones familiares (Caf)\n- Mi centro de servicio nacional si tengo menos de 25 años",
+  "emploi_step_5_option_2": "Ya he trabajado (con contrato laboral)",
+  "emploi_step_5_answer_2": "Debo informar de mi cambio de situación a:\n\n- Mi agencia France Travail\n- Mi caja de asignaciones familiares (Caf)\n- Mi centro de servicio nacional si tengo menos de 25 años\n- Mi aseguradora o banco (en caso de crédito asegurado contra la pérdida de empleo)",
+
+  "emploi_step_6_title": "Puedo beneficiarme de una ayuda económica relacionada con mi empleo",
+  "emploi_step_6_answer_1": "Bajo ciertas condiciones, puedo beneficiarme de la prima de actividad: https://www.service-public.fr/particuliers/vosdroits/N31477"
 }
