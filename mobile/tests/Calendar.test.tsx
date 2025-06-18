@@ -24,6 +24,7 @@ jest.mock("expo-notifications", () => ({
 }));
 jest.mock("expo-router", () => ({
   useRouter: () => ({ replace: jest.fn() }),
+  useLocalSearchParams: jest.fn(() => ({})),
 }));
 
 describe("CalendarScreen logic", () => {
