@@ -398,8 +398,8 @@ const request = {
   },
 
   aiQuery: async (
-    collectionName: string,
-    query: string,
+    prompt: string,
+    model: string = "gpt-4",
   ): Promise<SwaggerRequest<SwaggerAIquery>> => {
     const accessToken = await getAccessToken();
     try {
@@ -410,8 +410,8 @@ const request = {
       const response = await axios.post(
         `${url}/ai/query`,
         {
-          collection_name: collectionName,
-          query: query,
+          prompt: prompt,
+          model: model,
         },
         { headers },
       );
