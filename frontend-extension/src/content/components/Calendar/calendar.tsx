@@ -5,7 +5,7 @@ import "react-calendar/dist/Calendar.css";
 import { useTranslation } from "react-i18next";
 import getToken from "../../utils/utils";
 
-const backendUrl = "https://www.docroadmap.fr";
+const backendUrl = "https://www.docroadmap.fr/";
 
 interface Step {
   id: number;
