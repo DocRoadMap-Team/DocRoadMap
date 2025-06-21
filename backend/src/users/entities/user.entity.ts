@@ -1,12 +1,16 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Process } from '../../process/entities/process.entity';
 import { AiHistory } from '../../ai_history/entities/ai_history.entity';
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity()
 export class User {
 
     @PrimaryGeneratedColumn()
     id: number;
+
+    @Column({ type: 'uuid', unique: true })
+    uuid: string = uuidv4();
 
     @Column('text')
     firstName: string;

@@ -6,6 +6,7 @@ import { Process } from './entities/process.entity';
 import { Not, Repository } from 'typeorm';
 import { Step } from '../steps/entities/step.entity';
 import { User } from '../users/entities/user.entity';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ProcessService {
@@ -39,7 +40,8 @@ export class ProcessService {
     const createProcess = this.processRepository.create({
       ...processData,
       user,
-      steps
+      steps,
+      uuid: uuidv4(),
     });
     return await this.processRepository.save(createProcess);
   }
