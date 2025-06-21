@@ -1,22 +1,14 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { ApiProperty } from "@nestjs/swagger";
+import { IsString, IsInt, IsNotEmpty } from "class-validator";
 
-export class SendQueryGenerateRoadmapDTO {
-    @ApiProperty({
-        description: 'The query to send to the model AI',
-        type: 'string',
-        required: true
-    })
+export class QueryRoadmapDto {
+    @ApiProperty({ example: "I want to add a step for user onboarding." })
     @IsString()
     @IsNotEmpty()
-    public query: string;
+    public prompt: string;
 
-    @ApiProperty({
-        description: 'The collection name to get infromation from the vectorial database',
-        type: 'string',
-        required: true
-    })
-    @IsString()
+    @ApiProperty({ example: 1, description: "ID of the process to modify" })
+    @IsInt()
     @IsNotEmpty()
-    public collection_name: string;
+    public process_id: number;
 }
