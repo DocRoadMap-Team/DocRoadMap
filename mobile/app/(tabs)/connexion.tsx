@@ -8,7 +8,6 @@ import {
   Image,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import CustomCheckbox from "../../components/reusable/CustomCheckbox";
 import request from "@/constants/Request";
 import { useRouter } from "expo-router";
 import { Vibration } from "react-native";
@@ -35,22 +34,6 @@ export default function ConnectionPage() {
       email: email,
       password: password,
     };
-    const regexpassword =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial
-    const regexemail =
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; // adresse email valide genre email@test.com
-
-    /*if (!regexemail.test(email)) {
-        alert("The username must be a valid email address.");
-        return;
-    }*/
-
-    /* Uncomment and use this if you want password validation
-    if (!regexPassword.test(password)) {
-        alert("Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.");
-        return;
-    }
-    */
 
     try {
       const registrationResponse = await request.login(requestBody);
@@ -76,13 +59,16 @@ export default function ConnectionPage() {
         source={require("@/assets/images/docroadmap_logo.jpg")}
         style={styles.logo}
         resizeMode="contain"
+        accessible={true}
+        accessibilityLabel="Logo de DocRoadMap"
       />
-      <Text style={[styles.title, { color: theme.primary }]}>
+      <Text style={[styles.title, { color: theme.primary }]} allowFontScaling={true}>
         {t("connexion.welcome")}
       </Text>
       <Text
         style={[styles.welcometxt, { color: theme.text }]}
         allowFontScaling={true}
+        accessibilityLabel="Texte de bienvenue"
       >
         {t("connexion.pleaseLogin")}
       </Text>
@@ -143,23 +129,23 @@ export default function ConnectionPage() {
             Vibration.vibrate(100);
             handleLogin();
           }}
-          accessibilityLabel="Boutton pour se connecter à l'application"
+          accessibilityLabel="Bouton pour se connecter à l'application"
           accessibilityRole="button"
           accessible={true}
         >
-          <Text style={[styles.loginButtonText, { color: theme.buttonText }]}>
+          <Text style={[styles.loginButtonText, { color: theme.buttonText }]} allowFontScaling={true}>
             {t("connexion.loginButton")}
           </Text>
         </TouchableOpacity>
       </View>
       <TouchableOpacity onPress={() => router.push("/forgottenPassword")}>
-        <Text style={{ color: theme.text }} allowFontScaling={true}>
+        <Text style={{ color: theme.text }} allowFontScaling={true} accessibilityLabel="Lien pour réinitialiser le mot de passe">
           {t("connexion.forgotPassword")}
         </Text>
       </TouchableOpacity>
       <View>
         <TouchableOpacity onPress={() => router.push("/register")}>
-          <Text style={{ color: theme.text }} allowFontScaling={true}>
+          <Text style={{ color: theme.text }} allowFontScaling={true} accessibilityLabel="Lien pour créer un nouveau compte">
             {t("connexion.createAccount")}
           </Text>
         </TouchableOpacity>
@@ -199,22 +185,11 @@ const styles = ScaledSheet.create({
     flex: 1,
     height: hp("6%"),
   },
-  checkboxContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf: "flex-start",
-    marginBottom: hp("2%"),
-  },
-  checkboxLabel: {
-    marginLeft: wp("2%"),
-    fontSize: moderateScale(14),
-  },
   loginButtonContainer: {
     paddingTop: hp("2.5%"),
     paddingBottom: hp("1.5%"),
     alignItems: "center",
     marginLeft: wp("2%"),
-    fontSize: moderateScale(14),
   },
   loginButton: {
     paddingVertical: hp("2%"),

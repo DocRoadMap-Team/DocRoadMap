@@ -173,14 +173,26 @@ export default function DecisionTree() {
               if ("question" in node) {
                 return (
                   <View key={index} style={styles.botBubble}>
-                    <Text style={styles.botText}>{node.question}</Text>
+                    <Text
+                      style={styles.botText}
+                      accessibilityRole="text"
+                      allowFontScaling={true}
+                    >
+                      {node.question}
+                    </Text>
                   </View>
                 );
               }
             } else if (entry.type === "answer") {
               return (
                 <View key={index} style={styles.userBubble}>
-                  <Text style={styles.userText}>{entry.label}</Text>
+                  <Text
+                    style={styles.userText}
+                    accessibilityRole="text"
+                    allowFontScaling={true}
+                  >
+                    {entry.label}
+                  </Text>
                 </View>
               );
             }
@@ -189,26 +201,46 @@ export default function DecisionTree() {
 
           {showSteps && (
             <View style={styles.botBubble}>
-              <Text style={[styles.botText, { fontWeight: "bold" }]}>
+              <Text
+                style={[styles.botText, { fontWeight: "bold" }]}
+                accessibilityRole="text"
+                allowFontScaling={true}
+              >
                 {t("follow")}
               </Text>
               {steps.map((step, idx) => (
                 <View key={idx} style={{ marginTop: 8 }}>
-                  <Text style={[styles.botText, { fontWeight: "bold" }]}>
+                  <Text
+                    style={[styles.botText, { fontWeight: "bold" }]}
+                    accessibilityRole="text"
+                    allowFontScaling={true}
+                  >
                     {step.step_title}
                   </Text>
-                  <Text style={styles.botText}>
+                  <Text
+                    style={styles.botText}
+                    accessibilityRole="text"
+                    allowFontScaling={true}
+                  >
                     {step.answer.split(/(https?:\/\/[^\s]+)/g).map((part, i) =>
                       part.match(/^https?:\/\//) ? (
                         <Text
                           key={i}
                           style={styles.link}
                           onPress={() => Linking.openURL(part)}
+                          accessibilityRole="link"
+                          allowFontScaling={true}
                         >
                           {part}
                         </Text>
                       ) : (
-                        <Text key={i}>{part}</Text>
+                        <Text
+                          key={i}
+                          accessibilityRole="text"
+                          allowFontScaling={true}
+                        >
+                          {part}
+                        </Text>
                       ),
                     )}
                   </Text>
@@ -217,8 +249,15 @@ export default function DecisionTree() {
               <TouchableOpacity
                 style={styles.restartButton}
                 onPress={restartChat}
+                accessibilityLabel={t("restart")}
+                accessibilityRole="button"
               >
-                <Text style={styles.restartText}>{t("restart")}</Text>
+                <Text
+                  style={styles.restartText}
+                  allowFontScaling={true}
+                >
+                  {t("restart")}
+                </Text>
               </TouchableOpacity>
             </View>
           )}
@@ -236,8 +275,12 @@ export default function DecisionTree() {
                   key={idx}
                   style={styles.optionBubbleHorizontal}
                   onPress={() => handleOptionPress(next, label)}
+                  accessibilityLabel={label}
+                  accessibilityRole="button"
                 >
-                  <Text style={styles.optionText}>{label}</Text>
+                  <Text style={styles.optionText} allowFontScaling={true}>
+                    {label}
+                  </Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
@@ -250,6 +293,9 @@ export default function DecisionTree() {
               onChangeText={handleInputChange}
               placeholder={t("enterProcess")}
               multiline
+              allowFontScaling={true}
+              accessibilityLabel={t("enterProcess")}
+              accessibilityRole="text"
             />
             <TouchableOpacity
               style={[
@@ -258,8 +304,12 @@ export default function DecisionTree() {
               ]}
               onPress={handleSendMessage}
               disabled={!isValid || !userInput.trim()}
+              accessibilityLabel={t("send")}
+              accessibilityRole="button"
             >
-              <Text style={styles.sendButtonText}>Créer</Text>
+              <Text style={styles.sendButtonText} allowFontScaling={true}>
+                Créer
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
