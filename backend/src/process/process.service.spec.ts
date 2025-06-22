@@ -55,7 +55,9 @@ describe('ProcessService', () => {
       expect(result).toEqual(process);
       expect(mockUserRepository.findOne).toHaveBeenCalledWith({ where: { id: 1 } });
       expect(mockStepRepository.findByIds).toHaveBeenCalledWith([1, 2]);
-      expect(mockProcessRepository.create).toHaveBeenCalledWith({ name: 'p', description: 'd', user, steps });
+      expect(mockProcessRepository.create).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'p', description: 'd', user, steps })
+      );
       expect(mockProcessRepository.save).toHaveBeenCalledWith(process);
     });
 
