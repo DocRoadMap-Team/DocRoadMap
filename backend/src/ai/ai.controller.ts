@@ -37,8 +37,9 @@ export class AiController {
     @ApiInternalServerErrorResponse(
         { description: 'Internal Server Error - An unexpected error occurred' }
     )
-    async queryChatGPT(@Body() SendQueryDto: SendQueryDto): Promise<{ response: string }> {
-        const response = await this.aiService.query(SendQueryDto.prompt, SendQueryDto.model);
+    async queryChatGPT(@Request() req: any, @Body() SendQueryDto: SendQueryDto): Promise<{ response: string }> {
+        const userId = req.user.sub;
+        const response = await this.aiService.query(SendQueryDto.prompt, SendQueryDto.model, userId);
         return { response };
     }
 

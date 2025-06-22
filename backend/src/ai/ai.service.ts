@@ -126,9 +126,9 @@ export class AiService {
         }
     }
 
-    async query(prompt: string, model: string): Promise<string> {
-        if (!prompt || !model) {
-            throw new BadRequestException("Prompt and model are required");
+    async query(prompt: string, model: string, userId: number): Promise<string> {
+        if (!prompt || !model || !userId) {
+            throw new BadRequestException("Prompt, model and userId are required");
         }
         const apiKey = process.env.OPENAI_API_KEY;
 
@@ -136,12 +136,32 @@ export class AiService {
             throw new BadRequestException("OPENAI_API_KEY is not set");
         }
 
+        const user = await this.userRepository.findOne({ where: { id: userId } });
+        if (!user) {
+            throw new NotFoundException(`User with ID ${userId} not found`);
+        }
+
+        const history = await this.aiHistoryRepository.find({
+            where: { user: { id: userId }, uuid: user.uuid },
+            order: { id: 'DESC' },
+            take: 5,
+        });
+
+        const messages = history
+            .reverse()
+            .map((entry) => ({
+                role: "user",
+                content: entry.history,
+            }));
+
+        messages.push({ role: "user", content: prompt });
+
         try {
             const response = await axios.post(
                 "https://api.openai.com/v1/chat/completions",
                 {
                     model: model,
-                    messages: [{ role: "user", content: prompt }],
+                    messages: messages,
                 },
                 {
                     headers: {
@@ -158,7 +178,25 @@ export class AiService {
                 response.data.choices[0].message &&
                 response.data.choices[0].message.content
             ) {
-                return response.data.choices[0].message.content;
+                const aiResponse = response.data.choices[0].message.content;
+
+                const newHistory = this.aiHistoryRepository.create({
+                    history: `User: ${prompt}\nAI: ${aiResponse}`,
+                    user: user,
+                    uuid: user.uuid,
+                });
+                await this.aiHistoryRepository.save(newHistory);
+
+                const allHistory = await this.aiHistoryRepository.find({
+                    where: { user: { id: userId }, uuid: user.uuid },
+                    order: { id: 'DESC' },
+                });
+                if (allHistory.length > 5) {
+                    const idsToDelete = allHistory.slice(5).map((h) => h.id);
+                    await this.aiHistoryRepository.delete(idsToDelete);
+                }
+
+                return aiResponse;
             } else {
                 throw new BadRequestException("Invalid response from OpenAI API");
             }
