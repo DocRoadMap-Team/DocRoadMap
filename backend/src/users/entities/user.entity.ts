@@ -9,8 +9,8 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'uuid', unique: true })
-    uuid: string = uuidv4();
+    @Column({ type: 'uuid', unique: true, nullable: false, default: () => 'uuid_generate_v4()' })
+    uuid: string;
 
     @Column('text')
     firstName: string;
