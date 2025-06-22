@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class SendQueryResponseDTO {
+export class SendQueryResponseMistralDTO {
     @ApiProperty({
         description: 'If true the roadmap will be generated',
         type: 'boolean'
