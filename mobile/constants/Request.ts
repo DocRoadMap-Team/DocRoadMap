@@ -10,6 +10,7 @@ import {
   SwaggerProcessListAdministrative,
   SwaggerAIquery,
   SwaggerAIconversation,
+  SwaggerAIHistory,
 } from "./Swagger";
 import axios, { AxiosError } from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -423,7 +424,7 @@ const request = {
     } catch (error) {
       console.error(error);
       return {
-        error: "Impossible de récupérer le collection name",
+        error: "Impossible de converser avec le chatbot. Veuillez réessayer",
       };
     }
   },
@@ -451,6 +452,30 @@ const request = {
       console.error(error);
       return {
         error: "Impossible de démarrer la conversation",
+      };
+    }
+  },
+  aiHistory: async (): Promise<SwaggerRequest<SwaggerAIHistory>> => {
+    try {
+      const accessToken = await getAccessToken();
+      const userId = await getId();
+
+      const response = await axios.get(`${url}/ai-history/${userId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      return {
+        data: response.data,
+        error: null,
+      };
+    } catch (error) {
+      console.error("Erreur lors de la récupération de l'historique :", error);
+      return {
+        error: "Impossible de retrouver l'historique",
       };
     }
   },

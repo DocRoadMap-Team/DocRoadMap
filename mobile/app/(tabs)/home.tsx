@@ -24,6 +24,7 @@ import {
 } from "react-native-responsive-screen";
 import DecisionTreeInterface from "@/components/chat/DecisionTreeInterface";
 import { router } from "expo-router";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function HomePage() {
   const { t, i18n } = useTranslation();
@@ -78,6 +79,10 @@ export default function HomePage() {
     console.log("Menu/profile button pressed");
   };
 
+  const handleSettingsClick = () => {
+    router.push("/settings");
+  };
+
   const handleGenerateRoadmap = async () => {
     console.log("Generate new roadmap pressed");
     setModalVisible(true);
@@ -116,12 +121,30 @@ export default function HomePage() {
             ☰
           </Text>
         </TouchableOpacity>
+
         <Text
           style={[styles.headerTitle, { color: theme.buttonText }]}
           allowFontScaling={true}
         >
           DocRoadmap
         </Text>
+
+        <View style={styles.rightActions}>
+          <View style={styles.iconWrapper}>
+            <DecisionTreeInterface />
+          </View>
+
+          <View style={styles.iconWrapper}>
+            <ChatInterface />
+          </View>
+
+          <TouchableOpacity
+            onPress={handleSettingsClick}
+            style={styles.iconWrapper}
+          >
+            <MaterialIcons name="settings" size={24} color={theme.text} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView
@@ -217,8 +240,6 @@ export default function HomePage() {
           )}
         </SafeAreaView>
       </Modal>
-
-      <DecisionTreeInterface />
     </SafeAreaView>
   );
 }
@@ -229,10 +250,13 @@ const styles = ScaledSheet.create({
     backgroundColor: "#f5f5f5",
   },
   header: {
-    backgroundColor: "#3498db",
-    padding: moderateScale(16),
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
+    paddingHorizontal: moderateScale(16),
+    paddingVertical: moderateScale(12),
+    backgroundColor: "#3498db",
+    height: moderateScale(60),
   },
   menuButton: {
     marginRight: moderateScale(16),
@@ -260,5 +284,26 @@ const styles = ScaledSheet.create({
   buttonText: {
     fontSize: moderateScale(16),
     fontWeight: "bold",
+  },
+  rowContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    width: "100%",
+    paddingHorizontal: moderateScale(100),
+    paddingBottom: moderateScale(10),
+  },
+  rightActions: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    gap: moderateScale(10),
+  },
+  iconWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: moderateScale(40),
+    width: moderateScale(40),
+    padding: moderateScale(30),
   },
 });

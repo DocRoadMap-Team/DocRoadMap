@@ -65,6 +65,10 @@ export type SwaggerAIquery = {
   model: string;
 };
 
+export type SwaggerAIHistory = {
+  user_id: number;
+};
+
 export type SwaggerAIconversation = {
   collection_name: string;
 };
