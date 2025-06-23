@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Vibration,
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -28,6 +29,7 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [lastname, setLastname] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const handleBackClick = () => {
@@ -166,19 +168,33 @@ export default function Register() {
             placeholderTextColor={theme.text}
             value={password}
             onChangeText={setPassword}
-            secureTextEntry={true}
+            secureTextEntry={!showPassword}
             accessibilityLabel="Champ de texte pour son mot de passe"
             allowFontScaling={true}
           />
+          <TouchableOpacity
+            onPress={() => setShowPassword(!showPassword)}
+            style={{
+              position: "absolute",
+              right: 10,
+              top: 25,
+            }}
+          >
+            <Ionicons
+              name={showPassword ? "eye-off" : "eye"}
+              size={24}
+              color={theme.text}
+            />
+          </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity
             style={[styles.customButton, { backgroundColor: theme.primary }]}
-            onPress={() => {
+            onPress={async () => {
               Vibration.vibrate(100);
               handleSignUp();
             }}
-            accessibilityLabel="Boutton pour créer un nouveau compte"
+            accessibilityLabel="Bouton pour créer un nouveau compte"
             accessibilityRole="button"
             accessible={true}
           >

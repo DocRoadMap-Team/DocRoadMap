@@ -6,7 +6,8 @@
     "password": "Password",
     "create_account": "Create Account",
     "back_to_home": "Back to Home",
-    "error": "Error, please check your information"
+    "error": "Error, please check your information",
+    "check_mail": "Please check the inbox/spam folder of the email provided during registration to confirm your account."
   },
   "profile": {
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget aliquam ultricies.",
