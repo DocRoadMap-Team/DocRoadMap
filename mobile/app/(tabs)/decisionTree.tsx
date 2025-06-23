@@ -252,10 +252,7 @@ export default function DecisionTree() {
                 accessibilityLabel={t("restart")}
                 accessibilityRole="button"
               >
-                <Text
-                  style={styles.restartText}
-                  allowFontScaling={true}
-                >
+                <Text style={styles.restartText} allowFontScaling={true}>
                   {t("restart")}
                 </Text>
               </TouchableOpacity>

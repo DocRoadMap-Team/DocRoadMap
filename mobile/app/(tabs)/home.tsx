@@ -242,9 +242,7 @@ export default function HomePage() {
                   </View>
                 ))
               ) : (
-                <Text style={{ color: theme.text }}>
-                  {t("home.no_data")}
-                </Text>
+                <Text style={{ color: theme.text }}>{t("home.no_data")}</Text>
               )}
             </ScrollView>
           )}

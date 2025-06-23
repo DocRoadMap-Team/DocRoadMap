@@ -127,7 +127,6 @@ const ProfileCard = () => {
               mode="outlined"
               allowFontScaling={true}
               accessibilityLabel={t("profile.descriptionInput")}
-
             />
             <Button
               onPress={() => {
@@ -166,7 +165,10 @@ const ProfileCard = () => {
         )}
       </Card.Content>
       <View style={styles.iconRow}>
-        <TouchableOpacity onPress={handleSettingsClick} accessibilityRole="button">
+        <TouchableOpacity
+          onPress={handleSettingsClick}
+          accessibilityRole="button"
+        >
           <MaterialIcons
             name="settings"
             size={28}

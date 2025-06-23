@@ -31,7 +31,10 @@ const Settings = () => {
         accessibilityLabel={t("change_theme")}
         accessibilityRole="button"
       >
-        <Text style={[styles.buttonText, { color: theme.buttonText }]} allowFontScaling={true}>
+        <Text
+          style={[styles.buttonText, { color: theme.buttonText }]}
+          allowFontScaling={true}
+        >
           {t("change_theme")}
         </Text>
       </TouchableOpacity>
@@ -41,7 +44,10 @@ const Settings = () => {
         accessibilityLabel={t("switch_language")}
         accessibilityRole="button"
       >
-        <Text style={[styles.buttonText, { color: theme.buttonText }]} allowFontScaling={true}>
+        <Text
+          style={[styles.buttonText, { color: theme.buttonText }]}
+          allowFontScaling={true}
+        >
           {t("switch_language")}
         </Text>
       </TouchableOpacity>
@@ -52,7 +58,9 @@ const Settings = () => {
         onRequestClose={() => setModalVisible(false)}
       >
         <View style={[styles.container, { backgroundColor: theme.background }]}>
-          <View style={[styles.container, { backgroundColor: theme.background }]}>
+          <View
+            style={[styles.container, { backgroundColor: theme.background }]}
+          >
             <Picker
               selectedValue={selectedLanguage}
               onValueChange={handleLanguageChange}
@@ -72,7 +80,10 @@ const Settings = () => {
               accessibilityLabel={t("close")}
               accessibilityRole="button"
             >
-              <Text style={[styles.buttonText, { color: theme.buttonText }]} allowFontScaling={true}>
+              <Text
+                style={[styles.buttonText, { color: theme.buttonText }]}
+                allowFontScaling={true}
+              >
                 {t("close")}
               </Text>
             </TouchableOpacity>
@@ -85,7 +96,10 @@ const Settings = () => {
         accessibilityLabel={t("back_to_profile")}
         accessibilityRole="button"
       >
-        <Text style={[styles.buttonText, { color: theme.buttonText }]} allowFontScaling={true}>
+        <Text
+          style={[styles.buttonText, { color: theme.buttonText }]}
+          allowFontScaling={true}
+        >
           {t("back_to_profile")}
         </Text>
       </TouchableOpacity>
@@ -95,7 +109,10 @@ const Settings = () => {
         accessibilityLabel={t("calendar_events")}
         accessibilityRole="button"
       >
-        <Text style={[styles.buttonText, { color: theme.buttonText }]} allowFontScaling={true}>
+        <Text
+          style={[styles.buttonText, { color: theme.buttonText }]}
+          allowFontScaling={true}
+        >
           {"Calendrier des évènements"}
         </Text>
       </TouchableOpacity>

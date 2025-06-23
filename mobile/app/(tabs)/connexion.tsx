@@ -62,7 +62,10 @@ export default function ConnectionPage() {
         accessible={true}
         accessibilityLabel="Logo de DocRoadMap"
       />
-      <Text style={[styles.title, { color: theme.primary }]} allowFontScaling={true}>
+      <Text
+        style={[styles.title, { color: theme.primary }]}
+        allowFontScaling={true}
+      >
         {t("connexion.welcome")}
       </Text>
       <Text
@@ -133,14 +136,21 @@ export default function ConnectionPage() {
           accessibilityRole="button"
           accessible={true}
         >
-          <Text style={[styles.loginButtonText, { color: theme.buttonText }]} allowFontScaling={true}>
+          <Text
+            style={[styles.loginButtonText, { color: theme.buttonText }]}
+            allowFontScaling={true}
+          >
             {t("connexion.loginButton")}
           </Text>
         </TouchableOpacity>
       </View>
       <View>
         <TouchableOpacity onPress={() => router.push("/register")}>
-          <Text style={{ color: theme.text }} allowFontScaling={true} accessibilityLabel="Lien pour créer un nouveau compte">
+          <Text
+            style={{ color: theme.text }}
+            allowFontScaling={true}
+            accessibilityLabel="Lien pour créer un nouveau compte"
+          >
             {t("connexion.createAccount")}
           </Text>
         </TouchableOpacity>
