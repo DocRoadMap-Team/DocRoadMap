@@ -7,7 +7,6 @@ import {
   ScrollView,
   RefreshControl,
   Alert,
-  StyleSheet,
   Modal,
 } from "react-native";
 import { useTranslation } from "react-i18next";
@@ -24,6 +23,7 @@ import {
 } from "react-native-responsive-screen";
 import DecisionTreeInterface from "@/components/chat/DecisionTreeInterface";
 import { router } from "expo-router";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function HomePage() {
   const { t, i18n } = useTranslation();
@@ -78,6 +78,10 @@ export default function HomePage() {
     console.log("Menu/profile button pressed");
   };
 
+  const handleSettingsClick = () => {
+    router.push("/settings");
+  };
+
   const handleGenerateRoadmap = async () => {
     console.log("Generate new roadmap pressed");
     setModalVisible(true);
@@ -112,16 +116,39 @@ export default function HomePage() {
     >
       <View style={styles.header}>
         <TouchableOpacity onPress={handleMenuPress} style={styles.menuButton}>
-          <Text style={[styles.menuButtonText, { color: theme.buttonText }]}>
+          <Text
+            style={[styles.menuButtonText, { color: theme.buttonText }]}
+            allowFontScaling={true}
+            accessibilityLabel={t("home.menu_button")}
+            accessibilityRole="button"
+          >
             ☰
           </Text>
         </TouchableOpacity>
+
         <Text
           style={[styles.headerTitle, { color: theme.buttonText }]}
           allowFontScaling={true}
         >
           DocRoadmap
         </Text>
+
+        <View style={styles.rightActions}>
+          <View style={styles.iconWrapper}>
+            <DecisionTreeInterface />
+          </View>
+
+          <View style={styles.iconWrapper}>
+            <ChatInterface />
+          </View>
+
+          <TouchableOpacity
+            onPress={handleSettingsClick}
+            style={styles.iconWrapper}
+          >
+            <MaterialIcons name="settings" size={24} color={theme.text} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView
@@ -134,11 +161,12 @@ export default function HomePage() {
           <TouchableOpacity
             style={[styles.button, { backgroundColor: theme.primary }]}
             onPress={handleGenerateRoadmap}
+            accessibilityLabel={t("home.generate_roadmap")}
+            accessibilityRole="button"
           >
             <Text
               style={[styles.buttonText, { color: theme.buttonText }]}
               allowFontScaling={true}
-              accessibilityLabel={t("home.generate_roadmap")}
             >
               {t("home.generate_roadmap")}
             </Text>
@@ -148,6 +176,7 @@ export default function HomePage() {
             style={[styles.button, { backgroundColor: theme.primary }]}
             onPress={handleReminders}
             accessibilityLabel={t("home.my_reminders")}
+            accessibilityRole="button"
           >
             <Text
               style={[styles.buttonText, { color: theme.buttonText }]}
@@ -167,20 +196,6 @@ export default function HomePage() {
                 progress={Math.floor(Math.random() * 100)} // Placeholder progress
                 id={card.id}
               />
-              {/*
-                <View>
-                  {card.steps && card.steps.length > 0 ? (
-                    card.steps.map((step) => (
-                      <View key={step.id}>
-                        <Text style={{ fontWeight: 'bold' }} allowFontScaling={true}>{step.name}</Text>
-                        <Text>{step.description}</Text>
-                      </View>
-                    ))
-                  ) : (
-                    null
-                  )}
-                </View>
-                */}
             </View>
           ))}
         </ScrollView>
@@ -188,13 +203,23 @@ export default function HomePage() {
       <Modal visible={modalVisible} animationType="slide" transparent={false}>
         <SafeAreaView style={{ flex: 1, padding: 20 }}>
           <TouchableOpacity onPress={() => setModalVisible(false)}>
-            <Text style={{ fontSize: 18, color: "blue", textAlign: "right" }}>
+            <Text
+              style={{
+                fontSize: moderateScale(18),
+                color: theme.primary,
+                textAlign: "right",
+              }}
+              accessibilityLabel={t("close")}
+              accessibilityRole="button"
+            >
               {t("close")}
             </Text>
           </TouchableOpacity>
 
           {loadingAdministrative ? (
-            <Text style={{ marginTop: 20 }}>{t("Chargement...")}</Text>
+            <Text style={{ marginTop: 20, color: theme.text }}>
+              {t("Chargement...")}
+            </Text>
           ) : errorAdministrative ? (
             <Text style={{ marginTop: 20, color: "red" }}>
               {errorAdministrative}
@@ -205,20 +230,26 @@ export default function HomePage() {
               administrativeList.length > 0 ? (
                 administrativeList.map((item: any) => (
                   <View key={item.id} style={{ marginBottom: 16 }}>
-                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                    <Text
+                      style={{
+                        fontSize: moderateScale(16),
+                        fontWeight: "bold",
+                        color: theme.text,
+                      }}
+                    >
                       {item.name}
                     </Text>
                   </View>
                 ))
               ) : (
-                <Text>{t("home.no_data")}</Text>
+                <Text style={{ color: theme.text }}>
+                  {t("home.no_data")}
+                </Text>
               )}
             </ScrollView>
           )}
         </SafeAreaView>
       </Modal>
-
-      <DecisionTreeInterface />
     </SafeAreaView>
   );
 }
@@ -226,13 +257,15 @@ export default function HomePage() {
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
   },
   header: {
-    backgroundColor: "#3498db",
-    padding: moderateScale(16),
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
+    paddingHorizontal: moderateScale(16),
+    paddingVertical: moderateScale(12),
+    backgroundColor: "#3498db",
+    height: moderateScale(60),
   },
   menuButton: {
     marginRight: moderateScale(16),
@@ -260,5 +293,26 @@ const styles = ScaledSheet.create({
   buttonText: {
     fontSize: moderateScale(16),
     fontWeight: "bold",
+  },
+  rowContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    width: "100%",
+    paddingHorizontal: moderateScale(100),
+    paddingBottom: moderateScale(10),
+  },
+  rightActions: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    gap: moderateScale(10),
+  },
+  iconWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: moderateScale(40),
+    width: moderateScale(40),
+    padding: moderateScale(30),
   },
 });
