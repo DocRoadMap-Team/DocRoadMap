@@ -67,11 +67,8 @@ export default function DecisionTreeInterface() {
 
 const styles = ScaledSheet.create({
   floatingButton: {
-    position: "absolute",
-    bottom: hp(2),
-    right: wp(4),
-    width: moderateScale(60),
-    height: moderateScale(60),
+    width: moderateScale(50),
+    height: moderateScale(50),
     borderRadius: moderateScale(30),
     backgroundColor: "#3498db",
     justifyContent: "center",
