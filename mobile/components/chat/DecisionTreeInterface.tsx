@@ -14,19 +14,27 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "@/components/ThemeContext";
 
 export default function DecisionTreeInterface() {
   const [showModal, setShowModal] = useState(false);
+  const { theme } = useTheme();
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
   return (
-    <SafeAreaView>
-      <TouchableOpacity style={styles.floatingButton} onPress={openModal}>
+    <SafeAreaView style={{ backgroundColor: theme.background }}>
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={openModal}
+        accessibilityLabel="Ouvrir le chatbot"
+        accessibilityRole="button"
+      >
         <Image
           source={require("../../assets/images/chatbot.png")}
           style={{ width: 45, height: 45 }}
+          accessibilityLabel="Icône du chatbot"
         />
       </TouchableOpacity>
 
@@ -35,9 +43,19 @@ export default function DecisionTreeInterface() {
         visible={showModal}
         onRequestClose={closeModal}
       >
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Donna Chatbot</Text>
-          <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+        <View style={[styles.header, { backgroundColor: theme.primary }]}>
+          <Text
+            style={[styles.headerText, { color: theme.text }]}
+            allowFontScaling={true}
+          >
+            Donna Chatbot
+          </Text>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={closeModal}
+            accessibilityLabel="Fermer le chatbot"
+            accessibilityRole="button"
+          >
             <Ionicons name="close" size={24} style={{ paddingRight: 10 }} />
           </TouchableOpacity>
         </View>

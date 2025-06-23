@@ -1,13 +1,13 @@
-import { Injectable, Inject } from "@nestjs/common";
+import { Injectable, Inject, BadRequestException, InternalServerErrorException } from "@nestjs/common";
 import axios from "axios"
 import { SendQueryResponseDTO } from "./dto/send-query-response.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { AiHistory } from "src/ai_history/entities/ai_history.entity";
-import { User } from "src/users/entities/user.entity";
-import { AiHistoryService } from "src/ai_history/ai_history.service";
-import { Process } from "src/process/entities/process.entity";
-import { Step } from "src/steps/entities/step.entity";
+import { AiHistory } from "../ai_history/entities/ai_history.entity";
+import { User } from "../users/entities/user.entity";
+import { AiHistoryService } from "../ai_history/ai_history.service";
+import { Process } from "../process/entities/process.entity";
+import { Step } from "../steps/entities/step.entity";
 
 @Injectable()
 export class AiService {
@@ -123,6 +123,53 @@ export class AiService {
         } catch (error) {
             console.error("Erreur lors de l'appel API:", error);
             throw new Error("Erreur de communication avec le service IA");
+        }
+    }
+
+    async query(prompt: string, model: string): Promise<string> {
+        if (!prompt || !model) {
+            throw new BadRequestException("Prompt and model are required");
+        }
+        const apiKey = process.env.OPENAI_API_KEY;
+
+        if (!apiKey) {
+            throw new BadRequestException("OPENAI_API_KEY is not set");
+        }
+
+        try {
+            const response = await axios.post(
+                "https://api.openai.com/v1/chat/completions",
+                {
+                    model: model,
+                    messages: [{ role: "user", content: prompt }],
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${apiKey}`,
+                    },
+                }
+            );
+
+            if (
+                response.data &&
+                response.data.choices &&
+                response.data.choices.length > 0 &&
+                response.data.choices[0].message &&
+                response.data.choices[0].message.content
+            ) {
+                return response.data.choices[0].message.content;
+            } else {
+                throw new BadRequestException("Invalid response from OpenAI API");
+            }
+        } catch (error) {
+            console.error("Error during API call:", error);
+            if (axios.isAxiosError(error) && error.response) {
+                throw new BadRequestException(
+                    error.response.data?.error?.message || "Error communicating with the AI service"
+                );
+            }
+            throw new InternalServerErrorException("Erreur interne du serveur lors de la communication avec le service IA");
         }
     }
 }

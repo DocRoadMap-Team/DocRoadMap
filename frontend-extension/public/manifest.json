@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "version": "1.0.0",
-  "name": "react extension",
+  "name": "DocRoadMap",
   "description": "This is the Extension for Browser",
   "icons": {
     "128": "icon128.png"

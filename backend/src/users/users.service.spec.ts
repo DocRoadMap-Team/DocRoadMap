@@ -2,108 +2,142 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Process } from '../process/entities/process.entity';
-import { Repository } from 'typeorm';
 import { ConflictException, NotFoundException } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+
+const mockUserRepository = {
+  create: jest.fn(),
+  save: jest.fn(),
+  find: jest.fn(),
+  findOne: jest.fn(),
+  update: jest.fn(),
+  delete: jest.fn(),
+};
+
+jest.mock('bcrypt');
 
 describe('UsersService', () => {
   let service: UsersService;
-  let userRepository: Repository<User>;
-  let processRepository: Repository<Process>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
-        {
-          provide: getRepositoryToken(User),
-          useClass: Repository,
-        },
-        {
-          provide: getRepositoryToken(Process),
-          useClass: Repository,
-        },
+        { provide: getRepositoryToken(User), useValue: mockUserRepository },
       ],
     }).compile();
 
     service = module.get<UsersService>(UsersService);
-    userRepository = module.get<Repository<User>>(getRepositoryToken(User));
-    processRepository = module.get<Repository<Process>>(getRepositoryToken(Process));
-  });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+    jest.clearAllMocks();
   });
 
   describe('create', () => {
+    it('should create and return a user', async () => {
+      const dto = { email: 'test@example.com', password: 'pass', firstName: 'John', lastName: 'Doe' };
+      const user = { id: 1, ...dto };
+
+      mockUserRepository.findOne.mockResolvedValue(null);
+      (bcrypt.genSalt as jest.Mock).mockResolvedValue('salt');
+      (bcrypt.hash as jest.Mock).mockResolvedValue('hashedPassword');
+      mockUserRepository.create.mockReturnValue(user);
+      mockUserRepository.save.mockResolvedValue(user);
+
+      const result = await service.create(dto as any);
+      expect(result).toEqual(user);
+      expect(mockUserRepository.findOne).toHaveBeenCalledWith({ where: { email: dto.email } });
+      expect(mockUserRepository.create).toHaveBeenCalledWith({ ...dto, password: 'hashedPassword' });
+      expect(mockUserRepository.save).toHaveBeenCalledWith(user);
+    });
+
     it('should throw ConflictException if user already exists', async () => {
-      jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce({} as User);
+      mockUserRepository.findOne.mockResolvedValue({ id: 1 });
       await expect(service.create({ email: 'test@example.com' } as any)).rejects.toThrow(ConflictException);
     });
+  });
 
-    it('should throw NotFoundException if some processes are not found', async () => {
-      jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce(null);
-      jest.spyOn(processRepository, 'findByIds').mockResolvedValueOnce([]);
-      await expect(service.create({ email: 'test@example.com', processIds: [1, 2] } as any)).rejects.toThrow(NotFoundException);
+  describe('findMe', () => {
+    it('should return the current user', async () => {
+      const user = { id: 1, email: 'test@example.com', processes: [] };
+      mockUserRepository.findOne.mockResolvedValue(user);
+
+      const result = await service.findMe(1);
+      expect(result).toEqual(user);
+      expect(mockUserRepository.findOne).toHaveBeenCalledWith({
+        where: { id: 1 },
+        relations: ['processes', 'processes.steps'],
+      });
     });
 
-    it('should create and save a new user', async () => {
-      jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce(null);
-      jest.spyOn(processRepository, 'findByIds').mockResolvedValueOnce([{ id: 1 }] as Process[]);
-      jest.spyOn(userRepository, 'create').mockReturnValue({} as User);
-      jest.spyOn(userRepository, 'save').mockResolvedValueOnce({} as User);
-
-      const result = await service.create({ email: 'test@example.com', password: 'mySecretPassword', processIds: [1] } as any);
-      expect(result).toBeDefined();
+    it('should throw NotFoundException if user not found', async () => {
+      mockUserRepository.findOne.mockResolvedValue(null);
+      await expect(service.findMe(1)).rejects.toThrow(NotFoundException);
     });
   });
 
   describe('findAll', () => {
-    it('should return an array of users', async () => {
-      jest.spyOn(userRepository, 'find').mockResolvedValueOnce([{}] as User[]);
+    it('should return all users', async () => {
+      const users = [{ id: 1 }, { id: 2 }];
+      mockUserRepository.find.mockResolvedValue(users);
+
       const result = await service.findAll();
-      expect(result).toEqual([{}]);
+      expect(result).toEqual(users);
+      expect(mockUserRepository.find).toHaveBeenCalledWith({ relations: ['processes', 'processes.steps'] });
     });
   });
 
   describe('findOne', () => {
-    it('should throw NotFoundException if user is not found', async () => {
-      jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce(null);
-      await expect(service.findOne(1)).rejects.toThrow(NotFoundException);
+    it('should return a user by email', async () => {
+      const user = { id: 1, email: 'test@example.com' };
+      mockUserRepository.findOne.mockResolvedValue(user);
+
+      const result = await service.findOne('test@example.com');
+      expect(result).toEqual(user);
+      expect(mockUserRepository.findOne).toHaveBeenCalledWith({
+        where: { email: 'test@example.com' },
+        relations: ['processes', 'processes.steps'],
+      });
     });
 
-    it('should return a user if found', async () => {
-      jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce({} as User);
-      const result = await service.findOne(1);
-      expect(result).toEqual({});
+    it('should throw NotFoundException if user not found', async () => {
+      mockUserRepository.findOne.mockResolvedValue(null);
+      await expect(service.findOne('test@example.com')).rejects.toThrow(NotFoundException);
     });
   });
 
   describe('update', () => {
-    it('should throw NotFoundException if user is not found', async () => {
-      jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce(null);
-      await expect(service.update(1, {} as any)).rejects.toThrow(NotFoundException);
+    it('should update a user', async () => {
+      const updateDto = { firstName: 'new' };
+      const updated = { affected: 1 };
+      mockUserRepository.findOne.mockResolvedValue({ id: 1 });
+      mockUserRepository.update.mockResolvedValue(updated);
+
+      const result = await service.update(1, updateDto as any);
+      expect(result).toEqual(updated);
+      expect(mockUserRepository.findOne).toHaveBeenCalledWith({ where: { id: 1 } });
+      expect(mockUserRepository.update).toHaveBeenCalledWith(1, updateDto);
     });
 
-    it('should update and return the user', async () => {
-      jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce({} as User);
-      jest.spyOn(userRepository, 'update').mockResolvedValueOnce({} as any);
-      const result = await service.update(1, {} as any);
-      expect(result).toBeDefined();
+    it('should throw NotFoundException if user not found', async () => {
+      mockUserRepository.findOne.mockResolvedValue(null);
+      await expect(service.update(1, {} as any)).rejects.toThrow(NotFoundException);
     });
   });
 
   describe('remove', () => {
-    it('should throw NotFoundException if user is not found', async () => {
-      jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce(null);
-      await expect(service.remove(1)).rejects.toThrow(NotFoundException);
+    it('should remove a user', async () => {
+      const removed = { affected: 1 };
+      mockUserRepository.findOne.mockResolvedValue({ id: 1 });
+      mockUserRepository.delete.mockResolvedValue(removed);
+
+      const result = await service.remove(1);
+      expect(result).toEqual(removed);
+      expect(mockUserRepository.findOne).toHaveBeenCalledWith({ where: { id: 1 } });
+      expect(mockUserRepository.delete).toHaveBeenCalledWith(1);
     });
 
-    it('should remove the user', async () => {
-      jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce({} as User);
-      jest.spyOn(userRepository, 'delete').mockResolvedValueOnce({} as any);
-      const result = await service.remove(1);
-      expect(result).toBeDefined();
+    it('should throw NotFoundException if user not found', async () => {
+      mockUserRepository.findOne.mockResolvedValue(null);
+      await expect(service.remove(1)).rejects.toThrow(NotFoundException);
     });
   });
 });

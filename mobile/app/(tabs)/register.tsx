@@ -141,7 +141,7 @@ export default function Register() {
             placeholderTextColor={theme.text}
             value={email}
             onChangeText={setEmail}
-            accessibilityLabel="Champ de texte pour son addresse email"
+            accessibilityLabel="Champ de texte pour son adresse email"
             allowFontScaling={true}
           />
         </View>
@@ -194,6 +194,8 @@ export default function Register() {
           <TouchableOpacity
             onPress={handleBackClick}
             style={[styles.customButton, { backgroundColor: theme.primary }]}
+            accessibilityLabel="Retour à la page de connexion"
+            accessibilityRole="button"
           >
             <Text style={[styles.buttonText, { color: theme.buttonText }]}>
               {t("register.back_to_home")}

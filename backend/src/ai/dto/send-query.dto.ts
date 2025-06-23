@@ -1,22 +1,24 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsString, IsNotEmpty } from 'class-validator';
 
-export class SendQueryGenerateRoadmapDTO {
+export class SendQueryDto {
     @ApiProperty({
-        description: 'The query to send to the model AI',
+        description: 'The prompt or question to send to the AI model',
+        example: 'What is the capital of France?',
+        required: true,
         type: 'string',
-        required: true
     })
     @IsString()
     @IsNotEmpty()
-    public query: string;
+    public prompt: string;
 
     @ApiProperty({
-        description: 'The collection name to get infromation from the vectorial database',
+        description: 'The AI model to use for the query',
+        example: 'gpt-4',
+        required: true,
         type: 'string',
-        required: true
     })
     @IsString()
     @IsNotEmpty()
-    public collection_name: string;
+    public model: string;
 }
