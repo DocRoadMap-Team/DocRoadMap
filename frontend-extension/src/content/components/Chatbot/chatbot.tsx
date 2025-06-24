@@ -1,19 +1,33 @@
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
 import { FaPaperPlane, FaRobot } from "react-icons/fa";
+import getToken from "../../utils/utils";
+
+const backendUrl = "https://www.docroadmap.fr";
 
 const Chatbot: React.FC = () => {
-  const { t } = useTranslation();
   const [messages, setMessages] = useState<
     { text: string; sender: "user" | "bot" }[]
   >([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const API_KEY = "API_KEY";
+  useEffect(() => {
+    const fetchToken = async () => {
+      const tok = await getToken();
+      if (!tok) setError("Token manquant");
+      else setToken(tok);
+    };
+    fetchToken();
+  }, []);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
+    if (!token) {
+      setError("Aucun token trouvé");
+      return;
+    }
 
     const newMessages: { text: string; sender: "user" | "bot" }[] = [
       ...messages,
@@ -23,248 +37,150 @@ const Chatbot: React.FC = () => {
     setInput("");
     setLoading(true);
 
-    setMessages([...newMessages, { text: "", sender: "bot" }]);
-
     try {
-      const response = await fetch(
-        "https://api.openai.com/v1/chat/completions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${API_KEY}`,
-          },
-          body: JSON.stringify({
-            model: "gpt-4o-mini",
-            messages: [{ role: "user", content: input }],
-            stream: true,
-          }),
+      const response = await fetch(`${backendUrl}/ai/query`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      );
+        body: JSON.stringify({
+          prompt: input,
+          model: "gpt-4o-mini",
+        }),
+      });
 
-      if (!response.body) throw new Error(t("noServerResponse"));
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let botMessage = "";
-
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-
-        const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk
-          .split("\n")
-          .filter((line) => line.startsWith("data:"));
-
-        for (const line of lines) {
-          const data = line.replace("data: ", "").trim();
-          if (data === "[DONE]") break;
-
-          try {
-            const parsedData = JSON.parse(data);
-            const text = parsedData.choices?.[0]?.delta?.content || "";
-            botMessage += text;
-
-            const currentBotMessage = botMessage;
-
-            setMessages((prev) =>
-              prev.map((msg, index) =>
-                index === prev.length - 1
-                  ? { ...msg, text: currentBotMessage }
-                  : msg,
-              ),
-            );
-          } catch (error) {
-            console.error("Erreur de parsing JSON :", error);
-          }
-        }
+      const rawResponse = await response.text();
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP ${response.status}: ${rawResponse}`);
       }
-    } catch (error) {
-      console.error("Erreur lors de la requête OpenAI", error);
-      setMessages([...newMessages, { text: t("apiError"), sender: "bot" }]);
+      const data = JSON.parse(rawResponse);
+      setMessages((prev) => [
+        ...prev,
+        { text: data.response || "Réponse vide", sender: "bot" },
+      ]);
+    } catch (err: any) {
+      const errorMessage = err?.message || "Erreur inconnue";
+      console.error("Error /ai/query:", errorMessage);
+      setMessages((prev) => [
+        ...prev,
+        { text: "Erreur lors de la requête à l'API.", sender: "bot" },
+      ]);
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="chatbot-container">
-      <style>{`
-        .chatbot-container {
-          width: 100%;
-          height: 100%;
-          max-width: none;
-          background: #ffffff;
-         
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-        }
-        .chatbot-header {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          padding: 12px;
-          border-bottom: 1px solid #ddd;
-          background: #f5f5f5;
-          height: 60px;
-          flex-shrink: 0;
-        }
-        .chatbot-title-container {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-        .chatbot-title {
-          color: #000;
-          font-size: 20px;
-          font-weight: bold;
-          text-align: center;
-          margin: 0;
-        }
-        .chatbot-icon {
-          font-size: 24px;
-          color: #007bff;
-        }
-        .chatbot-messages {
-          flex: 1 1 auto;
-          min-height: 0;
-          overflow-y: auto;
-          padding: 16px;
-          background-color:rgb(250, 250, 250);
-          color: black;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          width: 100%;
-        }
-        .chat-message {
-          margin-bottom: 8px;
-          max-width: 65%;
-          word-wrap: break-word;
-          color: black;
-          overflow-wrap: break-word;
-          white-space: pre-wrap;
-          font-size: 16px;
-          border-radius: 8px;
-          display: block;
-          padding: 10px;
-        }
-        .user {
-          align-self: flex-end;
-          background-color: #d9f0ff;
-          color: black;
-          text-align: left;
-          max-width: 65%;
-          margin-left: auto;
-          margin-right: 25px;
-        }
-        .bot {
-          align-self: flex-start;
-          background-color:rgb(234, 223, 167);
-          color: black;
-          text-align: left;
-          max-width: 65%;
-          margin-right: auto;
-        }
-        .chatbot-input {
-          display: flex;
-          align-items: center;
-          color: black;
-          background-color:rgb(250, 250, 250);
-          border-top: 1px solid #ddd;
-          background: #fff;
-
-        }
-        .chatbot-input input {
-          padding: 10px;
-          border: 1px solid #ccc;
-          font-size: 16px;
-          background-color:rgb(250, 250, 250);
-          border-radius: 6px;
-          color: black;
-          outline: none;
-          transition: 0.2s;
-          width: 90%;
-        }
-        .chatbot-input input:focus {
-          border-color: #4a76d3;
-        }
-        .chatbot-input button {
-          border: none;
-          border-radius: 6px;
-          font-size: 16px;
-          cursor: pointer;
-          background: #007bff;
-          color: white;
-          margin-left: 8px;
-          transition: background 0.3s ease;
-        }
-        .chatbot-input button:hover {
-          background: #0056b3;
-        }
-        .chatbot-input button:disabled {
-          background: #aaa;
-          color: black;
-          cursor: not-allowed;
-        }
-        .send-button {
-          border: none;
-          border-radius: 6px;
-          font-size: 18px;
-          cursor: pointer;
-          background: #007bff;
-          color: white;
-          transition: background 0.3s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 10px 16px;
-
-        }
-        .send-button:hover {
-          background: #0056b3;
-        }
-        .send-button:disabled {
-          background: #aaa;
-          cursor: not-allowed;
-        }
-      `}</style>
-      <div className="chatbot-header">
-        <div className="chatbot-title-container">
-          <FaRobot className="chatbot-icon" />
-          <h1 className="chatbot-title">{t("Donna")}</h1>
-        </div>
+    <div style={styles.container}>
+      <div style={styles.header}>
+        <FaRobot style={{ marginRight: 8 }} />
+        <span>Assistant IA</span>
       </div>
 
-      <div className="chatbot-messages">
-        {messages.map((msg, index) => (
-          <div key={index} className={`chat-message ${msg.sender}`}>
+      <div style={styles.messages}>
+        {messages.map((msg, idx) => (
+          <div
+            key={idx}
+            style={{
+              ...styles.message,
+              alignSelf: msg.sender === "user" ? "flex-end" : "flex-start",
+              backgroundColor: msg.sender === "user" ? "#d9f0ff" : "#f0f0f0",
+            }}
+          >
             {msg.text}
           </div>
         ))}
+        {error && (
+          <div style={{ color: "red", padding: "8px", textAlign: "center" }}>
+            {error}
+          </div>
+        )}
       </div>
 
-      <div className="chatbot-input">
+      <div style={styles.inputRow}>
         <input
           type="text"
-          placeholder={t("questionchatbot")}
+          placeholder="Pose ta question..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          style={styles.input}
         />
         <button
           onClick={sendMessage}
-          disabled={loading}
-          className="send-button"
+          disabled={loading || !token}
+          style={styles.button}
         >
           <FaPaperPlane />
         </button>
       </div>
     </div>
   );
+};
+
+const styles: { [key: string]: React.CSSProperties } = {
+  container: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    border: "1px solid #ddd",
+    borderRadius: 8,
+    overflow: "hidden",
+    fontFamily: "Arial, sans-serif",
+  },
+  header: {
+    backgroundColor: "#f5f5f5",
+    padding: "12px 16px",
+    fontWeight: "bold",
+    fontSize: 16,
+    display: "flex",
+    alignItems: "center",
+    borderBottom: "1px solid #ddd",
+  },
+  messages: {
+    flex: 1,
+    padding: 16,
+    overflowY: "auto",
+    display: "flex",
+    flexDirection: "column",
+    gap: 10,
+    background: "#fff",
+  },
+  message: {
+    maxWidth: "70%",
+    padding: "10px 14px",
+    borderRadius: 12,
+    fontSize: 15,
+  },
+  inputRow: {
+    display: "flex",
+    borderTop: "1px solid #ddd",
+    padding: 12,
+    background: "#fafafa",
+  },
+  input: {
+    flex: 1,
+    padding: "10px 12px",
+    borderRadius: 6,
+    border: "1px solid #ccc",
+    fontSize: 15,
+    outline: "none",
+  },
+  button: {
+    marginLeft: 8,
+    backgroundColor: "#007bff",
+    border: "none",
+    color: "#fff",
+    padding: "10px 16px",
+    borderRadius: 6,
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 };
 
 export default Chatbot;
