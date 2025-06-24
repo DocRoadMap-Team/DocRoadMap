@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { theme, buttonStyle } from  "../../utils/Styles";
+import { theme, buttonStyle } from "../../utils/Styles";
 
 function parseRGB(color: string): [number, number, number] {
   const match = color.match(/\d+/g);
@@ -8,17 +8,27 @@ function parseRGB(color: string): [number, number, number] {
 }
 
 function rgbToHls(r: number, g: number, b: number): [number, number, number] {
-  r /= 255; g /= 255; b /= 255;
-  const max = Math.max(r, g, b), min = Math.min(r, g, b);
-  let h = 0, s = 0
+  r /= 255;
+  g /= 255;
+  b /= 255;
+  const max = Math.max(r, g, b),
+    min = Math.min(r, g, b);
+  let h = 0,
+    s = 0;
   const l = (max + min) / 2;
   if (max !== min) {
     const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
     switch (max) {
-      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-      case g: h = (b - r) / d + 2; break;
-      case b: h = (r - g) / d + 4; break;
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
     }
     h /= 6;
   }
@@ -118,15 +128,12 @@ function adjustBackgroundTextAndBorders(enable: boolean) {
         }
         el.style.borderColor = borderColor;
         el.style.borderStyle = "solid";
-        el.style.borderWidth =  "0.5px";
+        el.style.borderWidth = "0.5px";
 
         // handle all descendants with text and not its own background
         const descendants = el.querySelectorAll<HTMLElement>("*");
         descendants.forEach((desc) => {
-          if (
-            hasVisibleText(desc) &&
-            !hasOwnBackground(desc)
-          ) {
+          if (hasVisibleText(desc) && !hasOwnBackground(desc)) {
             if (!originalStyles.has(desc)) {
               originalStyles.set(desc, {
                 backgroundColor: desc.style.backgroundColor,
@@ -220,7 +227,11 @@ function removeLinkDecorations() {
     a.style.textDecoration = "";
     if (a.dataset.hasIcon === "true") {
       const last = a.lastChild;
-      if (last && last.nodeType === Node.ELEMENT_NODE && (last as HTMLElement).tagName === "SPAN") {
+      if (
+        last &&
+        last.nodeType === Node.ELEMENT_NODE &&
+        (last as HTMLElement).tagName === "SPAN"
+      ) {
         a.removeChild(last);
       }
       delete a.dataset.hasIcon;
@@ -245,12 +256,25 @@ const ContrastAdjuster: React.FC = () => {
   };
 
   return (
-    <div style={{ fontFamily: theme.fontFamily, background: theme.backgroundColor, color: theme.color }}>
+    <div
+      style={{
+        fontFamily: theme.fontFamily,
+        background: theme.backgroundColor,
+        color: theme.color,
+      }}
+    >
       <button
         style={buttonStyle}
-        onMouseOver={e => (e.currentTarget.style.background = theme.accentColorDark)}
-        onMouseOut={e => (e.currentTarget.style.background = theme.accentColor)}
-        onClick={() => {handleToggle(); setEnabled(!enabled)}}
+        onMouseOver={(e) =>
+          (e.currentTarget.style.background = theme.accentColorDark)
+        }
+        onMouseOut={(e) =>
+          (e.currentTarget.style.background = theme.accentColor)
+        }
+        onClick={() => {
+          handleToggle();
+          setEnabled(!enabled);
+        }}
         aria-pressed={enabled}
       >
         {enabled ? "Restore Colors" : "Adjust Background, Text & Borders"}
@@ -260,4 +284,3 @@ const ContrastAdjuster: React.FC = () => {
 };
 
 export default ContrastAdjuster;
-

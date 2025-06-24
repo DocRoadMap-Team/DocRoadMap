@@ -6,7 +6,8 @@ import { useTranslation } from "react-i18next";
 import getToken from "../../utils/utils";
 
 const env = import.meta.env.VITE_ENV_MODE;
-const backendUrl = (env === "development") ? "http://localhost:8082" : "https://www.docroadmap.fr";
+const backendUrl =
+  env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
 
 interface Step {
   id: number;

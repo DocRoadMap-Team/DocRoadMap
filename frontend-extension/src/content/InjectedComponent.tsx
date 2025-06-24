@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   FaCalendar,
   FaEye,
-  FaRegFileAlt,
   FaRoad,
   FaRobot,
   FaWheelchair,
@@ -13,7 +12,7 @@ import StepsCalendar from "./components/Calendar/calendar";
 import getToken from "./utils/utils";
 import DecisionTreeChat from "./components/roadmapCreation/decisionTree";
 import ContrastAdjuster from "./components/Accessibility/ContrastAdjuster";
-
+import logo from "../../public/assets/docroadmap_logo2.png";
 const buttonData = [
   { icon: <FaRoad />, label: "CreateRoadmapChat" },
   { icon: <FaEye />, label: "Voir Roadmap" },
@@ -113,7 +112,6 @@ const DocRoadmapBar: React.FC = () => {
 
   return (
     <>
-
       {isPanelMounted && (
         <Panel activePanel={activePanel} isOpen={isPanelOpen} />
       )}
@@ -137,17 +135,17 @@ const DocRoadmapBar: React.FC = () => {
           style={{
             width: 56,
             height: 56,
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "center",
             borderRadius: "50%",
             background: "#1976d2",
-            color: "white",
             border: "none",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-            fontSize: 28,
             cursor: "pointer",
           }}
           aria-label="Doc Roadmap"
         >
-          <FaRegFileAlt />
+          <img src={logo} alt="Doc Roadmap" style={{ borderRadius: "50%" }} />
         </button>
         <div
           style={{
@@ -161,7 +159,6 @@ const DocRoadmapBar: React.FC = () => {
             background: "transparent",
           }}
         >
-
           <div
             style={{
               display: "flex",
