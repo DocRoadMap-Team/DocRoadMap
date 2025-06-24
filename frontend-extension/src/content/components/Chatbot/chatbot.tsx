@@ -11,6 +11,7 @@ const Chatbot: React.FC = () => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -21,6 +22,65 @@ const Chatbot: React.FC = () => {
     };
     fetchToken();
   }, []);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      if (!token) return;
+      try {
+        const res = await fetch(`${backendUrl}/users/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          const txt = await res.text();
+          throw new Error(`Erreur user/me (${res.status}): ${txt}`);
+        }
+
+        const user = await res.json();
+        console.error("usef id  :", user.id);
+        setUserId(user.id);
+      } catch (err: any) {
+        console.error("Error /users/me :", err.message || err);
+      }
+    };
+
+    fetchUserInfo();
+  }, [token]);
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      if (!token || !userId) return;
+
+      try {
+        const res = await fetch(`${backendUrl}/ai/history/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          const txt = await res.text();
+          throw new Error(`Erreur /ai/history (${res.status}): ${txt}`);
+        }
+
+        const history = await res.json();
+        console.error("History :", history);
+
+        const formatted = history.map((entry: any) => ({
+          text: entry.message,
+          sender: entry.sender === "BOT" ? "bot" : "user",
+        }));
+
+        setMessages(formatted);
+      } catch (err: any) {
+        console.error("Error /ai/history :", err.message || err);
+      }
+    };
+
+    fetchHistory();
+  }, [token, userId]);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
