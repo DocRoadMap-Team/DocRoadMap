@@ -39,12 +39,22 @@ export default function ChatInterface() {
     setLoading(true);
     try {
       const res = await request.aiHistory();
-      const history =
-        res?.data?.history?.map((entry: any) => ({
-          text: entry.message,
-          sender: entry.role === "user" ? "user" : "bot",
-        })) || [];
-      setMessages(history);
+      const historyText = res.data.history;
+      const history = historyText.split("\n").map((line: string) => {
+        const [roleLabel, ...rest] = line.split(": ");
+        const text = rest.join(": ");
+        return {
+          text,
+          sender: roleLabel.toLowerCase() === "user" ? "user" : "bot",
+        };
+      });
+      if (history.length === 0) {
+        setMessages([
+          { text: "Bonjour demande moi ce dont tu as besoin !", sender: "bot" },
+        ]);
+      } else {
+        setMessages(history);
+      }
     } catch (error) {
       console.error(error);
       setMessages([{ text: t("server_error"), sender: "bot" }]);
