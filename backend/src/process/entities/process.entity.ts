@@ -2,11 +2,15 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, On
 import { User } from '../../users/entities/user.entity';
 import { Status } from '../../enum/status.enum';
 import { Step } from '../../steps/entities/step.entity';
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity()
 export class Process {
     @PrimaryGeneratedColumn()
     id: number;
+
+    @Column({ type: 'uuid', unique: true, nullable: false, default: () => 'uuid_generate_v4()' })
+    uuid: string;
 
     @Column('text')
     name: string;

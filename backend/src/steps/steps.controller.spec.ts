@@ -1,109 +1,90 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { StepsController } from './steps.controller';
 import { StepsService } from './steps.service';
-import { CreateStepDto } from './dto/create-step.dto';
-import { UpdateStepDto } from './dto/update-step.dto';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { Step } from './entities/step.entity';
-import { Process } from '../process/entities/process.entity';
-import { Repository } from 'typeorm';
+import { NotFoundException } from '@nestjs/common';
+
+const mockStepsService = {
+  create: jest.fn(),
+  findAll: jest.fn(),
+  findOne: jest.fn(),
+  update: jest.fn(),
+  remove: jest.fn(),
+};
 
 describe('StepsController', () => {
   let controller: StepsController;
-  let service: StepsService;
-  let processRepository: Repository<Process>;
-  let stepRepository: Repository<Step>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [StepsController],
       providers: [
-        StepsService,
-        {
-          provide: getRepositoryToken(Step),
-          useClass: Repository,
-        },
-        {
-          provide: getRepositoryToken(Process),
-          useClass: Repository,
-        },
-        {
-          provide: StepsService,
-          useValue: {
-            create: jest.fn().mockResolvedValue({ id: 1, name: 'Sample Step' }),
-            findAll: jest.fn().mockResolvedValue([
-              { id: 1, name: 'Step One', description: 'Description for Step One', processId: 1 },
-              { id: 2, name: 'Step Two', description: 'Description for Step Two', processId: 1 },
-            ]),
-            findOne: jest.fn().mockResolvedValue({ id: 1, name: 'Sample Step' }),
-            update: jest.fn().mockResolvedValue({ id: 1, name: 'Updated Step' }),
-            remove: jest.fn().mockResolvedValue({ id: 1 }),
-          },
-        },
+        { provide: StepsService, useValue: mockStepsService },
       ],
     }).compile();
 
     controller = module.get<StepsController>(StepsController);
-    service = module.get<StepsService>(StepsService);
-  });
-
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+    jest.clearAllMocks();
   });
 
   describe('create', () => {
     it('should create a step', async () => {
-      const createStepDto: CreateStepDto = { 
-        name: 'Sample Step', 
-        description: 'This is a sample step', 
-        processId: 1 
-      };
-      const result = await controller.create(createStepDto);
-      expect(result).toEqual({ id: 1, name: 'Sample Step' });
-      expect(service.create).toHaveBeenCalledWith(createStepDto);
+      const dto = { name: 'step', description: 'desc', processId: 1 };
+      const step = { id: 1, ...dto };
+      mockStepsService.create.mockResolvedValue(step);
+
+      const result = await controller.create(dto as any);
+      expect(result).toEqual(step);
+      expect(mockStepsService.create).toHaveBeenCalledWith(dto);
     });
   });
 
   describe('findAll', () => {
-    it('should return an array of steps', async () => {
+    it('should return all steps', async () => {
+      const steps = [{ id: 1 }, { id: 2 }];
+      mockStepsService.findAll.mockResolvedValue(steps);
+
       const result = await controller.findAll();
-      expect(result).toEqual([
-        { id: 1, name: 'Step One', description: 'Description for Step One', processId: 1 },
-        { id: 2, name: 'Step Two', description: 'Description for Step Two', processId: 1 },
-      ]);
-      expect(service.findAll).toHaveBeenCalled();
+      expect(result).toEqual(steps);
+      expect(mockStepsService.findAll).toHaveBeenCalled();
     });
   });
 
   describe('findOne', () => {
-    it('should return a single step', async () => {
-      const id = '1';
-      const result = await controller.findOne(id);
-      expect(result).toEqual({ id: 1, name: 'Sample Step' });
-      expect(service.findOne).toHaveBeenCalledWith(+id);
+    it('should return a step by id', async () => {
+      const step = { id: 1 };
+      mockStepsService.findOne.mockResolvedValue(step);
+
+      const result = await controller.findOne('1');
+      expect(result).toEqual(step);
+      expect(mockStepsService.findOne).toHaveBeenCalledWith(1);
+    });
+
+    it('should throw if step not found', async () => {
+      mockStepsService.findOne.mockRejectedValue(new NotFoundException());
+      await expect(controller.findOne('1')).rejects.toThrow(NotFoundException);
     });
   });
 
   describe('update', () => {
     it('should update a step', async () => {
-      const id = '1';
-      const updateStepDto: UpdateStepDto = { 
-        name: 'Updated Step', 
-        description: 'This step has been updated', 
-        processId: 1 
-      };
-      const result = await controller.update(id, updateStepDto);
-      expect(result).toEqual({ id: 1, name: 'Updated Step' });
-      expect(service.update).toHaveBeenCalledWith(+id, updateStepDto);
+      const updateDto = { name: 'updated' };
+      const updated = { affected: 1 };
+      mockStepsService.update.mockResolvedValue(updated);
+
+      const result = await controller.update('1', updateDto as any);
+      expect(result).toEqual(updated);
+      expect(mockStepsService.update).toHaveBeenCalledWith(1, updateDto);
     });
   });
 
   describe('remove', () => {
     it('should remove a step', async () => {
-      const id = '1';
-      const result = await controller.remove(id);
-      expect(result).toEqual({ id: 1 });
-      expect(service.remove).toHaveBeenCalledWith(+id);
+      const removed = { affected: 1 };
+      mockStepsService.remove.mockResolvedValue(removed);
+
+      const result = await controller.remove('1');
+      expect(result).toEqual(removed);
+      expect(mockStepsService.remove).toHaveBeenCalledWith(1);
     });
   });
 });

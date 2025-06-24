@@ -1,122 +1,90 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProcessController } from './process.controller';
 import { ProcessService } from './process.service';
-import { CreateProcessDto } from './dto/create-process.dto';
-import { UpdateProcessDto } from './dto/update-process.dto';
-import { Status } from '../enum/status.enum';
+import { NotFoundException } from '@nestjs/common';
+
+const mockProcessService = {
+  create: jest.fn(),
+  findAll: jest.fn(),
+  findOne: jest.fn(),
+  update: jest.fn(),
+  remove: jest.fn(),
+};
 
 describe('ProcessController', () => {
   let controller: ProcessController;
-  let service: ProcessService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ProcessController],
       providers: [
-        {
-          provide: ProcessService,
-          useValue: {
-            create: jest.fn().mockResolvedValue({
-              id: 1,
-              name: 'Test Process',
-            }),
-            findAll: jest.fn().mockResolvedValue([{
-              id: 1,
-              name: 'Test Process',
-              description: 'Test Description',
-              status: Status.IN_PROGRESS,
-              userId: 1,
-              stepsId: [],
-            }]),
-            findOne: jest.fn().mockResolvedValue({ 
-              id: 1,
-              name: 'Test Process' 
-            }),
-            update: jest.fn().mockResolvedValue({
-              id: 1,
-              name: 'Updated Process' 
-            }),
-            remove: jest.fn().mockResolvedValue({ id: 1 }),
-          },
-        },
-        {
-          provide: 'StepRepository',
-          useValue: {},
-        },
+        { provide: ProcessService, useValue: mockProcessService },
       ],
     }).compile();
 
     controller = module.get<ProcessController>(ProcessController);
-    service = module.get<ProcessService>(ProcessService);
-  });
-
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+    jest.clearAllMocks();
   });
 
   describe('create', () => {
     it('should create a process', async () => {
-      const createProcessDto: CreateProcessDto = { 
-        name: 'Test Process', 
-        description: 'Test Description', 
-        status: Status.IN_PROGRESS, 
-        userId: 1,
-        stepsId: [],
-        endedAt: new Date(),
-      };
-      const result = await controller.create(createProcessDto);
-      expect(result).toEqual({ id: 1, name: 'Test Process' });
-      expect(service.create).toHaveBeenCalledWith(createProcessDto);
+      const dto = { name: 'p', description: 'd', userId: 1, stepsId: [1, 2] };
+      const process = { id: 1, ...dto };
+      mockProcessService.create.mockResolvedValue(process);
+
+      const result = await controller.create(dto as any);
+      expect(result).toEqual(process);
+      expect(mockProcessService.create).toHaveBeenCalledWith(dto);
     });
   });
 
   describe('findAll', () => {
-    it('should return an array of processes', async () => {
+    it('should return all processes', async () => {
+      const processes = [{ id: 1 }, { id: 2 }];
+      mockProcessService.findAll.mockResolvedValue(processes);
+
       const result = await controller.findAll();
-      expect(result).toEqual([{
-        id: 1,
-        name: 'Test Process',
-        description: 'Test Description',
-        status: Status.IN_PROGRESS,
-        userId: 1,
-        stepsId: [],
-      }]);
-      expect(service.findAll).toHaveBeenCalled();
+      expect(result).toEqual(processes);
+      expect(mockProcessService.findAll).toHaveBeenCalled();
     });
   });
 
   describe('findOne', () => {
-    it('should return a single process', async () => {
-      const id = '1';
-      const result = await controller.findOne(id);
-      expect(result).toEqual({ id: 1, name: 'Test Process' });
-      expect(service.findOne).toHaveBeenCalledWith(+id);
+    it('should return a process by id', async () => {
+      const process = { id: 1 };
+      mockProcessService.findOne.mockResolvedValue(process);
+
+      const result = await controller.findOne('1');
+      expect(result).toEqual(process);
+      expect(mockProcessService.findOne).toHaveBeenCalledWith(1);
+    });
+
+    it('should throw if process not found', async () => {
+      mockProcessService.findOne.mockRejectedValue(new NotFoundException());
+      await expect(controller.findOne('1')).rejects.toThrow(NotFoundException);
     });
   });
 
   describe('update', () => {
     it('should update a process', async () => {
-      const id = '1';
-      const updateProcessDto: UpdateProcessDto = {
-        name: 'Updated Process',
-        description: 'Updated Description',
-        status: Status.COMPLETED,
-        userId: 2,
-        stepsId: [1, 2, 3],
-        endedAt: new Date(),
-      };
-      const result = await controller.update(id, updateProcessDto);
-      expect(result).toEqual({ id: 1, name: 'Updated Process' });
-      expect(service.update).toHaveBeenCalledWith(+id, updateProcessDto);
+      const updateDto = { name: 'updated' };
+      const updated = { affected: 1 };
+      mockProcessService.update.mockResolvedValue(updated);
+
+      const result = await controller.update('1', updateDto as any);
+      expect(result).toEqual(updated);
+      expect(mockProcessService.update).toHaveBeenCalledWith(1, updateDto);
     });
   });
 
   describe('remove', () => {
     it('should remove a process', async () => {
-      const id = '1';
-      const result = await controller.remove(id);
-      expect(result).toEqual({ id: 1 });
-      expect(service.remove).toHaveBeenCalledWith(+id);
+      const removed = { affected: 1 };
+      mockProcessService.remove.mockResolvedValue(removed);
+
+      const result = await controller.remove('1');
+      expect(result).toEqual(removed);
+      expect(mockProcessService.remove).toHaveBeenCalledWith(1);
     });
   });
 });

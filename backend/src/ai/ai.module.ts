@@ -3,11 +3,11 @@ import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AiService } from './ai.service';
 import { AiController } from './ai.controller';
-import { AiHistory } from 'src/ai_history/entities/ai_history.entity';
-import { User } from 'src/users/entities/user.entity';
-import { AiHistoryModule } from 'src/ai_history/ai_history.module';
-import { Step } from 'src/steps/entities/step.entity';
-import { Process } from 'src/process/entities/process.entity';
+import { AiHistory } from '../ai_history/entities/ai_history.entity';
+import { User } from '../users/entities/user.entity';
+import { AiHistoryModule } from '../ai_history/ai_history.module';
+import { Step } from '../steps/entities/step.entity';
+import { Process } from '../process/entities/process.entity';
 import { ConfigService } from '@nestjs/config';
 
 @Module({

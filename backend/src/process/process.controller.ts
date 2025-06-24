@@ -3,7 +3,7 @@ import { ProcessService } from './process.service';
 import { CreateProcessDto } from './dto/create-process.dto';
 import { UpdateProcessDto } from './dto/update-process.dto';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { Status } from 'src/enum/status.enum';
+import { Status } from '../enum/status.enum';
 
 @Controller('process')
 export class ProcessController {
