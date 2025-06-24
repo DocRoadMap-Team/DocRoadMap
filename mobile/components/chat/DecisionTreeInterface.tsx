@@ -15,13 +15,28 @@ import {
 } from "react-native-responsive-screen";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@/components/ThemeContext";
+import { TabView, SceneMap } from "react-native-tab-view";
+import EditRoadmap from "./EditRoadmap";
 
 export default function DecisionTreeInterface() {
   const [showModal, setShowModal] = useState(false);
+  const [index, setIndex] = useState(0);
   const { theme } = useTheme();
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
+
+  const [routes] = useState([
+    { key: "first", title: "Decision Tree" },
+    { key: "second", title: "Modifier la Roadmap" },
+  ]);
+
+  const FirstRoute = () => <DecisionTree />;
+  const SecondRoute = () => (
+    <View>
+      <EditRoadmap />
+    </View>
+  );
 
   return (
     <SafeAreaView style={{ backgroundColor: theme.background }}>
@@ -59,7 +74,16 @@ export default function DecisionTreeInterface() {
             <Ionicons name="close" size={24} style={{ paddingRight: 10 }} />
           </TouchableOpacity>
         </View>
-        <DecisionTree />
+
+        <TabView
+          navigationState={{ index, routes }}
+          renderScene={SceneMap({
+            first: FirstRoute,
+            second: SecondRoute,
+          })}
+          onIndexChange={setIndex}
+          initialLayout={{ width: wp(100), height: hp(80) }}
+        />
       </Modal>
     </SafeAreaView>
   );
