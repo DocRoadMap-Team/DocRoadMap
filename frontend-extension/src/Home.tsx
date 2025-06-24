@@ -13,7 +13,13 @@ const authorizedDomains = [
   /\.gouv\.fr$/,
   /\.ameli\.fr$/,
   /\.caf\.fr$/,
-  /\.impots\.gouv\.fr$/
+  /\.impots\.gouv\.fr$/,
+  /\.service-public\.fr$/,
+  /\.legifrance\.gouv\.fr$/,
+  /\.franceconnect\.gouv\.fr$/,
+  /\.demarches-simplifiees\.fr$/,
+  /\.mesdroitssociaux\.gouv\.fr$/,
+  /\.mes-aides\.gouv\.fr$/,
 ];
 
 function isAuthorizedUrl(url: string | null): boolean {
@@ -32,7 +38,6 @@ function Home() {
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
 
   useEffect(() => {
-
     const getActiveTabUrl = (): Promise<string | null> => {
       return new Promise((resolve) => {
         if (typeof chrome !== "undefined" && chrome.tabs) {
