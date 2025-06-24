@@ -117,8 +117,8 @@ const CalendarScreen = () => {
     );
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: "⏰ Rappel",
-        body: "Ton événement commence bientôt !",
+        title: t("reminder"),
+        body: t("begin_soon"),
       },
       trigger: {
         type: "date",
@@ -130,8 +130,8 @@ const CalendarScreen = () => {
   const notifyEventAdded = async () => {
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: "📅 Événement ajouté",
-        body: "Tu as ajouté un événement à ton vrai calendrier !",
+        title: t("added_event"),
+        body: t("real_calendar"),
       },
       trigger: {
         seconds: 1,
@@ -162,12 +162,12 @@ const CalendarScreen = () => {
 
   const addEventWithReset = async () => {
     if (!calendarId || !eventName) {
-      Alert.alert("Erreur", "Veuillez saisir un nom d'événement.");
+      Alert.alert(t("error_event_name"));
       return;
     }
 
     if (!selectedDate) {
-      Alert.alert("Erreur", "Veuillez sélectionner une date.");
+      Alert.alert(t("error_date"));
       return;
     }
 
@@ -195,13 +195,13 @@ const CalendarScreen = () => {
       }
       await notifyEventAdded();
 
-      Alert.alert("Tu as ajouté un événement à ton vrai calendrier !");
-      handleDayPress({ dateString: selectedDate });
+      Alert.alert(t("real_calendar")),
+        handleDayPress({ dateString: selectedDate });
       setModalVisible(false);
       resetForm();
     } catch (error) {
       console.error(error);
-      Alert.alert("Erreur", "Impossible d'ajouter l'événement.");
+      Alert.alert(t("error_impossible_add"));
     }
   };
 
@@ -225,7 +225,7 @@ const CalendarScreen = () => {
 
       <View style={styles.buttonContainer}>
         <Button
-          title="Ajouter un événement" //y a pas d'event d'afficher sur l'app si la notif est pour minuit
+          title={t("add_event")} //y a pas d'event d'afficher sur l'app si la notif est pour minuit
           onPress={openModal}
           disabled={!selectedDate}
         />
@@ -233,7 +233,7 @@ const CalendarScreen = () => {
 
       {events.length > 0 && (
         <View style={{ padding: 10 }}>
-          <Text>Événements du jour :</Text>
+          <Text>{t("today_event")}</Text>
           {events.map((e) => (
             <Text key={e.id}>
               • {e.title} ({new Date(e.startDate).toLocaleTimeString()})
@@ -251,29 +251,25 @@ const CalendarScreen = () => {
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
             <ScrollView>
-              <Text style={styles.modalTitle}>Nom de l'événement :</Text>
+              <Text style={styles.modalTitle}>{t("event_name")}</Text>
               <TextInput
                 style={styles.input}
                 value={eventName}
                 onChangeText={setEventName}
-                placeholder="Nom de l'événement"
+                placeholder={t("event_name")}
               />
 
-              <Text style={styles.modalTitle}>
-                Description de l'événement :
-              </Text>
+              <Text style={styles.modalTitle}>{t("event_description")}</Text>
               <TextInput
                 style={styles.input}
                 value={eventDescription}
                 onChangeText={setEventDescription}
-                placeholder="Description de l'événement"
+                placeholder={t("event_description")}
                 multiline
                 numberOfLines={4}
               />
 
-              <Text style={styles.modalTitle}>
-                Choisissez l'heure de début de l'événement :
-              </Text>
+              <Text style={styles.modalTitle}>{t("event_date")}</Text>
               <View style={styles.pickerContainer}>
                 <Picker
                   selectedValue={eventTime.hour}
@@ -307,9 +303,7 @@ const CalendarScreen = () => {
                 </Picker>
               </View>
 
-              <Text style={styles.modalTitle}>
-                Choisissez l'heure de fin de l'événement :
-              </Text>
+              <Text style={styles.modalTitle}>{t("event_end")}</Text>
               <View style={styles.pickerContainer}>
                 <Picker
                   selectedValue={eventEndTime.hour}
@@ -343,15 +337,13 @@ const CalendarScreen = () => {
                 </Picker>
               </View>
 
-              <Text style={styles.modalTitle}>
-                Souhaitez-vous recevoir une notification ?
-              </Text>
+              <Text style={styles.modalTitle}>{t("notification_choose")}</Text>
               <View style={styles.buttonRow}>
                 {isNotificationSelected === false && (
                   <>
                     <View style={styles.buttonWrapper}>
                       <Button
-                        title="Oui"
+                        title={t("yes")}
                         onPress={() => {
                           setNotify(true);
                           setIsNotificationSelected(true);
@@ -360,7 +352,7 @@ const CalendarScreen = () => {
                     </View>
                     <View style={styles.buttonWrapper}>
                       <Button
-                        title="Non"
+                        title={t("no")}
                         onPress={() => {
                           setNotify(false);
                           setIsNotificationSelected(true);
@@ -373,9 +365,7 @@ const CalendarScreen = () => {
 
               {isNotificationSelected && notify && (
                 <>
-                  <Text style={styles.modalTitle}>
-                    Choisissez combien de minutes avant l'événement :
-                  </Text>
+                  <Text style={styles.modalTitle}>{t("reminder_time")}</Text>
                   <Picker
                     selectedValue={notificationDelay}
                     onValueChange={(itemValue) =>
@@ -396,12 +386,12 @@ const CalendarScreen = () => {
 
               {isNotificationSelected && (
                 <View style={styles.buttonWrapper}>
-                  <Button title="Ajouter" onPress={addEventWithReset} />
+                  <Button title={t("add_event")} onPress={addEventWithReset} />
                 </View>
               )}
 
               <View style={styles.buttonWrapper}>
-                <Button title="Annuler" onPress={closeModal} />
+                <Button title={t("cancel")} onPress={closeModal} />
               </View>
             </ScrollView>
           </View>

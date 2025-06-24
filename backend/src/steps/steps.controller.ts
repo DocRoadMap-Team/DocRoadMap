@@ -3,7 +3,7 @@ import { StepsService } from './steps.service';
 import { CreateStepDto } from './dto/create-step.dto';
 import { UpdateStepDto } from './dto/update-step.dto';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { Status } from 'src/enum/status.enum';
+import { Status } from '../enum/status.enum';
 
 @Controller('steps')
 export class StepsController {

@@ -222,7 +222,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
           >
             <View style={styles.modalHeader}>
               <Text style={[styles.modalTitle, { color: theme.text }]}>
-                {t("moreDetails")}
+                {t("details")}
               </Text>
               <TouchableOpacity
                 style={styles.modalCloseIcon}
