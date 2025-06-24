@@ -4,7 +4,8 @@ import DecisionTreeChat from "./decisionTree";
 import axios from "axios";
 import getToken from "../../utils/utils";
 
-const backendUrl = "https://www.docroadmap.fr";
+const env = import.meta.env.VITE_ENV_MODE;
+const backendUrl = (env === "development") ? "http://localhost:8082" : "https://www.docroadmap.fr";
 
 jest.mock("axios");
 jest.mock("../../utils/utils");
