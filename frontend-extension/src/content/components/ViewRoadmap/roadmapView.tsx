@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import getToken from "../../utils/utils";
+import ModifyRoadmapChat from "./ModifyRoadmapChat";
 
 const isDev = process.env.NODE_ENV !== "production";
 const basePath = isDev ? "./assets/" : "./assets/";
@@ -52,6 +53,7 @@ const RoadmapView: React.FC = () => {
   const [cards, setCards] = useState<Card[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [showSteps, setShowSteps] = useState(false);
+  const [chatProcessId, setChatProcessId] = useState<number | null>(null);
 
   interface Step {
     id: number;
@@ -65,7 +67,7 @@ const RoadmapView: React.FC = () => {
   const [selectedProcessName, setSelectedProcessName] = useState<string>("");
   const [token, setToken] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<{ [key: number]: string }>(
-    {},
+    {}
   );
 
   useEffect(() => {
@@ -105,13 +107,13 @@ const RoadmapView: React.FC = () => {
       await axios.patch(
         `${backendUrl}/steps/${stepId}`,
         { endedAt: formattedDate },
-        { headers: { Authorization: `Bearer ${token}` } },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setSteps(
         steps.map((step) =>
-          step.id === stepId ? { ...step, endedAt: formattedDate } : step,
-        ),
+          step.id === stepId ? { ...step, endedAt: formattedDate } : step
+        )
       );
 
       alert(t("dateUpdatedAlert"));
@@ -471,6 +473,13 @@ const RoadmapView: React.FC = () => {
                   >
                     {t("continue")}
                   </button>
+                  <button
+                    className="continue-button"
+                    style={{ marginTop: "0.3rem", background: "#6c757d" }}
+                    onClick={() => setChatProcessId(card.id)}
+                  >
+                    Modify Roadmap
+                  </button>
                 </div>
               </div>
             ))}
@@ -556,6 +565,13 @@ const RoadmapView: React.FC = () => {
             )}
           </div>
         </div>
+      )}
+      {chatProcessId && (
+        <ModifyRoadmapChat
+          processId={chatProcessId}
+          onClose={() => setChatProcessId(null)}
+          onRefresh={() => getSteps(chatProcessId, selectedProcessName)}
+        />
       )}
     </div>
   );
