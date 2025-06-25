@@ -6,7 +6,10 @@ import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 const isDev = process.env.NODE_ENV !== "production";
 const basePath = isDev ? "./assets/" : "./assets/";
-const backendUrl = "https://www.docroadmap.fr";
+
+const env = import.meta.env.VITE_ENV_MODE;
+const backendUrl =
+  env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
 
 const normalize = (str: string): string =>
   str
@@ -406,7 +409,7 @@ const RoadmapView: React.FC = () => {
         left: 15px;
         top: 32px;
         width: 3px;
-        height: calc(100% - 32px);
+        height: 100%;
         background: #e0e0e0;
         z-index: 1;
       }
@@ -463,7 +466,7 @@ const RoadmapView: React.FC = () => {
                   <p>
                     {getValidatedStepsCount(card.status)} {t("step")}
                     {getValidatedStepsCount(card.status) > 1 ? "s" : ""}{" "}
-                    {t("validated")} getVa
+                    {t("validated")} 3
                   </p>
                   <button
                     className="continue-button"

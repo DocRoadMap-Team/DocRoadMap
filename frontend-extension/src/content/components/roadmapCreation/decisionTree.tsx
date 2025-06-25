@@ -3,7 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import getToken from "../../utils/utils";
 import rawData from "./decisionTree.json";
 
-const backendUrl = "https://www.docroadmap.fr";
+const env = import.meta.env.VITE_ENV_MODE;
+const backendUrl =
+  env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
 
 type DecisionTreeData = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
