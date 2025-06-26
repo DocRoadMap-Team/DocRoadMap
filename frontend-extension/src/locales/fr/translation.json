@@ -58,8 +58,11 @@
   "calendar": "Calendrier",
   "eventsOf": "Événements du ",
   "noEvent": "Aucun événement prévu ce jour-là.",
-  "instruction": "Votre compte à bien été créé vous pouvez vous connecter.",
+  "instruction": "Un email de confirmation a été envoyé à l'adresse fournie. Veuillez vérifier votre boîte de réception.",
   "login_error": "Email ou mot de passe incorrect",
+  "password_mismatch": "Les mots de passe ne correspondent pas",
+  "registration_error": "Une erreur est survenue lors de l'inscription.",
+  "Account_created": "Compte créé avec succès",
 
   "start_question": "Quelle démarche souhaites-tu effectuer ?",
   "start_option_dem": "Déménagement en France",
