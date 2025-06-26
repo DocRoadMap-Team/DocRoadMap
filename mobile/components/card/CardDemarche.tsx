@@ -344,8 +344,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   cardHeader: {
-    background:
-      "linear-gradient(135deg, #1E40AF 0%, #3B82F6 50%, #60A5FA 100%)",
     backgroundColor: "#2563EB",
     paddingHorizontal: wp("5%"),
     paddingVertical: hp("3%"),
