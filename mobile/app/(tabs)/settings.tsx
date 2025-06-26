@@ -31,14 +31,12 @@ const Settings = () => {
       >
         <Text style={styles.buttonText}>{t("change_theme")}</Text>
       </TouchableOpacity>
-
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
         style={[styles.button, { backgroundColor: theme.primary }]}
       >
         <Text style={styles.buttonText}>{t("switch_language")}</Text>
       </TouchableOpacity>
-
       <Modal
         transparent={true}
         visible={modalVisible}
@@ -70,12 +68,17 @@ const Settings = () => {
           </View>
         </View>
       </Modal>
-
       <TouchableOpacity
         onPress={() => router.replace("/profile")}
         style={[styles.button, { backgroundColor: theme.primary }]}
       >
         <Text style={styles.buttonText}>{t("back_to_profile")}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => router.replace("/calendar")}
+        style={[styles.button, { backgroundColor: theme.primary }]}
+      >
+        <Text style={styles.buttonText}>{"Calendrier des évènements"}</Text>
       </TouchableOpacity>
     </View>
   );

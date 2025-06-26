@@ -87,3 +87,5 @@ expo-env.d.ts
 #ia
 ia/*.gguf
 
+#key
+docroadmap-key.keystore

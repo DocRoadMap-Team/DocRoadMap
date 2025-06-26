@@ -56,4 +56,12 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
     })
     @IsOptional()
     public latestLogin?: Date;
+
+    @ApiProperty({
+        description: 'The activation status of the user',
+        type: 'boolean',
+        required: false
+    })
+    @IsOptional()
+    public isActive?: boolean;
 }

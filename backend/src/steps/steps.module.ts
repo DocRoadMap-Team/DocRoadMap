@@ -3,7 +3,7 @@ import { StepsService } from './steps.service';
 import { StepsController } from './steps.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Step } from './entities/step.entity';
-import { ProcessModule } from 'src/process/process.module';
+import { ProcessModule } from '../process/process.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Step]), forwardRef(() => ProcessModule)],

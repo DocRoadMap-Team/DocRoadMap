@@ -6,6 +6,8 @@ import getToken from "../../utils/utils";
 const isDev = process.env.NODE_ENV !== "production";
 const basePath = isDev ? "./assets/" : "./assets/";
 
+const backendUrl = "https://www.docroadmap.fr";
+
 const normalize = (str: string): string =>
   str
     .toLowerCase()
@@ -31,7 +33,6 @@ const getImageForCardName = (name: string): string => {
     return chrome.runtime.getURL(`${basePath}passport_roadmap.png`);
   if (lower.includes("carte") && lower.includes("identite"))
     return chrome.runtime.getURL(`${basePath}id_roadmap.png`);
-
   return chrome.runtime.getURL(`${basePath}docroadmap.png`);
 };
 
@@ -77,7 +78,7 @@ const RoadmapView: React.FC = () => {
         return;
       }
       try {
-        const response = await axios.get("http://localhost:8082/users/me", {
+        const response = await axios.get(`${backendUrl}/users/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -102,7 +103,7 @@ const RoadmapView: React.FC = () => {
       const formattedDate = `${dateValue}:00.000Z`;
 
       await axios.patch(
-        `http://localhost:8082/steps/${stepId}`,
+        `${backendUrl}/steps/${stepId}`,
         { endedAt: formattedDate },
         { headers: { Authorization: `Bearer ${token}` } },
       );
@@ -135,7 +136,7 @@ const RoadmapView: React.FC = () => {
 
   const getSteps = async (id: number, name: string) => {
     try {
-      const response = await axios.get(`http://localhost:8082/process/${id}`, {
+      const response = await axios.get(`${backendUrl}/process/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

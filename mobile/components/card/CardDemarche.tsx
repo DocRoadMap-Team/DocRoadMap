@@ -5,11 +5,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   Modal,
-  FlatList,
   ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import request from "@/constants/Request";
 import { useTheme } from "@/components/ThemeContext";
 import { useTranslation } from "react-i18next";
@@ -18,6 +16,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { useRouter } from "expo-router";
 
 interface CardDemarcheProps {
   name: string;
@@ -41,11 +40,13 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
 }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
+  const router = useRouter();
   const [modalVisible, setModalVisible] = useState(false);
   const [steps, setSteps] = useState<Step[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedStep, setSelectedStep] = useState<Step | null>(null);
 
   const fetchSteps = useCallback(async () => {
     if (typeof id !== "number") return;
@@ -69,37 +70,84 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
     fetchSteps();
   }, [fetchSteps]);
 
-  const StepItem = ({ item }: { item: Step }) => (
-    <View
-      style={[
-        styles.stepItem,
-        { backgroundColor: theme.background, borderColor: theme.text },
-      ]}
-    >
-      <View style={styles.stepHeader}>
-        <Ionicons
-          name={item.completed ? "checkbox-outline" : "help-outline"}
-          size={24}
-          color={item.completed ? theme.primary : "#D3D3D3"}
-        />
-        <Text
-          style={[styles.stepName, { color: theme.text }]}
-          allowFontScaling={true}
-        >
-          {item.name}
-        </Text>
-      </View>
-      <Text
-        style={[styles.stepDescription, { color: theme.text }]}
-        allowFontScaling={true}
-      >
-        {item.description}
-      </Text>
-    </View>
+  const handleStepClick = (step: Step) => {
+    setSelectedStep(selectedStep?.id === step.id ? null : step);
+  };
+
+  const handleCalendarNavigation = useCallback(
+    (step: Step) => {
+      setModalVisible(false);
+      router.push({
+        pathname: "/calendar",
+        params: {
+          prefillEventName: step.name,
+          prefillEventDescription: step.description,
+          openModal: "true",
+        },
+      });
+    },
+    [router],
   );
 
-  const handleChatBot = () => {
-    console.log(t("openingChatBot"));
+  const StepItem = ({ item, index }: { item: Step; index: number }) => {
+    const circleStyle = item.completed
+      ? styles.completedCircle
+      : styles.incompleteCircle;
+
+    return (
+      <View style={styles.stepWrapper}>
+        <View style={styles.circleColumn}>
+          <TouchableOpacity onPress={() => handleStepClick(item)}>
+            <View
+              style={[
+                styles.circle,
+                circleStyle,
+                { borderColor: theme.text, shadowColor: theme.text },
+              ]}
+            >
+              <Text style={styles.circleText}>{index + 1}</Text>
+            </View>
+          </TouchableOpacity>
+          {index < steps.length - 1 && (
+            <View
+              style={[
+                styles.connectorLine,
+                {
+                  backgroundColor: item.completed ? theme.primary : "#D3D3D3",
+                },
+              ]}
+            />
+          )}
+        </View>
+
+        <View style={styles.stepContent}>
+          <View style={styles.stepHeader}>
+            <TouchableOpacity
+              onPress={() => handleStepClick(item)}
+              style={styles.stepNameContainer}
+            >
+              <Text style={[styles.stepName, { color: theme.text }]}>
+                {item.name}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.calendarButton,
+                { backgroundColor: theme.primary },
+              ]}
+              onPress={() => handleCalendarNavigation(item)}
+            >
+              <Icon name="calendar-plus" size={16} color="white" />
+            </TouchableOpacity>
+          </View>
+          {selectedStep?.id === item.id && (
+            <Text style={[styles.stepDescription, { color: theme.text }]}>
+              {item.description}
+            </Text>
+          )}
+        </View>
+      </View>
+    );
   };
 
   return (
@@ -118,28 +166,23 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
         <Icon name="credit-card" size={24} color="white" />
         <Text
           style={[styles.headerTitle, { color: "white", maxWidth: wp("50%") }]}
-          allowFontScaling={true}
         >
           {name}
         </Text>
         {id && (
-          <Text
-            style={[styles.headerTitle, { color: "white" }]}
-            allowFontScaling={true}
-          >
-            {" "}
-            ({id})
-          </Text>
+          <Text style={[styles.headerTitle, { color: "white" }]}> ({id})</Text>
         )}
       </View>
       <View style={styles.cardContent}>
-        <ScrollView style={styles.scrollContainer}>
+        <ScrollView
+          style={styles.scrollContainer}
+          contentContainerStyle={styles.scrollContent}
+        >
           <Text
             style={[
               styles.contentTitle,
               { color: theme.text, maxWidth: wp("50%") },
             ]}
-            allowFontScaling={true}
           >
             {description}
           </Text>
@@ -152,19 +195,16 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
             ]}
           />
         </View>
-        <Text
-          style={[styles.progressText, { color: theme.text }]}
-          allowFontScaling={true}
-        >{`${progress}% ${t("completed")}`}</Text>
+        <Text style={[styles.progressText, { color: theme.text }]}>
+          {`${progress}% ${t("completed")}`}
+        </Text>
       </View>
       <View style={styles.cardFooter}>
         <TouchableOpacity
           style={[styles.continueButton, { backgroundColor: theme.primary }]}
-          onPress={() => {
-            setModalVisible(true);
-          }}
+          onPress={() => setModalVisible(true)}
         >
-          <Text style={styles.continueButtonText} allowFontScaling={true}>
+          <Text style={styles.continueButtonText}>
             {progress < 100 ? t("continue") : t("complete")}
           </Text>
         </TouchableOpacity>
@@ -177,41 +217,65 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
         onRequestClose={() => setModalVisible(false)}
       >
         <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text
-              style={[styles.modalTitle, { color: theme.text }]}
-              allowFontScaling={true}
-            >
-              {t("moreDetails")}
-            </Text>
-            <FlatList
-              data={steps}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => <StepItem item={item} />}
-              refreshing={isLoading}
-              onRefresh={() => {
-                setRefreshing(true);
-                fetchSteps();
-              }}
-              ListEmptyComponent={
-                <View style={styles.emptyContainer}>
-                  <Ionicons name="list" size={48} color="grey" />
-                  <Text
-                    style={[styles.emptyText, { color: theme.text }]}
-                    allowFontScaling={true}
-                  >
-                    {t("noStepsAvailable")}
-                  </Text>
-                </View>
-              }
-            />
+          <View
+            style={[styles.modalContent, { backgroundColor: theme.background }]}
+          >
+            <View style={styles.modalHeader}>
+              <Text style={[styles.modalTitle, { color: theme.text }]}>
+                {t("details")}
+              </Text>
+              <TouchableOpacity
+                style={styles.modalCloseIcon}
+                onPress={() => setModalVisible(false)}
+              >
+                <Icon name="close" size={24} color={theme.text} />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.timelineContainer}>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                {isLoading ? (
+                  <View style={styles.loadingContainer}>
+                    <Text style={[styles.loadingText, { color: theme.text }]}>
+                      {t("loading", "Chargement...")}
+                    </Text>
+                  </View>
+                ) : error ? (
+                  <View style={styles.errorContainer}>
+                    <Text style={[styles.errorText, { color: "red" }]}>
+                      {error}
+                    </Text>
+                    <TouchableOpacity
+                      style={[
+                        styles.retryButton,
+                        { backgroundColor: theme.primary },
+                      ]}
+                      onPress={fetchSteps}
+                    >
+                      <Text style={styles.retryButtonText}>
+                        {t("retry", "Réessayer")}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                ) : steps.length === 0 ? (
+                  <View style={styles.emptyContainer}>
+                    <Text style={[styles.emptyText, { color: theme.text }]}>
+                      {t("noStepsAvailable", "Aucune étape disponible")}
+                    </Text>
+                  </View>
+                ) : (
+                  steps.map((item, index) => (
+                    <StepItem key={item.id} item={item} index={index} />
+                  ))
+                )}
+              </ScrollView>
+            </View>
+
             <TouchableOpacity
               style={[styles.closeButton, { backgroundColor: theme.primary }]}
               onPress={() => setModalVisible(false)}
             >
-              <Text style={styles.closeButtonText} allowFontScaling={true}>
-                {t("close")}
-              </Text>
+              <Text style={styles.closeButtonText}>{t("close")}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -230,7 +294,6 @@ const styles = StyleSheet.create({
     shadowRadius: moderateScale(4),
     elevation: 30,
     margin: hp("0.75%"),
-    color: "#000",
     flex: 1,
   },
   cardHeader: {
@@ -250,7 +313,6 @@ const styles = StyleSheet.create({
     height: hp("15%"),
     overflow: "hidden",
     flex: 1,
-    justifyContent: "space-between",
   },
   contentTitle: {
     fontSize: moderateScale(18),
@@ -273,14 +335,6 @@ const styles = StyleSheet.create({
   cardFooter: {
     padding: hp("2%"),
   },
-  chatButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: hp("1%"),
-  },
-  chatButtonText: {
-    marginLeft: wp("2%"),
-  },
   continueButton: {
     padding: hp("1.5%"),
     borderRadius: moderateScale(4),
@@ -292,65 +346,163 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: "white",
-    borderRadius: moderateScale(8),
+    borderRadius: moderateScale(12),
     padding: hp("2.5%"),
-    width: wp("80%"),
+    width: wp("100%"),
+    height: hp("90%"),
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: moderateScale(4),
+    elevation: 10,
+  },
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: hp("2%"),
   },
   modalTitle: {
-    fontSize: moderateScale(18),
+    fontSize: moderateScale(20),
     fontWeight: "bold",
-    marginBottom: hp("1.5%"),
+  },
+  modalCloseIcon: {
+    padding: moderateScale(4),
+  },
+  timelineContainer: {
+    flex: 1,
+    flexDirection: "column",
+    paddingBottom: hp("2%"),
+  },
+  stepWrapper: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginBottom: hp("2%"),
+  },
+  circleColumn: {
+    alignItems: "center",
+    marginRight: wp("4%"),
+  },
+  stepContent: {
+    flex: 1,
+  },
+  stepHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: hp("0.5%"),
+  },
+  stepNameContainer: {
+    flex: 1,
+    paddingRight: wp("2%"),
+  },
+  stepName: {
+    fontSize: moderateScale(16),
+    fontWeight: "bold",
+    lineHeight: moderateScale(22),
+  },
+  stepDescription: {
+    fontSize: moderateScale(14),
+    marginTop: hp("0.5%"),
+    lineHeight: moderateScale(20),
+  },
+  calendarButton: {
+    paddingHorizontal: wp("2.5%"),
+    paddingVertical: hp("0.8%"),
+    borderRadius: moderateScale(6),
+    alignItems: "center",
+    justifyContent: "center",
+    minWidth: wp("10%"),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+  },
+  circle: {
+    width: moderateScale(30),
+    height: moderateScale(30),
+    borderRadius: moderateScale(15),
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: hp("0.5%"),
+  },
+  completedCircle: {
+    backgroundColor: "#4CAF50",
+  },
+  incompleteCircle: {
+    backgroundColor: "#D3D3D3",
+  },
+  circleText: {
+    color: "white",
+    fontSize: moderateScale(16),
+    fontWeight: "bold",
+  },
+  connectorLine: {
+    width: wp("0.8%"),
+    height: hp("5%"),
   },
   closeButton: {
     padding: hp("1.2%"),
     borderRadius: moderateScale(4),
     alignItems: "center",
+    marginTop: hp("2%"),
   },
   closeButtonText: {
     color: "white",
     fontWeight: "bold",
   },
-  stepItem: {
-    backgroundColor: "#FFF",
-    padding: hp("2%"),
-    borderRadius: moderateScale(12),
-    marginBottom: hp("1.5%"),
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: moderateScale(2),
-    elevation: 2,
-  },
-  stepHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: hp("1%"),
-  },
-  stepName: {
-    fontSize: moderateScale(18),
-    fontWeight: "600",
-    marginLeft: wp("3%"),
-  },
-  stepDescription: {
-    fontSize: moderateScale(16),
-    marginLeft: wp("9%"),
-  },
-  emptyContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: hp("4%"),
-  },
-  emptyText: {
-    marginTop: hp("1.5%"),
-    fontSize: moderateScale(16),
-  },
   scrollContainer: {
     flex: 1,
+  },
+  scrollContent: {
+    justifyContent: "space-evenly",
+    padding: hp("2%"),
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: hp("5%"),
+  },
+  loadingText: {
+    fontSize: moderateScale(16),
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: hp("5%"),
+  },
+  errorText: {
+    fontSize: moderateScale(16),
+    textAlign: "center",
+    marginBottom: hp("2%"),
+  },
+  retryButton: {
+    paddingHorizontal: wp("5%"),
+    paddingVertical: hp("1%"),
+    borderRadius: moderateScale(6),
+  },
+  retryButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: hp("5%"),
+  },
+  emptyText: {
+    fontSize: moderateScale(16),
+    textAlign: "center",
   },
 });

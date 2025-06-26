@@ -73,7 +73,7 @@ export default function ConnectionPage() {
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <Image
-        source={require("@/assets/images/docroadmap_logo.png")}
+        source={require("@/assets/images/docroadmap_logo.jpg")}
         style={styles.logo}
         resizeMode="contain"
       />
@@ -135,15 +135,6 @@ export default function ConnectionPage() {
           allowFontScaling={true}
           secureTextEntry
         />
-      </View>
-      <View style={styles.checkboxContainer}>
-        <CustomCheckbox
-          value={stayConnected}
-          onValueChange={setStayConnected}
-        />
-        <Text style={[styles.checkboxLabel, { color: theme.text }]}>
-          {t("connexion.rememberMe")}
-        </Text>
       </View>
       <View style={styles.loginButtonContainer}>
         <TouchableOpacity

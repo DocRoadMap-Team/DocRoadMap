@@ -4,6 +4,8 @@ import { FaArrowLeft, FaEnvelope, FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "./profile.css";
 
+const backendUrl = "https://www.docroadmap.fr";
+
 const ArrowLeftIcon = FaArrowLeft as unknown as React.FC<any>;
 const UserIcon = FaUser as unknown as React.FC<any>;
 const EnvelopeIcon = FaEnvelope as unknown as React.FC<any>;
@@ -12,13 +14,13 @@ function Profile() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  const [error, setError] = useState<string>("");
+
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
     email: "",
   });
-
-  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -38,19 +40,16 @@ function Profile() {
         if (!token) {
           throw new Error(t("tokenError"));
         }
-
-        const response = await fetch("http://localhost:8082/users/me", {
+        const response = await fetch(`${backendUrl}/users/me`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         });
-
         if (!response.ok) {
           throw new Error(t("fetchError"));
         }
-
         const data = await response.json();
         setUser({
           firstName: data.firstName || t("notSpecified"),

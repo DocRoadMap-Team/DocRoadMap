@@ -14,7 +14,6 @@ const DocroadmapHome: React.FC = () => {
   const goToProfile = () => {
     navigate("/profile");
   };
-
   const changeLanguage = () => {
     navigate("/language");
   };
@@ -22,7 +21,6 @@ const DocroadmapHome: React.FC = () => {
   const logout = () => {
     localStorage.removeItem("token");
     sessionStorage.clear();
-
     if (typeof chrome !== "undefined" && chrome.storage?.local) {
       chrome.storage.local.remove("token", () => {
         console.log("Token supprimé de chrome.storage");

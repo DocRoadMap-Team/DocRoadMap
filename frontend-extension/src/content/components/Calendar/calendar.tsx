@@ -5,7 +5,7 @@ import "react-calendar/dist/Calendar.css";
 import { useTranslation } from "react-i18next";
 import getToken from "../../utils/utils";
 
-const baseURL = "http://localhost:8082/";
+const backendUrl = "https://www.docroadmap.fr";
 
 interface Step {
   id: number;
@@ -44,7 +44,7 @@ const ProcessCalendar = () => {
         return;
       }
       try {
-        const response = await axios.get<UserData>(`${baseURL}users/me`, {
+        const response = await axios.get<UserData>(`${backendUrl}users/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
