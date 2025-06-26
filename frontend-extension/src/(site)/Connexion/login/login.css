@@ -77,10 +77,10 @@
   transform: scale(1.05);
 }
 
-.error-message {
+.login-error {
   color: red;
   font-size: 0.9rem;
-  margin-top: -8px;
+  margin-top: -13px;
   padding-bottom: 6px;
   text-align: center;
 }

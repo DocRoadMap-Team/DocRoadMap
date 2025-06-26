@@ -58,8 +58,11 @@
   "calendar": "Calendar",
   "eventsOf": "Events of the ",
   "noEvent": "No events scheduled that day.",
-  "instruction": "Your account has been successfully created, you can log in.",
+  "instruction": "A confirmation email has been sent to the provided address. Please check your inbox.",
   "login_error": "Incorrect email or password",
+  "password_mismatch": "Passwords do not match",
+  "registration_error": "An error occurred during registration.",
+  "Account_created": "Account created",
 
   "start_question": "What procedure would you like to carry out?",
   "start_option_dem": "Moving within France",
