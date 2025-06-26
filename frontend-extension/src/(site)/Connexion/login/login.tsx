@@ -34,7 +34,7 @@ function Login() {
         localStorage.setItem("token", token);
         if (typeof chrome !== "undefined" && chrome.storage) {
           chrome.storage.local.set({ token }, () => {
-            console.log("Token saved in chrome.storage :", token);
+            console.log("Token in chrome.storage :", token);
           });
         }
         if (token) {
@@ -52,8 +52,8 @@ function Login() {
         }
       })
       .catch(() => {
-        setError(t("error"));
-        console.error("Login failed.");
+        setError(t("login_error"));
+        console.error("Login failed");
       });
   };
 
@@ -69,7 +69,6 @@ function Login() {
         </div>
         {!isResetMode ? (
           <>
-            {error && <p className="error-message">{error}</p>}
             <div className="input-group small">
               <input
                 type="email"
@@ -91,6 +90,7 @@ function Login() {
                 {t("login")}
               </button>
             </div>
+            {error && <p className="error-message">{error}</p>}
           </>
         ) : (
           <>

@@ -59,6 +59,7 @@
   "eventsOf": "Events of the ",
   "noEvent": "No events scheduled that day.",
   "instruction": "Your account has been successfully created, you can log in.",
+  "login_error": "Incorrect email or password",
 
   "start_question": "What procedure would you like to carry out?",
   "start_option_dem": "Moving within France",

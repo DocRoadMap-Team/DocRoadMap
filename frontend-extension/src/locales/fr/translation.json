@@ -59,6 +59,7 @@
   "eventsOf": "Événements du ",
   "noEvent": "Aucun événement prévu ce jour-là.",
   "instruction": "Votre compte à bien été créé vous pouvez vous connecter.",
+  "login_error": "Email ou mot de passe incorrect",
 
   "start_question": "Quelle démarche souhaites-tu effectuer ?",
   "start_option_dem": "Déménagement en France",
