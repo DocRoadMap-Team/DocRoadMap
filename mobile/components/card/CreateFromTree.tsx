@@ -2,8 +2,7 @@ import { Alert } from "react-native";
 import request from "@/constants/Request";
 import rawTree from "@/locales/decision-tree/decisionTree.json";
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import { useTranslation } from "react-i18next";
-import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type StepData = {
   name: string;
@@ -34,22 +33,23 @@ type DecisionTree = {
   };
 };
 
+const getId = async (): Promise<number | null> => {
+  const id = await AsyncStorage.getItem("id");
+  return id ? parseInt(id, 10) : null;
+};
 const decisionTree = rawTree as unknown as DecisionTree;
 const [stepsId, setStepsId] = useState<number | null>(null);
 
 export const CreateFromTree = async ({
   name,
   userAnswers,
-  userId = 4,
 }: {
   name: string;
   userAnswers: Record<string, string>;
-  userId: number;
 }) => {
   const lowerName = name.toLowerCase();
   const answerKey = processNameToAnswerKey[lowerName];
-  const { t } = useTranslation();
-  const router = useRouter();
+  const userId = await getId();
 
   if (!answerKey || !decisionTree[answerKey]) {
     Alert.alert("Erreur", `Aucune démarche trouvée pour "${name}".`);
@@ -72,7 +72,7 @@ export const CreateFromTree = async ({
     const processId = processResponse?.data?.id;
 
     if (!processId) {
-      throw new Error(t("fetch_steps_error"));
+      throw new Error("Impossible de récupérer l'ID de la démarche créée.");
     }
 
     const stepList: StepData[] = [];
@@ -107,13 +107,12 @@ export const CreateFromTree = async ({
       await request.createStep(step);
     }
 
-    Alert.alert(t("step_created_success"));
+    Alert.alert(
+      "Succès",
+      `Démarche "${name}" créée avec ${stepList.length} étape(s).`,
+    );
   } catch (err) {
     console.error(err);
-    Alert.alert(t("create_step_error"), "", [
-      {
-        onPress: () => router.replace("/home"),
-      },
-    ]);
+    Alert.alert("Erreur", "Impossible de créer la démarche ou les étapes.");
   }
 };

@@ -19,7 +19,7 @@ import {
 } from "react-native-responsive-screen";
 import tree from "../../locales/decision-tree/decisionTree.json";
 import { CreateFromTree } from "../../components/card/CreateFromTree";
-import { useTranslation } from "react-i18next";
+import { router } from "expo-router";
 
 const decisionTree = tree as Record<string, any>;
 type HistoryEntry =
@@ -38,7 +38,7 @@ export default function DecisionTree() {
   const [userInput, setUserInput] = useState("");
   const [isValid, setIsValid] = useState(false);
   const scrollRef = useRef<ScrollView>(null);
-  const { t, i18n } = useTranslation();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     scrollRef.current?.scrollToEnd({ animated: true });
@@ -129,11 +129,12 @@ export default function DecisionTree() {
       CreateFromTree({
         name: inputText,
         userAnswers,
-        userId: 4,
       });
 
-      Alert.alert(t("close"));
-
+      Alert.alert(
+        "✅ Démarche créée",
+        `La démarche "${inputText}" a bien été créée.`,
+      );
       setHistory((prev) => [
         ...prev,
         { type: "answer", label: inputText },
@@ -190,7 +191,7 @@ export default function DecisionTree() {
           {showSteps && (
             <View style={styles.botBubble}>
               <Text style={[styles.botText, { fontWeight: "bold" }]}>
-                {t("follow")}
+                Étapes à suivre :
               </Text>
               {steps.map((step, idx) => (
                 <View key={idx} style={{ marginTop: 8 }}>
@@ -218,7 +219,7 @@ export default function DecisionTree() {
                 style={styles.restartButton}
                 onPress={restartChat}
               >
-                <Text style={styles.restartText}>{t("restart")}</Text>
+                <Text style={styles.restartText}>🔁 Recommencer</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -248,7 +249,7 @@ export default function DecisionTree() {
               style={styles.input}
               value={userInput}
               onChangeText={handleInputChange}
-              placeholder={t("enterProcess")}
+              placeholder="Écris le nom de la démarche (logement, déménagement, emploi, indépendance)"
               multiline
             />
             <TouchableOpacity
