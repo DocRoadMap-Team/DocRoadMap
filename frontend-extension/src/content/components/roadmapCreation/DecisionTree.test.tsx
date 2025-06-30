@@ -41,14 +41,14 @@ describe("DecisionTreeChat", () => {
     render(<DecisionTreeChat />);
 
     await waitFor(() =>
-      expect(screen.getByText("What do you want to do?")).toBeInTheDocument(),
+      expect(screen.getByText("What do you want to do?")).toBeInTheDocument()
     );
 
     expect(
-      screen.getByRole("button", { name: /Demarche/i }),
+      screen.getByRole("button", { name: /Demarche/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /Logement/i }),
+      screen.getByRole("button", { name: /Logement/i })
     ).toBeInTheDocument();
   });
 
@@ -57,8 +57,8 @@ describe("DecisionTreeChat", () => {
 
     await waitFor(() =>
       expect(
-        screen.getByRole("button", { name: /Demarche/i }),
-      ).toBeInTheDocument(),
+        screen.getByRole("button", { name: /Demarche/i })
+      ).toBeInTheDocument()
     );
 
     fireEvent.click(screen.getByRole("button", { name: /Demarche/i }));
@@ -74,8 +74,8 @@ describe("DecisionTreeChat", () => {
 
     await waitFor(() =>
       expect(
-        screen.getByRole("button", { name: /Demarche/i }),
-      ).toBeInTheDocument(),
+        screen.getByRole("button", { name: /Demarche/i })
+      ).toBeInTheDocument()
     );
 
     fireEvent.click(screen.getByRole("button", { name: /Demarche/i }));
@@ -88,7 +88,7 @@ describe("DecisionTreeChat", () => {
           headers: expect.objectContaining({
             Authorization: "Bearer mock-token",
           }),
-        }),
+        })
       );
 
       expect(axios.post).toHaveBeenCalledWith(
@@ -98,7 +98,7 @@ describe("DecisionTreeChat", () => {
           headers: expect.objectContaining({
             Authorization: "Bearer mock-token",
           }),
-        }),
+        })
       );
 
       expect(axios.post).toHaveBeenCalledWith(
@@ -108,7 +108,7 @@ describe("DecisionTreeChat", () => {
           headers: expect.objectContaining({
             Authorization: "Bearer mock-token",
           }),
-        }),
+        })
       );
     });
   });
@@ -118,8 +118,8 @@ describe("DecisionTreeChat", () => {
 
     await waitFor(() =>
       expect(
-        screen.getByRole("button", { name: /Demarche/i }),
-      ).toBeInTheDocument(),
+        screen.getByRole("button", { name: /Demarche/i })
+      ).toBeInTheDocument()
     );
 
     fireEvent.click(screen.getByRole("button", { name: /Demarche/i }));
@@ -128,7 +128,7 @@ describe("DecisionTreeChat", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /Recommencer/i }));
     expect(
-      await screen.findByText("What do you want to do?"),
+      await screen.findByText("What do you want to do?")
     ).toBeInTheDocument();
   });
 
@@ -137,7 +137,7 @@ describe("DecisionTreeChat", () => {
     render(<DecisionTreeChat onClose={onClose} />);
 
     await waitFor(() =>
-      expect(screen.getByLabelText("Fermer")).toBeInTheDocument(),
+      expect(screen.getByLabelText("Fermer")).toBeInTheDocument()
     );
 
     fireEvent.click(screen.getByLabelText("Fermer"));
