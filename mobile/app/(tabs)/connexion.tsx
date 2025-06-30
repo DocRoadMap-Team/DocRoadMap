@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -6,11 +6,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  Vibration,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import request from "@/constants/Request";
 import { useRouter } from "expo-router";
-import { Vibration } from "react-native";
 import { useTheme } from "@/components/ThemeContext";
 import { useTranslation } from "react-i18next";
 import { ScaledSheet, moderateScale } from "react-native-size-matters";
@@ -24,32 +24,19 @@ export default function ConnectionPage() {
   const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [stayConnected, setStayConnected] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const handleLogin = useCallback(async () => {
     setError(null);
-    const requestBody = {
-      email: email,
-      password: password,
-    };
-
     try {
-      const registrationResponse = await request.login(requestBody);
-
-      if (registrationResponse.error) {
-        setError(registrationResponse.error);
-        return;
-      }
-
+      const res = await request.login({ email, password });
+      if (res.error) return setError(res.error);
       setEmail("");
       setPassword("");
       router.replace("/home");
-    } catch (error) {
-      setError(
-        "Erreur de requête: Erreur de connexion internet. Veuillez réessayer plus tard.",
-      );
+    } catch {
+      setError("Erreur de connexion. Veuillez réessayer.");
     }
   }, [email, password]);
 
@@ -59,98 +46,80 @@ export default function ConnectionPage() {
         source={require("@/assets/images/docroadmap_logo.jpg")}
         style={styles.logo}
         resizeMode="contain"
-        accessible={true}
+        accessible
         accessibilityLabel="Logo de DocRoadMap"
       />
-      <Text
-        style={[styles.title, { color: theme.primary }]}
-        allowFontScaling={true}
-      >
-        {t("connexion.welcome")}
-      </Text>
-      <Text
-        style={[styles.welcometxt, { color: theme.text }]}
-        allowFontScaling={true}
-        accessibilityLabel="Texte de bienvenue"
-      >
-        {t("connexion.pleaseLogin")}
-      </Text>
-      <View style={styles.inputContainer}>
-        <Icon
-          name="user"
-          size={24}
-          color={theme.text}
-          style={{ paddingRight: 10 }}
-        />
-        <TextInput
-          style={[
-            styles.input,
-            {
-              backgroundColor: theme.background,
-              borderColor: theme.text,
-              color: theme.text,
-            },
-          ]}
-          placeholder={t("connexion.emailPlaceholder")}
-          placeholderTextColor={theme.text}
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          accessibilityLabel="Champ de texte pour saisir son email"
-          allowFontScaling={true}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Icon
-          name="lock"
-          size={24}
-          color={theme.text}
-          style={{ paddingRight: 10 }}
-        />
-        <TextInput
-          style={[
-            styles.input,
-            {
-              backgroundColor: theme.background,
-              borderColor: theme.text,
-              color: theme.text,
-            },
-          ]}
-          placeholder={t("connexion.passwordPlaceholder")}
-          placeholderTextColor={theme.text}
-          value={password}
-          onChangeText={setPassword}
-          accessibilityLabel="Champ de texte pour saisir son mot de passe"
-          allowFontScaling={true}
-          secureTextEntry
-        />
-      </View>
-      <View style={styles.loginButtonContainer}>
+
+      <View style={[styles.card, { backgroundColor: theme.background }]}>
+        <Text style={[styles.title, { color: theme.primary }]} allowFontScaling>
+          {t("connexion.welcome")}
+        </Text>
+        <Text
+          style={[styles.subtitle, { color: theme.text }]}
+          accessibilityLabel={t("connexion.pleaseLogin")}
+          allowFontScaling
+        >
+          {t("connexion.pleaseLogin")}
+        </Text>
+
+        <View style={[styles.inputWrapper, { borderColor: theme.text }]}>
+          <Icon name="user" size={20} color={theme.text} />
+          <TextInput
+            style={[styles.input, { color: theme.text }]}
+            placeholder={t("connexion.emailPlaceholder")}
+            placeholderTextColor={theme.primary}
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            accessibilityLabel={t("connexion.emailPlaceholder")}
+            allowFontScaling
+          />
+        </View>
+
+        <View style={[styles.inputWrapper, { borderColor: theme.text }]}>
+          <Icon name="lock" size={20} color={theme.text} />
+          <TextInput
+            style={[styles.input, { color: theme.text }]}
+            placeholder={t("connexion.passwordPlaceholder")}
+            placeholderTextColor={theme.primary}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            accessibilityLabel={t("connexion.passwordPlaceholder")}
+            allowFontScaling
+          />
+        </View>
+
+        {error && (
+          <Text style={styles.errorText} accessibilityLabel="Message d'erreur">
+            {error}
+          </Text>
+        )}
+
         <TouchableOpacity
-          style={[styles.loginButton, { backgroundColor: theme.primary }]}
           onPress={() => {
-            Vibration.vibrate(100);
+            Vibration.vibrate(80);
             handleLogin();
           }}
+          style={[styles.loginButton, { backgroundColor: theme.primary }]}
           accessibilityLabel="Bouton pour se connecter à l'application"
           accessibilityRole="button"
-          accessible={true}
+          accessible
         >
           <Text
-            style={[styles.loginButtonText, { color: theme.buttonText }]}
-            allowFontScaling={true}
+            style={[styles.loginText, { color: theme.buttonText }]}
+            allowFontScaling
           >
             {t("connexion.loginButton")}
           </Text>
         </TouchableOpacity>
-      </View>
-      <View>
-        <TouchableOpacity onPress={() => router.push("/register")}>
-          <Text
-            style={{ color: theme.text }}
-            allowFontScaling={true}
-            accessibilityLabel="Lien pour créer un nouveau compte"
-          >
+
+        <TouchableOpacity
+          onPress={() => router.push("/register")}
+          accessibilityLabel="Lien pour créer un nouveau compte"
+        >
+          <Text style={[styles.registerLink, { color: theme.text }]}>
             {t("connexion.createAccount")}
           </Text>
         </TouchableOpacity>
@@ -164,55 +133,66 @@ const styles = ScaledSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: wp("8%"),
+    padding: wp("5%"),
+  },
+  logo: {
+    width: wp("50%"),
+    height: hp("20%"),
+    marginBottom: hp("2%"),
+  },
+  card: {
+    width: "100%",
+    borderRadius: 16,
+    padding: hp("3%"),
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
   },
   title: {
     fontSize: moderateScale(24),
     fontWeight: "bold",
-    marginBottom: hp("2%"),
+    textAlign: "center",
   },
-  welcometxt: {
+  subtitle: {
     fontSize: moderateScale(14),
-    marginBottom: hp("6%"),
+    textAlign: "center",
+    marginBottom: hp("3%"),
   },
-  inputContainer: {
+  inputWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    borderRadius: 5,
-    marginBottom: hp("2%"),
-    paddingHorizontal: wp("4%"),
     borderWidth: 1,
-  },
-  icon: {
-    marginRight: wp("2%"),
+    borderRadius: 12,
+    paddingHorizontal: wp("3%"),
+    paddingVertical: hp("1%"),
+    marginBottom: hp("2%"),
   },
   input: {
     flex: 1,
-    height: hp("6%"),
-  },
-  loginButtonContainer: {
-    paddingTop: hp("2.5%"),
-    paddingBottom: hp("1.5%"),
-    alignItems: "center",
+    fontSize: moderateScale(15),
     marginLeft: wp("2%"),
   },
+  errorText: {
+    color: "#e74c3c",
+    textAlign: "center",
+    marginBottom: hp("2%"),
+    fontSize: moderateScale(12),
+  },
   loginButton: {
-    paddingVertical: hp("2%"),
-    paddingHorizontal: wp("15%"),
-    borderRadius: 5,
-    marginTop: hp("2%"),
+    paddingVertical: hp("1.5%"),
+    borderRadius: 12,
+    alignItems: "center",
+    marginBottom: hp("1%"),
   },
-  loginButtonText: {
+  loginText: {
     fontSize: moderateScale(16),
-    fontWeight: "bold",
+    fontWeight: "600",
   },
-  link: {
-    fontSize: moderateScale(14),
-    marginTop: hp("1%"),
-  },
-  logo: {
-    width: wp("50%"),
-    height: hp("30%"),
-    marginBottom: hp("3%"),
+  registerLink: {
+    textAlign: "center",
+    fontSize: moderateScale(13),
+    textDecorationLine: "underline",
   },
 });
