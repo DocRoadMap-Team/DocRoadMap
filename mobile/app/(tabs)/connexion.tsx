@@ -26,6 +26,7 @@ export default function ConnectionPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = useCallback(async () => {
     setError(null);
@@ -85,10 +86,27 @@ export default function ConnectionPage() {
             placeholderTextColor={theme.primary}
             value={password}
             onChangeText={setPassword}
-            secureTextEntry
+            secureTextEntry={!showPassword}
             accessibilityLabel={t("connexion.passwordPlaceholder")}
             allowFontScaling
           />
+          <TouchableOpacity
+            onPress={() => setShowPassword((prev) => !prev)}
+            accessible
+            accessibilityRole="button"
+            accessibilityLabel={
+              showPassword
+                ? t("connexion.hidePassword") || "Masquer le mot de passe"
+                : t("connexion.showPassword") || "Afficher le mot de passe"
+            }
+          >
+            <Icon
+              name={showPassword ? "eye-slash" : "eye"}
+              size={20}
+              color={theme.text}
+              style={{ marginLeft: 10 }}
+            />
+          </TouchableOpacity>
         </View>
 
         {error && (
