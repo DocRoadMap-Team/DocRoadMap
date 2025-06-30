@@ -57,7 +57,7 @@ describe("Home", () => {
 
   it("redirects to /roadmap if token exists", async () => {
     mockGet.mockImplementation((_key: string, cb: any) =>
-      cb({ token: "abc123" })
+      cb({ token: "abc123" }),
     );
     render(<Home />);
     await waitFor(() => {
