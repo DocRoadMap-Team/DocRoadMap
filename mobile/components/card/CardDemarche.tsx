@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   cardHeader: {
-    backgroundColor: "#2563EB",
+    backgroundColor: "#4C9EEB",
     paddingHorizontal: wp("5%"),
     paddingVertical: hp("3%"),
   },

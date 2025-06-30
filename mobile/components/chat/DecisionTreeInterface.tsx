@@ -39,7 +39,7 @@ export default function DecisionTreeInterface() {
   );
 
   return (
-    <SafeAreaView style={{ backgroundColor: theme.background }}>
+    <View>
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={openModal}
@@ -85,7 +85,7 @@ export default function DecisionTreeInterface() {
           initialLayout={{ width: wp(100), height: hp(80) }}
         />
       </Modal>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -94,15 +94,13 @@ const styles = ScaledSheet.create({
     width: moderateScale(50),
     height: moderateScale(50),
     borderRadius: moderateScale(30),
-    backgroundColor: "#3498db",
+    backgroundColor: "#4C9EEB",
     justifyContent: "center",
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
-    zIndex: 10,
+    shadowRadius: moderateScale(4),
   },
   header: {
     flexDirection: "row",

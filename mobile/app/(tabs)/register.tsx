@@ -29,7 +29,7 @@ export default function Register() {
   const router = useRouter();
 
   const handleBackClick = () => {
-    router.replace("/connexion");
+    router.push("/connexion");
   };
 
   useEffect(() => {
@@ -116,7 +116,7 @@ export default function Register() {
         <View
           style={[
             styles.inputWrapper,
-            { backgroundColor: theme.card, borderColor: theme.primary },
+            { backgroundColor: theme.background, borderColor: theme.primary },
           ]}
         >
           <Ionicons

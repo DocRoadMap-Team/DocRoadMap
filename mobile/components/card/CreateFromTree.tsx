@@ -72,7 +72,7 @@ export const CreateFromTree = async ({
 
   const processData = {
     name,
-    description: `Créée automatiquement depuis ${answerKey}`,
+    description: `Créée automatiquement par Donna pour${name}`,
     userId,
     stepsId: StepsId!,
     endedAt: "",

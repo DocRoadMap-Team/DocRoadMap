@@ -19,6 +19,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import request from "@/constants/Request";
+import { Ionicons } from "@expo/vector-icons";
 
 type Message = {
   text: string;
@@ -96,9 +97,11 @@ export default function ChatInterface() {
   return (
     <>
       <TouchableOpacity onPress={openModal} style={styles.floatingButton}>
-        <Image
-          source={require("../../assets/images/chatbot.png")}
-          style={{ width: 45, height: 45 }}
+        <Ionicons
+          name="chatbubble-ellipses-outline"
+          size={28}
+          color="white"
+          accessibilityLabel="Icône de chat"
         />
       </TouchableOpacity>
 
@@ -107,9 +110,7 @@ export default function ChatInterface() {
           <View style={styles.header}>
             <Text style={styles.headerTitle}>{t("chatbot_name")}</Text>
             <TouchableOpacity onPress={closeModal}>
-              <Text style={[styles.closeText, { color: theme.primary }]}>
-                {t("close")}
-              </Text>
+              <Ionicons name="close" size={24} style={{ paddingRight: 10 }} />
             </TouchableOpacity>
           </View>
 

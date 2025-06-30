@@ -44,12 +44,60 @@ export default function DecisionTree() {
     scrollRef.current?.scrollToEnd({ animated: true });
   }, [history, showSteps]);
 
-  const validDemancheList = [
-    "logement",
-    "déménagement",
-    "emploi",
-    "indépendance",
-  ];
+  const getDemarcheTypeFromAnswers = (
+    answers: Record<string, string>,
+  ): string => {
+    const answerValues = Object.values(answers).map((v) => v.toLowerCase());
+
+    if (
+      answerValues.some(
+        (answer) =>
+          answer.includes("logement") ||
+          answer.includes("appartement") ||
+          answer.includes("maison") ||
+          answer.includes("loyer"),
+      )
+    ) {
+      return "logement";
+    }
+
+    if (
+      answerValues.some(
+        (answer) =>
+          answer.includes("déménagement") ||
+          answer.includes("déménager") ||
+          answer.includes("changer d'adresse"),
+      )
+    ) {
+      return "déménagement";
+    }
+
+    if (
+      answerValues.some(
+        (answer) =>
+          answer.includes("emploi") ||
+          answer.includes("travail") ||
+          answer.includes("job") ||
+          answer.includes("recherche d'emploi"),
+      )
+    ) {
+      return "emploi";
+    }
+
+    if (
+      answerValues.some(
+        (answer) =>
+          answer.includes("indépendance") ||
+          answer.includes("indépendant") ||
+          answer.includes("freelance") ||
+          answer.includes("auto-entrepreneur"),
+      )
+    ) {
+      return "indépendance";
+    }
+
+    return "generale";
+  };
 
   const getProcessAnswersKey = (key: string): string | null => {
     if (key === "dem_answers") return "dem_answers";
@@ -119,30 +167,42 @@ export default function DecisionTree() {
 
   const handleInputChange = (text: string) => {
     setUserInput(text);
-    setIsValid(validDemancheList.includes(text.trim().toLowerCase()));
+    const normalizedText = text.trim().toLowerCase();
+    const validPhrases = [
+      "crée la démarche",
+      "créer la démarche",
+      "créé la démarche",
+      "créer démarche",
+      "crée démarche",
+      "créé démarche",
+      "Créer la démarche",
+      "Crée la démarche",
+    ];
+    setIsValid(validPhrases.includes(normalizedText));
   };
 
   const handleSendMessage = () => {
     if (userInput.trim()) {
-      const inputText = userInput.trim();
+      const demarcheType = getDemarcheTypeFromAnswers(userAnswers);
 
       CreateFromTree({
-        name: inputText,
+        name: demarcheType,
         userAnswers,
       });
 
       Alert.alert(
         "✅ Démarche créée",
-        `La démarche "${inputText}" a bien été créée.`,
+        `La démarche "${demarcheType}" a bien été créée en fonction de vos réponses.`,
       );
       setHistory((prev) => [
         ...prev,
-        { type: "answer", label: inputText },
+        { type: "answer", label: userInput.trim() },
         { type: "question", key: "start" },
       ]);
-      setUserAnswers((prev) => ({ ...prev, start: inputText }));
+      setUserAnswers((prev) => ({ ...prev, start: demarcheType }));
       setUserInput("");
     }
+    restartChat();
   };
 
   const restartChat = () => {
@@ -249,7 +309,7 @@ export default function DecisionTree() {
               style={styles.input}
               value={userInput}
               onChangeText={handleInputChange}
-              placeholder="Écris le nom de la démarche (logement, déménagement, emploi, indépendance)"
+              placeholder="Tapez 'Créer la démarche' pour créer votre démarche"
               multiline
             />
             <TouchableOpacity
