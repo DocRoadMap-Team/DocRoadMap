@@ -58,7 +58,11 @@
   "calendar": "Calendario",
   "eventsOf": "Eventos del ",
   "noEvent": "No hay eventos programados para ese día.",
-  "instruction": "Tu cuenta ha sido creada correctamente, puedes iniciar sesión ahora.",
+  "instruction": "Se ha enviado un correo de confirmación a la dirección proporcionada. Por favor, revisa tu bandeja de entrada.",
+  "login_error": "Correo electrónico o contraseña incorrectos",
+  "password_mismatch": "Las contraseñas no coinciden",
+  "registration_error": "Ocurrió un error durante el registro.",
+  "Account_created": "Cuenta creada",
 
   "start_question": "¿Qué trámite deseas realizar?",
   "start_option_dem": "Mudanza en Francia",

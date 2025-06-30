@@ -1,118 +1,46 @@
-html,
-body,
-#root {
-  width: 400px;
-  height: 250px;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  box-sizing: border-box;
-  background: white !important;
-}
-
 .confirmation-page {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100%;
-  background: white;
+  background-color: #f4f6f8;
 }
 
 .confirmation-container {
-  position: relative;
   background: white;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  width: 360px;
+  padding: 40px 32px;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  max-width: 420px;
+  width: 90%;
   text-align: center;
-  transition: transform 0.3s ease-in-out;
-  height: 220px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.confirmation-header .logo {
+  height: 60px;
+  margin-bottom: 24px;
+  object-fit: contain;
 }
 
-.confirmation-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  margin-bottom: 8px;
+.confirmation-message {
+  font-size: 1rem;
+  margin-bottom: 32px;
+  color: #333;
+  line-height: 1.4;
 }
 
-.DocRoadMap-Logo.confirmation img {
-  width: 80px;
-  max-width: 80px;
-  height: auto;
-}
-
-.confirmation-header h1 {
-  font-size: 18px;
-  margin: 0;
-  font-weight: 600;
-  transform: translateX(-20px);
-}
-
-p {
-  font-size: 12px;
-  margin: 0 0 6px 0;
-  flex-grow: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.button-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  justify-content: center;
-  width: 100%;
-  margin-top: 4px;
-  align-items: center;
-}
-
-.login-button,
-.resend-button {
-  width: 95%;
-  padding: 10px;
-  font-size: 14px;
-  font-weight: 600;
+.confirmation-button {
+  background-color: #1877f2;
+  color: white;
   border: none;
-  border-radius: 6px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
   cursor: pointer;
-  text-align: center;
-  transition: background-color 0.3s ease-in-out;
-  max-width: none;
+  width: 100%;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.login-button {
-  background-color: #007bff;
-  color: white;
-}
-
-.login-button:hover {
-  background-color: #0056b3;
-}
-
-.resend-button {
-  background-color: #28a745;
-  color: white;
-}
-
-.resend-button:hover {
-  background-color: #218838;
+.confirmation-button:hover {
+  background-color: #0f65d4;
 }
