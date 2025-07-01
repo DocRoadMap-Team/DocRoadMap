@@ -36,12 +36,11 @@ const Panel: React.FC<PanelProps> = ({ activePanel, isOpen }) => (
       maxWidth: "350px",
       height: "450px",
       background: "#fff",
-      border: "1px solid #1976d2",
       borderRadius: 8,
-      boxShadow: "0 2px 16px rgba(0,0,0,0.2)",
+      boxShadow: "0 4px 16px rgba(5, 3, 51, 0.4)",
       zIndex: 10000,
-      padding: 8,
       opacity: 1,
+      overflow: "hidden",
       transform: isOpen ? "translateX(0)" : "translateX(120%)",
       transition: "transform 0.4s cubic-bezier(.4,0,.2,1)",
       pointerEvents: isOpen ? "auto" : "none",
@@ -145,7 +144,7 @@ const DocRoadmapBar: React.FC = () => {
           }}
           aria-label="Doc Roadmap"
         >
-          <img src={logo} alt="Doc Roadmap" style={{ borderRadius: "50%" }} />
+          <img src={logo} alt="Doc Roadmap" style={{ borderRadius: "50%", border : "2px solid #1976d2", boxShadow : "0 2px 4px rgba(0, 0, 0, 0.2)" }} />
         </button>
         <div
           style={{
