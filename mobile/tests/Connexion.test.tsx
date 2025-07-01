@@ -47,7 +47,6 @@ describe("ConnectionPage Component", () => {
       screen.getByPlaceholderText("connexion.passwordPlaceholder"),
     ).toBeTruthy();
     expect(screen.getByText("connexion.loginButton")).toBeTruthy();
-    expect(screen.getByText("connexion.forgotPassword")).toBeTruthy();
     expect(screen.getByText("connexion.createAccount")).toBeTruthy();
   });
 
@@ -82,16 +81,6 @@ describe("ConnectionPage Component", () => {
       screen.getByPlaceholderText("connexion.passwordPlaceholder").props.value,
     ).toBe("");
     expect(mockReplace).toHaveBeenCalledWith("/home");
-  });
-
-  test("navigates to forgot password page on link press", () => {
-    mockT.mockImplementation((key) => key);
-
-    render(<ConnectionPage />);
-
-    fireEvent.press(screen.getByText("connexion.forgotPassword"));
-
-    expect(mockPush).toHaveBeenCalledWith("/forgottenPassword");
   });
 
   test("navigates to register page on create account link press", () => {

@@ -6,7 +6,8 @@
     "password": "Password",
     "create_account": "Create Account",
     "back_to_home": "Back to Home",
-    "error": "Error, please check your information"
+    "error": "Error, please check your information",
+    "check_mail": "Please check the inbox/spam folder of the email provided during registration to confirm your account."
   },
   "profile": {
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget aliquam ultricies.",
@@ -390,5 +391,4 @@
 
   "emploi_step_6_title": "I may be eligible for employment-related financial assistance",
   "emploi_step_6_answer_1": "Under certain conditions, I may be eligible for the activity bonus: https://www.service-public.fr/particuliers/vosdroits/N31477"
-
 }

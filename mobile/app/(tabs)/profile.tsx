@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import request from "@/constants/Request";
 import { Vibration } from "react-native";
-import { useTheme, themes } from "@/components/ThemeContext";
+import { useTheme } from "@/components/ThemeContext";
 import { useTranslation } from "react-i18next";
 import { ScaledSheet, moderateScale } from "react-native-size-matters";
 import {
@@ -31,7 +31,7 @@ const ProfileCard = () => {
   const [email, setEmail] = useState("");
   const userCtx = useContext(UserContext);
   const [error, setError] = useState<string | null>(null);
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
 
   const handleEditClick = () => setIsEditMode(true);
   const handleSaveClick = () => setIsEditMode(false);
@@ -87,6 +87,9 @@ const ProfileCard = () => {
         <Image
           style={styles.image}
           source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }}
+          accessible={true}
+          accessibilityRole="image"
+          accessibilityLabel={t("profile.avatar")}
         />
       </View>
       <Card.Content
@@ -95,12 +98,14 @@ const ProfileCard = () => {
         <Text
           style={[styles.nameText, { color: theme.text }]}
           allowFontScaling={true}
+          accessibilityLabel={`${firstname} ${lastname}`}
         >
           {firstname} {lastname}
         </Text>
         <Text
           style={[styles.infoText, { color: theme.text }]}
           allowFontScaling={true}
+          accessibilityLabel={email}
         >
           <FontAwesome name="envelope" size={16} /> {email}
         </Text>
@@ -121,6 +126,7 @@ const ProfileCard = () => {
               maxLength={MAX_DESCRIPTION_LENGTH}
               mode="outlined"
               allowFontScaling={true}
+              accessibilityLabel={t("profile.descriptionInput")}
             />
             <Button
               onPress={() => {
@@ -141,6 +147,7 @@ const ProfileCard = () => {
             <Text
               style={[styles.descriptionText, { color: theme.text }]}
               allowFontScaling={true}
+              accessibilityLabel={description}
             >
               {description}
             </Text>
@@ -158,11 +165,24 @@ const ProfileCard = () => {
         )}
       </Card.Content>
       <View style={styles.iconRow}>
-        <TouchableOpacity onPress={handleSettingsClick}>
-          <MaterialIcons name="settings" size={28} color={theme.text} />
+        <TouchableOpacity
+          onPress={handleSettingsClick}
+          accessibilityRole="button"
+        >
+          <MaterialIcons
+            name="settings"
+            size={28}
+            color={theme.text}
+            accessibilityLabel={t("profile.settings")}
+          />
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleLogout}>
-          <Ionicons name="exit-outline" size={28} color={theme.text} />
+        <TouchableOpacity onPress={handleLogout} accessibilityRole="button">
+          <Ionicons
+            name="exit-outline"
+            size={28}
+            color={theme.text}
+            accessibilityLabel={t("profile.logout")}
+          />
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -173,7 +193,6 @@ const styles = ScaledSheet.create({
   container: {
     padding: moderateScale(20),
     paddingTop: hp(10),
-    flex: 1,
   },
   imageContainer: {
     alignItems: "center",

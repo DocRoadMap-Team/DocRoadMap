@@ -195,8 +195,8 @@ const CalendarScreen = () => {
       }
       await notifyEventAdded();
 
-      Alert.alert(t("real_calendar")),
-        handleDayPress({ dateString: selectedDate });
+      (Alert.alert(t("real_calendar")),
+        handleDayPress({ dateString: selectedDate }));
       setModalVisible(false);
       resetForm();
     } catch (error) {

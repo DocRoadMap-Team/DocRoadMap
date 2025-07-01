@@ -34,11 +34,11 @@ describe("Home", () => {
     };
   });
 
-  it("renders login and register buttons", () => {
+  it("renders login and signup buttons", () => {
     mockGet.mockImplementation((_key: string, cb: any) => cb({}));
     render(<Home />);
     expect(screen.getByText("login")).toBeInTheDocument();
-    expect(screen.getByText("register")).toBeInTheDocument();
+    expect(screen.getByText("signup")).toBeInTheDocument();
   });
 
   it("navigates to /login when login button is clicked", () => {
@@ -51,8 +51,8 @@ describe("Home", () => {
   it("navigates to /register when register button is clicked", () => {
     mockGet.mockImplementation((_key: string, cb: any) => cb({}));
     render(<Home />);
-    fireEvent.click(screen.getByText("register"));
-    expect(mockNavigate).toHaveBeenCalledWith("/register");
+    fireEvent.click(screen.getByText("signup"));
+    expect(mockNavigate).toHaveBeenCalledWith("/signup");
   });
 
   it("redirects to /roadmap if token exists", async () => {

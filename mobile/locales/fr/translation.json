@@ -6,7 +6,8 @@
     "password": "Mot de passe",
     "create_account": "Créer un compte",
     "back_to_home": "Retour à l'accueil",
-    "error": "Erreur, veuillez vérifier vos informations"
+    "error": "Erreur, veuillez vérifier vos informations",
+    "check_mail": "Veuillez vérifier la boîte de reception/spams du mail reseigné lors de l'inscription afin de confirmer votre compte"
   },
   "profile": {
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget aliquam ultricies.",

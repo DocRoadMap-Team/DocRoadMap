@@ -190,7 +190,6 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
             ),
           ),
         );
-        console.log("All steps created successfully");
       } catch (error) {
         console.error("Error creating steps:", error);
       }
