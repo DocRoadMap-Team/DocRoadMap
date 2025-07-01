@@ -25,6 +25,13 @@ function Login() {
   const [resetEmail, setResetEmail] = useState("");
 
   const handleLogin = () => {
+    setError("");
+
+    if (!email.trim() || !password.trim()) {
+      setError(t("empty_fields"));
+      return;
+    }
+
     axios
       .post(`${backendUrl}/auth/login`, { email, password })
       .then((response) => {
