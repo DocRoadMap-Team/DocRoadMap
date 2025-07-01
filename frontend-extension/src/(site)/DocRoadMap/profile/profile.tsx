@@ -4,7 +4,9 @@ import { FaArrowLeft, FaEnvelope, FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "./profile.css";
 
-const backendUrl = "https://www.docroadmap.fr";
+const env = import.meta.env.VITE_ENV_MODE;
+const backendUrl =
+  env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
 
 const ArrowLeftIcon = FaArrowLeft as unknown as React.FC<any>;
 const UserIcon = FaUser as unknown as React.FC<any>;

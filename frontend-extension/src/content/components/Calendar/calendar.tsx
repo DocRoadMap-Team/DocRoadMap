@@ -4,8 +4,12 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useTranslation } from "react-i18next";
 import getToken from "../../utils/utils";
+import Header from "../../utils/Header";
+import { FaCalendar } from "react-icons/fa";
 
-const backendUrl = "https://www.docroadmap.fr";
+const env = import.meta.env.VITE_ENV_MODE;
+const backendUrl =
+  env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
 
 interface Step {
   id: number;
@@ -44,7 +48,7 @@ const ProcessCalendar = () => {
         return;
       }
       try {
-        const response = await axios.get<UserData>(`${backendUrl}users/me`, {
+        const response = await axios.get<UserData>(`${backendUrl}/users/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -97,29 +101,12 @@ const ProcessCalendar = () => {
         {`
         .calendar-wrapper {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 320px;
+            width: 100%;
             margin: 0 0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             border-radius: 8px;
             overflow: hidden;
             background: white;
-        }
-        .calendar-header {
-          flex: 0 0 auto;
-          display: flex;
-          align-items: center;
-          margin-bottom: 0.5rem;
-          padding-bottom: 0.25rem;
-          flex-direction: row;
-          border-bottom: 1px solid #e0e0e0;
-        }
-        .calendar-title {
-          font-size: 1.1rem;
-          font-weight: bold;
-          padding: 0.5rem 0;
-          color: black;
-          flex-direction: row;
-          margin: 0;
         }
         h2 {
             font-size: 18px;
@@ -170,15 +157,15 @@ const ProcessCalendar = () => {
             border: none;
         }
         .react-calendar__tile {
-            max-width: 100%;
-            text-align: center;
-            padding: 8px 0;
-            border: 1px solid #F0F5FF;
-            font-size: 0.9em;
-            height: 34px;
-            background: white;
-            border-radius: 4px;
-            transition: all 0.2s ease;
+          max-width: 100%;
+          text-align: center;
+          padding: 8px 0;
+          border: 1px solid #F0F5FF;
+          font-size: 0.9em;
+          height: 34px;
+          background: white;
+          border-radius: 4px;
+          transition: all 0.2s ease;
         }
         .react-calendar__tile:hover {
             background: #F0F5FF;
@@ -217,7 +204,7 @@ const ProcessCalendar = () => {
         .event-dot-container {
             display: flex;
             justify-content: center;
-            margin: 2px;
+            margin-bottom: 6px;
         }
         .event-dot {
             width: 6px;
@@ -259,9 +246,7 @@ const ProcessCalendar = () => {
             background: #E8F1FF;
         }`}
       </style>
-      <div className="calendar-header">
-        <h1 className="calendar-title">{t("calendar")}</h1>
-      </div>
+      <Header title={t("calendar")} icon={<FaCalendar />} />
       {error && <p style={{ color: "red" }}>{error}</p>}
       <div className="calendar-wrapper">
         <Calendar
@@ -270,9 +255,9 @@ const ProcessCalendar = () => {
           onChange={(value) => setSelectedDate(value as Date)}
           locale="fr-FR"
           prevLabel="<"
-          prev2Label="«"
+          prev2Label="<<"
           nextLabel=">"
-          next2Label="»"
+          next2Label=">>"
           formatShortWeekday={(_locale, date) => {
             const days = ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"];
             return days[date.getDay()];

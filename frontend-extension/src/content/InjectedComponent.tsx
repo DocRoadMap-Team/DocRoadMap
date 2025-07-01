@@ -2,21 +2,23 @@ import React, { useEffect, useState } from "react";
 import {
   FaCalendar,
   FaEye,
-  FaRegFileAlt,
   FaRoad,
   FaRobot,
+  FaWheelchair,
 } from "react-icons/fa";
 import Chatbot from "./components/Chatbot/chatbot";
 import RoadmapView from "./components/ViewRoadmap/roadmapView";
 import StepsCalendar from "./components/Calendar/calendar";
 import getToken from "./utils/utils";
 import DecisionTreeChat from "./components/roadmapCreation/decisionTree";
-
+import ContrastAdjuster from "./components/Accessibility/ContrastAdjuster";
+import logo from "../../public/assets/docroadmap_logo2.png";
 const buttonData = [
   { icon: <FaRoad />, label: "CreateRoadmapChat" },
   { icon: <FaEye />, label: "Voir Roadmap" },
   { icon: <FaRobot />, label: "Chatbot" },
   { icon: <FaCalendar />, label: "Calendrier" },
+  { icon: <FaWheelchair />, label: "Accessibility" },
 ];
 
 interface PanelProps {
@@ -29,17 +31,16 @@ const Panel: React.FC<PanelProps> = ({ activePanel, isOpen }) => (
     style={{
       position: "fixed",
       bottom: "90px",
-      right: "80px",
-      width: "300px",
-      maxWidth: "300px",
+      right: "24px",
+      width: "350px",
+      maxWidth: "350px",
       height: "450px",
       background: "#fff",
-      border: "1px solid #1976d2",
       borderRadius: 8,
-      boxShadow: "0 2px 16px rgba(0,0,0,0.2)",
+      boxShadow: "0 4px 16px rgba(5, 3, 51, 0.4)",
       zIndex: 10000,
-      padding: 8,
       opacity: 1,
+      overflow: "hidden",
       transform: isOpen ? "translateX(0)" : "translateX(120%)",
       transition: "transform 0.4s cubic-bezier(.4,0,.2,1)",
       pointerEvents: isOpen ? "auto" : "none",
@@ -49,6 +50,7 @@ const Panel: React.FC<PanelProps> = ({ activePanel, isOpen }) => (
     {activePanel === "Voir Roadmap" && <RoadmapView />}
     {activePanel === "Chatbot" && <Chatbot />}
     {activePanel === "Calendrier" && <StepsCalendar />}
+    {activePanel === "Accessibility" && <ContrastAdjuster />}
   </div>
 );
 
@@ -132,20 +134,26 @@ const DocRoadmapBar: React.FC = () => {
           style={{
             width: 56,
             height: 56,
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "center",
             borderRadius: "50%",
             background: "#1976d2",
-            color: "white",
             border: "none",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-            fontSize: 28,
             cursor: "pointer",
           }}
           aria-label="Doc Roadmap"
         >
-          <FaRegFileAlt />
+          <img
+            src={logo}
+            alt="Doc Roadmap"
+            style={{
+              borderRadius: "50%",
+              border: "2px solid #1976d2",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            }}
+          />
         </button>
-
-        {/* Animated Bar */}
         <div
           style={{
             display: "flex",
@@ -158,7 +166,6 @@ const DocRoadmapBar: React.FC = () => {
             background: "transparent",
           }}
         >
-          {/* Slide content in/out */}
           <div
             style={{
               display: "flex",

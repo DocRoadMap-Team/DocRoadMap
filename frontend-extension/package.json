@@ -64,6 +64,7 @@
     "typescript": "~5.7.3",
     "typescript-eslint": "^8.33.1",
     "vite": "^6.3.5",
+    "wcag-contrast-utils": "^1.0.1",
     "webpack": "^5.99.9",
     "webpack-cli": "^6.0.1"
   }
