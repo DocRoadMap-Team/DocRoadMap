@@ -63,6 +63,7 @@
   "password_mismatch": "Las contraseñas no coinciden",
   "registration_error": "Ocurrió un error durante el registro.",
   "Account_created": "Cuenta creada",
+  "empty_fields": "Por favor, completa todos los campos.",
 
   "start_question": "¿Qué trámite deseas realizar?",
   "start_option_dem": "Mudanza en Francia",

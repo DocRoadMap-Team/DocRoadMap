@@ -16,31 +16,34 @@
   text-align: center;
 }
 
-.confirmation-header .logo {
-  height: 60px;
-  margin-bottom: 24px;
-  object-fit: contain;
+.confirmation-header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.confirmation-header img {
+  max-width: 100px;
+  height: auto;
 }
 
 .confirmation-message {
   font-size: 1rem;
-  margin-bottom: 32px;
+  margin-bottom: 10px;
   color: #333;
   line-height: 1.4;
 }
 
 .confirmation-button {
-  background-color: #1877f2;
+  width: 95%;
+  padding: 10px;
+  font-size: 14px;
+  background-color: #007bff;
   color: white;
   border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: 6px;
   cursor: pointer;
-  width: 100%;
-  transition: background-color 0.2s ease-in-out;
 }
 
 .confirmation-button:hover {
-  background-color: #0f65d4;
+  background-color: #0056b3;
 }

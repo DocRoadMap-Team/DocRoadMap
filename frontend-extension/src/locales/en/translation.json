@@ -63,6 +63,7 @@
   "password_mismatch": "Passwords do not match",
   "registration_error": "An error occurred during registration.",
   "Account_created": "Account created",
+  "empty_fields": "Please fill in all fields",
 
   "start_question": "What procedure would you like to carry out?",
   "start_option_dem": "Moving within France",

@@ -20,11 +20,9 @@ function SignupConfirm() {
     <div className="confirmation-page">
       <div className="confirmation-container">
         <div className="confirmation-header">
-          <img src={docroadmapImg} alt="DocRoadMap" className="logo" />
+          <img src={docroadmapImg} alt="DocRoadMap" />
         </div>
-
         <p className="confirmation-message">{t("instruction")}</p>
-
         <button className="confirmation-button" onClick={handleLoginRedirect}>
           {t("login")}
         </button>

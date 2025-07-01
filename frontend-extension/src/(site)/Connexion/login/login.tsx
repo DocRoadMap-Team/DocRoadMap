@@ -12,9 +12,7 @@ const docroadmapImg = isDev
   ? "/assets/docroadmap.png"
   : "../assets/docroadmap.png";
 
-const ArrowLeftIcon = FaArrowLeft as unknown as React.FC<
-  React.SVGProps<SVGSVGElement>
->;
+const ArrowLeftIcon = FaArrowLeft as unknown as React.FC<any>;
 
 function Login() {
   const navigate = useNavigate();
@@ -33,9 +31,7 @@ function Login() {
         const token = response.data.accessToken;
         localStorage.setItem("token", token);
         if (typeof chrome !== "undefined" && chrome.storage) {
-          chrome.storage.local.set({ token }, () => {
-            console.log("Token in chrome.storage :", token);
-          });
+          chrome.storage.local.set({ token }, () => {});
         }
         if (token) {
           if (chrome?.tabs?.query && chrome?.tabs?.sendMessage) {
