@@ -3,21 +3,21 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f8f9fa;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  height: 100%;
-  padding-top: 60px;
+  height: 100vh;
+  padding: 0;
 }
 
 .home-container {
   text-align: center;
   width: 90%;
   max-width: 400px;
+  min-height: 240px;
   padding: 20px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 10px auto;
 }
 
 .home-container h1 {
