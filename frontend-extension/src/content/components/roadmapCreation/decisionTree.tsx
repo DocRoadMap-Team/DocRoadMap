@@ -6,7 +6,7 @@ import rawData from "./decisionTree.json";
 import Header from "../../utils/Header";
 import ChatMessageBubble from "./DecisionTreeComponents/ChatMessageBubble";
 import OptionsColumn from "./DecisionTreeComponents/OptionsColumn";
-import { FaRobot } from "react-icons/fa";
+import { FaRoad } from "react-icons/fa";
 
 const env = import.meta.env.VITE_ENV_MODE;
 const backendUrl =
@@ -287,15 +287,12 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
 
   return (
     <div style={styles.outer}>
-      <Header onClose={onClose} title="Assistant démarches" icon={<FaRobot />} />
+      <Header onClose={onClose} title="Assistant démarches" icon={<FaRoad />} />
       <div style={styles.chatWindow} ref={chatRef}>
         {history.map((entry, index) => {
           const isLast = index === history.length - 1;
           return (
-            <div
-              key={index}
-              ref={isLast ? lastMessageRef : undefined}
-            >
+            <div key={index} ref={isLast ? lastMessageRef : undefined}>
               <ChatMessageBubble
                 entry={entry}
                 index={index}

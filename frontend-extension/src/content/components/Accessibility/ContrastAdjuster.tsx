@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { theme, buttonStyle } from "../../utils/Styles";
+import Header from "../../utils/Header";
+import { FaAccessibleIcon } from "react-icons/fa";
 
 function parseRGB(color: string): [number, number, number] {
   const match = color.match(/\d+/g);
@@ -256,30 +258,33 @@ const ContrastAdjuster: React.FC = () => {
   };
 
   return (
-    <div
-      style={{
-        fontFamily: theme.fontFamily,
-        background: theme.backgroundColor,
-        color: theme.color,
-      }}
-    >
-      <button
-        style={buttonStyle}
-        onMouseOver={(e) =>
-          (e.currentTarget.style.background = theme.accentColorDark)
-        }
-        onMouseOut={(e) =>
-          (e.currentTarget.style.background = theme.accentColor)
-        }
-        onClick={() => {
-          handleToggle();
-          setEnabled(!enabled);
+    <>
+      <Header title="Adjust Accessibility" icon={<FaAccessibleIcon />} />
+      <div
+        style={{
+          fontFamily: theme.fontFamily,
+          background: theme.backgroundColor,
+          color: theme.color,
         }}
-        aria-pressed={enabled}
       >
-        {enabled ? "Restore Colors" : "Adjust Background, Text & Borders"}
-      </button>
-    </div>
+        <button
+          style={buttonStyle}
+          onMouseOver={(e) =>
+            (e.currentTarget.style.background = theme.accentColorDark)
+          }
+          onMouseOut={(e) =>
+            (e.currentTarget.style.background = theme.accentColor)
+          }
+          onClick={() => {
+            handleToggle();
+            setEnabled(!enabled);
+          }}
+          aria-pressed={enabled}
+        >
+          {enabled ? "Restore Colors" : "Adjust Background, Text & Borders"}
+        </button>
+      </div>
+    </>
   );
 };
 

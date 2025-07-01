@@ -23,21 +23,24 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
 };
 
-const Header: React.FC<HeaderProps> = ({
-  title,
-  icon,
-  onClose,
-}) => (
+const Header: React.FC<HeaderProps> = ({ title, icon, onClose }) => (
   <div style={styles.header}>
     {icon}
     {title}
     {onClose && (
-      <button style={{ marginLeft: 'auto', background: 'transparent', border: 'none', color: 'white', cursor: 'pointer' }}>
+      <button
+        style={{
+          marginLeft: "auto",
+          background: "transparent",
+          border: "none",
+          color: "white",
+          cursor: "pointer",
+        }}
+      >
         ✕
       </button>
     )}
   </div>
 );
-
 
 export default Header;

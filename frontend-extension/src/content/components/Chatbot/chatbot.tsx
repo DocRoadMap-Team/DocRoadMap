@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaPaperPlane, FaRobot } from "react-icons/fa";
+import Header from "../../utils/Header";
 
 const Chatbot: React.FC = () => {
   const { t } = useTranslation();
@@ -232,12 +233,13 @@ const Chatbot: React.FC = () => {
           cursor: not-allowed;
         }
       `}</style>
-      <div className="chatbot-header">
+      {/* <div className="chatbot-header">
         <div className="chatbot-title-container">
           <FaRobot className="chatbot-icon" />
           <h1 className="chatbot-title">{t("Donna")}</h1>
         </div>
-      </div>
+      </div> */}
+      <Header title={t("Donna chatbot")} icon={<FaRobot />} />
 
       <div className="chatbot-messages">
         {messages.map((msg, index) => (

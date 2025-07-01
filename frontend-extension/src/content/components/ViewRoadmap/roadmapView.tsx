@@ -2,7 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import getToken from "../../utils/utils";
-import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { FaArrowDown, FaArrowUp, FaEye } from "react-icons/fa";
+import Header from "../../utils/Header";
 
 const isDev = process.env.NODE_ENV !== "production";
 const basePath = isDev ? "./assets/" : "./assets/";
@@ -68,7 +69,9 @@ const RoadmapView: React.FC = () => {
   const [steps, setSteps] = useState<Step[]>([]);
   const [selectedProcessName, setSelectedProcessName] = useState<string>("");
   const [token, setToken] = useState<string | null>(null);
-  const [selectedDate, setSelectedDate] = useState<{ [key: number]: string }>({});
+  const [selectedDate, setSelectedDate] = useState<{ [key: number]: string }>(
+    {},
+  );
 
   useEffect(() => {
     const fetchUserProcesses = async () => {
@@ -103,13 +106,13 @@ const RoadmapView: React.FC = () => {
       await axios.patch(
         `${backendUrl}/steps/${stepId}`,
         { endedAt: formattedDate },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       setSteps(
         steps.map((step) =>
-          step.id === stepId ? { ...step, endedAt: formattedDate } : step
-        )
+          step.id === stepId ? { ...step, endedAt: formattedDate } : step,
+        ),
       );
 
       alert(t("dateUpdatedAlert"));
@@ -154,7 +157,7 @@ const RoadmapView: React.FC = () => {
   return (
     <div className="roadmap-panel-container">
       <style>
-      {`
+        {`
       .roadmap-panel-container {
         width: 100%;
         height: 100%;
@@ -443,9 +446,7 @@ const RoadmapView: React.FC = () => {
         box-shadow: 0 2px 8px rgba(44,62,80,0.04);
       }`}
       </style>
-      <div className="roadmap-header">
-        <h1 className="roadmap-title">{t("currentRoadmaps")}</h1>
-      </div>
+      <Header title={t("currentRoadmaps")} icon={<FaEye />} />
       {error && <p className="error-message">{error}</p>}
 
       {!showSteps ? (
@@ -494,22 +495,46 @@ const RoadmapView: React.FC = () => {
             {steps.length > 0 ? (
               steps.map((step, idx) => (
                 <div key={step.id} className="timeline-step">
-                  <div className={`timeline-index${step.status === "COMPLETED" ? " completed" : ""}`}>{idx + 1}</div>
+                  <div
+                    className={`timeline-index${step.status === "COMPLETED" ? " completed" : ""}`}
+                  >
+                    {idx + 1}
+                  </div>
                   <div className="timeline-content">
                     <div
                       className="timeline-title"
-                      onClick={() => setExpandedStep(expandedStep === step.id ? null : step.id)}
-                      style={{ cursor: "pointer", fontWeight: expandedStep === step.id ? "bold" : "normal" }}
+                      onClick={() =>
+                        setExpandedStep(
+                          expandedStep === step.id ? null : step.id,
+                        )
+                      }
+                      style={{
+                        cursor: "pointer",
+                        fontWeight:
+                          expandedStep === step.id ? "bold" : "normal",
+                      }}
                     >
                       {step.name}
                       <button className="timeline-expand-btn">
-                        {expandedStep === step.id ? <FaArrowUp /> : <FaArrowDown />}
+                        {expandedStep === step.id ? (
+                          <FaArrowUp />
+                        ) : (
+                          <FaArrowDown />
+                        )}
                       </button>
                     </div>
                     {expandedStep === step.id && (
                       <div className="timeline-description">
-                        <p style={{ whiteSpace: "pre-line" }}>{step.description}</p>
-                        <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+                        <p style={{ whiteSpace: "pre-line" }}>
+                          {step.description}
+                        </p>
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "0.5rem",
+                            marginTop: "0.5rem",
+                          }}
+                        >
                           <input
                             type="datetime-local"
                             value={

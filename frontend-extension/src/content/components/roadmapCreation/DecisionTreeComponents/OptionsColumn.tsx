@@ -11,8 +11,8 @@ interface OptionsColumnProps {
   isVisible: boolean;
 }
 
-const PRIMARY_BLUE = "#4B7BFF";        // same blue used for the user chat bubble
-const HOVER_BLUE   = "#3A67E6";        // slightly darker for hover
+const PRIMARY_BLUE = "#4B7BFF"; // same blue used for the user chat bubble
+const HOVER_BLUE = "#3A67E6"; // slightly darker for hover
 
 const styles: { [key: string]: React.CSSProperties } = {
   /* Wrapper around the whole column of buttons */
@@ -55,7 +55,8 @@ const styles: { [key: string]: React.CSSProperties } = {
     boxShadow: "0 3px 6px rgba(0, 0, 0, 0.08)",
 
     /* Smooth transitions for color, translate & shadow */
-    transition: "background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease",
+    transition:
+      "background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease",
   } as React.CSSProperties,
 };
 
@@ -82,27 +83,27 @@ const OptionsColumn: React.FC<OptionsColumnProps> = ({
           aria-label={`Choisir : ${label}`}
           tabIndex={0}
           /* Inline hover / active effects via onMouse* for inline-style approach */
-          onMouseEnter={e => {
+          onMouseEnter={(e) => {
             const el = e.currentTarget;
             el.style.background = HOVER_BLUE;
-            el.style.transform  = "translateY(-2px)";
-            el.style.boxShadow  = "0 6px 10px rgba(0, 0, 0, 0.12)";
+            el.style.transform = "translateY(-2px)";
+            el.style.boxShadow = "0 6px 10px rgba(0, 0, 0, 0.12)";
           }}
-          onMouseLeave={e => {
+          onMouseLeave={(e) => {
             const el = e.currentTarget;
             el.style.background = PRIMARY_BLUE;
-            el.style.transform  = "translateY(0)";
-            el.style.boxShadow  = "0 3px 6px rgba(0, 0, 0, 0.08)";
+            el.style.transform = "translateY(0)";
+            el.style.boxShadow = "0 3px 6px rgba(0, 0, 0, 0.08)";
           }}
-          onMouseDown={e => {
+          onMouseDown={(e) => {
             const el = e.currentTarget;
-            el.style.transform  = "translateY(1px)";
-            el.style.boxShadow  = "0 2px 4px rgba(0, 0, 0, 0.08)";
+            el.style.transform = "translateY(1px)";
+            el.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.08)";
           }}
-          onMouseUp={e => {
+          onMouseUp={(e) => {
             const el = e.currentTarget;
-            el.style.transform  = "translateY(-2px)";
-            el.style.boxShadow  = "0 6px 10px rgba(0, 0, 0, 0.12)";
+            el.style.transform = "translateY(-2px)";
+            el.style.boxShadow = "0 6px 10px rgba(0, 0, 0, 0.12)";
           }}
         >
           {label}

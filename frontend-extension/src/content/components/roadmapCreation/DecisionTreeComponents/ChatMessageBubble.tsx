@@ -58,32 +58,27 @@ const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({
     const node = decisionTreeData[entry.key];
     if (node && "question" in node) {
       return (
-        <div 
+        <div
           style={{
             ...styles.messageContainer,
             ...styles.botMessageContainer,
-          }} 
+          }}
           key={index}
         >
-          <div style={styles.botBubble}>
-            {node.question}
-          </div>
+          <div style={styles.botBubble}>{node.question}</div>
         </div>
       );
     }
-  } 
-  else if (entry.type === "answer") {
+  } else if (entry.type === "answer") {
     return (
-      <div 
+      <div
         style={{
           ...styles.messageContainer,
           ...styles.userMessageContainer,
-        }} 
+        }}
         key={index}
       >
-        <div style={styles.userBubble}>
-          {entry.label}
-        </div>
+        <div style={styles.userBubble}>{entry.label}</div>
       </div>
     );
   }
