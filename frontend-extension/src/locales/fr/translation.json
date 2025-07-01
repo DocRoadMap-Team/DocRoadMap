@@ -1,7 +1,7 @@
 {
   "login": "Connexion",
   "Connexion": "Connexion",
-  "signup": "S'inscrire",
+  "signup": "Inscription",
   "errorLogin": "Email ou mot de passe incorrect",
   "email": "Email",
   "emailPlaceholder": "Votre email",
@@ -17,7 +17,7 @@
   "firstName": "Prénom",
   "lastName": "Nom de famille",
   "confirmPassword": "Confirmation du mot de passe",
-  "submit": "S'inscrire",
+  "submit": "Inscription",
   "hasAccount": "Vous avez déjà un compte ?",
   "register": "Inscription",
   "passwordMismatch": "Les mots de passe ne correspondent pas",
