@@ -22,17 +22,15 @@ const DocroadmapHome: React.FC = () => {
     localStorage.removeItem("token");
     sessionStorage.clear();
     if (typeof chrome !== "undefined" && chrome.storage?.local) {
-      chrome.storage.local.remove("token", () => {
-        console.log("Token supprimé de chrome.storage");
-      });
+      chrome.storage.local.remove("token", () => {});
     }
     navigate("/");
   };
 
   return (
     <div className="roadmap-container">
-      <div className="settings-content">
-        <h1 className="roadmap-title">{t("settings")}</h1>
+      <div className="settings-container">
+        <h1 className="roadmap-header">{t("settings")}</h1>
         <div className="roadmap-buttons">
           <button onClick={goToProfile}>
             <UserIcon className="button-icon" />
