@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "version": "1.0.0",
   "name": "DocRoadMap",
-  "description": "This is the Extension for Browser",
+  "description": "DocRoadMap App",
   "icons": {
     "128": "icon128.png"
   },
@@ -10,7 +10,7 @@
     "default_icon": {
       "128": "icon128.png"
     },
-    "default_title": "test",
+    "default_title": "DocRoadMap",
     "default_popup": "index.html"
   },
   "web_accessible_resources": [
