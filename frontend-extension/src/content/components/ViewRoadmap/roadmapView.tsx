@@ -1,24 +1,21 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FaArrowDown, FaArrowUp, FaEye } from "react-icons/fa";
+import { FaArrowDown, FaEye } from "react-icons/fa";
 import Header from "../../utils/Header";
 import getToken from "../../utils/utils";
 import ModifyRoadmapChat from "./ModifyRoadmapChat";
+import RoadmapAdvance from "./roadmapAdvanced";
 
 const isDev = process.env.NODE_ENV !== "production";
 const basePath = isDev ? "./assets/" : "./assets/";
 const backendUrl = "https://www.docroadmap.fr";
 
 const normalize = (str: string): string =>
-  str
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+  str.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 
 const getImageForCardName = (name: string): string => {
   const lower = normalize(name);
-
   if (lower.includes("naissance"))
     return chrome.runtime.getURL(`${basePath}born_roadmap.png`);
   if (lower.includes("demenagement"))
@@ -63,14 +60,12 @@ const RoadmapView: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [showSteps, setShowSteps] = useState(false);
   const [chatProcessId, setChatProcessId] = useState<number | null>(null);
-  const [expandedStep, setExpandedStep] = useState<number | null>(null);
   const [steps, setSteps] = useState<Step[]>([]);
   const [selectedProcessName, setSelectedProcessName] = useState<string>("");
   const [token, setToken] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<{ [key: number]: string }>(
     {}
   );
-
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showScrollArrow, setShowScrollArrow] = useState(false);
 
@@ -78,74 +73,56 @@ const RoadmapView: React.FC = () => {
     const fetchUserProcesses = async () => {
       const token = await getToken();
       setToken(token);
-
-      if (!token) {
-        setError(t("missingToken"));
-        return;
-      }
-
+      if (!token) return setError(t("missingToken"));
       try {
-        const response = await axios.get(`${backendUrl}/users/me`, {
+        const res = await axios.get(`${backendUrl}/users/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setCards(response.data.processes || []);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des roadmaps :", error);
+        setCards(res.data.processes || []);
+      } catch {
         setError(t("fetchError"));
       }
     };
-
     fetchUserProcesses();
   }, [t]);
 
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
-
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = container;
-      const atBottom = scrollTop + clientHeight >= scrollHeight - 10;
-      setShowScrollArrow(!atBottom);
+      setShowScrollArrow(scrollTop + clientHeight < scrollHeight - 10);
     };
-
     container.addEventListener("scroll", handleScroll);
     handleScroll();
-
     return () => container.removeEventListener("scroll", handleScroll);
   }, []);
 
   const updateEndedAt = async (stepId: number) => {
     try {
-      const dateValue = selectedDate[stepId];
-      if (!dateValue) return;
-
-      const formattedDate = `${dateValue}:00.000Z`;
-
+      const date = selectedDate[stepId];
+      if (!date) return;
+      const formatted = `${date}:00.000Z`;
       await axios.patch(
         `${backendUrl}/steps/${stepId}`,
-        { endedAt: formattedDate },
+        { endedAt: formatted },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
-      setSteps(
-        steps.map((step) =>
-          step.id === stepId ? { ...step, endedAt: formattedDate } : step
-        )
+      setSteps((prev) =>
+        prev.map((s) => (s.id === stepId ? { ...s, endedAt: formatted } : s))
       );
-
       alert(t("dateUpdatedAlert"));
-    } catch (error) {
-      console.error("Update failed:", error);
+    } catch {
       alert(t("updateError"));
     }
   };
 
   const getSteps = async (id: number, name: string) => {
     try {
-      const response = await axios.get(`${backendUrl}/process/${id}`, {
+      const res = await axios.get(`${backendUrl}/process/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setSteps(response.data.steps.sort((a: Step, b: Step) => a.id - b.id));
+      setSteps(res.data.steps.sort((a: Step, b: Step) => a.id - b.id));
       setSelectedProcessName(name);
       setShowSteps(true);
     } catch {
@@ -153,43 +130,17 @@ const RoadmapView: React.FC = () => {
     }
   };
 
-  const closeSteps = () => {
-    setShowSteps(false);
-    setSteps([]);
-    setSelectedProcessName("");
-  };
-
   return (
     <div className="roadmap-panel-container">
       <style>
         {`
         .roadmap-panel-container {
-          position: relative;
-          height: 100%;
-          }
-        .roadmap-panel-container {
           width: 100%;
+          position: relative;
           height: 100%;
           box-sizing: border-box;
           display: flex;
           flex-direction: column;
-        }
-        .roadmap-header {
-          flex: 0 0 auto;
-          display: flex;
-          align-items: center;
-          margin-bottom: 0.5rem;
-          padding-bottom: 0.25rem;
-          flex-direction: row;
-          border-bottom: 1px solid #e0e0e0;
-        }
-        .roadmap-title {
-          font-size: 1.1rem;
-          font-weight: bold;
-          padding: 0.5rem 0;
-          color: black;
-          flex-direction: row;
-          margin: 0;
         }
         .error-message {
           color: #e53e3e;
@@ -211,9 +162,6 @@ const RoadmapView: React.FC = () => {
           padding-bottom: 0.5rem;
           scrollbar-width: none;
           -ms-overflow-style: none;
-        }
-        .carousel-container::-webkit-scrollbar {
-          display: none;
         }
         .card {
           background: #fff;
@@ -275,171 +223,6 @@ const RoadmapView: React.FC = () => {
         .continue-button:hover {
           background: #225ea8;
         }
-        .steps-card {
-          width: 100%;
-          height: 420px;
-          border-radius: 16px;
-          box-shadow: 0 8px 32px rgba(44,62,80,0.13);
-          position: relative;
-          background: #fff;
-          border: 1px solid #e3e6ef;
-          overflow: hidden;
-          display: flex;
-          flex-direction: column;
-        }
-        .steps-card .card-header {
-          width: 100%;
-          position: sticky;
-          top: 0;
-          background: #007bff;
-          padding: 1.1rem 2.5rem 1.1rem 1.3rem;
-          border-radius: 16px 16px 0 0;
-          z-index: 1;
-          display: flex;
-          align-items: center;
-          min-height: 35px;
-          flex: 0 0 auto;
-        }
-        .steps-card .close-button {
-          position: absolute;
-          right: 18px;
-          top: 18px;
-          background: white;
-          border: none;
-          border-radius: 50%;
-          font-size: 1.35rem;
-          color: #888;
-          cursor: pointer;
-          z-index: 2;
-          transition: color 0.15s;
-          padding: 0;
-          line-height: 1;
-        }
-        .steps-card .close-button:hover {
-          color: #e53e3e;
-        }
-        .steps-card .card-header h3 {
-          color: #fff;
-          font-size: 1.15rem;
-          font-weight: 700;
-          margin: 0;
-          flex: 1;
-          flex-direction: row;
-          text-align: left;
-          letter-spacing: 0.01em;
-        }
-        .status-row {
-          display: flex;
-          align-items: center;
-          margin-top: 0.4rem;
-          gap: 0.5rem;
-        }
-        .status-switch {
-          width: 34px;
-          height: 20px;
-          border-radius: 12px;
-          background: #ccc;
-          position: relative;
-          transition: background 0.2s;
-          display: inline-block;
-        }
-        .status-switch::before {
-          content: '';
-          position: absolute;
-          left: 3px;
-          top: 3px;
-          width: 14px;
-          height: 14px;
-          border-radius: 50%;
-          background: #fff;
-          transition: left 0.2s, background 0.2s;
-          box-shadow: 0 1px 4px rgba(44,62,80,0.13);
-        }
-        .status-switch.on {
-          background: #30c36b;
-        }
-        .status-switch.on::before {
-          left: 17px;
-          background: #fff;
-        }
-        .status-label {
-          font-size: 0.97rem;
-          color: #444;
-          font-weight: 500;
-          letter-spacing: 0.01em;
-        }
-        .steps-timeline {
-          display: flex;
-          flex-direction: column;
-          position: relative;
-          flex: 1 1 auto;
-          overflow-y: auto;
-          padding: 1.2rem 1.3rem 1.3rem 1.3rem;
-          gap: 1.1rem;
-          background: #fff;
-          scrollbar-width: thin;
-          scrollbar-color: #e0e0e0 #f7f8fa;
-        }
-        .timeline-step {
-          display: flex;
-          align-items: flex-start;
-          position: relative;
-          margin-bottom: 1.5rem;
-        }
-        .timeline-index {
-          flex: 0 0 32px;
-          width: 32px;
-          height: 32px;
-          background: #e0e0e0;
-          color: #20498A;
-          border-radius: 50%;
-          font-weight: bold;
-          font-size: 1.2em;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-right: 1rem;
-          position: relative;
-          z-index: 2;
-        }
-        .timeline-index.completed {
-          background: #30c36b !important;
-          color: #fff !important;
-        }
-        .timeline-index.in-progress {
-          background:rgb(195, 166, 48) !important;
-          color: #fff !important;
-        }
-        .timeline-step:not(:last-child)::after {
-          content: '';
-          position: absolute;
-          left: 15px;
-          top: 32px;
-          width: 3px;
-          height: 100%;
-          background: #e0e0e0;
-          z-index: 1;
-        }
-        .timeline-content {
-          flex: 1 1 auto;
-          padding-bottom: 0.5rem;
-        }
-        .timeline-title {
-          font-size: 1.07em;
-          color: #222;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          user-select: none;
-        }
-        .timeline-expand-btn {
-          background: none;
-          border: none;
-          font-size: 1em;
-          margin-left: 0.6em;
-          cursor: pointer;
-          color: #007bff;
-        }
         ::-webkit-scrollbar {
         width: 0px;
         background: transparent;
@@ -461,17 +244,10 @@ const RoadmapView: React.FC = () => {
           z-index: 100;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
-        .timeline-description {
-          background: #f8fafd;
-          border-radius: 6px;
-          margin-top: 0.5rem;
-          padding: 0.7rem 1rem;
-          color: #20498A;
-          font-size: 0.98em;
-          box-shadow: 0 2px 8px rgba(44,62,80,0.04);
       }`}
       </style>
-      <Header title={t("currentRoadmaps")} icon={<FaEye />} />
+
+      <Header title={t("currentRoadmaps") || ""} icon={<FaEye />} />
       {error && <p className="error-message">{error}</p>}
 
       {!showSteps ? (
@@ -483,20 +259,17 @@ const RoadmapView: React.FC = () => {
                 <img
                   className="card-image"
                   src={getImageForCardName(card.name)}
-                  alt={t("imageAlt")}
+                  alt={t("imageAlt") || ""}
                 />
                 <div className="card-header">
                   <h3>{card.name}</h3>
                 </div>
                 <div className="card-body">
                   <p>
-                    {
-                      card.steps.filter((step) => step.status === "COMPLETED")
-                        .length
-                    }{" "}
+                    {card.steps.filter((s) => s.status === "COMPLETED").length}{" "}
                     {t("step")}
-                    {card.steps.filter((step) => step.status === "COMPLETED")
-                      .length > 1
+                    {card.steps.filter((s) => s.status === "COMPLETED").length >
+                    1
                       ? "s"
                       : ""}{" "}
                     {t("validated")} {card.steps.length}
@@ -519,119 +292,14 @@ const RoadmapView: React.FC = () => {
             ))}
         </div>
       ) : (
-        <div className="card steps-card">
-          <button
-            className="close-button"
-            onClick={closeSteps}
-            aria-label={t("close")}
-          >
-            &#x2715;
-          </button>
-          <div className="card-header">
-            <h3>{selectedProcessName}</h3>
-          </div>
-          <div className="steps-timeline">
-            {steps.length > 0 ? (
-              steps.map((step, idx) => (
-                <div key={step.id} className="timeline-step">
-                  <div
-                    className={`timeline-index${
-                      step.status === "COMPLETED" ? " completed" : ""
-                    }`}
-                  >
-                    {idx + 1}
-                  </div>
-                  <div className="timeline-content">
-                    <div
-                      className="timeline-title"
-                      onClick={() =>
-                        setExpandedStep(
-                          expandedStep === step.id ? null : step.id
-                        )
-                      }
-                      style={{
-                        cursor: "pointer",
-                        fontWeight:
-                          expandedStep === step.id ? "bold" : "normal",
-                      }}
-                    >
-                      {step.name}
-                      <button className="timeline-expand-btn">
-                        {expandedStep === step.id ? (
-                          <FaArrowUp />
-                        ) : (
-                          <FaArrowDown />
-                        )}
-                      </button>
-                    </div>
-                    {expandedStep === step.id && (
-                      <div className="timeline-description">
-                        <p style={{ whiteSpace: "pre-line" }}>
-                          {step.description}
-                        </p>
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "0.5rem",
-                            marginTop: "0.5rem",
-                          }}
-                        >
-                          <input
-                            type="datetime-local"
-                            value={
-                              selectedDate[step.id] ||
-                              (step.endedAt ? step.endedAt.slice(0, 16) : "")
-                            }
-                            onChange={(e) =>
-                              setSelectedDate({
-                                ...selectedDate,
-                                [step.id]: e.target.value,
-                              })
-                            }
-                            style={{
-                              padding: "0.3rem",
-                              border: "1px solid #ccc",
-                              borderRadius: "4px",
-                              fontSize: "0.85em",
-                            }}
-                          />
-                          <button
-                            onClick={() => updateEndedAt(step.id)}
-                            style={{
-                              padding: "0.3rem 0.75rem",
-                              background: "#4A88C5",
-                              color: "white",
-                              border: "none",
-                              borderRadius: "4px",
-                              cursor: "pointer",
-                              fontSize: "0.85em",
-                            }}
-                          >
-                            📅
-                          </button>
-                        </div>
-                        <div className="status-row">
-                          <span
-                            className={`status-switch ${
-                              step.status === "COMPLETED" ? "on" : ""
-                            }`}
-                          ></span>
-                          <span className="status-label">
-                            {step.status === "COMPLETED"
-                              ? t("validatedLabel")
-                              : t("pendingLabel")}
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p>{t("roadmapFetchError")}</p>
-            )}
-          </div>
-        </div>
+        <RoadmapAdvance
+          steps={steps}
+          processName={selectedProcessName}
+          onClose={() => setShowSteps(false)}
+          onUpdateEndedAt={updateEndedAt}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
       )}
 
       {chatProcessId && (
@@ -645,12 +313,12 @@ const RoadmapView: React.FC = () => {
       {showScrollArrow && (
         <button
           className="scroll-arrow-button"
-          onClick={() => {
+          onClick={() =>
             scrollRef.current?.scrollBy({
               top: scrollRef.current.clientHeight * 0.8,
               behavior: "smooth",
-            });
-          }}
+            })
+          }
           aria-label="Scroll down"
         >
           <FaArrowDown />
