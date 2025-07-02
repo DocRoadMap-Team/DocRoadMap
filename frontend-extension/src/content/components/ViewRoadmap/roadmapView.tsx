@@ -444,6 +444,23 @@ const RoadmapView: React.FC = () => {
         width: 0px;
         background: transparent;
         }
+        .scroll-arrow-button {
+          position: absolute;
+          bottom: 1rem;
+          right: 1rem;
+          background: rgba(0, 0, 0, 0.6);
+          color: white;
+          border: none;
+          border-radius: 50%;
+          width: 2.5rem;
+          height: 2.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 100;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
         .timeline-description {
           background: #f8fafd;
           border-radius: 6px;
@@ -627,30 +644,12 @@ const RoadmapView: React.FC = () => {
 
       {showScrollArrow && (
         <button
+          className="scroll-arrow-button"
           onClick={() => {
-            if (scrollRef.current) {
-              scrollRef.current.scrollBy({
-                top: scrollRef.current.clientHeight * 0.8,
-                behavior: "smooth",
-              });
-            }
-          }}
-          style={{
-            position: "absolute",
-            bottom: "1rem",
-            right: "1rem",
-            background: "rgba(0,0,0,0.6)",
-            color: "white",
-            border: "none",
-            borderRadius: "50%",
-            width: "2.5rem",
-            height: "2.5rem",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-            zIndex: 100,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+            scrollRef.current?.scrollBy({
+              top: scrollRef.current.clientHeight * 0.8,
+              behavior: "smooth",
+            });
           }}
           aria-label="Scroll down"
         >
