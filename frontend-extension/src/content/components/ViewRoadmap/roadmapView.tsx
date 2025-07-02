@@ -122,19 +122,6 @@ const RoadmapView: React.FC = () => {
     }
   };
 
-  const getValidatedStepsCount = (status: string) => {
-    switch (status) {
-      case "PENDING":
-        return 0;
-      case "IN_PROGRESS":
-        return 1;
-      case "COMPLETED":
-        return 3;
-      default:
-        return 0;
-    }
-  };
-
   const getSteps = async (id: number, name: string) => {
     try {
       const response = await axios.get(`${backendUrl}/process/${id}`, {
@@ -465,9 +452,18 @@ const RoadmapView: React.FC = () => {
                 </div>
                 <div className="card-body">
                   <p>
-                    {getValidatedStepsCount(card.status)} {t("step")}
-                    {getValidatedStepsCount(card.status) > 1 ? "s" : ""}{" "}
-                    {t("validated")} 3
+                    {
+                      (card.steps as Step[]).filter(
+                        (step) => step.status === "COMPLETED"
+                      ).length
+                    }{" "}
+                    {t("step")}
+                    {(card.steps as Step[]).filter(
+                      (step) => step.status === "COMPLETED"
+                    ).length > 1
+                      ? "s"
+                      : ""}{" "}
+                    {t("validated")} {card.steps.length}
                   </p>
                   <button
                     className="continue-button"
