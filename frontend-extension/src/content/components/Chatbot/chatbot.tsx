@@ -15,7 +15,6 @@ const Chatbot: React.FC = () => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState<string | null>(null);
-  const [userId, setUserId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
@@ -36,8 +35,6 @@ const Chatbot: React.FC = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error(await res.text());
-        const user = await res.json();
-        setUserId(user.id);
       } catch (err: any) {
         console.error("Erreur /users/me:", err.message);
       }
@@ -47,24 +44,26 @@ const Chatbot: React.FC = () => {
 
   useEffect(() => {
     const fetchHistory = async () => {
-      if (!token || !userId) return;
       try {
-        const res = await fetch(`${backendUrl}/ai/history/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
+        const res = await fetch(`${backendUrl}/ai-history/donna`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
         if (!res.ok) throw new Error(await res.text());
         const history = await res.json();
-        const formatted = history.map((entry: any) => ({
-          text: entry.message,
-          sender: entry.sender === "BOT" ? "bot" : "user",
-        }));
+        const formatted = history.flatMap((entry: any) => [
+          { text: entry.message, sender: "user" },
+          { text: entry.response, sender: "bot" },
+        ]);
         setMessages(formatted);
       } catch (err: any) {
-        console.error("Erreur /ai/history:", err.message);
+        console.error("Erreur /ai-history/donna:", err.message);
       }
     };
-    fetchHistory();
-  }, [token, userId]);
+
+    if (token) fetchHistory();
+  }, [token]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
