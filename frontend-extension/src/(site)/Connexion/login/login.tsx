@@ -5,10 +5,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 
-const isLocal = process.env.NODE_ENV !== "production";
-const backendUrl = isLocal
-  ? "http://localhost:8082"
-  : "https://www.docroadmap.fr";
+const backendUrl = "https://www.docroadmap.fr";
 
 const isDev = process.env.NODE_ENV !== "production";
 const docroadmapImg = isDev
