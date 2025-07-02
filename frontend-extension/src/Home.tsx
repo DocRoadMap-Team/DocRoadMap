@@ -84,7 +84,7 @@ function Home() {
       </div>
       {isAuthorized === false ? (
         <div className="not-authorized-message">
-          <p>{t("Ce site n'est pas autorisé pour l'extension DocRoadMap.")}</p>
+          <p>{t("Not-authorized-for-DocRoadMap")}</p>
         </div>
       ) : (
         <>

@@ -106,3 +106,10 @@
   height: auto;
   user-select: none;
 }
+
+.not-authorized-message {
+  font-size: 16px;
+  text-align: center;
+  color: #000000;
+  margin-top: 25px;
+}

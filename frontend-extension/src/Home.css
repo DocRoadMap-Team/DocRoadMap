@@ -61,3 +61,9 @@ body {
   width: 150px;
   height: auto;
 }
+
+.not-authorized-message {
+  font-size: 16px;
+  color: #000000;
+  margin-top: 25px;
+}

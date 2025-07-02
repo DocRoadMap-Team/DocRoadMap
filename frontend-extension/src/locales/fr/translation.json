@@ -64,6 +64,7 @@
   "registration_error": "Une erreur est survenue lors de l'inscription.",
   "Account_created": "Compte créé avec succès",
   "empty_fields": "Veuillez remplir tous les champs",
+  "Not-authorized-for-DocRoadMap": "Ce site n'est pas autorisé pour l'extension DocRoadMap.",
 
   "start_question": "Quelle démarche souhaites-tu effectuer ?",
   "start_option_dem": "Déménagement en France",
