@@ -23,7 +23,7 @@ docker system prune -f
 docker compose up -d --build postgres backend
 
 echo "Ensure uuid-ossp extension is enabled in Postgres..."
-sleep 10
+sleep 30
 docker compose exec -T postgres psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
 
 # === END ===
