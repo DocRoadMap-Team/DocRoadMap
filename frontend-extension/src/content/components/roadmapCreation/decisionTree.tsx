@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { FaRoad } from "react-icons/fa";
+import Header from "../../utils/Header";
 import getToken from "../../utils/utils";
 import rawData from "./decisionTree.json";
-import Header from "../../utils/Header";
 import ChatMessageBubble from "./DecisionTreeComponents/ChatMessageBubble";
 import OptionsColumn from "./DecisionTreeComponents/OptionsColumn";
-import { FaRoad } from "react-icons/fa";
 
-const env = import.meta.env.VITE_ENV_MODE;
-const backendUrl =
-  env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
+const backendUrl = "https://www.docroadmap.fr";
 
 type DecisionTreeData = {
   [key: string]: any;
@@ -49,7 +47,7 @@ function getProcessAnswersKey(processKey: string): string | null {
 
 function getStepsForProcess(
   processAnswers: Record<string, StepNode>,
-  userAnswers: Record<string, string>,
+  userAnswers: Record<string, string>
 ): { step_title: string; answer: string }[] {
   const steps: { step_title: string; answer: string }[] = [];
   for (const step of Object.values(processAnswers)) {
@@ -135,7 +133,7 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
   const [showSteps, setShowSteps] = useState(false);
   const [steps, setSteps] = useState<{ step_title: string; answer: string }[]>(
-    [],
+    []
   );
   const chatRef = useRef<HTMLDivElement | null>(null);
   const lastMessageRef = useRef<HTMLDivElement | null>(null);
@@ -186,9 +184,9 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
                   "Content-Type": "application/json",
                   Authorization: `Bearer ${token}`,
                 },
-              },
-            ),
-          ),
+              }
+            )
+          )
         );
       } catch (error) {
         console.error("Error creating steps:", error);
@@ -211,7 +209,7 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
       const lastProcessId = response.data.id;
       await handleCreateSteps(lastProcessId);
@@ -321,7 +319,7 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
                       </a>
                     ) : (
                       <span key={i}>{part}</span>
-                    ),
+                    )
                   )}
                 </li>
               ))}

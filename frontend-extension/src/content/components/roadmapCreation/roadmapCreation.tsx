@@ -7,9 +7,7 @@ import DecisionTreeChat from "./decisionTree";
 
 const basePath = "./assets/";
 
-const env = import.meta.env.VITE_ENV_MODE;
-const backendUrl =
-  env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
+const backendUrl = "https://www.docroadmap.fr";
 
 const normalize = (str: string): string =>
   str
@@ -73,7 +71,7 @@ const RoadmapCreation: React.FC = () => {
           `${backendUrl}/list-administrative-process`,
           {
             headers: { Authorization: `Bearer ${token}` },
-          },
+          }
         );
 
         const enrichedSteps = stepsRes.data.map((step: any) => ({
