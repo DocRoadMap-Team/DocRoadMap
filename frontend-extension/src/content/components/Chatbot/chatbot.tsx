@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaPaperPlane, FaRobot } from "react-icons/fa";
+import ReactMarkdown from "react-markdown";
 import Header from "../../utils/Header";
 import getToken from "../../utils/utils";
 
@@ -16,6 +17,7 @@ const Chatbot: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const bottomRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -31,9 +33,7 @@ const Chatbot: React.FC = () => {
       if (!token) return;
       try {
         const res = await fetch(`${backendUrl}/users/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error(await res.text());
         const user = await res.json();
@@ -50,9 +50,7 @@ const Chatbot: React.FC = () => {
       if (!token || !userId) return;
       try {
         const res = await fetch(`${backendUrl}/ai/history/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error(await res.text());
         const history = await res.json();
@@ -67,6 +65,10 @@ const Chatbot: React.FC = () => {
     };
     fetchHistory();
   }, [token, userId]);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -114,158 +116,195 @@ const Chatbot: React.FC = () => {
 
   return (
     <div className="chatbot-container">
-      <style>
-        {`
-      .chatbot-container {
-        width: 100%;
-        height: 100%;
-        max-width: none;
-        background: #ffffff;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-      }
-      .chatbot-header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        padding: 12px;
-        border-bottom: 1px solid #ddd;
-        background: #f5f5f5;
-        height: 60px;
-        flex-shrink: 0;
-      }
-      .chatbot-title-container {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .chatbot-title {
-        color: #000;
-        font-size: 20px;
-        font-weight: bold;
-        text-align: center;
-        margin: 0;
-      }
-      .chatbot-icon {
-        font-size: 24px;
-        color: #007bff;
-      }
-      .chatbot-messages {
-        flex: 1 1 auto;
-        min-height: 0;
-        overflow-y: auto;
-        padding: 16px;
-        background-color: rgb(250, 250, 250);
-        color: black;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
-      }
-      .chat-message {
-        margin-bottom: 8px;
-        max-width: 65%;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        white-space: pre-wrap;
-        font-size: 16px;
-        border-radius: 8px;
-        display: block;
-        padding: 10px;
-      }
-      .user {
-        align-self: flex-end;
-        background-color: #d9f0ff;
-        color: black;
-        text-align: left;
-        max-width: 65%;
-        margin-left: auto;
-        margin-right: 25px;
-      }
-      .bot {
-        align-self: flex-start;
-        background-color: rgb(234, 223, 167);
-        color: black;
-        text-align: left;
-        max-width: 65%;
-        margin-right: auto;
-      }
-      .chatbot-input {
-        display: flex;
-        align-items: center;
-        color: black;
-        background-color: rgb(250, 250, 250);
-        border-top: 1px solid #ddd;
-        background: #fff;
-      }
-      .chatbot-input input {
-        padding: 10px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-        background-color: rgb(250, 250, 250);
-        border-radius: 6px;
-        color: black;
-        outline: none;
-        transition: 0.2s;
-        width: 90%;
-      }
-      .chatbot-input input:focus {
-        border-color: #4a76d3;
-      }
-      .chatbot-input button {
-        border: none;
-        border-radius: 6px;
-        font-size: 16px;
-        cursor: pointer;
-        background: #007bff;
-        color: white;
-        margin-left: 8px;
-        transition: background 0.3s ease;
-      }
-      .chatbot-input button:hover {
-        background: #0056b3;
-      }
-      .chatbot-input button:disabled {
-        background: #aaa;
-        color: black;
-        cursor: not-allowed;
-      }
-      .send-button {
-        border: none;
-        border-radius: 6px;
-        font-size: 18px;
-        cursor: pointer;
-        background: #007bff;
-        color: white;
-        transition: background 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 16px;
-      }
-      .send-button:hover {
-        background: #0056b3;
-      }
-      .send-button:disabled {
-        background: #aaa;
-        cursor: not-allowed;
-      }`}
-      </style>
+      <style>{`
+        .chatbot-container {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          background: #f9f9fb;
+          font-family: 'Segoe UI', sans-serif;
+        }
+
+        .chatbot-header {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 16px;
+          background: linear-gradient(90deg, #4e54c8, #8f94fb);
+          color: white;
+          font-size: 18px;
+          font-weight: bold;
+          border-bottom: 1px solid #ddd;
+        }
+          .chat-message.bot p,
+          .chat-message.bot ul,
+          .chat-message.bot ol,
+          .chat-message.bot li {
+            margin: 0;
+            padding: 0;
+          }
+
+        .chatbot-messages {
+          flex: 1;
+          overflow-y: auto;
+          padding: 20px 16px 80px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+
+        .chatbot-messages::-webkit-scrollbar {
+          display: none;
+        }
+
+        .chat-message {
+          max-width: 75%;
+          padding: 12px 16px;
+          border-radius: 16px;
+          font-size: 15px;
+          line-height: 1.4;
+          word-break: break-word;
+          white-space: pre-wrap;
+        }
+
+        .chat-message.user {
+          align-self: flex-end;
+          background: #dcf2ff;
+          color: #000;
+          border-bottom-right-radius: 4px;
+        }
+
+        .chat-message.bot {
+          align-self: flex-start;
+          background: #f4eeba;
+          color: #000;
+          border-bottom-left-radius: 4px;
+        }
+
+        .typing-indicator {
+          display: flex;
+          gap: 4px;
+          padding: 10px 12px;
+          border-radius: 16px;
+          background: #f4eeba;
+          width: fit-content;
+        }
+
+        .typing-indicator span {
+          width: 8px;
+          height: 8px;
+          background-color: #333;
+          border-radius: 50%;
+          opacity: 0.4;
+          animation: blink 1.4s infinite ease-in-out both;
+        }
+
+        .typing-indicator span:nth-child(2) {
+          animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+          animation-delay: 0.4s;
+        }
+
+        @keyframes blink {
+          0%, 80%, 100% {
+            opacity: 0.3;
+            transform: scale(0.9);
+          }
+          40% {
+            opacity: 1;
+            transform: scale(1.2);
+          }
+        }
+
+        .chatbot-input {
+          position: fixed;
+          bottom: 12px;
+          left: 12px;
+          right: 12px;
+          background: rgba(255, 255, 255, 0.7);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          padding: 12px;
+          display: flex;
+          align-items: center;
+          border: 1px solid rgba(220, 220, 220, 0.6);
+          border-radius: 12px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+          z-index: 10;
+        }
+
+        .chatbot-input input {
+          flex: 1;
+          border: none;
+          outline: none;
+          font-size: 16px;
+          padding: 10px;
+          border-radius: 8px;
+          background-color: #f0f2f5;
+          margin-right: 10px;
+          color: black;
+        }
+
+        .chatbot-input input::placeholder {
+          color: black;
+          opacity: 1;
+        }
+
+        .send-button {
+          background: #4e54c8;
+          color: white;
+          padding: 10px 12px;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: background 0.2s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .send-button:hover {
+          background: #3c40a2;
+        }
+
+        .send-button:disabled {
+          background: #aaa;
+          cursor: not-allowed;
+        }
+      `}</style>
+
       <Header title={t("Donna chatbot")} icon={<FaRobot />} />
 
       <div className="chatbot-messages">
         {messages.map((msg, index) => (
           <div key={index} className={`chat-message ${msg.sender}`}>
-            {msg.text}
+            {msg.sender === "bot" ? (
+              <ReactMarkdown>{msg.text}</ReactMarkdown>
+            ) : (
+              msg.text
+            )}
           </div>
         ))}
+
+        {loading && (
+          <div className="chat-message bot typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        )}
+
         {error && (
           <div style={{ color: "red", marginTop: 10, textAlign: "center" }}>
             {error}
           </div>
         )}
+
+        <div ref={bottomRef} />
       </div>
 
       <div className="chatbot-input">
