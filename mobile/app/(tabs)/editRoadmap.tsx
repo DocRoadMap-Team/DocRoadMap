@@ -16,6 +16,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import request from "@/constants/Request";
+import { router } from "expo-router";
 
 type Message = {
   text: string;
@@ -129,6 +130,15 @@ export default function EditRoadmap() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Modifier la roadmap</Text>
+        <TouchableOpacity
+          accessibilityRole="button"
+          accessibilityLabel="Fermer"
+          onPress={() => {
+            router.replace("/home");
+          }}
+        >
+          <Text style={styles.closeIcon}>✖</Text>
+        </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.chatContainer}>
@@ -221,5 +231,10 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(20),
     color: "#FFF",
     fontWeight: "bold",
+  },
+  closeIcon: {
+    fontSize: moderateScale(20),
+    color: "#333",
+    paddingHorizontal: wp("1%"),
   },
 });

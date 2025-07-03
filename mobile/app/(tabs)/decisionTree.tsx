@@ -186,7 +186,10 @@ export default function DecisionTree() {
       const demarcheType = getDemarcheTypeFromAnswers(userAnswers);
 
       CreateFromTree({
-        name: demarcheType,
+        name:
+          demarcheType.charAt(0).toUpperCase() +
+          demarcheType.slice(1).toLowerCase(),
+
         userAnswers,
       });
 
@@ -222,12 +225,18 @@ export default function DecisionTree() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboardAvoidingView}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
       >
-        <ScrollView contentContainerStyle={styles.container} ref={scrollRef}>
+        <ScrollView
+          contentContainerStyle={styles.container}
+          ref={scrollRef}
+          style={styles.scrollView}
+          keyboardShouldPersistTaps="handled"
+        >
           {history.map((entry, index) => {
             if (entry.type === "question") {
               const node = decisionTree[entry.key];
@@ -291,6 +300,7 @@ export default function DecisionTree() {
               horizontal
               contentContainerStyle={styles.optionsBar}
               keyboardShouldPersistTaps="handled"
+              showsHorizontalScrollIndicator={false}
             >
               {currentOptions.map(({ label, next }, idx) => (
                 <TouchableOpacity
@@ -310,7 +320,9 @@ export default function DecisionTree() {
               value={userInput}
               onChangeText={handleInputChange}
               placeholder="Tapez 'Créer la démarche' pour créer votre démarche"
-              multiline
+              multiline={false}
+              numberOfLines={1}
+              textAlignVertical="center"
             />
             <TouchableOpacity
               style={[
@@ -330,43 +342,58 @@ export default function DecisionTree() {
 }
 
 const styles = ScaledSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#f5f5f5",
+  },
+  keyboardAvoidingView: {
+    flex: 1,
+  },
+  scrollView: {
+    flex: 1,
+  },
   container: {
     padding: wp(4),
     gap: 10,
-    paddingBottom: hp(2),
+    paddingBottom: hp(12),
+    flexGrow: 1,
   },
   botBubble: {
     backgroundColor: "#FFFFFF",
     paddingVertical: hp(1.5),
     paddingHorizontal: wp(4),
-    borderRadius: moderateScale(30),
+    borderRadius: moderateScale(20),
     alignSelf: "flex-start",
-    maxWidth: "70%",
+    maxWidth: "85%",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 3,
+    marginVertical: hp(0.5),
   },
   botText: {
     fontSize: moderateScale(16),
+    lineHeight: moderateScale(22),
   },
   userBubble: {
     backgroundColor: "#3498db",
     paddingVertical: hp(1.5),
     paddingHorizontal: wp(4),
-    borderRadius: moderateScale(30),
+    borderRadius: moderateScale(20),
     alignSelf: "flex-end",
-    maxWidth: "70%",
+    maxWidth: "85%",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 3,
+    marginVertical: hp(0.5),
   },
   userText: {
     fontSize: moderateScale(16),
-    color: "#000",
+    color: "#fff",
+    lineHeight: moderateScale(22),
   },
   link: {
     color: "#007AFF",
@@ -383,57 +410,64 @@ const styles = ScaledSheet.create({
   },
   bottomBar: {
     borderTopWidth: 1,
-    borderTopColor: "#ddd",
+    borderTopColor: "#e0e0e0",
     backgroundColor: "#fff",
-    paddingVertical: hp(1),
+    paddingVertical: hp(0.5),
+    maxHeight: hp(20),
   },
   optionsBar: {
     paddingHorizontal: wp(2),
-    paddingBottom: hp(1),
+    paddingVertical: hp(0.5),
     flexDirection: "row",
+    alignItems: "center",
   },
   optionBubbleHorizontal: {
-    backgroundColor: "#FFFFFF",
-    paddingVertical: hp(1),
-    paddingHorizontal: wp(4),
-    borderRadius: moderateScale(30),
-    marginHorizontal: wp(1.5),
+    backgroundColor: "#f8f9fa",
+    paddingVertical: hp(0.8),
+    paddingHorizontal: wp(3),
+    borderRadius: moderateScale(15),
+    marginHorizontal: wp(1),
     justifyContent: "center",
     alignItems: "center",
-    boxshadowColor: "#000",
-    boxshadowOffset: { width: 0, height: 2 },
-    boxshadowOpacity: 0.1,
-    boxhadowRadius: 3,
-    elevation: 3,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    minHeight: hp(4),
   },
   optionText: {
-    fontSize: moderateScale(15),
+    fontSize: moderateScale(14),
     textAlign: "center",
+    color: "#333",
   },
   inputBar: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: wp(4),
-    paddingTop: hp(1),
+    paddingHorizontal: wp(3),
+    paddingVertical: hp(0.8),
+    backgroundColor: "#fff",
   },
   input: {
     flex: 1,
     borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: moderateScale(30),
-    paddingHorizontal: wp(3),
-    fontSize: moderateScale(16),
-    height: hp(30),
+    borderColor: "#e0e0e0",
+    borderRadius: moderateScale(20),
+    paddingHorizontal: wp(4),
+    fontSize: moderateScale(12),
+    height: hp(10),
     marginRight: wp(2),
+    backgroundColor: "#f8f9fa",
   },
   sendButton: {
     backgroundColor: "#3498db",
-    paddingVertical: hp(1.2),
-    paddingHorizontal: wp(5),
-    borderRadius: moderateScale(30),
+    paddingVertical: hp(1),
+    paddingHorizontal: wp(4),
+    borderRadius: moderateScale(20),
+    minHeight: hp(5),
+    justifyContent: "center",
+    alignItems: "center",
   },
   sendButtonText: {
     color: "#fff",
-    fontSize: moderateScale(16),
+    fontSize: moderateScale(15),
+    fontWeight: "600",
   },
 });

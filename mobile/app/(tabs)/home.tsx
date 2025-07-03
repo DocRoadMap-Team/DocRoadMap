@@ -21,7 +21,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import DecisionTreeInterface from "@/components/chat/DecisionTreeInterface";
+import DecisionTreeInterface from "@/app/DecisionTreeInterface";
 import { router } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -79,11 +79,11 @@ export default function HomePage() {
   };
 
   const handleSettingsClick = () => {
-    router.push("/settings");
+    router.push("/profile");
   };
 
   const handleGenerateRoadmap = async () => {
-    router.push("/decisionTree");
+    router.push("/decisionTreeInterface");
   };
 
   const handleReminders = () => {
@@ -102,19 +102,6 @@ export default function HomePage() {
     >
       <View style={styles.headerContainer}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={handleMenuPress} style={styles.menuButton}>
-            <View style={styles.menuIconContainer}>
-              <Text
-                style={[styles.menuButtonText, { color: theme.buttonText }]}
-                allowFontScaling={true}
-                accessibilityLabel={t("home.menu_button")}
-                accessibilityRole="button"
-              >
-                ☰
-              </Text>
-            </View>
-          </TouchableOpacity>
-
           <View style={styles.titleContainer}>
             <Text
               style={[styles.headerTitle, { color: theme.buttonText }]}
@@ -128,12 +115,6 @@ export default function HomePage() {
           <View style={styles.rightActions}>
             <View style={styles.iconWrapper}>
               <View>
-                <DecisionTreeInterface />
-              </View>
-            </View>
-
-            <View style={styles.iconWrapper}>
-              <View>
                 <ChatInterface />
               </View>
             </View>
@@ -145,7 +126,7 @@ export default function HomePage() {
               <View style={styles.iconGlow}>
                 <MaterialIcons
                   name="settings"
-                  size={24}
+                  size={20}
                   color={theme.buttonText}
                 />
               </View>
@@ -359,7 +340,7 @@ const styles = ScaledSheet.create({
   headerTitle: {
     fontSize: moderateScale(22),
     fontWeight: "800",
-    letterSpacing: 1,
+    marginRight: moderateScale(4),
   },
   titleUnderline: {
     width: moderateScale(60),
@@ -371,7 +352,7 @@ const styles = ScaledSheet.create({
   rightActions: {
     flexDirection: "row",
     alignItems: "center",
-    gap: moderateScale(12),
+    gap: moderateScale(50),
   },
   iconWrapper: {
     borderRadius: moderateScale(20),
@@ -467,7 +448,7 @@ const styles = ScaledSheet.create({
     elevation: 6,
     borderRadius: moderateScale(12),
   },
-  // Styles pour le modal
+
   modalBackground: {
     flex: 1,
     backgroundColor: "#f8f9fa",

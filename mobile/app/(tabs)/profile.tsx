@@ -19,8 +19,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import Settings from "./settings";
 
-const ProfileCard = () => {
+export default function ProfileCard() {
   const { t } = useTranslation();
   const MAX_DESCRIPTION_LENGTH = 150;
   const [isEditMode, setIsEditMode] = useState(false);
@@ -102,74 +103,8 @@ const ProfileCard = () => {
         >
           <FontAwesome name="envelope" size={16} /> {email}
         </Text>
-        {isEditMode ? (
-          <View style={styles.editDescriptionContainer}>
-            <TextInput
-              style={[
-                styles.editDescriptionInput,
-                {
-                  color: theme.text,
-                  borderColor: theme.text,
-                },
-              ]}
-              value={description}
-              onChangeText={handleDescriptionChange}
-              multiline
-              maxLength={MAX_DESCRIPTION_LENGTH}
-              mode="outlined"
-              allowFontScaling
-              accessibilityLabel={t("profile.descriptionInput")}
-              theme={{ colors: { text: theme.text, primary: theme.primary } }}
-            />
-            <Button
-              onPress={() => {
-                handleSaveClick();
-                Vibration.vibrate(100);
-              }}
-              mode="contained"
-              buttonColor={theme.primary}
-              style={styles.saveButton}
-              accessibilityLabel={t("profile.saveDescription")}
-              accessibilityRole="button"
-            >
-              {t("profile.saveDescription")}
-            </Button>
-          </View>
-        ) : (
-          <View style={styles.descriptionContainer}>
-            <Text
-              style={[styles.descriptionText, { color: theme.text }]}
-              allowFontScaling
-              accessibilityLabel={description}
-            >
-              {description}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                handleEditClick();
-                Vibration.vibrate(100);
-              }}
-              accessibilityLabel={t("profile.editDescription")}
-              accessibilityRole="button"
-            >
-              <Ionicons name="create-outline" size={24} color={theme.text} />
-            </TouchableOpacity>
-          </View>
-        )}
 
-        <View style={{ flex: 1 }} />
         <View style={styles.iconRow}>
-          <TouchableOpacity
-            onPress={handleSettingsClick}
-            accessibilityRole="button"
-          >
-            <MaterialIcons
-              name="settings"
-              size={28}
-              color={theme.text}
-              accessibilityLabel={t("profile.settings")}
-            />
-          </TouchableOpacity>
           <TouchableOpacity onPress={handleLogout} accessibilityRole="button">
             <Ionicons
               name="exit-outline"
@@ -179,10 +114,11 @@ const ProfileCard = () => {
             />
           </TouchableOpacity>
         </View>
+        <Settings></Settings>
       </View>
     </ScrollView>
   );
-};
+}
 
 const styles = ScaledSheet.create({
   container: {
@@ -192,7 +128,7 @@ const styles = ScaledSheet.create({
   },
   card: {
     width: "100%",
-    minHeight: hp("80%"),
+    minHeight: hp("50%"),
     backgroundColor: "#fff",
     borderRadius: moderateScale(20),
     padding: moderateScale(20),
@@ -261,9 +197,5 @@ const styles = ScaledSheet.create({
   iconRow: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-    marginTop: moderateScale(20),
-    marginBottom: moderateScale(10),
   },
 });
-
-export default ProfileCard;

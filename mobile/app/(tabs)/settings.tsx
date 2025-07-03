@@ -144,7 +144,7 @@ const Settings = () => {
         </Modal>
 
         <TouchableOpacity
-          onPress={() => router.replace("/profile")}
+          onPress={() => router.replace("/home")}
           style={[styles.button, { backgroundColor: theme.primary }]}
           accessibilityLabel={t("back_to_profile")}
           accessibilityRole="button"
@@ -154,7 +154,7 @@ const Settings = () => {
             style={[styles.buttonText, { color: theme.buttonText }]}
             allowFontScaling={true}
           >
-            {t("back_to_profile")}
+            {t("back_to_home")}
           </Text>
         </TouchableOpacity>
 

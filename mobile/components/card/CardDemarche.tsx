@@ -74,6 +74,9 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
     setSelectedStep(selectedStep?.id === step.id ? null : step);
   };
 
+  const handleModifyRoadmap = async () => {
+    router.push("/editRoadmap");
+  };
   const handleCalendarNavigation = useCallback(
     (step: Step) => {
       setModalVisible(false);
@@ -314,7 +317,9 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                 onPress={() => setModalVisible(false)}
                 activeOpacity={0.9}
               >
-                <Text style={styles.closeButtonText}>{t("close")}</Text>
+                <Text style={styles.closeButtonText}>
+                  {t("Modifier la démarche")}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -342,6 +347,8 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
     elevation: 12,
     overflow: "hidden",
+    maxWidth: hp("70%"),
+    maxHeight: hp("70%"),
   },
   cardHeader: {
     backgroundColor: "#4C9EEB",
@@ -663,6 +670,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 6,
+    marginBottom: hp("5%"),
   },
   closeButtonText: {
     color: "#FFFFFF",
