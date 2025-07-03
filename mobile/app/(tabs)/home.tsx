@@ -9,6 +9,7 @@ import {
   Alert,
   Modal,
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { useTranslation } from "react-i18next";
 import CardDemarche from "../../components/card/CardDemarche";
 import ChatInterface from "../../components/chat/ChatInterface";
@@ -21,7 +22,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import DecisionTreeInterface from "@/app/DecisionTreeInterface";
 import { router } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -100,7 +100,12 @@ export default function HomePage() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.background }]}
     >
-      <View style={styles.headerContainer}>
+      <LinearGradient
+        colors={["#204CCF", "#6006A4"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={styles.headerContainer}
+      >
         <View style={styles.header}>
           <View style={styles.titleContainer}>
             <Text
@@ -133,7 +138,7 @@ export default function HomePage() {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </LinearGradient>
 
       <ScrollView
         style={styles.content}
@@ -149,7 +154,12 @@ export default function HomePage() {
             accessibilityLabel={t("home.generate_roadmap")}
             accessibilityRole="button"
           >
-            <View style={[styles.modernButton, { backgroundColor: "#3498db" }]}>
+            <LinearGradient
+              colors={["#204CCF", "#6006A4"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.modernButton}
+            >
               <View style={styles.buttonContent}>
                 <MaterialIcons
                   name="add-road"
@@ -164,7 +174,7 @@ export default function HomePage() {
                   {t("home.generate_roadmap")}
                 </Text>
               </View>
-            </View>
+            </LinearGradient>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -173,7 +183,12 @@ export default function HomePage() {
             accessibilityLabel={t("home.my_reminders")}
             accessibilityRole="button"
           >
-            <View style={[styles.modernButton, { backgroundColor: "#3498db" }]}>
+            <LinearGradient
+              colors={["#204CCF", "#6006A4"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.modernButton}
+            >
               <View style={styles.buttonContent}>
                 <MaterialIcons
                   name="notifications"
@@ -188,7 +203,7 @@ export default function HomePage() {
                   {t("home.my_reminders")}
                 </Text>
               </View>
-            </View>
+            </LinearGradient>
           </TouchableOpacity>
         </View>
 
@@ -197,7 +212,12 @@ export default function HomePage() {
             <Text style={[styles.sectionTitle, { color: theme.text }]}>
               Mes Démarches
             </Text>
-            <View style={styles.sectionTitleLine} />
+            <LinearGradient
+              colors={["#204CCF", "#6006A4"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.sectionTitleLine}
+            />
           </View>
 
           <ScrollView
@@ -230,7 +250,7 @@ export default function HomePage() {
                 onPress={() => setModalVisible(false)}
                 style={styles.closeButton}
               >
-                <MaterialIcons name="close" size={24} color="#3498db" />
+                <MaterialIcons name="close" size={24} color="#204CCF" />
               </TouchableOpacity>
             </View>
 
@@ -256,7 +276,7 @@ export default function HomePage() {
                           <MaterialIcons
                             name="description"
                             size={24}
-                            color="#3498db"
+                            color="#204CCF"
                           />
                           <Text
                             style={[
@@ -292,7 +312,6 @@ const styles = ScaledSheet.create({
     flex: 1,
   },
   headerContainer: {
-    backgroundColor: "#3498db",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -382,7 +401,7 @@ const styles = ScaledSheet.create({
     marginBottom: moderateScale(16),
     borderRadius: moderateScale(16),
     overflow: "hidden",
-    shadowColor: "#3498db",
+    shadowColor: "#204CCF",
     shadowOffset: {
       width: 0,
       height: 6,
@@ -427,7 +446,6 @@ const styles = ScaledSheet.create({
   sectionTitleLine: {
     width: moderateScale(40),
     height: 3,
-    backgroundColor: "#3498db",
     borderRadius: moderateScale(2),
   },
   cardsContainer: {
@@ -463,7 +481,7 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     paddingBottom: moderateScale(20),
     borderBottomWidth: 1,
-    borderBottomColor: "rgba(52, 152, 219, 0.2)",
+    borderBottomColor: "rgba(32, 76, 207, 0.2)",
   },
   modalTitle: {
     fontSize: moderateScale(22),
@@ -471,7 +489,7 @@ const styles = ScaledSheet.create({
     color: "#2c3e50",
   },
   closeButton: {
-    backgroundColor: "rgba(52, 152, 219, 0.1)",
+    backgroundColor: "rgba(32, 76, 207, 0.1)",
     padding: moderateScale(8),
     borderRadius: moderateScale(20),
   },

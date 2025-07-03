@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { LinearGradient } from "expo-linear-gradient";
 import request from "@/constants/Request";
 import { useTheme } from "@/components/ThemeContext";
 import { useTranslation } from "react-i18next";
@@ -150,13 +151,20 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                   </View>
                 )}
               </View>
-              <TouchableOpacity
+              <LinearGradient
+                colors={["#204CCF", "#6006A4"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
                 style={styles.calendarButton}
-                onPress={() => handleCalendarNavigation(item)}
-                activeOpacity={0.8}
               >
-                <Icon name="calendar-plus" size={16} color="#FFFFFF" />
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.calendarButtonInner}
+                  onPress={() => handleCalendarNavigation(item)}
+                  activeOpacity={0.8}
+                >
+                  <Icon name="calendar-plus" size={16} color="#FFFFFF" />
+                </TouchableOpacity>
+              </LinearGradient>
             </View>
 
             {isSelected && (
@@ -175,7 +183,12 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
   return (
     <View style={styles.cardContainer}>
       <View style={styles.card}>
-        <View style={styles.cardHeader}>
+        <LinearGradient
+          colors={["#204CCF", "#6006A4"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={styles.cardHeader}
+        >
           <View style={styles.headerContent}>
             <View style={styles.headerLeft}>
               <View style={styles.iconContainer}>
@@ -192,7 +205,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
               <Text style={styles.progressPercentage}>{progress}%</Text>
             </View>
           </View>
-        </View>
+        </LinearGradient>
 
         <View style={[styles.cardBody, { backgroundColor: theme.background }]}>
           <ScrollView
@@ -206,7 +219,10 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
 
           <View style={styles.progressSection}>
             <View style={styles.progressBarBackground}>
-              <View
+              <LinearGradient
+                colors={["#204CCF", "#6006A4"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
                 style={[styles.progressBarFill, { width: `${progress}%` }]}
               />
             </View>
@@ -222,16 +238,23 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
         </View>
 
         <View style={styles.cardFooter}>
-          <TouchableOpacity
+          <LinearGradient
+            colors={["#204CCF", "#6006A4"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
             style={styles.continueButton}
-            onPress={() => setModalVisible(true)}
-            activeOpacity={0.9}
           >
-            <Text style={styles.continueButtonText}>
-              {progress < 100 ? t("continue") : t("complete")}
-            </Text>
-            <Icon name="arrow-right" size={18} color="#FFFFFF" />
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.continueButtonInner}
+              onPress={() => setModalVisible(true)}
+              activeOpacity={0.9}
+            >
+              <Text style={styles.continueButtonText}>
+                {progress < 100 ? t("continue") : t("complete")}
+              </Text>
+              <Icon name="arrow-right" size={18} color="#FFFFFF" />
+            </TouchableOpacity>
+          </LinearGradient>
         </View>
       </View>
 
@@ -270,9 +293,14 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
               >
                 {isLoading ? (
                   <View style={styles.loadingContainer}>
-                    <View style={styles.loadingSpinner}>
-                      <Icon name="loading" size={32} color="#2563EB" />
-                    </View>
+                    <LinearGradient
+                      colors={["#204CCF", "#6006A4"]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
+                      style={styles.loadingSpinner}
+                    >
+                      <Icon name="loading" size={32} color="#FFFFFF" />
+                    </LinearGradient>
                     <Text style={[styles.loadingText, { color: theme.text }]}>
                       {t("loading", "Chargement...")}
                     </Text>
@@ -283,16 +311,23 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                       <Icon name="alert-circle" size={48} color="#EF4444" />
                     </View>
                     <Text style={styles.errorText}>{error}</Text>
-                    <TouchableOpacity
+                    <LinearGradient
+                      colors={["#204CCF", "#6006A4"]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
                       style={styles.retryButton}
-                      onPress={fetchSteps}
-                      activeOpacity={0.8}
                     >
-                      <Icon name="refresh" size={16} color="#FFFFFF" />
-                      <Text style={styles.retryButtonText}>
-                        {t("retry", "Réessayer")}
-                      </Text>
-                    </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.retryButtonInner}
+                        onPress={fetchSteps}
+                        activeOpacity={0.8}
+                      >
+                        <Icon name="refresh" size={16} color="#FFFFFF" />
+                        <Text style={styles.retryButtonText}>
+                          {t("retry", "Réessayer")}
+                        </Text>
+                      </TouchableOpacity>
+                    </LinearGradient>
                   </View>
                 ) : steps.length === 0 ? (
                   <View style={styles.emptyContainer}>
@@ -312,15 +347,22 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
             </View>
 
             <View style={styles.modalFooter}>
-              <TouchableOpacity
+              <LinearGradient
+                colors={["#204CCF", "#6006A4"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
                 style={styles.closeButton}
-                onPress={() => setModalVisible(false)}
-                activeOpacity={0.9}
               >
-                <Text style={styles.closeButtonText}>
-                  {t("Modifier la démarche")}
-                </Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.closeButtonInner}
+                  onPress={() => setModalVisible(false)}
+                  activeOpacity={0.9}
+                >
+                  <Text style={styles.closeButtonText}>
+                    {t("Modifier la démarche")}
+                  </Text>
+                </TouchableOpacity>
+              </LinearGradient>
             </View>
           </View>
         </View>
@@ -338,7 +380,7 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: moderateScale(20),
     backgroundColor: "#FFFFFF",
-    shadowColor: "#1E40AF",
+    shadowColor: "#204CCF",
     shadowOffset: {
       width: 0,
       height: 8,
@@ -347,11 +389,10 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
     elevation: 12,
     overflow: "hidden",
-    maxWidth: hp("70%"),
+    maxWidth: hp("75%"),
     maxHeight: hp("70%"),
   },
   cardHeader: {
-    backgroundColor: "#4C9EEB",
     paddingHorizontal: wp("5%"),
     paddingVertical: hp("3%"),
   },
@@ -427,7 +468,6 @@ const styles = StyleSheet.create({
   },
   progressBarFill: {
     height: "100%",
-    backgroundColor: "#2563EB",
     borderRadius: moderateScale(4),
   },
   progressLabels: {
@@ -449,13 +489,8 @@ const styles = StyleSheet.create({
     paddingBottom: hp("3%"),
   },
   continueButton: {
-    backgroundColor: "#2563EB",
-    paddingVertical: hp("2%"),
     borderRadius: moderateScale(12),
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#2563EB",
+    shadowColor: "#204CCF",
     shadowOffset: {
       width: 0,
       height: 4,
@@ -463,6 +498,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 6,
+  },
+  continueButtonInner: {
+    paddingVertical: hp("2%"),
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   continueButtonText: {
     color: "#FFFFFF",
@@ -591,9 +632,9 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   stepCardSelected: {
-    borderColor: "#2563EB",
+    borderColor: "#204CCF",
     borderWidth: 2,
-    shadowColor: "#2563EB",
+    shadowColor: "#204CCF",
     shadowOpacity: 0.1,
   },
   stepHeader: {
@@ -627,11 +668,8 @@ const styles = StyleSheet.create({
     marginLeft: wp("1%"),
   },
   calendarButton: {
-    backgroundColor: "#2563EB",
-    paddingHorizontal: wp("3%"),
-    paddingVertical: hp("1%"),
     borderRadius: moderateScale(8),
-    shadowColor: "#2563EB",
+    shadowColor: "#204CCF",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -639,6 +677,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 3,
+  },
+  calendarButtonInner: {
+    paddingHorizontal: wp("3%"),
+    paddingVertical: hp("1%"),
   },
   stepDescriptionContainer: {
     marginTop: hp("1.5%"),
@@ -658,11 +700,8 @@ const styles = StyleSheet.create({
     borderTopColor: "#E5E7EB",
   },
   closeButton: {
-    backgroundColor: "#2563EB",
-    paddingVertical: hp("2%"),
     borderRadius: moderateScale(12),
-    alignItems: "center",
-    shadowColor: "#2563EB",
+    shadowColor: "#204CCF",
     shadowOffset: {
       width: 0,
       height: 4,
@@ -671,6 +710,10 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 6,
     marginBottom: hp("5%"),
+  },
+  closeButtonInner: {
+    paddingVertical: hp("2%"),
+    alignItems: "center",
   },
   closeButtonText: {
     color: "#FFFFFF",
@@ -685,6 +728,11 @@ const styles = StyleSheet.create({
   },
   loadingSpinner: {
     marginBottom: hp("2%"),
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
   loadingText: {
     fontSize: moderateScale(16),
@@ -707,12 +755,13 @@ const styles = StyleSheet.create({
     lineHeight: moderateScale(22),
   },
   retryButton: {
-    backgroundColor: "#2563EB",
+    borderRadius: moderateScale(8),
+  },
+  retryButtonInner: {
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: wp("6%"),
     paddingVertical: hp("1.5%"),
-    borderRadius: moderateScale(8),
   },
   retryButtonText: {
     color: "#FFFFFF",
