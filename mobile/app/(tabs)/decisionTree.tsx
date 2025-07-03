@@ -4,7 +4,6 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  TextInput,
   StyleSheet,
   Linking,
   SafeAreaView,
@@ -35,10 +34,7 @@ export default function DecisionTree() {
     [],
   );
   const [showSteps, setShowSteps] = useState(false);
-  const [userInput, setUserInput] = useState("");
-  const [isValid, setIsValid] = useState(false);
   const scrollRef = useRef<ScrollView>(null);
-  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     scrollRef.current?.scrollToEnd({ animated: true });
@@ -132,6 +128,22 @@ export default function DecisionTree() {
     return steps;
   };
 
+  const generateRoadmap = (answers: Record<string, string>) => {
+    const demarcheType = getDemarcheTypeFromAnswers(answers);
+
+    CreateFromTree({
+      name:
+        demarcheType.charAt(0).toUpperCase() +
+        demarcheType.slice(1).toLowerCase(),
+      userAnswers: answers,
+    });
+
+    Alert.alert(
+      "✅ Roadmap générée",
+      `La roadmap "${demarcheType}" a été générée automatiquement en fonction de vos choix.`,
+    );
+  };
+
   const handleOptionPress = (nextKey: string, label: string) => {
     const lastQuestionEntry = [...history]
       .reverse()
@@ -154,6 +166,15 @@ export default function DecisionTree() {
       setUserAnswers(newAnswers);
       setShowSteps(true);
       setHistory([...history, { type: "answer", label }]);
+      generateRoadmap(newAnswers);
+      return;
+    }
+
+    const nextNode = decisionTree[nextKey];
+    if (!nextNode || !nextNode.options || nextNode.options.length === 0) {
+      setHistory((prev) => [...prev, { type: "answer", label }]);
+      setUserAnswers(newAnswers);
+      generateRoadmap(newAnswers);
       return;
     }
 
@@ -163,49 +184,6 @@ export default function DecisionTree() {
       { type: "question", key: nextKey },
     ]);
     setUserAnswers(newAnswers);
-  };
-
-  const handleInputChange = (text: string) => {
-    setUserInput(text);
-    const normalizedText = text.trim().toLowerCase();
-    const validPhrases = [
-      "crée la démarche",
-      "créer la démarche",
-      "créé la démarche",
-      "créer démarche",
-      "crée démarche",
-      "créé démarche",
-      "Créer la démarche",
-      "Crée la démarche",
-    ];
-    setIsValid(validPhrases.includes(normalizedText));
-  };
-
-  const handleSendMessage = () => {
-    if (userInput.trim()) {
-      const demarcheType = getDemarcheTypeFromAnswers(userAnswers);
-
-      CreateFromTree({
-        name:
-          demarcheType.charAt(0).toUpperCase() +
-          demarcheType.slice(1).toLowerCase(),
-
-        userAnswers,
-      });
-
-      Alert.alert(
-        "✅ Démarche créée",
-        `La démarche "${demarcheType}" a bien été créée en fonction de vos réponses.`,
-      );
-      setHistory((prev) => [
-        ...prev,
-        { type: "answer", label: userInput.trim() },
-        { type: "question", key: "start" },
-      ]);
-      setUserAnswers((prev) => ({ ...prev, start: demarcheType }));
-      setUserInput("");
-    }
-    restartChat();
   };
 
   const restartChat = () => {
@@ -260,7 +238,7 @@ export default function DecisionTree() {
           {showSteps && (
             <View style={styles.botBubble}>
               <Text style={[styles.botText, { fontWeight: "bold" }]}>
-                Étapes à suivre :
+                Votre roadmap personnalisée :
               </Text>
               {steps.map((step, idx) => (
                 <View key={idx} style={{ marginTop: 8 }}>
@@ -294,48 +272,25 @@ export default function DecisionTree() {
           )}
         </ScrollView>
 
-        <View style={styles.bottomBar}>
-          {currentOptions.length > 0 && (
+        {currentOptions.length > 0 && (
+          <View style={styles.optionsContainer}>
             <ScrollView
-              horizontal
-              contentContainerStyle={styles.optionsBar}
+              style={styles.optionsScrollView}
+              contentContainerStyle={styles.optionsContent}
               keyboardShouldPersistTaps="handled"
-              showsHorizontalScrollIndicator={false}
             >
               {currentOptions.map(({ label, next }, idx) => (
                 <TouchableOpacity
                   key={idx}
-                  style={styles.optionBubbleHorizontal}
+                  style={styles.optionBubble}
                   onPress={() => handleOptionPress(next, label)}
                 >
                   <Text style={styles.optionText}>{label}</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
-          )}
-
-          <View style={styles.inputBar}>
-            <TextInput
-              style={styles.input}
-              value={userInput}
-              onChangeText={handleInputChange}
-              placeholder="Tapez 'Créer la démarche' pour créer votre démarche"
-              multiline={false}
-              numberOfLines={1}
-              textAlignVertical="center"
-            />
-            <TouchableOpacity
-              style={[
-                styles.sendButton,
-                { opacity: isValid && userInput ? 1 : 0.5 },
-              ]}
-              onPress={handleSendMessage}
-              disabled={!isValid || !userInput.trim()}
-            >
-              <Text style={styles.sendButtonText}>Créer</Text>
-            </TouchableOpacity>
           </View>
-        </View>
+        )}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -355,7 +310,7 @@ const styles = ScaledSheet.create({
   container: {
     padding: wp(4),
     gap: 10,
-    paddingBottom: hp(12),
+    paddingBottom: hp(2),
     flexGrow: 1,
   },
   botBubble: {
@@ -408,66 +363,37 @@ const styles = ScaledSheet.create({
     color: "#007AFF",
     fontSize: moderateScale(15),
   },
-  bottomBar: {
+  optionsContainer: {
     borderTopWidth: 1,
     borderTopColor: "#e0e0e0",
     backgroundColor: "#fff",
-    paddingVertical: hp(0.5),
-    maxHeight: hp(20),
+    maxHeight: hp(25),
+    paddingTop: hp(1),
   },
-  optionsBar: {
-    paddingHorizontal: wp(2),
-    paddingVertical: hp(0.5),
-    flexDirection: "row",
-    alignItems: "center",
+  optionsScrollView: {
+    flex: 1,
   },
-  optionBubbleHorizontal: {
+  optionsContent: {
+    paddingHorizontal: wp(4),
+    paddingBottom: hp(2),
+    gap: hp(1),
+  },
+  optionBubble: {
     backgroundColor: "#f8f9fa",
-    paddingVertical: hp(0.8),
-    paddingHorizontal: wp(3),
+    paddingVertical: hp(1.5),
+    paddingHorizontal: wp(4),
     borderRadius: moderateScale(15),
-    marginHorizontal: wp(1),
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
     borderColor: "#e0e0e0",
-    minHeight: hp(4),
+    minHeight: hp(6),
+    width: "100%",
   },
   optionText: {
     fontSize: moderateScale(14),
     textAlign: "center",
     color: "#333",
-  },
-  inputBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: wp(3),
-    paddingVertical: hp(0.8),
-    backgroundColor: "#fff",
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-    borderRadius: moderateScale(20),
-    paddingHorizontal: wp(4),
-    fontSize: moderateScale(12),
-    height: hp(10),
-    marginRight: wp(2),
-    backgroundColor: "#f8f9fa",
-  },
-  sendButton: {
-    backgroundColor: "#3498db",
-    paddingVertical: hp(1),
-    paddingHorizontal: wp(4),
-    borderRadius: moderateScale(20),
-    minHeight: hp(5),
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  sendButtonText: {
-    color: "#fff",
-    fontSize: moderateScale(15),
-    fontWeight: "600",
+    lineHeight: moderateScale(20),
   },
 });
