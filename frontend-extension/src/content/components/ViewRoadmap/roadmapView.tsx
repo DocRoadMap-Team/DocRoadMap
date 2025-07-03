@@ -159,13 +159,11 @@ const RoadmapView: React.FC = () => {
           display: flex;
           flex-direction: column;
           gap: 1rem;
-          padding-bottom: 0.5rem;
           scrollbar-width: none;
           -ms-overflow-style: none;
         }
         .card {
           background: #fff;
-          border-radius: 10px;
           box-shadow: 0 2px 8px rgba(44,62,80,0.08);
           width: 100%;
           max-width: 100%;
@@ -180,10 +178,8 @@ const RoadmapView: React.FC = () => {
         }
         .card-image {
           width: 100%;
-          border-radius: 10px 10px 0 0;
         }
         .card-header {
-          margin-bottom: 0.2rem;
           background: #007bff;
           padding: 0.5rem 0.75rem;
         }
@@ -222,6 +218,20 @@ const RoadmapView: React.FC = () => {
         }
         .continue-button:hover {
           background: #225ea8;
+        }
+        .modify-button {
+          margin-top: 0.5rem;
+          width: 90%;
+          background: #6c757d;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: background 0.18s;
+          padding: 0.5rem 0.75rem;
+        }
+        .modify-button:hover {
+          background: #5a6268;
         }
         ::-webkit-scrollbar {
         width: 0px;
@@ -281,11 +291,10 @@ const RoadmapView: React.FC = () => {
                     {t("continue")}
                   </button>
                   <button
-                    className="continue-button"
-                    style={{ marginTop: "0.3rem", background: "#6c757d" }}
+                    className="modify-button"
                     onClick={() => setChatProcessId(card.id)}
                   >
-                    Modify Roadmap
+                    {t("update_roadmap")}
                   </button>
                 </div>
               </div>

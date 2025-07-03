@@ -65,6 +65,7 @@
   "Account_created": "Cuenta creada",
   "empty_fields": "Por favor, completa todos los campos.",
   "Not-authorized-for-DocRoadMap": "Este sitio no está autorizado para la extensión DocRoadMap.",
+  "update_roadmap": "Actualizar trámite",
 
   "start_question": "¿Qué trámite deseas realizar?",
   "start_option_dem": "Mudanza en Francia",

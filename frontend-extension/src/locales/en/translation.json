@@ -51,7 +51,7 @@
   "noSteps": "No steps available.",
   "imageAlt": "Process illustration",
   "createRoadmap": "Create a new process",
-  "createThis": "Create this process",
+  "createThis": "Create this process", 
   "createError": "Error while creating the process.",
   "loadError": "Unable to load processes, check if you have an ad blocker enabled.",
   "tokenUnavailable": "Token unavailable. Please log in.",
@@ -65,6 +65,7 @@
   "Account_created": "Account created",
   "empty_fields": "Please fill in all fields",
   "Not-authorized-for-DocRoadMap": "This site is not authorized for the DocRoadMap extension.",
+  "update_roadmap": "Update the roadmap",
 
   "start_question": "What procedure would you like to carry out?",
   "start_option_dem": "Moving within France",
