@@ -46,7 +46,7 @@ const RoadmapAdvance: React.FC<Props> = ({
         }
 
         .advanced-header {
-          background: linear-gradient(90deg, #343aeb, #5578eb);
+          background: #007bff;
           color: white;
           padding: 1rem 1.5rem;
           font-size: 1.1rem;
