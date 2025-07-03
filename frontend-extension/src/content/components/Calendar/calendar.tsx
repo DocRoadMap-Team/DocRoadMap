@@ -36,7 +36,7 @@ interface CalendarEvent {
 
 const ProcessCalendar = () => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [error, setError] = useState<string | null>(null);
   const { t } = useTranslation();
 
@@ -162,7 +162,7 @@ const ProcessCalendar = () => {
           padding: 8px 0;
           border: 1px solid #F0F5FF;
           font-size: 0.9em;
-          height: 34px;
+          height: 40px;
           background: white;
           border-radius: 4px;
           transition: all 0.2s ease;
@@ -190,44 +190,54 @@ const ProcessCalendar = () => {
         .react-calendar__month-view__days__day--neighboringMonth {
         color: #BBDAF2;
         }
+
+        .events-container {
+          margin: 10px 0;
+          background: white;
+          border: 1px solid #E8F1FF;
+          border-radius: 8px;
+          height: 200px;
+          overflow hidden;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
         .event-item {
-            font-size: 0.7em;
-            background: #E8F1FF;
-            margin-top: 2px;
-            padding: 2px 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            border-radius: 2px;
-            color: #20498A;
+          font-size: 0.7em;
+          background: #E8F1FF;
+          margin-top: 2px;
+          padding: 2px 4px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          border-radius: 2px;
+          color: #20498A;
         }
         .event-dot-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 6px;
+          display: flex;
+          justify-content: center;
+          margin-bottom: 6px;
         }
         .event-dot {
-            width: 6px;
-            height: 6px;
-            background-color: #4A88C5;
-            border-radius: 50%;
+          width: 6px;
+          height: 6px;
+          background-color: #4A88C5;
+          border-radius: 50%;
         }
         .events-list {
-            margin-top: 10px;
-            height: 100px;
-            overflow-y: auto;
-            border: 1px solid #E8F1FF;
-            border-radius: 8px;
-            padding: 12px;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+          margin-top: 10px;
+          overflow-y: auto;
+          border: 1px solid #E8F1FF;
+          border-radius: 8px;
+          padding: 12px;
+          background: white;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
-        .events-list h3 {
-            color: #20498A;
-            font-size: 16px;
-            margin-top: 0;
-            margin-bottom: 12px;
-            font-weight: 600;
+        h3 {
+          color: #20498A;
+          font-size: 16px;
+          margin-top: 0;
+          margin-bottom: 12px;
+          font-weight: 600;
         }
         .event-list-item {
           display: flex;
@@ -271,26 +281,25 @@ const ProcessCalendar = () => {
       </div>
 
       {selectedDate && (
-        <div className="events-list">
-          <h3>
-            {t("eventsOf")}
-            {selectedDate.toLocaleDateString("fr-FR")}
-          </h3>
-          {getDailyEvents().length === 0 ? (
-            <p>{t("noEvent")}</p>
-          ) : (
-            getDailyEvents().map((event) => (
-              <div key={event.id} className="event-list-item">
-                <span className="event-title">{event.title}</span>
-                <span className="event-time">
-                  {event.date.toLocaleTimeString("fr-FR", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </span>
-              </div>
-            ))
-          )}
+        <div className="events-container">
+          <Header title={`${t("eventsOf")} ${selectedDate.toLocaleDateString("fr-FR")}`} />
+          <div className="">
+            {getDailyEvents().length === 0 ? (
+              <p>{t("noEvent")}</p>
+            ) : (
+              getDailyEvents().map((event) => (
+                <div key={event.id} className="event-list-item">
+                  <span className="event-title">{event.title}</span>
+                  <span className="event-time">
+                    {event.date.toLocaleTimeString("fr-FR", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       )}
     </>

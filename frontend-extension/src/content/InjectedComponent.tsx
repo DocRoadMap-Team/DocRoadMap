@@ -13,6 +13,7 @@ import getToken from "./utils/utils";
 import DecisionTreeChat from "./components/roadmapCreation/decisionTree";
 import ContrastAdjuster from "./components/Accessibility/ContrastAdjuster";
 import logo from "../../public/assets/docroadmap_logo2.png";
+
 const buttonData = [
   { icon: <FaRoad />, label: "CreateRoadmapChat" },
   { icon: <FaEye />, label: "Voir Roadmap" },
@@ -24,9 +25,10 @@ const buttonData = [
 interface PanelProps {
   activePanel: string | null;
   isOpen: boolean;
+  panelHeight: number;
 }
 
-const Panel: React.FC<PanelProps> = ({ activePanel, isOpen }) => (
+const Panel: React.FC<PanelProps> = ({ activePanel, isOpen, panelHeight }) => (
   <div
     style={{
       position: "fixed",
@@ -34,7 +36,8 @@ const Panel: React.FC<PanelProps> = ({ activePanel, isOpen }) => (
       right: "24px",
       width: "350px",
       maxWidth: "350px",
-      height: "450px",
+      height: `${panelHeight}px`,
+      // flexWrap: "wrap",
       background: "#fff",
       borderRadius: 8,
       boxShadow: "0 4px 16px rgba(5, 3, 51, 0.4)",
@@ -42,7 +45,7 @@ const Panel: React.FC<PanelProps> = ({ activePanel, isOpen }) => (
       opacity: 1,
       overflow: "hidden",
       transform: isOpen ? "translateX(0)" : "translateX(120%)",
-      transition: "transform 0.4s cubic-bezier(.4,0,.2,1)",
+      transition: "transform 0.4s cubic-bezier(.4,0,.2,1), height 0.4s cubic-bezier(.4,0,.2,1)",
       pointerEvents: isOpen ? "auto" : "none",
     }}
   >
@@ -60,8 +63,8 @@ const DocRoadmapBar: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);
   const [isPanelMounted, setIsPanelMounted] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [panelHeight, setPanelHeight] = useState(450);
 
-  // Token logic
   useEffect(() => {
     getToken().then(setToken);
 
@@ -107,12 +110,17 @@ const DocRoadmapBar: React.FC = () => {
 
   const handleButtonClick = (label: string) => {
     setActivePanel((cur) => (cur === label ? null : label));
+    if (label === "Calendrier") {
+      setPanelHeight(600);
+    } else {
+      setPanelHeight(450); 
+    }
   };
 
   return (
     <>
       {isPanelMounted && (
-        <Panel activePanel={activePanel} isOpen={isPanelOpen} />
+        <Panel activePanel={activePanel} isOpen={isPanelOpen} panelHeight={panelHeight} />
       )}
 
       <div
@@ -158,7 +166,7 @@ const DocRoadmapBar: React.FC = () => {
           style={{
             display: "flex",
             flexDirection: "row",
-            transition: "width 0.4s cubic-bezier(.4,0,.2,1)", // match panel
+            transition: "width 0.4s cubic-bezier(.4,0,.2,1)",
             overflow: "hidden",
             width: open ? 300 : 0,
             opacity: 1,
