@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { FaCheckCircle, FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 interface Step {
   id: number;
@@ -33,47 +33,30 @@ const RoadmapAdvance: React.FC<Props> = ({
   const [expandedStep, setExpandedStep] = useState<number | null>(null);
 
   return (
-    <div className="card steps-card">
+    <div className="advanced-steps-container">
       <style>{`
-        .steps-card {
+        .advanced-steps-container {
           width: 100%;
-          height: 420px;
-          border-radius: 16px;
-          box-shadow: 0 8px 32px rgba(44,62,80,0.13);
-          background: #fff;
-          border: 1px solid #e3e6ef;
-          overflow: hidden;
+          height: 100%;
+          background: #f9fafc;
+          box-shadow: 0 8px 24px rgba(0,0,0,0.1);
           display: flex;
           flex-direction: column;
-          position: relative;
+          overflow: hidden;
         }
-        .steps-card .card-header {
-          background: #007bff;
-          padding: 1rem;
-          border-radius: 16px 16px 0 0;
-          display: flex;
-          align-items: center;
+
+        .advanced-header {
+          background: linear-gradient(90deg, #343aeb, #5578eb);
           color: white;
-          font-weight: 700;
+          padding: 1rem 1.5rem;
           font-size: 1.1rem;
+          font-weight: bold;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
         }
-        .close-button {
-          position: absolute;
-          right: 18px;
-          top: 18px;
-          background: white;
-          border: none;
-          border-radius: 50%;
-          font-size: 1.35rem;
-          color: #888;
-          cursor: pointer;
-          z-index: 2;
-          transition: color 0.15s;
-        }
-        .close-button:hover {
-          color: #e53e3e;
-        }
-        .steps-timeline {
+
+        .steps-scroll {
           flex: 1;
           overflow-y: auto;
           padding: 1rem;
@@ -81,124 +64,172 @@ const RoadmapAdvance: React.FC<Props> = ({
           flex-direction: column;
           gap: 1rem;
         }
-        .timeline-step {
-          display: flex;
-          gap: 1rem;
-          position: relative;
+
+        .step-card {
+          background: white;
+          border-radius: 10px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+          padding: 1rem;
+          transition: box-shadow 0.2s;
         }
-        .timeline-index {
-          width: 32px;
-          height: 32px;
-          background: #e0e0e0;
-          color: #20498A;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: bold;
+
+        .step-card:hover {
+          box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
-        .timeline-index.completed {
-          background: #30c36b;
-          color: #fff;
-        }
-        .timeline-content {
-          flex: 1;
-        }
-        .timeline-title {
+
+        .step-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          font-weight: 600;
           cursor: pointer;
         }
-        .timeline-description {
-          margin-top: 0.5rem;
-          background: #f8fafd;
+
+        .step-title {
+          font-weight: 600;
+          font-size: 1rem;
+          color: #20498a;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .step-index {
+          background: #dee2e6;
+          color: #20498a;
+          border-radius: 50%;
+          width: 28px;
+          height: 28px;
+          font-size: 0.9rem;
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .step-index.completed {
+          background: #30c36b;
+          color: white;
+        }
+
+        .step-description {
+          margin-top: 0.75rem;
+          background: #f0f4ff;
+          border-left: 4px solid #007bff;
           padding: 0.75rem 1rem;
           border-radius: 6px;
-          color: #20498A;
+          color: #20498a;
           font-size: 0.95rem;
-          box-shadow: 0 2px 8px rgba(44,62,80,0.04);
+          white-space: pre-line;
         }
-        .timeline-date-input-row {
+
+        .step-footer {
+          margin-top: 0.5rem;
           display: flex;
           gap: 0.5rem;
-          margin-top: 0.5rem;
         }
-        .timeline-date-input-row input {
-          padding: 0.3rem;
+
+        .step-footer input {
+          flex: 1;
+          padding: 0.4rem;
+          font-size: 0.9rem;
           border: 1px solid #ccc;
-          border-radius: 4px;
-          font-size: 0.85em;
+          border-radius: 6px;
         }
-        .timeline-date-input-row button {
-          padding: 0.3rem 0.75rem;
-          background: #4A88C5;
+
+        .step-footer button {
+          background: #343aeb;
           color: white;
           border: none;
-          border-radius: 4px;
+          padding: 0.4rem 0.75rem;
+          border-radius: 6px;
           cursor: pointer;
-          font-size: 0.85em;
+          font-size: 0.9rem;
+        }
+
+        .no-steps {
+          text-align: center;
+          color: #888;
+          font-style: italic;
+        }
+
+        .chevron-icon {
+          font-size: 0.9rem;
+          color: #555;
         }
       `}</style>
 
-      <button
-        className="close-button"
-        onClick={onClose}
-        aria-label={t("close")}
-      >
-        ×
-      </button>
-      <div className="card-header">{processName}</div>
-      <div className="steps-timeline">
+      <div className="advanced-header">
+        {processName}
+        <button
+          onClick={onClose}
+          style={{
+            background: "transparent",
+            color: "white",
+            border: "none",
+            fontSize: "1.2rem",
+            cursor: "pointer",
+          }}
+          aria-label={t("close")}
+        >
+          ✖
+        </button>
+      </div>
+
+      <div className="steps-scroll">
         {steps.length > 0 ? (
           steps.map((step, idx) => (
-            <div key={step.id} className="timeline-step">
+            <div className="step-card" key={step.id}>
               <div
-                className={`timeline-index${step.status === "COMPLETED" ? " completed" : ""}`}
+                className="step-header"
+                onClick={() =>
+                  setExpandedStep(expandedStep === step.id ? null : step.id)
+                }
               >
-                {idx + 1}
-              </div>
-              <div className="timeline-content">
-                <div
-                  className="timeline-title"
-                  onClick={() =>
-                    setExpandedStep(expandedStep === step.id ? null : step.id)
-                  }
-                >
+                <div className="step-title">
+                  <span
+                    className={`step-index${
+                      step.status === "COMPLETED" ? " completed" : ""
+                    }`}
+                  >
+                    {idx + 1}
+                  </span>
                   {step.name}
-                  <button className="timeline-expand-btn">
-                    {expandedStep === step.id ? <FaArrowUp /> : <FaArrowDown />}
-                  </button>
+                  {step.status === "COMPLETED" && (
+                    <FaCheckCircle style={{ color: "#30c36b" }} />
+                  )}
                 </div>
-                {expandedStep === step.id && (
-                  <div className="timeline-description">
-                    <p style={{ whiteSpace: "pre-line" }}>{step.description}</p>
-                    <div className="timeline-date-input-row">
-                      <input
-                        type="datetime-local"
-                        value={
-                          selectedDate[step.id] ||
-                          (step.endedAt ? step.endedAt.slice(0, 16) : "")
-                        }
-                        onChange={(e) =>
-                          setSelectedDate({
-                            ...selectedDate,
-                            [step.id]: e.target.value,
-                          })
-                        }
-                      />
-                      <button onClick={() => onUpdateEndedAt(step.id)}>
-                        📅
-                      </button>
-                    </div>
-                  </div>
+                {expandedStep === step.id ? (
+                  <FaChevronUp className="chevron-icon" />
+                ) : (
+                  <FaChevronDown className="chevron-icon" />
                 )}
               </div>
+
+              {expandedStep === step.id && (
+                <>
+                  <div className="step-description">{step.description}</div>
+                  <div className="step-footer">
+                    <input
+                      type="datetime-local"
+                      value={
+                        selectedDate[step.id] ||
+                        (step.endedAt ? step.endedAt.slice(0, 16) : "")
+                      }
+                      onChange={(e) =>
+                        setSelectedDate({
+                          ...selectedDate,
+                          [step.id]: e.target.value,
+                        })
+                      }
+                    />
+                    <button onClick={() => onUpdateEndedAt(step.id)}>✅</button>
+                  </div>
+                </>
+              )}
             </div>
           ))
         ) : (
-          <p>{t("roadmapFetchError")}</p>
+          <p className="no-steps">{t("roadmapFetchError")}</p>
         )}
       </div>
     </div>

@@ -111,9 +111,9 @@ const RoadmapView: React.FC = () => {
       setSteps((prev) =>
         prev.map((s) => (s.id === stepId ? { ...s, endedAt: formatted } : s))
       );
-      alert(t("dateUpdatedAlert"));
     } catch {
-      alert(t("updateError"));
+      console.error(t("updateEndedAtError"));
+      setError(t("updateEndedAtError"));
     }
   };
 
