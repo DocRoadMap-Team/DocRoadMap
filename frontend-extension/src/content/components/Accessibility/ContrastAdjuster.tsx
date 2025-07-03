@@ -288,5 +288,5 @@ const ContrastAdjuster: React.FC = () => {
       </div>
     </>
   );
-}
+};
 export default ContrastAdjuster;

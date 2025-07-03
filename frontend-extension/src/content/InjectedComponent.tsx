@@ -45,7 +45,8 @@ const Panel: React.FC<PanelProps> = ({ activePanel, isOpen, panelHeight }) => (
       opacity: 1,
       overflow: "hidden",
       transform: isOpen ? "translateX(0)" : "translateX(120%)",
-      transition: "transform 0.4s cubic-bezier(.4,0,.2,1), height 0.4s cubic-bezier(.4,0,.2,1)",
+      transition:
+        "transform 0.4s cubic-bezier(.4,0,.2,1), height 0.4s cubic-bezier(.4,0,.2,1)",
       pointerEvents: isOpen ? "auto" : "none",
     }}
   >
@@ -113,14 +114,18 @@ const DocRoadmapBar: React.FC = () => {
     if (label === "Calendrier") {
       setPanelHeight(600);
     } else {
-      setPanelHeight(450); 
+      setPanelHeight(450);
     }
   };
 
   return (
     <>
       {isPanelMounted && (
-        <Panel activePanel={activePanel} isOpen={isPanelOpen} panelHeight={panelHeight} />
+        <Panel
+          activePanel={activePanel}
+          isOpen={isPanelOpen}
+          panelHeight={panelHeight}
+        />
       )}
 
       <div

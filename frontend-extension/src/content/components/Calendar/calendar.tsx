@@ -103,7 +103,7 @@ const ProcessCalendar = () => {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             width: 100%;
             margin: 0 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
             overflow: hidden;
             background: white;
@@ -123,22 +123,24 @@ const ProcessCalendar = () => {
         }
         .react-calendar__navigation {
             display: flex;
-            height: 40px;
+            height: 30px;
+            border-bottom: 1px solid rgb(160, 152, 152);
+            margin-top: 8px;
             margin-bottom: 8px;
         }
         .react-calendar__navigation button {
             min-width: 25px;
-            background: none;
+            background: white;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 800;
             padding: 0;
             border: none;
-            color: #20498A;
+            color:rgb(107, 11, 180);
             transition: color 0.2s;
         }
         .react-calendar__navigation button:hover {
-            color: #4A88C5;
-            background: none;
+            color:rgb(48, 7, 79);
+            border-radius: 10px;
         }
         .react-calendar__navigation button:disabled {
             color: #BBDAF2;
@@ -148,69 +150,58 @@ const ProcessCalendar = () => {
             font-size: 0.8em;
             font-weight: 600;
             text-transform: uppercase;
-            
-            margin-bottom: 8px;
-            color: #3D6FAD;
+            padding: 2px;
+            color: white;
+            background: #6006A4;
+            border-radius: 4px 4px 0 0;
+
         }
         .react-calendar__month-view__weekdays__weekday abbr {
             text-decoration: none;
             border: none;
         }
         .react-calendar__tile {
-          max-width: 100%;
           text-align: center;
           padding: 8px 0;
-          border: 1px solid #F0F5FF;
-          font-size: 0.9em;
+          border: 1px solid rgb(195, 212, 246);
+          color: rgb(0, 0, 0);
+          font-size: 1em;
+          font-weight: medium;
           height: 40px;
+          width: 40px;
+          border-radius: 1px;
           background: white;
-          border-radius: 4px;
           transition: all 0.2s ease;
         }
         .react-calendar__tile:hover {
-            background: #F0F5FF;
+          color: black;
+          background:rgb(198, 151, 235);
         }
         .react-calendar__tile--now {
-            background: white;
-            color: #4A88C5;
-            font-weight: bold;
-            border: 1px solid #4A88C5;
-        }
-        .react-calendar__tile--now:hover {
-            background: #F0F5FF;
+          background:white;
+          color:black;
+          font-weight: bold;
         }
         .react-calendar__tile--active {
-            background: #E8F1FF;
-            color: #20498A;
-            font-weight: bold;
+          background:rgb(198, 151, 235);
+          color:black;
+          font-weight: bold;
         }
         .react-calendar__tile--active:hover {
-        background: #D5E6FF;
+          background:rgb(198, 151, 235);
         }
         .react-calendar__month-view__days__day--neighboringMonth {
-        color: #BBDAF2;
+        color:rgb(175, 114, 196);
         }
-
         .events-container {
-          margin: 10px 0;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
           background: white;
           border: 1px solid #E8F1FF;
-          border-radius: 8px;
-          height: 200px;
-          overflow hidden;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
+          height: 150px;
+          width: 100%;
+          margin-bottom: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
-        .event-item {
-          font-size: 0.7em;
-          background: #E8F1FF;
-          margin-top: 2px;
-          padding: 2px 4px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          border-radius: 2px;
-          color: #20498A;
         }
         .event-dot-container {
           display: flex;
@@ -224,37 +215,39 @@ const ProcessCalendar = () => {
           border-radius: 50%;
         }
         .events-list {
-          margin-top: 10px;
           overflow-y: auto;
-          border: 1px solid #E8F1FF;
-          border-radius: 8px;
+          height: 100%;
+          scroll-behavior: smooth;
+          scrollbar-width: thin;
           padding: 12px;
           background: white;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-        h3 {
-          color: #20498A;
-          font-size: 16px;
-          margin-top: 0;
-          margin-bottom: 12px;
-          font-weight: 600;
         }
         .event-list-item {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 10px;
+          padding: 15px;
+          font-size: 16px;
           margin: 6px 0;
           border-radius: 6px;
-          color: #20498A;
-          font-size: 0.9em;
-          border-left: 3px solid #4A88C5;
-          transition: transform 0.2s ease;
+          color:black;
+          font-weight: 400;
+          box-shadow: 0 4px 8px rgba(0, 0, 0.2, 0.2);
+          transition: transform 0.5s ease;
         }
         .event-list-item:hover {
             transform: translateX(2px);
-            background: #E8F1FF;
-        }`}
+            transition: background 0.5s;
+        }
+        .event-time {
+          color:rgb(111, 16, 190);
+          border-left: 2px solid rgb(111, 16, 190);
+          padding-left: 8px;
+        }
+        .event-title {
+          width: 75%;
+        }
+        `}
       </style>
       <Header title={t("calendar")} icon={<FaCalendar />} />
       {error && <p style={{ color: "red" }}>{error}</p>}
@@ -268,8 +261,16 @@ const ProcessCalendar = () => {
           prev2Label="<<"
           nextLabel=">"
           next2Label=">>"
-          formatShortWeekday={(_locale, date) => {
-            const days = ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"];
+          formatShortWeekday={(_: string | undefined, date: Date) => {
+            const days = [
+              t("dim"),
+              t("lun"),
+              t("mar"),
+              t("mer"),
+              t("jeu"),
+              t("ven"),
+              t("sam"),
+            ];
             return days[date.getDay()];
           }}
           navigationLabel={({ date }) => {
@@ -282,8 +283,10 @@ const ProcessCalendar = () => {
 
       {selectedDate && (
         <div className="events-container">
-          <Header title={`${t("eventsOf")} ${selectedDate.toLocaleDateString("fr-FR")}`} />
-          <div className="">
+          <Header
+            title={`${t("eventsOf")} ${selectedDate.toLocaleDateString("fr-FR")}`}
+          />
+          <div className="events-list">
             {getDailyEvents().length === 0 ? (
               <p>{t("noEvent")}</p>
             ) : (

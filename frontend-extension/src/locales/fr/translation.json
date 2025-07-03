@@ -60,6 +60,14 @@
   "noEvent": "Aucun événement prévu ce jour-là.",
   "instruction": "Votre compte à bien été créé vous pouvez vous connecter.",
 
+  "dim": "dim",
+  "lun": "lun",
+  "mar": "mar",
+  "mer": "mer",
+  "jeu": "jeu",
+  "ven": "ven",
+  "sam": "sam",
+
   "start_question": "Quelle démarche souhaites-tu effectuer ?",
   "start_option_dem": "Déménagement en France",
   "start_option_logement": "Aides au logement",

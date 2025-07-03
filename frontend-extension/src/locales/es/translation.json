@@ -60,6 +60,14 @@
   "noEvent": "No hay eventos programados para ese día.",
   "instruction": "Tu cuenta ha sido creada correctamente, puedes iniciar sesión ahora.",
 
+  "dim": "dom",
+  "lun": "lun",
+  "mar": "mar",
+  "mer": "mié",
+  "jeu": "jue",
+  "ven": "vie",
+  "sam": "sáb",
+
   "start_question": "¿Qué trámite deseas realizar?",
   "start_option_dem": "Mudanza en Francia",
   "start_option_logement": "Ayudas para el alojamiento",

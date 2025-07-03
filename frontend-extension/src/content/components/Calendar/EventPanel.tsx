@@ -1,6 +1,6 @@
 // EventDetailsPanel.tsx
 // import React, { useEffect, useState } from "react";
-import {t} from "i18next";
+import { t } from "i18next";
 
 interface CalendarEvent {
   id: number;
@@ -25,7 +25,7 @@ const EventDetailsPanel: React.FC<EventDetailsPanelProps> = ({
 
   const dailyEvents = events
     .filter(
-      (event) => event.date.toDateString() === selectedDate.toDateString()
+      (event) => event.date.toDateString() === selectedDate.toDateString(),
     )
     .sort((a, b) => a.id - b.id);
 

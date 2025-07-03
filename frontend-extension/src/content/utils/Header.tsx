@@ -17,7 +17,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     display: "flex",
     gap: 20,
     alignItems: "center",
-    background:"royalblue",
+    background: "royalblue",
     backgroundImage: "linear-gradient(to right, royalblue, #6006A4)",
     color: "white",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
