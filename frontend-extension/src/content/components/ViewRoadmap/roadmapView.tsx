@@ -12,7 +12,10 @@ const basePath = isDev ? "./assets/" : "./assets/";
 const backendUrl = "https://www.docroadmap.fr";
 
 const normalize = (str: string): string =>
-  str.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 
 const getImageForCardName = (name: string): string => {
   const lower = normalize(name);
@@ -81,7 +84,30 @@ const RoadmapView: React.FC = () => {
       const res = await axios.get(`${backendUrl}/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setCards(res.data.processes || []);
+      const allCards: Card[] = res.data.processes || [];
+      const completed: Card[] = [];
+
+      for (const card of allCards) {
+        const allDone =
+          card.steps.length > 0 &&
+          card.steps.every((s) => s.status === "COMPLETED");
+        if (allDone) {
+          try {
+            await axios.post(
+              `${backendUrl}/process/end-process/${card.id}`,
+              {},
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+          } catch (e) {
+            console.error("Error closing process:", e);
+          }
+          completed.push(card);
+        }
+      }
+
+      setCards(allCards.filter((card) => !completed.includes(card)));
     } catch {
       setError(t("fetchError"));
     }
@@ -133,8 +159,7 @@ const RoadmapView: React.FC = () => {
 
   return (
     <div className="roadmap-panel-container">
-      <style>
-        {`
+      <style>{`
         .roadmap-panel-container {
           width: 100%;
           position: relative;
@@ -235,8 +260,8 @@ const RoadmapView: React.FC = () => {
           background: #5a6268;
         }
         ::-webkit-scrollbar {
-        width: 0px;
-        background: transparent;
+          width: 0px;
+          background: transparent;
         }
         .scroll-arrow-button {
           position: absolute;
@@ -255,8 +280,7 @@ const RoadmapView: React.FC = () => {
           z-index: 100;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
-      }`}
-      </style>
+      `}</style>
 
       <Header title={t("currentRoadmaps") || ""} icon={<FaEye />} />
       {error && <p className="error-message">{error}</p>}
