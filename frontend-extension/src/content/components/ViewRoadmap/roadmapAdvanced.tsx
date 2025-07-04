@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCheckCircle, FaChevronDown, FaChevronUp } from "react-icons/fa";
+import getToken from "../../utils/utils";
+
+const backendUrl = "https://www.docroadmap.fr";
 
 interface Step {
   id: number;
@@ -31,6 +34,41 @@ const RoadmapAdvance: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const [expandedStep, setExpandedStep] = useState<number | null>(null);
+
+  const endProcess = async (stepId: number) => {
+    try {
+      const token = await getToken();
+
+      if (!token) {
+        console.error("Aucun token trouvé");
+        return;
+      }
+
+      const response = await fetch(`${backendUrl}/steps/end-status/${stepId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        console.error(
+          `Erreur backend (${response.status}) pour l'étape ${stepId}:`,
+          data
+        );
+        alert(`Erreur lors de la finalisation de la démarche ${stepId}`);
+        return;
+      }
+
+      onUpdateEndedAt(stepId);
+      onClose();
+    } catch (error) {
+      console.error("Erreur lors de la requête PATCH:", error);
+    }
+  };
 
   return (
     <div className="advanced-steps-container">
@@ -208,22 +246,24 @@ const RoadmapAdvance: React.FC<Props> = ({
               {expandedStep === step.id && (
                 <>
                   <div className="step-description">{step.description}</div>
-                  <div className="step-footer">
-                    <input
-                      type="datetime-local"
-                      value={
-                        selectedDate[step.id] ||
-                        (step.endedAt ? step.endedAt.slice(0, 16) : "")
-                      }
-                      onChange={(e) =>
-                        setSelectedDate({
-                          ...selectedDate,
-                          [step.id]: e.target.value,
-                        })
-                      }
-                    />
-                    <button onClick={() => onUpdateEndedAt(step.id)}>✅</button>
-                  </div>
+                  {step.status !== "COMPLETED" && (
+                    <div className="step-footer">
+                      <input
+                        type="datetime-local"
+                        value={
+                          selectedDate[step.id] ||
+                          (step.endedAt ? step.endedAt.slice(0, 16) : "")
+                        }
+                        onChange={(e) =>
+                          setSelectedDate({
+                            ...selectedDate,
+                            [step.id]: e.target.value,
+                          })
+                        }
+                      />
+                      <button onClick={() => endProcess(step.id)}>✅</button>
+                    </div>
+                  )}
                 </>
               )}
             </div>

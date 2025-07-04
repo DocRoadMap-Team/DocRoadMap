@@ -70,21 +70,22 @@ const RoadmapView: React.FC = () => {
   const [showScrollArrow, setShowScrollArrow] = useState(false);
 
   useEffect(() => {
-    const fetchUserProcesses = async () => {
-      const token = await getToken();
-      setToken(token);
-      if (!token) return setError(t("missingToken"));
-      try {
-        const res = await axios.get(`${backendUrl}/users/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setCards(res.data.processes || []);
-      } catch {
-        setError(t("fetchError"));
-      }
-    };
     fetchUserProcesses();
-  }, [t]);
+  }, []);
+
+  const fetchUserProcesses = async () => {
+    const token = await getToken();
+    setToken(token);
+    if (!token) return setError(t("missingToken"));
+    try {
+      const res = await axios.get(`${backendUrl}/users/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setCards(res.data.processes || []);
+    } catch {
+      setError(t("fetchError"));
+    }
+  };
 
   useEffect(() => {
     const container = scrollRef.current;
@@ -304,7 +305,10 @@ const RoadmapView: React.FC = () => {
         <RoadmapAdvance
           steps={steps}
           processName={selectedProcessName}
-          onClose={() => setShowSteps(false)}
+          onClose={async () => {
+            setShowSteps(false);
+            await fetchUserProcesses();
+          }}
           onUpdateEndedAt={updateEndedAt}
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
