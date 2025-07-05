@@ -67,6 +67,14 @@
   "Not-authorized-for-DocRoadMap": "Ce site n'est pas autorisé pour l'extension DocRoadMap.",
   "update_roadmap": "Mettre à jour la roadmap",
 
+  "dim": "dim",
+  "lun": "lun",
+  "mar": "mar",
+  "mer": "mer",
+  "jeu": "jeu",
+  "ven": "ven",
+  "sam": "sam",
+
   "start_question": "Quelle démarche souhaites-tu effectuer ?",
   "start_option_dem": "Déménagement en France",
   "start_option_logement": "Aides au logement",

@@ -37,6 +37,9 @@ function isAuthorizedUrl(url: string | null): boolean {
   }
 }
 
+const LOGOUT_EXPIRY_KEY = "logout_expiry_time";
+const LOGOUT_DELAY = 3600000;
+
 const DocroadmapHome: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -69,6 +72,7 @@ const DocroadmapHome: React.FC = () => {
   const logout = () => {
     localStorage.removeItem("token");
     sessionStorage.clear();
+    localStorage.removeItem(LOGOUT_EXPIRY_KEY);
     if (typeof chrome !== "undefined" && chrome.storage?.local) {
       chrome.storage.local.remove("token", () => {});
     }
@@ -87,6 +91,29 @@ const DocroadmapHome: React.FC = () => {
       </div>
     );
   }
+
+  useEffect(() => {
+    const expiry = localStorage.getItem(LOGOUT_EXPIRY_KEY);
+    let expiryTime: number;
+
+    if (!expiry) {
+      expiryTime = Date.now() + LOGOUT_DELAY;
+      localStorage.setItem(LOGOUT_EXPIRY_KEY, expiryTime.toString());
+    } else {
+      expiryTime = parseInt(expiry, 10);
+    }
+
+    const now = Date.now();
+    const remaining = expiryTime - now;
+
+    if (remaining <= 0) {
+      logout();
+    } else {
+      const timeout = setTimeout(logout, remaining);
+      return () => clearTimeout(timeout);
+    }
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className="roadmap-container">

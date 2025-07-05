@@ -67,6 +67,14 @@
   "Not-authorized-for-DocRoadMap": "This site is not authorized for the DocRoadMap extension.",
   "update_roadmap": "Update the roadmap",
 
+  "dim": "sun",
+  "lun": "mon",
+  "mar": "tue",
+  "mer": "wed",
+  "jeu": "thu",
+  "ven": "fri",
+  "sam": "sat",
+
   "start_question": "What procedure would you like to carry out?",
   "start_option_dem": "Moving within France",
   "start_option_logement": "Housing assistance",
