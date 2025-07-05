@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { theme, buttonStyle } from "../../utils/Styles";
+import { theme } from "../../utils/Styles";
 import Header from "../../utils/Header";
 import { FaAccessibleIcon } from "react-icons/fa";
 import CorrectAlts from "./CorrectAlts";
+import AccessibilityButton from "./AccessibilityButton";
 
 function parseRGB(color: string): [number, number, number] {
   const match = color.match(/\d+/g);
@@ -268,7 +269,14 @@ const ContrastAdjuster: React.FC = () => {
           color: theme.color,
         }}
       >
-        <button
+        <AccessibilityButton
+          labelF="Restore Colors"
+          labelS="Adjust Background, Text & Borders"
+          onClick={handleToggle}
+          enabled={enabled}
+        />
+
+        {/* <button
           style={buttonStyle}
           onMouseOver={(e) =>
             (e.currentTarget.style.background = theme.accentColorDark)
@@ -283,7 +291,7 @@ const ContrastAdjuster: React.FC = () => {
           aria-pressed={enabled}
         >
           {enabled ? "Restore Colors" : "Adjust Background, Text & Borders"}
-        </button>
+        </button> */}
         <CorrectAlts />
       </div>
     </>

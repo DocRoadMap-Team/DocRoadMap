@@ -1,6 +1,7 @@
 import React, { useState } from "react"; //{ useState }
 import axios from "axios";
 import getToken from "../../utils/utils";
+import AccessibilityButton from "./AccessibilityButton"; // Assuming you have a button component for accessibility actions
 
 const env = import.meta.env.VITE_ENV_MODE;
 const backendUrl =
@@ -8,6 +9,14 @@ const backendUrl =
 
 const CorrectAlts: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
+  const [enabled, setEnabled] = useState<boolean>(false);
+
+  const handleToggle = () => {
+    setEnabled((prev) => !prev);
+    if (!enabled) {
+      handleFindImages();
+    }
+  };
 
   const handleFindImages = async () => {
     const images = Array.from(
@@ -61,7 +70,12 @@ const CorrectAlts: React.FC = () => {
 
   return (
     <div>
-      <button onClick={handleFindImages}>Find images without alt</button>
+      <AccessibilityButton
+        labelF="Disable alt with AI"
+        labelS="Add alt with AI"
+        onClick={handleToggle}
+        enabled={enabled}
+      />
       {error && <div style={{ color: "red" }}>{error}</div>}
     </div>
   );

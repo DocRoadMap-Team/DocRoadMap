@@ -11,11 +11,10 @@ interface OptionsColumnProps {
   isVisible: boolean;
 }
 
-const PRIMARY_BLUE = "#4B7BFF"; // same blue used for the user chat bubble
-const HOVER_BLUE = "#3A67E6"; // slightly darker for hover
+const PRIMARY_BLUE = "#4B7BFF";
+const HOVER_BLUE = "#3A67E6";
 
 const styles: { [key: string]: React.CSSProperties } = {
-  /* Wrapper around the whole column of buttons */
   optionsColumnWrapper: {
     display: "flex",
     width: "100%",
@@ -28,7 +27,6 @@ const styles: { [key: string]: React.CSSProperties } = {
     scrollbarWidth: "thin",
   },
 
-  /* Flex-column that holds all buttons */
   optionsColumn: {
     display: "flex",
     flexDirection: "column",
@@ -37,7 +35,6 @@ const styles: { [key: string]: React.CSSProperties } = {
     width: "100%",
   },
 
-  /* Base button styling */
   optionColumnBtn: {
     width: 240,
     background: PRIMARY_BLUE,
@@ -51,10 +48,8 @@ const styles: { [key: string]: React.CSSProperties } = {
     cursor: "pointer",
     outline: "none",
 
-    /* Subtle shadow (bottom-focused) */
     boxShadow: "0 3px 6px rgba(0, 0, 0, 0.08)",
 
-    /* Smooth transitions for color, translate & shadow */
     transition:
       "background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease",
   } as React.CSSProperties,
@@ -82,7 +77,6 @@ const OptionsColumn: React.FC<OptionsColumnProps> = ({
           onClick={() => onOptionSelect(next, label)}
           aria-label={`Choisir : ${label}`}
           tabIndex={0}
-          /* Inline hover / active effects via onMouse* for inline-style approach */
           onMouseEnter={(e) => {
             const el = e.currentTarget;
             el.style.background = HOVER_BLUE;
