@@ -67,7 +67,7 @@ describe("RoadmapView", () => {
     render(<RoadmapView />);
 
     expect(
-      await screen.findByText(/Impossible de récupérer les roadmaps/i)
+      await screen.findByText(/Impossible de récupérer les roadmaps/i),
     ).toBeInTheDocument();
   });
 
@@ -127,7 +127,7 @@ describe("RoadmapView", () => {
     const img = await screen.findByAltText(/Illustration démarche/i);
     expect(img).toHaveAttribute(
       "src",
-      expect.stringContaining("docroadmap.png")
+      expect.stringContaining("docroadmap.png"),
     );
   });
 });
