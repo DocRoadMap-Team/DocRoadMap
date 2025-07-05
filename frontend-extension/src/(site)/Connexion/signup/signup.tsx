@@ -7,6 +7,10 @@ import "./signup.css";
 
 const backendUrl = "https://www.docroadmap.fr";
 
+// const env = import.meta.env.VITE_ENV_MODE;
+// const backendUrl =
+//   env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
+
 const isDev = process.env.NODE_ENV !== "production";
 const docroadmapImg = isDev
   ? "/assets/docroadmap.png"

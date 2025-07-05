@@ -63,6 +63,17 @@
   "password_mismatch": "Las contraseñas no coinciden",
   "registration_error": "Ocurrió un error durante el registro.",
   "Account_created": "Cuenta creada",
+  "empty_fields": "Por favor, completa todos los campos.",
+  "Not-authorized-for-DocRoadMap": "Este sitio no está autorizado para la extensión DocRoadMap.",
+  "update_roadmap": "Actualizar trámite",
+
+  "dim": "dom",
+  "lun": "lun",
+  "mar": "mar",
+  "mer": "mié",
+  "jeu": "jue",
+  "ven": "vie",
+  "sam": "sáb",
 
   "start_question": "¿Qué trámite deseas realizar?",
   "start_option_dem": "Mudanza en Francia",

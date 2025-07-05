@@ -1,4 +1,4 @@
-name: Frontend Extension Tests
+name: Frontend Extension CI
 
 on:
   push:
@@ -6,20 +6,24 @@ on:
       - "**"
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: "23.0.0"
 
       - name: Install dependencies
         run: npm install
+        working-directory: frontend-extension
+
+      - name: Build project
+        run: npm run build
         working-directory: frontend-extension
 
       - name: Run tests

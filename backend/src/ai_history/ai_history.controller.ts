@@ -1,14 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request, NotFoundException, BadRequestException } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiNotFoundResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { AiHistoryService } from './ai_history.service';
 import { AiHistory } from './entities/ai_history.entity';
 import { CreateAiHistoryDto } from './dto/create-ai_history.dto';
 import { UpdateAiHistoryDto } from './dto/update-ai_history.dto';
+import { AiHistoryResponseDto } from './dto/ai_history.response.dto';
+import { Process } from '../process/entities/process.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from '../users/entities/user.entity';
 
 @Controller('ai-history')
 @ApiTags('AiHistory')
 export class AiHistoryController {
-  constructor(private readonly aiHistoryService: AiHistoryService) { }
+  constructor(private readonly aiHistoryService: AiHistoryService,
+              @InjectRepository(Process) private readonly processRepo: Repository<Process>,
+              @InjectRepository(User) private readonly userRepo: Repository<User>,
+  ) { }
 
   @Post('/create')
   @ApiBearerAuth()
@@ -32,7 +40,7 @@ export class AiHistoryController {
     return this.aiHistoryService.findAll();
   }
 
-  @Get(':user_id')
+  @Get('/one/:user_id')
   @ApiOkResponse({
     description: 'Returns a specific AI history by ID',
     type: AiHistory,
@@ -77,5 +85,36 @@ export class AiHistoryController {
   appendToHistory(@Body() createAiHistoryDto: CreateAiHistoryDto) 
   {
     return this.aiHistoryService.appendToHistory(createAiHistoryDto);
+  }
+
+  @Get('/donna')
+  @ApiBearerAuth()
+  @ApiOkResponse({
+    description: 'Returns the AI chat history for a user (chatbot)',
+    type: [AiHistoryResponseDto],
+  })
+  async getDonnaHistory(@Request() req: any): Promise<AiHistoryResponseDto[]> {
+    const userId = parseInt(req.user.sub);
+    if (isNaN(userId)) {
+      throw new BadRequestException('Invalid user ID in token');
+    }
+
+    const user = await this.userRepo.findOne({ where: { id: userId } });
+    if (!user) throw new NotFoundException('User not found');
+    
+    console.log('Fetching AI history for user:', user.uuid);
+    return this.aiHistoryService.findByUuid(user.uuid);
+  }
+
+  @Get('/roadmap/:process_id')
+  @ApiBearerAuth()
+  @ApiOkResponse({
+    description: 'Returns the AI chat history for a roadmap (process)',
+    type: [AiHistoryResponseDto],
+  })
+  async getRoadmapHistory(@Param('process_id') processId: number): Promise<AiHistoryResponseDto[]> {
+    const process = await this.processRepo.findOne({ where: { id: +processId } });
+    if (!process) throw new NotFoundException('Process not found');
+    return this.aiHistoryService.findByUuid(process.uuid);
   }
 }

@@ -2,46 +2,51 @@ import React, { useEffect, useState } from "react";
 import {
   FaCalendar,
   FaEye,
-  FaRegFileAlt,
   FaRoad,
   FaRobot,
+  FaWheelchair,
 } from "react-icons/fa";
 import Chatbot from "./components/Chatbot/chatbot";
 import RoadmapView from "./components/ViewRoadmap/roadmapView";
 import StepsCalendar from "./components/Calendar/calendar";
 import getToken from "./utils/utils";
 import DecisionTreeChat from "./components/roadmapCreation/decisionTree";
+import ContrastAdjuster from "./components/Accessibility/ContrastAdjuster";
+import logo from "../../public/assets/docroadmap_logo2.png";
 
 const buttonData = [
   { icon: <FaRoad />, label: "CreateRoadmapChat" },
   { icon: <FaEye />, label: "Voir Roadmap" },
   { icon: <FaRobot />, label: "Chatbot" },
   { icon: <FaCalendar />, label: "Calendrier" },
+  { icon: <FaWheelchair />, label: "Accessibility" },
 ];
 
 interface PanelProps {
   activePanel: string | null;
   isOpen: boolean;
+  panelHeight: number;
 }
 
-const Panel: React.FC<PanelProps> = ({ activePanel, isOpen }) => (
+const Panel: React.FC<PanelProps> = ({ activePanel, isOpen, panelHeight }) => (
   <div
     style={{
       position: "fixed",
       bottom: "90px",
-      right: "80px",
-      width: "300px",
-      maxWidth: "300px",
-      height: "450px",
+      right: "24px",
+      width: "350px",
+      maxWidth: "350px",
+      height: `${panelHeight}px`,
+      // flexWrap: "wrap",
       background: "#fff",
-      border: "1px solid #1976d2",
       borderRadius: 8,
-      boxShadow: "0 2px 16px rgba(0,0,0,0.2)",
+      boxShadow: "0 4px 16px rgba(5, 3, 51, 0.4)",
       zIndex: 10000,
-      padding: 8,
       opacity: 1,
+      overflow: "hidden",
       transform: isOpen ? "translateX(0)" : "translateX(120%)",
-      transition: "transform 0.4s cubic-bezier(.4,0,.2,1)",
+      transition:
+        "transform 0.4s cubic-bezier(.4,0,.2,1), height 0.4s cubic-bezier(.4,0,.2,1)",
       pointerEvents: isOpen ? "auto" : "none",
     }}
   >
@@ -49,6 +54,7 @@ const Panel: React.FC<PanelProps> = ({ activePanel, isOpen }) => (
     {activePanel === "Voir Roadmap" && <RoadmapView />}
     {activePanel === "Chatbot" && <Chatbot />}
     {activePanel === "Calendrier" && <StepsCalendar />}
+    {activePanel === "Accessibility" && <ContrastAdjuster />}
   </div>
 );
 
@@ -58,8 +64,8 @@ const DocRoadmapBar: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);
   const [isPanelMounted, setIsPanelMounted] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [panelHeight, setPanelHeight] = useState(450);
 
-  // Token logic
   useEffect(() => {
     getToken().then(setToken);
 
@@ -100,17 +106,26 @@ const DocRoadmapBar: React.FC = () => {
       return () => clearTimeout(timeout);
     }
   }, [activePanel, isPanelMounted]);
-
+  // don't render if token is not available
   if (!token) return null;
 
   const handleButtonClick = (label: string) => {
     setActivePanel((cur) => (cur === label ? null : label));
+    if (label === "Calendrier") {
+      setPanelHeight(600);
+    } else {
+      setPanelHeight(450);
+    }
   };
 
   return (
     <>
       {isPanelMounted && (
-        <Panel activePanel={activePanel} isOpen={isPanelOpen} />
+        <Panel
+          activePanel={activePanel}
+          isOpen={isPanelOpen}
+          panelHeight={panelHeight}
+        />
       )}
 
       <div
@@ -132,25 +147,31 @@ const DocRoadmapBar: React.FC = () => {
           style={{
             width: 56,
             height: 56,
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "center",
             borderRadius: "50%",
             background: "#1976d2",
-            color: "white",
             border: "none",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-            fontSize: 28,
             cursor: "pointer",
           }}
           aria-label="Doc Roadmap"
         >
-          <FaRegFileAlt />
+          <img
+            src={logo}
+            alt="Doc Roadmap"
+            style={{
+              borderRadius: "50%",
+              border: "2px solid #1976d2",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            }}
+          />
         </button>
-
-        {/* Animated Bar */}
         <div
           style={{
             display: "flex",
             flexDirection: "row",
-            transition: "width 0.4s cubic-bezier(.4,0,.2,1)", // match panel
+            transition: "width 0.4s cubic-bezier(.4,0,.2,1)",
             overflow: "hidden",
             width: open ? 300 : 0,
             opacity: 1,
@@ -158,7 +179,6 @@ const DocRoadmapBar: React.FC = () => {
             background: "transparent",
           }}
         >
-          {/* Slide content in/out */}
           <div
             style={{
               display: "flex",

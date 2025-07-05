@@ -1,12 +1,9 @@
 .login-page {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to bottom, #f0f2f5, #cfd9df);
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
+  background-color: #f4f6f8;
 }
 
 .login-container {
@@ -17,6 +14,7 @@
   height: 100%;
   box-sizing: border-box;
   position: relative;
+  overflow: hidden;
 }
 
 .login-header {
@@ -29,25 +27,6 @@
   height: auto;
 }
 
-.back-button {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  background: none;
-  border: none;
-  font-size: 18px;
-  color: #007bff;
-  cursor: pointer;
-  z-index: 10;
-}
-
-.input-group.small {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
 .input-group.small input {
   width: 70%;
   padding: 8px;
@@ -57,30 +36,32 @@
   text-align: center;
 }
 
+.input-group.small {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
 .login-button {
-  width: 85%;
-  padding: 12px;
+  width: 95%;
+  padding: 10px;
+  font-size: 14px;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s;
 }
 
 .login-button:hover {
   background-color: #0056b3;
-  transform: scale(1.05);
 }
 
 .login-error {
   color: red;
   font-size: 0.9rem;
-  margin-top: -13px;
+  margin-top: -9px;
   padding-bottom: 6px;
   text-align: center;
 }
@@ -92,4 +73,16 @@
   margin-top: 6px;
   text-align: center;
   cursor: pointer;
+}
+
+.back-button {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #007bff;
+  cursor: pointer;
+  z-index: 10;
 }
