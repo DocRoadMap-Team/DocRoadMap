@@ -389,8 +389,8 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
     elevation: 12,
     overflow: "hidden",
-    maxWidth: hp("75%"),
-    maxHeight: hp("70%"),
+    width: hp("45%"),
+    height: hp("45%"),
   },
   cardHeader: {
     paddingHorizontal: wp("5%"),

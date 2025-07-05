@@ -9,7 +9,7 @@ import {
 import { useTheme } from "@/components/ThemeContext";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import DropDownPicker from "react-native-dropdown-picker";
+import { Picker } from "@react-native-picker/picker";
 import { ScaledSheet, moderateScale } from "react-native-size-matters";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
@@ -27,12 +27,10 @@ const Settings = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
 
-  const handleLanguageChange = (lang: string | null) => {
-    if (lang) {
-      i18n.changeLanguage(lang);
-      setSelectedLanguage(lang);
-      setModalVisible(false);
-    }
+  const handleLanguageChange = (lang: string) => {
+    i18n.changeLanguage(lang);
+    setSelectedLanguage(lang);
+    setModalVisible(false);
   };
 
   return (
@@ -83,7 +81,7 @@ const Settings = () => {
           <View
             style={[
               styles.modalBackground,
-              { backgroundColor: theme.background },
+              { backgroundColor: "rgba(0,0,0,0.5)" },
             ]}
           >
             <View
@@ -95,34 +93,25 @@ const Settings = () => {
               <Text style={[styles.modalTitle, { color: theme.text }]}>
                 {t("select_language")}
               </Text>
-              <DropDownPicker
-                open={modalVisible}
-                value={selectedLanguage}
-                items={[
-                  { label: `${languageFlags.fr} ${t("fr")}`, value: "fr" },
-                  { label: `${languageFlags.es} ${t("es")}`, value: "es" },
-                  { label: `${languageFlags.en} ${t("en")}`, value: "en" },
-                ]}
-                setOpen={setModalVisible}
-                setValue={setSelectedLanguage}
-                onChangeValue={handleLanguageChange}
-                placeholder={t("select_language")}
-                style={{
-                  backgroundColor: theme.background,
-                  borderColor: theme.primary,
-                  borderRadius: moderateScale(10),
-                }}
-                labelStyle={{
-                  color: theme.text,
-                  fontSize: moderateScale(16),
-                }}
-                containerStyle={{
-                  width: wp("80%"),
-                  marginVertical: moderateScale(10),
-                }}
+              <Picker
+                selectedValue={selectedLanguage}
+                onValueChange={(itemValue) => handleLanguageChange(itemValue)}
+                style={[styles.picker]}
                 accessibilityLabel={t("select_language")}
-                showArrow={false}
-              />
+              >
+                <Picker.Item
+                  label={`${languageFlags.fr} ${t("fr")}`}
+                  value="fr"
+                />
+                <Picker.Item
+                  label={`${languageFlags.es} ${t("es")}`}
+                  value="es"
+                />
+                <Picker.Item
+                  label={`${languageFlags.en} ${t("en")}`}
+                  value="en"
+                />
+              </Picker>
               <TouchableOpacity
                 onPress={() => setModalVisible(false)}
                 style={[
@@ -173,7 +162,7 @@ const Settings = () => {
             style={[styles.buttonText, { color: theme.buttonText }]}
             allowFontScaling={true}
           >
-            {t("calendar_events")}
+            {"Calendrier des évènements"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -198,14 +187,14 @@ const styles = ScaledSheet.create({
     paddingHorizontal: moderateScale(20),
     borderRadius: moderateScale(10),
     marginTop: moderateScale(15),
-    minWidth: wp("80%"),
+    width: wp("80%"),
     alignItems: "center",
     justifyContent: "center",
+    alignSelf: "center",
     elevation: 5,
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.3,
     shadowRadius: 5,
-    transition: "all 0.3s ease",
   },
   buttonText: {
     fontSize: moderateScale(16),
@@ -232,7 +221,10 @@ const styles = ScaledSheet.create({
     fontSize: moderateScale(18),
     fontWeight: "600",
     marginBottom: moderateScale(10),
-    color: "#555",
+  },
+  picker: {
+    width: wp("70%"),
+    marginVertical: moderateScale(10),
   },
 });
 
