@@ -147,7 +147,9 @@ export default function HomePage() {
         }
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.buttonsArea}>
+        <View
+          style={[styles.buttonsArea, { backgroundColor: theme.background }]}
+        >
           <TouchableOpacity
             style={styles.buttonContainer}
             onPress={handleGenerateRoadmap}
@@ -178,7 +180,10 @@ export default function HomePage() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.buttonContainer}
+            style={[
+              styles.buttonContainer,
+              { backgroundColor: theme.background },
+            ]}
             onPress={handleReminders}
             accessibilityLabel={t("home.my_reminders")}
             accessibilityRole="button"
@@ -207,7 +212,9 @@ export default function HomePage() {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.cardsSection}>
+        <View
+          style={[styles.cardsSection, { backgroundColor: theme.background }]}
+        >
           <View style={styles.cardsSectionHeader}>
             <Text style={[styles.sectionTitle, { color: theme.text }]}>
               Mes Démarches
@@ -248,9 +255,12 @@ export default function HomePage() {
               <Text style={styles.modalTitle}>Processus Administratifs</Text>
               <TouchableOpacity
                 onPress={() => setModalVisible(false)}
-                style={styles.closeButton}
+                style={[
+                  styles.closeButton,
+                  { backgroundColor: theme.background },
+                ]}
               >
-                <MaterialIcons name="close" size={24} color="#204CCF" />
+                <MaterialIcons name="close" size={24} />
               </TouchableOpacity>
             </View>
 

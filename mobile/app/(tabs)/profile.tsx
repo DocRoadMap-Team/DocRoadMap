@@ -79,7 +79,7 @@ export default function ProfileCard() {
         { backgroundColor: theme.background },
       ]}
     >
-      <View style={styles.card}>
+      <View style={[styles.card, { backgroundColor: theme.background }]}>
         <View style={styles.imageContainer}>
           <Image
             style={styles.image}

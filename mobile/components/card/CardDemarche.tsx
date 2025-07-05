@@ -237,7 +237,9 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
           </View>
         </View>
 
-        <View style={styles.cardFooter}>
+        <View
+          style={[styles.cardFooter, { backgroundColor: theme.background }]}
+        >
           <LinearGradient
             colors={["#204CCF", "#6006A4"]}
             start={{ x: 0, y: 0 }}
@@ -355,7 +357,10 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
               >
                 <TouchableOpacity
                   style={styles.closeButtonInner}
-                  onPress={() => setModalVisible(false)}
+                  onPress={() => {
+                    setModalVisible(false);
+                    router.replace("/(tabs)/editRoadmap");
+                  }}
                   activeOpacity={0.9}
                 >
                   <Text style={styles.closeButtonText}>
@@ -486,7 +491,7 @@ const styles = StyleSheet.create({
   },
   cardFooter: {
     paddingHorizontal: wp("5%"),
-    paddingBottom: hp("3%"),
+    paddingBottom: hp("5%"),
   },
   continueButton: {
     borderRadius: moderateScale(12),
