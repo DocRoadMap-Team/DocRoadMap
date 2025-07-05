@@ -147,14 +147,16 @@ export class AiService {
             take: 5,
         });
 
-        const messages = history
-            .reverse()
-            .map((entry) => ({
+        const systemPrompt = `You are a chatbot whose goal is to answer questions about French administrative procedures as well as major life stages (studies, marriage, retirement, etc). All your answers must be based on the French system and you must always reply in the user's language.`;
+
+        const messages = [
+            { role: "system", content: systemPrompt },
+            ...history.reverse().map((entry) => ({
                 role: "user",
                 content: entry.history,
-            }));
-
-        messages.push({ role: "user", content: prompt });
+            })),
+            { role: "user", content: prompt }
+        ];
 
         try {
             const response = await axios.post(
