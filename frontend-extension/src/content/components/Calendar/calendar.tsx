@@ -96,7 +96,7 @@ const ProcessCalendar = () => {
   };
 
   return (
-    <>
+    <div role="region" aria-label="Process Calendar">
       <style>
         {`
         .calendar-wrapper {
@@ -135,11 +135,11 @@ const ProcessCalendar = () => {
             font-weight: 800;
             padding: 0;
             border: none;
-            color:rgb(107, 11, 180);
+            color: #20498A;
             transition: color 0.2s;
         }
         .react-calendar__navigation button:hover {
-            color:rgb(48, 7, 79);
+            color: #4A88C5;
             border-radius: 10px;
         }
         .react-calendar__navigation button:disabled {
@@ -151,8 +151,7 @@ const ProcessCalendar = () => {
             font-weight: 600;
             text-transform: uppercase;
             padding: 2px;
-            color: white;
-            background: #6006A4;
+            color: #3D6FAD;
             border-radius: 4px 4px 0 0;
 
         }
@@ -175,23 +174,23 @@ const ProcessCalendar = () => {
         }
         .react-calendar__tile:hover {
           color: black;
-          background:rgb(198, 151, 235);
+          background: #F0F5FF;
         }
         .react-calendar__tile--now {
-          background:white;
-          color:black;
+          background: white;
+          color: black;
           font-weight: bold;
         }
         .react-calendar__tile--active {
-          background:rgb(198, 151, 235);
-          color:black;
+          background: #E8F1FF;
+          color: black;
           font-weight: bold;
         }
         .react-calendar__tile--active:hover {
-          background:rgb(198, 151, 235);
+          background: #D5E6FF;
         }
         .react-calendar__month-view__days__day--neighboringMonth {
-        color:rgb(175, 114, 196);
+          color:rgb(2, 28, 198);
         }
         .events-container {
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -211,7 +210,7 @@ const ProcessCalendar = () => {
         .event-dot {
           width: 6px;
           height: 6px;
-          background-color: #4A88C5;
+          background-color:rgb(23, 9, 177);
           border-radius: 50%;
         }
         .events-list {
@@ -286,9 +285,13 @@ const ProcessCalendar = () => {
           <Header
             title={`${t("eventsOf")} ${selectedDate.toLocaleDateString("fr-FR")}`}
           />
-          <div className="events-list">
+          <div
+            className="events-list"
+            tabIndex={0}
+            aria-label={"Liste des événements"} // t("eventListAriaLabel") ||
+          >
             {getDailyEvents().length === 0 ? (
-              <p>{t("noEvent")}</p>
+              <p style={{ color: "black" }}>{t("noEvent")}</p>
             ) : (
               getDailyEvents().map((event) => (
                 <div key={event.id} className="event-list-item">
@@ -305,7 +308,7 @@ const ProcessCalendar = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

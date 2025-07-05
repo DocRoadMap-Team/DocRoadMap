@@ -155,7 +155,11 @@ const RoadmapView: React.FC = () => {
   };
 
   return (
-    <div className="roadmap-panel-container">
+    <div
+      className="roadmap-panel-container"
+      role="region"
+      aria-label="Roadmap Extension Panel"
+    >
       <style>
         {`
       .roadmap-panel-container {

@@ -260,7 +260,7 @@ const ContrastAdjuster: React.FC = () => {
   };
 
   return (
-    <>
+    <div role="region" aria-label="Accessibility panel">
       <Header title="Adjust Accessibility" icon={<FaAccessibleIcon />} />
       <div
         style={{
@@ -294,7 +294,7 @@ const ContrastAdjuster: React.FC = () => {
         </button> */}
         <CorrectAlts />
       </div>
-    </>
+    </div>
   );
 };
 export default ContrastAdjuster;
