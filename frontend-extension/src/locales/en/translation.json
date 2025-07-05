@@ -51,7 +51,7 @@
   "noSteps": "No steps available.",
   "imageAlt": "Process illustration",
   "createRoadmap": "Create a new process",
-  "createThis": "Create this process", 
+  "createThis": "Create this process",
   "createError": "Error while creating the process.",
   "loadError": "Unable to load processes, check if you have an ad blocker enabled.",
   "tokenUnavailable": "Token unavailable. Please log in.",

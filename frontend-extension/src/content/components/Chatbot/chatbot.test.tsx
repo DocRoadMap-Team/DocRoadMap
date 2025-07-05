@@ -28,7 +28,7 @@ describe("Chatbot component", () => {
   it("renders static content", () => {
     render(<Chatbot />);
     expect(
-      screen.getByText((text) => text.includes("Donna"))
+      screen.getByText((text) => text.includes("Donna")),
     ).toBeInTheDocument();
     expect(screen.getByPlaceholderText("questionchatbot")).toBeInTheDocument();
     expect(screen.getByRole("button")).toBeInTheDocument();

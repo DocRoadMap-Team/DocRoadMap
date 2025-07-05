@@ -51,7 +51,7 @@ const ModifyRoadmapChat: React.FC<Props> = ({
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       const data = res.data;

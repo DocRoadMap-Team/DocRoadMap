@@ -67,7 +67,7 @@ const RoadmapView: React.FC = () => {
   const [selectedProcessName, setSelectedProcessName] = useState<string>("");
   const [token, setToken] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<{ [key: number]: string }>(
-    {}
+    {},
   );
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showScrollArrow, setShowScrollArrow] = useState(false);
@@ -98,7 +98,7 @@ const RoadmapView: React.FC = () => {
               {},
               {
                 headers: { Authorization: `Bearer ${token}` },
-              }
+              },
             );
           } catch (e) {
             console.error("Error closing process:", e);
@@ -133,10 +133,10 @@ const RoadmapView: React.FC = () => {
       await axios.patch(
         `${backendUrl}/steps/${stepId}`,
         { endedAt: formatted },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       setSteps((prev) =>
-        prev.map((s) => (s.id === stepId ? { ...s, endedAt: formatted } : s))
+        prev.map((s) => (s.id === stepId ? { ...s, endedAt: formatted } : s)),
       );
     } catch {
       console.error(t("updateEndedAtError"));

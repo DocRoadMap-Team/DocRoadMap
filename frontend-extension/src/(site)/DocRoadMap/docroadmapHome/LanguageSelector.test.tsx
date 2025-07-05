@@ -28,7 +28,7 @@ describe("LanguageSelector component", () => {
     render(
       <MemoryRouter>
         <LanguageSelector />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
   beforeEach(() => {
@@ -53,20 +53,20 @@ describe("LanguageSelector component", () => {
     render(
       <MemoryRouter>
         <ProdLanguageSelector />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(screen.getByAltText("French flag")).toHaveAttribute(
       "src",
-      "../assets/France.png"
+      "../assets/France.png",
     );
     expect(screen.getByAltText("English flag")).toHaveAttribute(
       "src",
-      "../assets/England.png"
+      "../assets/England.png",
     );
     expect(screen.getByAltText("Spanish flag")).toHaveAttribute(
       "src",
-      "../assets/Spain.png"
+      "../assets/Spain.png",
     );
 
     process.env.NODE_ENV = originalEnv;

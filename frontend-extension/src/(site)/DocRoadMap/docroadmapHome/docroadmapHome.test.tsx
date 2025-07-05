@@ -45,7 +45,7 @@ describe("DocroadmapHome component", () => {
     render(
       <MemoryRouter>
         <DocroadmapHome />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
   it("renders translated texts", async () => {

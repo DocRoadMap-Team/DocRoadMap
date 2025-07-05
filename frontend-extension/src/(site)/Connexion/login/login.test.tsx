@@ -22,14 +22,14 @@ describe("Login component", () => {
     render(
       <MemoryRouter>
         <Login />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
   it("renders login page correctly", () => {
     renderWithRouter();
     expect(screen.getByPlaceholderText("emailPlaceholder")).toBeInTheDocument();
     expect(
-      screen.getByPlaceholderText("passwordPlaceholder")
+      screen.getByPlaceholderText("passwordPlaceholder"),
     ).toBeInTheDocument();
     expect(screen.getByText("login")).toBeInTheDocument();
   });

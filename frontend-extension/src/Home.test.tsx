@@ -62,7 +62,7 @@ describe("Home", () => {
 
   it("redirects to /docroadmap if token exists", async () => {
     mockGet.mockImplementation((_key: string, cb: any) =>
-      cb({ token: "abc123" })
+      cb({ token: "abc123" }),
     );
     render(<Home />);
     await waitFor(() => {
@@ -72,13 +72,13 @@ describe("Home", () => {
 
   it("displays not authorized message when URL is not authorized", async () => {
     (global as any).chrome.tabs.query = jest.fn((_, cb) =>
-      cb([{ url: "https://www.google.com" }])
+      cb([{ url: "https://www.google.com" }]),
     );
     mockGet.mockImplementation((_key: string, cb: any) => cb({}));
     render(<Home />);
     await waitFor(() => {
       expect(
-        screen.getByText("Not-authorized-for-DocRoadMap")
+        screen.getByText("Not-authorized-for-DocRoadMap"),
       ).toBeInTheDocument();
     });
   });
@@ -110,20 +110,20 @@ describe("Home", () => {
     render(<Home />);
     await waitFor(() => {
       expect(
-        screen.getByText("Not-authorized-for-DocRoadMap")
+        screen.getByText("Not-authorized-for-DocRoadMap"),
       ).toBeInTheDocument();
     });
   });
 
   it("returns false for invalid URL (throws in URL constructor)", async () => {
     (global as any).chrome.tabs.query = jest.fn((_, cb) =>
-      cb([{ url: "invalid:url" }])
+      cb([{ url: "invalid:url" }]),
     );
     mockGet.mockImplementation((_key: string, cb: any) => cb({}));
     render(<Home />);
     await waitFor(() => {
       expect(
-        screen.getByText("Not-authorized-for-DocRoadMap")
+        screen.getByText("Not-authorized-for-DocRoadMap"),
       ).toBeInTheDocument();
     });
   });
