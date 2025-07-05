@@ -127,8 +127,8 @@ export class AiService {
     }
 
     async query(prompt: string, model: string, userId: number): Promise<string> {
-        if (!prompt || !model || !userId) {
-            throw new BadRequestException("Prompt, model and userId are required");
+        if (!prompt || !userId) {
+            throw new BadRequestException("Prompt and userId are required");
         }
         const apiKey = process.env.OPENAI_API_KEY;
 
@@ -160,7 +160,8 @@ export class AiService {
             const response = await axios.post(
                 "https://api.openai.com/v1/chat/completions",
                 {
-                    model: model,
+                    model: "gpt-4o-search-preview",
+                    web_search_options: {},
                     messages: messages,
                 },
                 {
