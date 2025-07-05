@@ -7,10 +7,15 @@ import "./signup.css";
 
 const backendUrl = "https://www.docroadmap.fr";
 
+// const env = import.meta.env.VITE_ENV_MODE;
+// const backendUrl =
+//   env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
+
 const isDev = process.env.NODE_ENV !== "production";
 const docroadmapImg = isDev
   ? "/assets/docroadmap.png"
   : "../assets/docroadmap.png";
+
 const ArrowLeftIcon = FaArrowLeft as unknown as React.FC<any>;
 
 function Signup() {
@@ -23,16 +28,25 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const nextStep = () => setStep((prev) => prev + 1);
+  const nextStep = () => {
+    setError("");
+    setStep((prev) => prev + 1);
+  };
+
   const prevStep = () =>
-    step === 1 ? navigate(-1) : setStep((prev) => prev - 1);
+    step === 1 ? navigate("/") : setStep((prev) => prev - 1);
 
-  const handleRegister = () => {
+  const handleRegister = (e?: React.MouseEvent<HTMLButtonElement>) => {
+    e?.preventDefault();
+    setError("");
+
     if (password !== confirmPassword) {
-      console.log("Passwords do not match");
+      setError(t("password_mismatch"));
       return;
     }
+
     axios
       .post(`${backendUrl}/auth/register`, {
         firstName,
@@ -41,10 +55,11 @@ function Signup() {
         password,
       })
       .then(() => {
-        navigate("/account-confirmation");
+        setError("");
+        navigate("/signupconfirm");
       })
       .catch(() => {
-        console.error("Registration failed");
+        setError(t("registration_error"));
       });
   };
 
@@ -96,6 +111,7 @@ function Signup() {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
+
             <div className="register-button-wrapper">
               <button className="register-button" onClick={nextStep}>
                 {t("continue") || "Continuer"}
@@ -122,12 +138,12 @@ function Signup() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
-
             <div className="register-button-wrapper">
               <button className="register-button" onClick={handleRegister}>
-                {t("submit") || "S'inscrire"}
+                {t("submit")}
               </button>
             </div>
+            {error && <p className="signup-error">{error}</p>}{" "}
           </>
         )}
       </div>

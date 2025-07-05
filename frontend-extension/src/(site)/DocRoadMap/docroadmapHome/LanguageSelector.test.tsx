@@ -43,6 +43,35 @@ describe("LanguageSelector component", () => {
     expect(screen.getByAltText("Spanish flag")).toBeInTheDocument();
   });
 
+  it("renders with production asset paths", () => {
+    const originalEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = "production";
+
+    jest.resetModules();
+    const ProdLanguageSelector = require("./LanguageSelector").default;
+
+    render(
+      <MemoryRouter>
+        <ProdLanguageSelector />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByAltText("French flag")).toHaveAttribute(
+      "src",
+      "../assets/France.png",
+    );
+    expect(screen.getByAltText("English flag")).toHaveAttribute(
+      "src",
+      "../assets/England.png",
+    );
+    expect(screen.getByAltText("Spanish flag")).toHaveAttribute(
+      "src",
+      "../assets/Spain.png",
+    );
+
+    process.env.NODE_ENV = originalEnv;
+  });
+
   it("changes language and navigates back when French flag button is clicked", () => {
     renderWithRouter();
     const buttons = screen.getAllByRole("button");

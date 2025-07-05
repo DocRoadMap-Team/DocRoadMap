@@ -20,159 +20,96 @@ import {
 } from "react-native-responsive-screen";
 import request from "@/constants/Request";
 
+type Message = {
+  text: string;
+  sender: "user" | "bot";
+};
+
 export default function ChatInterface() {
-  const { theme } = useTheme();
   const { t } = useTranslation();
+  const { theme } = useTheme();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<{ text: string; sender: string }[]>(
-    [],
-  );
-  const [demandes, setDemandes] = useState<
-    { name: string; collection_name: string }[]
-  >([]);
-  const [selectedCollection, setSelectedCollection] = useState<string | null>(
-    null,
-  );
-  const [choixVisible, setChoixVisible] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const handleCollection = async () => {
-    setChoixVisible(true);
-    console.log("Ouverture de la liste des démarches administratives...");
-    try {
-      const res = await request.listProcessAdministrative();
-      console.log("Réponse de la liste des démarches : ", res);
-      if (res?.data) {
-        setDemandes(res.data);
-      }
-    } catch (err) {
-      console.error("Erreur chargement démarches", err);
-    }
-  };
-
-  const handleClose = () => {
-    console.log("Fermeture du modal du chatbot");
-    setModalVisible(false);
-    setMessages([]);
-    setSelectedCollection(null);
-  };
-
-  const handleProcess = async (collectionName: string) => {
-    console.log("Collection choisie : ", collectionName);
-    setSelectedCollection(collectionName);
-    setChoixVisible(false);
+  const openModal = async () => {
     setModalVisible(true);
     setLoading(true);
-
     try {
-      const res = await request.aiConversation(collectionName);
-      console.log("Réponse de l'API lors du choix de la démarche : ", res);
-      if (res?.data?.response) {
-        console.log("Réponse initiale du bot : ", res.data.response);
-        setMessages([{ text: res.data.response, sender: "bot" }]);
+      const res = await request.aiHistory();
+      const historyText = res.data.history;
+      const history = historyText.split("\n").map((line: string) => {
+        const [roleLabel, ...rest] = line.split(": ");
+        const text = rest.join(": ");
+        return {
+          text,
+          sender: roleLabel.toLowerCase() === "user" ? "user" : "bot",
+        };
+      });
+      if (history.length === 0) {
+        setMessages([
+          { text: "Bonjour demande moi ce dont tu as besoin !", sender: "bot" },
+        ]);
       } else {
-        console.log("Pas de réponse dans la réponse de l'API.");
-        setMessages([{ text: t("error_occurred"), sender: "bot" }]);
+        setMessages(history);
       }
     } catch (error) {
-      console.error("Erreur lors du choix de la démarche", error);
+      console.error(error);
       setMessages([{ text: t("server_error"), sender: "bot" }]);
     } finally {
       setLoading(false);
-      console.log("Chargement terminé pour la démarche choisie");
     }
   };
 
-  const handleSend = async () => {
-    console.log("Message envoyé par l'utilisateur : ", message);
-    if (!message.trim() || !selectedCollection) return;
+  const closeModal = () => {
+    setModalVisible(false);
+    setMessages([]);
+    setMessage("");
+  };
 
-    const newMessages = [...messages, { text: message, sender: "user" }];
+  const handleSend = async () => {
+    if (!message.trim()) return;
+
+    const userMsg: Message = { text: message, sender: "user" };
+    const newMessages: Message[] = [...messages, userMsg];
     setMessages(newMessages);
     setMessage("");
     setLoading(true);
 
     try {
-      const res = await request.aiQuery(selectedCollection, message);
-      console.log("Réponse de l'API IA : ", res);
-      if (res?.data) {
-        const { is_roadmap, response } = res.data;
-        const reply = is_roadmap ? t("roadmap_generated") : response;
-        console.log("Réponse du bot : ", reply);
-        setMessages([...newMessages, { text: reply, sender: "bot" }]);
-      } else {
-        console.log("Pas de données dans la réponse de l'API.");
-        setMessages([
-          ...newMessages,
-          { text: t("connection_error"), sender: "bot" },
-        ]);
-      }
+      const res = await request.aiQuery(message, "gpt-4o-mini");
+      const botReply = res?.data?.response ?? t("server_error");
+      setMessages([...newMessages, { text: botReply, sender: "bot" as const }]);
     } catch (error) {
-      console.error("Erreur IA", error);
-      setMessages([...newMessages, { text: t("server_error"), sender: "bot" }]);
+      console.error(error);
+      setMessages([
+        ...newMessages,
+        { text: t("server_error"), sender: "bot" as const },
+      ]);
     } finally {
       setLoading(false);
-      console.log("Chargement terminé après l'envoi du message");
     }
   };
 
   return (
-    <View>
-      <TouchableOpacity
-        style={[styles.floatingButton, { backgroundColor: theme.primary }]}
-        onPress={handleCollection}
-      >
+    <>
+      <TouchableOpacity onPress={openModal} style={styles.floatingButton}>
         <Image
           source={require("../../assets/images/chatbot.png")}
           style={{ width: 45, height: 45 }}
         />
       </TouchableOpacity>
 
-      <Modal visible={choixVisible} transparent animationType="slide">
-        <View
-          style={[styles.modalOverlay, { backgroundColor: theme.background }]}
-        >
-          <Text
-            style={[
-              styles.headerTitle,
-              { color: theme.text, marginBottom: 20 },
-            ]}
-          >
-            {t("Choisie la procédure que tu souhaites commencer")}
-          </Text>
-          {demandes.map((d, idx) => (
-            <TouchableOpacity
-              key={idx}
-              onPress={() => handleProcess(d.collection_name)}
-            >
-              <Text style={[styles.demarcheItem, { color: theme.primary }]}>
-                {d.name}
+      <Modal visible={modalVisible} animationType="slide">
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>{t("chatbot_name")}</Text>
+            <TouchableOpacity onPress={closeModal}>
+              <Text style={[styles.closeText, { color: theme.primary }]}>
+                {t("close")}
               </Text>
-            </TouchableOpacity>
-          ))}
-          <TouchableOpacity onPress={() => setChoixVisible(false)}>
-            <Text style={[styles.closeText, { color: theme.text }]}>✖</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
-
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={handleClose}
-      >
-        <SafeAreaView
-          style={[styles.container, { backgroundColor: theme.background }]}
-        >
-          <View style={[styles.header, { borderBottomColor: theme.text }]}>
-            <Text style={[styles.headerTitle, { color: theme.text }]}>
-              {t("chatbot_name")}
-            </Text>
-            <TouchableOpacity onPress={handleClose}>
-              <Text style={[styles.closeText, { color: theme.text }]}>✖</Text>
             </TouchableOpacity>
           </View>
 
@@ -180,51 +117,31 @@ export default function ChatInterface() {
             {messages.map((msg, index) => (
               <View
                 key={index}
-                style={[
-                  msg.sender === "user"
-                    ? styles.userMessage
-                    : styles.botMessage,
-                  { backgroundColor: theme.primary },
-                ]}
+                style={
+                  msg.sender === "user" ? styles.userMessage : styles.botMessage
+                }
               >
-                <Text style={[styles.messageText, { color: theme.text }]}>
-                  {msg.text}
-                </Text>
+                <Text style={styles.messageText}>{msg.text}</Text>
               </View>
             ))}
+            {loading && <ActivityIndicator size="small" color="#999" />}
           </ScrollView>
 
-          <View
-            style={[
-              styles.inputContainer,
-              { backgroundColor: theme.background },
-            ]}
-          >
+          <View style={styles.inputContainer}>
             <TextInput
-              style={[styles.input, { borderColor: theme.text }]}
-              placeholder={t("ask_question")}
               value={message}
               onChangeText={setMessage}
-              onSubmitEditing={handleSend}
-              placeholderTextColor={theme.text}
+              placeholder={t("Ecris to meassge")}
+              style={styles.input}
+              multiline
             />
-            <TouchableOpacity
-              style={[styles.sendButton, { backgroundColor: theme.primary }]}
-              onPress={handleSend}
-              disabled={loading}
-            >
-              {loading ? (
-                <ActivityIndicator color={theme.text} />
-              ) : (
-                <Text style={[styles.sendButtonText, { color: theme.text }]}>
-                  →
-                </Text>
-              )}
+            <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
+              <Text style={styles.sendButtonText}>{t("Envoyer")}</Text>
             </TouchableOpacity>
           </View>
-        </SafeAreaView>
+        </View>
       </Modal>
-    </View>
+    </>
   );
 }
 
@@ -252,12 +169,14 @@ const styles = StyleSheet.create({
     padding: hp("1.5%"),
     borderRadius: moderateScale(20),
     marginBottom: hp("1.5%"),
+    backgroundColor: "#DCF8C6",
   },
   botMessage: {
     alignSelf: "flex-start",
     padding: hp("1.5%"),
     borderRadius: moderateScale(20),
     marginBottom: hp("1.5%"),
+    backgroundColor: "#EEE",
   },
   messageText: {
     fontSize: moderateScale(16),
@@ -266,13 +185,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: hp("1.5%"),
     borderTopWidth: 1,
+    borderTopColor: "#DDD",
   },
   input: {
     flex: 1,
     borderWidth: 1,
+    borderColor: "#CCC",
     borderRadius: moderateScale(20),
     padding: hp("1.5%"),
     fontSize: moderateScale(16),
+    backgroundColor: "#F5F5F5",
   },
   sendButton: {
     borderRadius: moderateScale(20),
@@ -280,17 +202,18 @@ const styles = StyleSheet.create({
     marginLeft: wp("2%"),
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#4C9EEB",
   },
   sendButtonText: {
     fontSize: moderateScale(20),
+    color: "#FFF",
+    fontWeight: "bold",
   },
   floatingButton: {
-    position: "absolute",
-    right: wp("5%"),
-    bottom: hp("3%"),
-    width: moderateScale(60),
-    height: moderateScale(60),
+    width: moderateScale(50),
+    height: moderateScale(50),
     borderRadius: moderateScale(30),
+    backgroundColor: "#4C9EEB",
     justifyContent: "center",
     alignItems: "center",
     shadowColor: "#000",

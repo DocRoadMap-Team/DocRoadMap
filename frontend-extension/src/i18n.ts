@@ -19,11 +19,11 @@ const chromeStorageDetector: LanguageDetector = {
   init: () => {},
   detect: (callback: (lng: string) => void) => {
     if (!chrome?.storage?.local) {
-      callback("en");
+      callback("fr");
       return;
     }
     chrome.storage.local.get(["lang"], (result: { lang?: string }) => {
-      callback(result.lang || "en");
+      callback(result.lang || "fr");
     });
   },
   cacheUserLanguage: (lng: string) => {
@@ -44,7 +44,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: "en",
+    fallbackLng: "fr",
     interpolation: {
       escapeValue: false,
     },
