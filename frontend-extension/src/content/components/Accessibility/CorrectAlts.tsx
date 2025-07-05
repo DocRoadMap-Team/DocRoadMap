@@ -1,11 +1,13 @@
-import React, { useState } from "react"; //{ useState }
 import axios from "axios";
+import React, { useState } from "react"; //{ useState }
 import getToken from "../../utils/utils";
 import AccessibilityButton from "./AccessibilityButton"; // Assuming you have a button component for accessibility actions
 
-const env = import.meta.env.VITE_ENV_MODE;
-const backendUrl =
-  env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
+const backendUrl = "https://www.docroadmap.fr";
+
+// const env = import.meta.env.VITE_ENV_MODE;
+// const backendUrl =
+//   env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
 
 const CorrectAlts: React.FC = () => {
   const [error, setError] = useState<string | null>(null);

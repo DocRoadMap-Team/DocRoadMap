@@ -4,6 +4,10 @@ import getToken from "../../utils/utils";
 
 const backendUrl = "https://www.docroadmap.fr";
 
+// const env = import.meta.env.VITE_ENV_MODE;
+// const backendUrl =
+//   env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
+
 interface Props {
   processId: number;
   onClose: () => void;

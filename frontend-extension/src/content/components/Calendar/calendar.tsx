@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useTranslation } from "react-i18next";
-import getToken from "../../utils/utils";
-import Header from "../../utils/Header";
 import { FaCalendar } from "react-icons/fa";
+import Header from "../../utils/Header";
+import getToken from "../../utils/utils";
 
-const env = import.meta.env.VITE_ENV_MODE;
-const backendUrl =
-  env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
+const backendUrl = "https://www.docroadmap.fr";
+
+// const env = import.meta.env.VITE_ENV_MODE;
+// const backendUrl =
+//   env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
 
 interface Step {
   id: number;

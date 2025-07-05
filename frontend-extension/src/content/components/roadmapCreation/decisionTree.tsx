@@ -10,6 +10,10 @@ import OptionsColumn from "./DecisionTreeComponents/OptionsColumn";
 
 const backendUrl = "https://www.docroadmap.fr";
 
+// const env = import.meta.env.VITE_ENV_MODE;
+// const backendUrl =
+//   env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
+
 type DecisionTreeData = {
   [key: string]: any;
 };
