@@ -106,7 +106,7 @@ const DocRoadmapBar: React.FC = () => {
       return () => clearTimeout(timeout);
     }
   }, [activePanel, isPanelMounted]);
-
+  // don't render if token is not available
   if (!token) return null;
 
   const handleButtonClick = (label: string) => {
