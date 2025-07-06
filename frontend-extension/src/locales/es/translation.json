@@ -64,7 +64,7 @@
   "registration_error": "Ocurrió un error durante el registro.",
   "Account_created": "Cuenta creada",
   "empty_fields": "Por favor, completa todos los campos.",
-  "Not-authorized-for-DocRoadMap": "Este sitio no está autorizado para la extensión DocRoadMap.",
+  "Not-authorized-for-DocRoadMap": "Este sitio no está autorizado para la extensión DocRoadMap. Por favor, visita una plataforma como impots.gouv.fr o ameli.fr para comenzar a usar DocRoadMap.",
   "update_roadmap": "Actualizar trámite",
   "invalid_email": "Dirección de correo electrónico inválida",
 

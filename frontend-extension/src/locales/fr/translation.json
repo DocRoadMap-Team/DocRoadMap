@@ -64,7 +64,7 @@
   "registration_error": "Une erreur est survenue lors de l'inscription.",
   "Account_created": "Compte créé avec succès",
   "empty_fields": "Veuillez remplir tous les champs",
-  "Not-authorized-for-DocRoadMap": "Ce site n'est pas autorisé pour l'extension DocRoadMap.",
+  "Not-authorized-for-DocRoadMap": "Ce site n'est pas autorisé pour l'extension DocRoadMap. Veuillez vous rendre sur une plateforme comme impots.gouv.fr ou ameli.fr pour commencer à utiliser DocRoadMap.",
   "update_roadmap": "Mettre à jour la roadmap",
   "invalid_email": "Adresse email invalide",
 
