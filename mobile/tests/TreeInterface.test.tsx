@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import DecisionTreeInterface from "@/components/chat/DecisionTreeInterface";
+import DecisionTreeInterface from "@/app/DecisionTreeInterface";
 
 jest.mock("@/app/(tabs)/decisionTree", () => {
   return function MockDecisionTree() {

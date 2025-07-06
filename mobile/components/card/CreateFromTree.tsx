@@ -38,7 +38,19 @@ const getId = async (): Promise<number | null> => {
   return id ? parseInt(id, 10) : null;
 };
 const decisionTree = rawTree as unknown as DecisionTree;
-const [stepsId, setStepsId] = useState<number | null>(null);
+
+let StepsId: number | null = null;
+
+export const useStepsId = () => {
+  const [stepsId, setStepsId] = useState<number | null>(StepsId);
+
+  const updateStepsId = (id: number | null) => {
+    StepsId = id;
+    setStepsId(id);
+  };
+
+  return { stepsId, setStepsId: updateStepsId };
+};
 
 export const CreateFromTree = async ({
   name,
@@ -60,9 +72,9 @@ export const CreateFromTree = async ({
 
   const processData = {
     name,
-    description: `Créée automatiquement depuis ${answerKey}`,
+    description: `Créée automatiquement par Donna pour une démarche de type ${name}`,
     userId,
-    stepsId: stepsId!,
+    stepsId: StepsId!,
     endedAt: "",
     status: "PENDING",
   };

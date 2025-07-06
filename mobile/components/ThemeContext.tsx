@@ -4,13 +4,13 @@ export const themes = {
   light: {
     background: "#ffffff",
     text: "#000000",
-    primary: "#3498db",
+    primary: "#204CCF",
     buttonText: "#ffffff",
   },
   dark: {
     background: "#121212",
     text: "#ffffff",
-    primary: "#3498db",
+    primary: "#204CCF",
     buttonText: "#ffffff",
   },
 };

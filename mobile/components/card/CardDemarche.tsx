@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { LinearGradient } from "expo-linear-gradient";
 import request from "@/constants/Request";
 import { useTheme } from "@/components/ThemeContext";
 import { useTranslation } from "react-i18next";
@@ -74,6 +75,9 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
     setSelectedStep(selectedStep?.id === step.id ? null : step);
   };
 
+  const handleModifyRoadmap = async () => {
+    router.push("/editRoadmap");
+  };
   const handleCalendarNavigation = useCallback(
     (step: Step) => {
       setModalVisible(false);
@@ -90,124 +94,170 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
   );
 
   const StepItem = ({ item, index }: { item: Step; index: number }) => {
-    const circleStyle = item.completed
-      ? styles.completedCircle
-      : styles.incompleteCircle;
+    const isSelected = selectedStep?.id === item.id;
 
     return (
       <View style={styles.stepWrapper}>
         <View style={styles.circleColumn}>
-          <TouchableOpacity onPress={() => handleStepClick(item)}>
+          <TouchableOpacity
+            onPress={() => handleStepClick(item)}
+            style={styles.circleContainer}
+            activeOpacity={0.7}
+          >
             <View
               style={[
                 styles.circle,
-                circleStyle,
-                { borderColor: theme.text, shadowColor: theme.text },
+                item.completed
+                  ? styles.completedCircle
+                  : styles.incompleteCircle,
               ]}
             >
-              <Text style={styles.circleText}>{index + 1}</Text>
+              {item.completed ? (
+                <Icon name="check" size={18} color="#FFFFFF" />
+              ) : (
+                <Text style={styles.circleText}>{index + 1}</Text>
+              )}
             </View>
           </TouchableOpacity>
           {index < steps.length - 1 && (
             <View
               style={[
                 styles.connectorLine,
-                {
-                  backgroundColor: item.completed ? theme.primary : "#D3D3D3",
-                },
+                item.completed ? styles.completedLine : styles.incompleteLine,
               ]}
             />
           )}
         </View>
 
         <View style={styles.stepContent}>
-          <View style={styles.stepHeader}>
-            <TouchableOpacity
-              onPress={() => handleStepClick(item)}
-              style={styles.stepNameContainer}
-            >
-              <Text style={[styles.stepName, { color: theme.text }]}>
-                {item.name}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.calendarButton,
-                { backgroundColor: theme.primary },
-              ]}
-              onPress={() => handleCalendarNavigation(item)}
-            >
-              <Icon name="calendar-plus" size={16} color="white" />
-            </TouchableOpacity>
-          </View>
-          {selectedStep?.id === item.id && (
-            <Text style={[styles.stepDescription, { color: theme.text }]}>
-              {item.description}
-            </Text>
-          )}
+          <TouchableOpacity
+            onPress={() => handleStepClick(item)}
+            style={[
+              styles.stepCard,
+              isSelected && styles.stepCardSelected,
+              { backgroundColor: theme.background },
+            ]}
+            activeOpacity={0.8}
+          >
+            <View style={styles.stepHeader}>
+              <View style={styles.stepInfo}>
+                <Text style={[styles.stepName, { color: theme.text }]}>
+                  {item.name}
+                </Text>
+                {item.completed && (
+                  <View style={styles.completedBadge}>
+                    <Icon name="check-circle" size={14} color="#10B981" />
+                    <Text style={styles.completedText}>Terminé</Text>
+                  </View>
+                )}
+              </View>
+              <LinearGradient
+                colors={["#204CCF", "#6006A4"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.calendarButton}
+              >
+                <TouchableOpacity
+                  style={styles.calendarButtonInner}
+                  onPress={() => handleCalendarNavigation(item)}
+                  activeOpacity={0.8}
+                >
+                  <Icon name="calendar-plus" size={16} color="#FFFFFF" />
+                </TouchableOpacity>
+              </LinearGradient>
+            </View>
+
+            {isSelected && (
+              <View style={styles.stepDescriptionContainer}>
+                <Text style={[styles.stepDescription, { color: theme.text }]}>
+                  {item.description}
+                </Text>
+              </View>
+            )}
+          </TouchableOpacity>
         </View>
       </View>
     );
   };
 
   return (
-    <View
-      style={[
-        styles.card,
-        { backgroundColor: theme.background, borderColor: theme.text },
-      ]}
-    >
-      <View
-        style={[
-          styles.cardHeader,
-          { backgroundColor: theme.primary, borderColor: theme.text },
-        ]}
-      >
-        <Icon name="credit-card" size={24} color="white" />
-        <Text
-          style={[styles.headerTitle, { color: "white", maxWidth: wp("50%") }]}
+    <View style={styles.cardContainer}>
+      <View style={styles.card}>
+        <LinearGradient
+          colors={["#204CCF", "#6006A4"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={styles.cardHeader}
         >
-          {name}
-        </Text>
-        {id && (
-          <Text style={[styles.headerTitle, { color: "white" }]}> ({id})</Text>
-        )}
-      </View>
-      <View style={styles.cardContent}>
-        <ScrollView
-          style={styles.scrollContainer}
-          contentContainerStyle={styles.scrollContent}
-        >
-          <Text
-            style={[
-              styles.contentTitle,
-              { color: theme.text, maxWidth: wp("50%") },
-            ]}
+          <View style={styles.headerContent}>
+            <View style={styles.headerLeft}>
+              <View style={styles.iconContainer}>
+                <Icon name="file-document-outline" size={24} color="#FFFFFF" />
+              </View>
+              <View style={styles.headerTexts}>
+                <Text style={styles.headerTitle} numberOfLines={2}>
+                  {name}
+                </Text>
+                <Text style={styles.headerSubtitle}>Dossier #{id}</Text>
+              </View>
+            </View>
+            <View style={styles.progressIndicator}>
+              <Text style={styles.progressPercentage}>{progress}%</Text>
+            </View>
+          </View>
+        </LinearGradient>
+
+        <View style={[styles.cardBody, { backgroundColor: theme.background }]}>
+          <ScrollView
+            style={styles.descriptionContainer}
+            showsVerticalScrollIndicator={false}
           >
-            {description}
-          </Text>
-        </ScrollView>
-        <View style={styles.progressBarContainer}>
-          <View
-            style={[
-              styles.progressBar,
-              { width: `${progress}%`, backgroundColor: theme.primary },
-            ]}
-          />
+            <Text style={[styles.description, { color: theme.text }]}>
+              {description}
+            </Text>
+          </ScrollView>
+
+          <View style={styles.progressSection}>
+            <View style={styles.progressBarBackground}>
+              <LinearGradient
+                colors={["#204CCF", "#6006A4"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={[styles.progressBarFill, { width: `${progress}%` }]}
+              />
+            </View>
+            <View style={styles.progressLabels}>
+              <Text style={[styles.progressLabel, { color: theme.text }]}>
+                Progression
+              </Text>
+              <Text style={[styles.progressValue, { color: theme.text }]}>
+                {progress}% {t("completed")}
+              </Text>
+            </View>
+          </View>
         </View>
-        <Text style={[styles.progressText, { color: theme.text }]}>
-          {`${progress}% ${t("completed")}`}
-        </Text>
-      </View>
-      <View style={styles.cardFooter}>
-        <TouchableOpacity
-          style={[styles.continueButton, { backgroundColor: theme.primary }]}
-          onPress={() => setModalVisible(true)}
+
+        <View
+          style={[styles.cardFooter, { backgroundColor: theme.background }]}
         >
-          <Text style={styles.continueButtonText}>
-            {progress < 100 ? t("continue") : t("complete")}
-          </Text>
-        </TouchableOpacity>
+          <LinearGradient
+            colors={["#204CCF", "#6006A4"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.continueButton}
+          >
+            <TouchableOpacity
+              style={styles.continueButtonInner}
+              onPress={() => setModalVisible(true)}
+              activeOpacity={0.9}
+            >
+              <Text style={styles.continueButtonText}>
+                {progress < 100 ? t("continue") : t("complete")}
+              </Text>
+              <Icon name="arrow-right" size={18} color="#FFFFFF" />
+            </TouchableOpacity>
+          </LinearGradient>
+        </View>
       </View>
 
       <Modal
@@ -216,49 +266,76 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <View style={styles.modalContainer}>
+        <View style={styles.modalOverlay}>
           <View
             style={[styles.modalContent, { backgroundColor: theme.background }]}
           >
             <View style={styles.modalHeader}>
-              <Text style={[styles.modalTitle, { color: theme.text }]}>
-                {t("details")}
-              </Text>
+              <View style={styles.modalTitleContainer}>
+                <Text style={[styles.modalTitle, { color: theme.text }]}>
+                  {t("details")}
+                </Text>
+                <Text style={[styles.modalSubtitle, { color: theme.text }]}>
+                  {name}
+                </Text>
+              </View>
               <TouchableOpacity
-                style={styles.modalCloseIcon}
+                style={styles.modalCloseButton}
                 onPress={() => setModalVisible(false)}
+                activeOpacity={0.7}
               >
                 <Icon name="close" size={24} color={theme.text} />
               </TouchableOpacity>
             </View>
 
-            <View style={styles.timelineContainer}>
-              <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.modalBody}>
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.timelineContainer}
+              >
                 {isLoading ? (
                   <View style={styles.loadingContainer}>
+                    <LinearGradient
+                      colors={["#204CCF", "#6006A4"]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
+                      style={styles.loadingSpinner}
+                    >
+                      <Icon name="loading" size={32} color="#FFFFFF" />
+                    </LinearGradient>
                     <Text style={[styles.loadingText, { color: theme.text }]}>
                       {t("loading", "Chargement...")}
                     </Text>
                   </View>
                 ) : error ? (
                   <View style={styles.errorContainer}>
-                    <Text style={[styles.errorText, { color: "red" }]}>
-                      {error}
-                    </Text>
-                    <TouchableOpacity
-                      style={[
-                        styles.retryButton,
-                        { backgroundColor: theme.primary },
-                      ]}
-                      onPress={fetchSteps}
+                    <View style={styles.errorIcon}>
+                      <Icon name="alert-circle" size={48} color="#EF4444" />
+                    </View>
+                    <Text style={styles.errorText}>{error}</Text>
+                    <LinearGradient
+                      colors={["#204CCF", "#6006A4"]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
+                      style={styles.retryButton}
                     >
-                      <Text style={styles.retryButtonText}>
-                        {t("retry", "Réessayer")}
-                      </Text>
-                    </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.retryButtonInner}
+                        onPress={fetchSteps}
+                        activeOpacity={0.8}
+                      >
+                        <Icon name="refresh" size={16} color="#FFFFFF" />
+                        <Text style={styles.retryButtonText}>
+                          {t("retry", "Réessayer")}
+                        </Text>
+                      </TouchableOpacity>
+                    </LinearGradient>
                   </View>
                 ) : steps.length === 0 ? (
                   <View style={styles.emptyContainer}>
+                    <View style={styles.emptyIcon}>
+                      <Icon name="file-outline" size={48} color="#9CA3AF" />
+                    </View>
                     <Text style={[styles.emptyText, { color: theme.text }]}>
                       {t("noStepsAvailable", "Aucune étape disponible")}
                     </Text>
@@ -271,12 +348,27 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
               </ScrollView>
             </View>
 
-            <TouchableOpacity
-              style={[styles.closeButton, { backgroundColor: theme.primary }]}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={styles.closeButtonText}>{t("close")}</Text>
-            </TouchableOpacity>
+            <View style={styles.modalFooter}>
+              <LinearGradient
+                colors={["#204CCF", "#6006A4"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.closeButton}
+              >
+                <TouchableOpacity
+                  style={styles.closeButtonInner}
+                  onPress={() => {
+                    setModalVisible(false);
+                    router.replace("/(tabs)/editRoadmap");
+                  }}
+                  activeOpacity={0.9}
+                >
+                  <Text style={styles.closeButtonText}>
+                    {t("Modifier la démarche")}
+                  </Text>
+                </TouchableOpacity>
+              </LinearGradient>
+            </View>
           </View>
         </View>
       </Modal>
@@ -287,222 +379,413 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
 export default CardDemarche;
 
 const styles = StyleSheet.create({
+  cardContainer: {
+    margin: hp("1%"),
+  },
   card: {
     borderRadius: moderateScale(20),
-    borderWidth: 1,
-    shadowOpacity: 0.1,
-    shadowRadius: moderateScale(4),
-    elevation: 30,
-    margin: hp("0.75%"),
-    flex: 1,
+    backgroundColor: "#FFFFFF",
+    shadowColor: "#204CCF",
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 16,
+    elevation: 12,
+    overflow: "hidden",
+    width: wp("45%"),
+    height: hp("50%"),
   },
   cardHeader: {
+    paddingHorizontal: wp("5%"),
+    paddingVertical: hp("3%"),
+  },
+  headerContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  headerLeft: {
     flexDirection: "row",
     alignItems: "center",
-    padding: hp("2%"),
-    borderTopLeftRadius: moderateScale(8),
-    borderTopRightRadius: moderateScale(8),
+    flex: 1,
+  },
+  iconContainer: {
+    width: moderateScale(48),
+    height: moderateScale(48),
+    borderRadius: moderateScale(24),
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: wp("3%"),
+  },
+  headerTexts: {
+    flex: 1,
   },
   headerTitle: {
     fontSize: moderateScale(18),
-    fontWeight: "bold",
-    marginLeft: wp("2%"),
+    fontWeight: "700",
+    color: "#FFFFFF",
+    marginBottom: hp("0.5%"),
   },
-  cardContent: {
-    padding: hp("2%"),
-    height: hp("15%"),
+  headerSubtitle: {
+    fontSize: moderateScale(13),
+    color: "rgba(255, 255, 255, 0.8)",
+    fontWeight: "500",
+  },
+  progressIndicator: {
+    width: moderateScale(56),
+    height: moderateScale(56),
+    borderRadius: moderateScale(28),
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "rgba(255, 255, 255, 0.3)",
+  },
+  progressPercentage: {
+    fontSize: moderateScale(16),
+    fontWeight: "800",
+    color: "#FFFFFF",
+  },
+  cardBody: {
+    paddingHorizontal: wp("5%"),
+    paddingVertical: hp("3%"),
+  },
+  descriptionContainer: {
+    maxHeight: hp("8%"),
+    marginBottom: hp("2%"),
+  },
+  description: {
+    fontSize: moderateScale(15),
+    lineHeight: moderateScale(22),
+    fontWeight: "400",
+  },
+  progressSection: {
+    marginTop: hp("1%"),
+  },
+  progressBarBackground: {
+    height: moderateScale(8),
+    backgroundColor: "#E5E7EB",
+    borderRadius: moderateScale(4),
     overflow: "hidden",
-    flex: 1,
   },
-  contentTitle: {
-    fontSize: moderateScale(18),
-    fontWeight: "bold",
-    marginBottom: hp("1%"),
-  },
-  progressBarContainer: {
-    height: hp("1%"),
-    backgroundColor: "#E0E0E0",
-    borderRadius: moderateScale(4),
-    marginBottom: hp("1%"),
-  },
-  progressBar: {
-    height: hp("1%"),
+  progressBarFill: {
+    height: "100%",
     borderRadius: moderateScale(4),
   },
-  progressText: {
-    fontSize: moderateScale(14),
+  progressLabels: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: hp("1%"),
+  },
+  progressLabel: {
+    fontSize: moderateScale(12),
+    fontWeight: "600",
+    opacity: 0.7,
+  },
+  progressValue: {
+    fontSize: moderateScale(12),
+    fontWeight: "600",
   },
   cardFooter: {
-    padding: hp("2%"),
+    paddingHorizontal: wp("5%"),
+    paddingBottom: hp("5%"),
   },
   continueButton: {
-    padding: hp("1.5%"),
-    borderRadius: moderateScale(4),
+    borderRadius: moderateScale(12),
+    shadowColor: "#204CCF",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+  continueButtonInner: {
+    paddingVertical: hp("2%"),
+    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
   },
   continueButtonText: {
-    color: "white",
-    fontWeight: "bold",
+    color: "#FFFFFF",
+    fontSize: moderateScale(16),
+    fontWeight: "700",
+    marginRight: wp("2%"),
   },
-  modalContainer: {
+  modalOverlay: {
     flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     justifyContent: "flex-end",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    borderRadius: moderateScale(12),
-    padding: hp("2.5%"),
-    width: wp("100%"),
+    borderTopLeftRadius: moderateScale(24),
+    borderTopRightRadius: moderateScale(24),
     height: hp("90%"),
     shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: -4,
+    },
     shadowOpacity: 0.2,
-    shadowRadius: moderateScale(4),
-    elevation: 10,
+    shadowRadius: 16,
+    elevation: 20,
   },
   modalHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: hp("2%"),
+    paddingHorizontal: wp("5%"),
+    paddingVertical: hp("3%"),
+    borderBottomWidth: 1,
+    borderBottomColor: "#E5E7EB",
+  },
+  modalTitleContainer: {
+    flex: 1,
   },
   modalTitle: {
-    fontSize: moderateScale(20),
-    fontWeight: "bold",
+    fontSize: moderateScale(22),
+    fontWeight: "700",
+    marginBottom: hp("0.5%"),
   },
-  modalCloseIcon: {
-    padding: moderateScale(4),
+  modalSubtitle: {
+    fontSize: moderateScale(14),
+    opacity: 0.7,
+    fontWeight: "500",
+  },
+  modalCloseButton: {
+    width: moderateScale(44),
+    height: moderateScale(44),
+    borderRadius: moderateScale(22),
+    backgroundColor: "#F3F4F6",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalBody: {
+    flex: 1,
   },
   timelineContainer: {
-    flex: 1,
-    flexDirection: "column",
-    paddingBottom: hp("2%"),
+    paddingHorizontal: wp("5%"),
+    paddingVertical: hp("2%"),
   },
   stepWrapper: {
     flexDirection: "row",
-    alignItems: "flex-start",
     marginBottom: hp("2%"),
   },
   circleColumn: {
     alignItems: "center",
     marginRight: wp("4%"),
   },
+  circleContainer: {
+    marginBottom: hp("1%"),
+  },
+  circle: {
+    width: moderateScale(36),
+    height: moderateScale(36),
+    borderRadius: moderateScale(18),
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  completedCircle: {
+    backgroundColor: "#10B981",
+  },
+  incompleteCircle: {
+    backgroundColor: "#9CA3AF",
+  },
+  circleText: {
+    color: "#FFFFFF",
+    fontSize: moderateScale(16),
+    fontWeight: "700",
+  },
+  connectorLine: {
+    width: moderateScale(3),
+    height: hp("4%"),
+    borderRadius: moderateScale(1.5),
+  },
+  completedLine: {
+    backgroundColor: "#10B981",
+  },
+  incompleteLine: {
+    backgroundColor: "#E5E7EB",
+  },
   stepContent: {
     flex: 1,
+  },
+  stepCard: {
+    borderRadius: moderateScale(12),
+    padding: wp("4%"),
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  stepCardSelected: {
+    borderColor: "#204CCF",
+    borderWidth: 2,
+    shadowColor: "#204CCF",
+    shadowOpacity: 0.1,
   },
   stepHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    marginBottom: hp("0.5%"),
   },
-  stepNameContainer: {
+  stepInfo: {
     flex: 1,
-    paddingRight: wp("2%"),
+    marginRight: wp("3%"),
   },
   stepName: {
     fontSize: moderateScale(16),
-    fontWeight: "bold",
+    fontWeight: "600",
     lineHeight: moderateScale(22),
+    marginBottom: hp("0.5%"),
+  },
+  completedBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#ECFDF5",
+    paddingHorizontal: wp("2%"),
+    paddingVertical: hp("0.3%"),
+    borderRadius: moderateScale(6),
+    alignSelf: "flex-start",
+  },
+  completedText: {
+    fontSize: moderateScale(12),
+    color: "#10B981",
+    fontWeight: "600",
+    marginLeft: wp("1%"),
+  },
+  calendarButton: {
+    borderRadius: moderateScale(8),
+    shadowColor: "#204CCF",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  calendarButtonInner: {
+    paddingHorizontal: wp("3%"),
+    paddingVertical: hp("1%"),
+  },
+  stepDescriptionContainer: {
+    marginTop: hp("1.5%"),
+    paddingTop: hp("1.5%"),
+    borderTopWidth: 1,
+    borderTopColor: "#E5E7EB",
   },
   stepDescription: {
     fontSize: moderateScale(14),
-    marginTop: hp("0.5%"),
     lineHeight: moderateScale(20),
+    opacity: 0.8,
   },
-  calendarButton: {
-    paddingHorizontal: wp("2.5%"),
-    paddingVertical: hp("0.8%"),
-    borderRadius: moderateScale(6),
-    alignItems: "center",
-    justifyContent: "center",
-    minWidth: wp("10%"),
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
-  },
-  circle: {
-    width: moderateScale(30),
-    height: moderateScale(30),
-    borderRadius: moderateScale(15),
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: hp("0.5%"),
-  },
-  completedCircle: {
-    backgroundColor: "#4CAF50",
-  },
-  incompleteCircle: {
-    backgroundColor: "#D3D3D3",
-  },
-  circleText: {
-    color: "white",
-    fontSize: moderateScale(16),
-    fontWeight: "bold",
-  },
-  connectorLine: {
-    width: wp("0.8%"),
-    height: hp("5%"),
+  modalFooter: {
+    paddingHorizontal: wp("5%"),
+    paddingVertical: hp("3%"),
+    borderTopWidth: 1,
+    borderTopColor: "#E5E7EB",
   },
   closeButton: {
-    padding: hp("1.2%"),
-    borderRadius: moderateScale(4),
+    borderRadius: moderateScale(12),
+    shadowColor: "#204CCF",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
+    marginBottom: hp("5%"),
+  },
+  closeButtonInner: {
+    paddingVertical: hp("2%"),
     alignItems: "center",
-    marginTop: hp("2%"),
   },
   closeButtonText: {
-    color: "white",
-    fontWeight: "bold",
-  },
-  scrollContainer: {
-    flex: 1,
-  },
-  scrollContent: {
-    justifyContent: "space-evenly",
-    padding: hp("2%"),
+    color: "#FFFFFF",
+    fontSize: moderateScale(16),
+    fontWeight: "700",
   },
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: hp("5%"),
+    paddingVertical: hp("10%"),
+  },
+  loadingSpinner: {
+    marginBottom: hp("2%"),
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
   loadingText: {
     fontSize: moderateScale(16),
+    fontWeight: "500",
   },
   errorContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: hp("5%"),
+    paddingVertical: hp("10%"),
+  },
+  errorIcon: {
+    marginBottom: hp("2%"),
   },
   errorText: {
     fontSize: moderateScale(16),
+    color: "#EF4444",
     textAlign: "center",
-    marginBottom: hp("2%"),
+    marginBottom: hp("3%"),
+    lineHeight: moderateScale(22),
   },
   retryButton: {
-    paddingHorizontal: wp("5%"),
-    paddingVertical: hp("1%"),
-    borderRadius: moderateScale(6),
+    borderRadius: moderateScale(8),
+  },
+  retryButtonInner: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: wp("6%"),
+    paddingVertical: hp("1.5%"),
   },
   retryButtonText: {
-    color: "white",
-    fontWeight: "bold",
+    color: "#FFFFFF",
+    fontWeight: "600",
+    marginLeft: wp("2%"),
   },
   emptyContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: hp("5%"),
+    paddingVertical: hp("10%"),
+  },
+  emptyIcon: {
+    marginBottom: hp("2%"),
   },
   emptyText: {
     fontSize: moderateScale(16),
     textAlign: "center",
+    fontWeight: "500",
+    opacity: 0.7,
   },
 });

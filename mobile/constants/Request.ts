@@ -11,6 +11,7 @@ import {
   SwaggerAIquery,
   SwaggerAIconversation,
   SwaggerAIHistory,
+  SwaggerEditRoadmap,
 } from "./Swagger";
 import axios, { AxiosError } from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -476,6 +477,39 @@ const request = {
       console.error("Erreur lors de la récupération de l'historique :", error);
       return {
         error: "Impossible de retrouver l'historique",
+      };
+    }
+  },
+  editRoadMap: async (
+    prompt: string,
+    process_id: number,
+  ): Promise<SwaggerRequest<SwaggerEditRoadmap>> => {
+    try {
+      const accessToken = await getAccessToken();
+
+      const headers = {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      };
+
+      const response = await axios.post(
+        `${url}/ai/roadmap-query`,
+        {
+          prompt: prompt,
+          process_id: process_id,
+        },
+        { headers },
+      );
+
+      return {
+        data: response.data,
+        error: null,
+      };
+    } catch (error) {
+      console.error("Erreur lors de la requête roadmap-query :", error);
+      return {
+        error: "Impossible de modifier la roadmap. Veuillez réessayer.",
       };
     }
   },
