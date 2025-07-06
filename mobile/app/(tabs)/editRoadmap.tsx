@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,9 @@ import {
   StyleSheet,
   ScrollView,
   ActivityIndicator,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { useTheme } from "@/components/ThemeContext";
 import { useTranslation } from "react-i18next";
@@ -15,6 +18,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
 import request from "@/constants/Request";
 import { router } from "expo-router";
 
@@ -26,16 +31,23 @@ type Message = {
 export default function EditRoadmap() {
   const { t } = useTranslation();
   const { theme } = useTheme();
+  const scrollRef = useRef<ScrollView>(null);
 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([
     {
-      text: "Bonjour ! Quelle roadmap veux-tu éditer, suprrimer ou changer selon ton cas personnel ? Commence par donner juste le chiffre entre parenthèses à côté du titre de ta démarche avant de pouvoir converser normalement avec moi pour éditer ta démarche !",
+      text: "Bonjour ! Quelle roadmap veux-tu éditer, supprimer ou changer selon ton cas personnel ? Commence par donner juste le chiffre entre parenthèses à côté du titre de ta démarche avant de pouvoir converser normalement avec moi pour éditer ta démarche !",
       sender: "bot",
     },
   ]);
   const [loading, setLoading] = useState(false);
   const [processId, setProcessId] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      scrollRef.current?.scrollToEnd({ animated: true });
+    }
+  }, [messages, loading]);
 
   const handleSend = async () => {
     if (!message.trim()) return;
@@ -128,113 +140,381 @@ export default function EditRoadmap() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Modifier la roadmap</Text>
-        <TouchableOpacity
-          accessibilityRole="button"
-          accessibilityLabel="Fermer"
-          onPress={() => {
-            router.replace("/home");
-          }}
+      <SafeAreaView style={styles.safeArea}>
+        <LinearGradient
+          colors={["#204CCF", "#6006A4"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={styles.headerGradient}
         >
-          <Text style={styles.closeIcon}>✖</Text>
-        </TouchableOpacity>
-      </View>
-
-      <ScrollView style={styles.chatContainer}>
-        {messages.map((msg, index) => (
-          <View
-            key={index}
-            style={
-              msg.sender === "user" ? styles.userMessage : styles.botMessage
-            }
-          >
-            <Text style={styles.messageText}>{msg.text}</Text>
+          <View style={styles.header}>
+            <View style={styles.headerContent}>
+              <View style={styles.headerLeft}>
+                <View style={styles.iconHeader}>
+                  <Ionicons name="map-outline" size={24} color="white" />
+                </View>
+                <View>
+                  <Text style={styles.headerTitle}>Modifier la roadmap</Text>
+                  <Text style={styles.headerSubtitle}>
+                    {processId ? `ID: ${processId}` : "Éditeur de roadmap"}
+                  </Text>
+                </View>
+              </View>
+              <TouchableOpacity
+                onPress={() => router.replace("/home")}
+                style={styles.closeButton}
+                activeOpacity={0.8}
+                accessibilityRole="button"
+                accessibilityLabel="Fermer"
+              >
+                <Ionicons name="close" size={24} color="white" />
+              </TouchableOpacity>
+            </View>
           </View>
-        ))}
-        {loading && <ActivityIndicator size="small" color="#999" />}
-      </ScrollView>
+        </LinearGradient>
+        -
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.keyboardAvoidingView}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+        >
+          <ScrollView
+            ref={scrollRef}
+            style={styles.chatContainer}
+            contentContainerStyle={styles.chatContent}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+          >
+            {messages.map((msg, index) => (
+              <View
+                key={index}
+                style={
+                  msg.sender === "user"
+                    ? styles.userMessageContainer
+                    : styles.botMessageContainer
+                }
+              >
+                {msg.sender === "bot" && (
+                  <View style={styles.botAvatar}>
+                    <Text style={styles.botAvatarText}>🤖</Text>
+                  </View>
+                )}
 
-      <View style={styles.inputContainer}>
-        <TextInput
-          value={message}
-          onChangeText={setMessage}
-          placeholder={t("Écris ton message")}
-          style={styles.input}
-          multiline
-        />
-        <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
-          <Text style={styles.sendButtonText}>{t("Envoyer")}</Text>
-        </TouchableOpacity>
-      </View>
+                <View
+                  style={
+                    msg.sender === "user"
+                      ? styles.userMessage
+                      : styles.botMessage
+                  }
+                >
+                  <Text
+                    style={
+                      msg.sender === "user"
+                        ? styles.userMessageText
+                        : styles.botMessageText
+                    }
+                  >
+                    {msg.text}
+                  </Text>
+                </View>
+
+                {msg.sender === "user" && (
+                  <View style={styles.userAvatar}>
+                    <Text style={styles.userAvatarText}>👤</Text>
+                  </View>
+                )}
+              </View>
+            ))}
+
+            {loading && (
+              <View style={styles.loadingContainer}>
+                <View style={styles.loadingBubble}>
+                  <ActivityIndicator size="small" color="#4ECDC4" />
+                  <Text style={styles.loadingText}>
+                    Modification en cours...
+                  </Text>
+                </View>
+              </View>
+            )}
+          </ScrollView>
+
+          <View style={styles.inputContainer}>
+            <View style={styles.inputWrapper}>
+              <TextInput
+                value={message}
+                onChangeText={setMessage}
+                placeholder={
+                  processId
+                    ? "Décris la modification souhaitée..."
+                    : "Entre l'ID de la roadmap (ex: 123)..."
+                }
+                placeholderTextColor="#A0AEC0"
+                style={styles.input}
+                multiline
+                maxLength={500}
+              />
+              <TouchableOpacity
+                onPress={handleSend}
+                style={styles.sendButton}
+                activeOpacity={0.8}
+                disabled={!message.trim() || loading}
+              >
+                <LinearGradient
+                  colors={
+                    message.trim() && !loading
+                      ? ["#204CCF", "#204CCF"]
+                      : ["#E2E8F0", "#CBD5E0"]
+                  }
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={styles.sendButtonGradient}
+                >
+                  <Ionicons
+                    name={processId ? "build-outline" : "search-outline"}
+                    size={20}
+                    color={message.trim() && !loading ? "white" : "#A0AEC0"}
+                  />
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1 },
+const styles = ScaledSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+  },
+  keyboardAvoidingView: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+  },
+
+  headerGradient: {
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(255, 255, 255, 0.2)",
+  },
   header: {
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+  },
+  headerContent: {
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: hp("2%"),
-    borderBottomWidth: 1,
+    alignItems: "center",
+    paddingHorizontal: wp(4),
+    paddingVertical: hp(2),
+  },
+  headerLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  iconHeader: {
+    width: moderateScale(40),
+    height: moderateScale(40),
+    borderRadius: moderateScale(20),
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: wp(3),
   },
   headerTitle: {
     fontSize: moderateScale(18),
     fontWeight: "bold",
+    color: "white",
   },
+  headerSubtitle: {
+    fontSize: moderateScale(12),
+    color: "rgba(255, 255, 255, 0.8)",
+    marginTop: hp(0.2),
+  },
+  closeButton: {
+    width: moderateScale(40),
+    height: moderateScale(40),
+    borderRadius: moderateScale(20),
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   chatContainer: {
     flex: 1,
-    padding: hp("2%"),
+    backgroundColor: "#FFFFFF",
   },
-  userMessage: {
-    alignSelf: "flex-end",
-    padding: hp("1.5%"),
-    borderRadius: moderateScale(20),
-    marginBottom: hp("1.5%"),
-    backgroundColor: "#DCF8C6",
+  chatContent: {
+    padding: wp(4),
+    paddingBottom: hp(2),
+  },
+
+  botAvatarText: {
+    fontSize: moderateScale(18),
+  },
+  botMessageContainer: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    marginVertical: hp(1),
+    paddingRight: wp(12),
+  },
+  botAvatar: {
+    width: moderateScale(36),
+    height: moderateScale(36),
+    borderRadius: moderateScale(18),
+    backgroundColor: "#F7FAFC",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: wp(3),
+    marginBottom: hp(0.5),
+    borderWidth: 1,
+    borderColor: "#E0F2F1",
   },
   botMessage: {
-    alignSelf: "flex-start",
-    padding: hp("1.5%"),
+    backgroundColor: "#F7FAFC",
+    paddingVertical: hp(2),
+    paddingHorizontal: wp(4),
     borderRadius: moderateScale(20),
-    marginBottom: hp("1.5%"),
-    backgroundColor: "#EEE",
+    borderBottomLeftRadius: moderateScale(8),
+    flex: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 4,
+    borderWidth: 1,
+    borderColor: "#E0F2F1",
   },
-  messageText: {
+  botMessageText: {
     fontSize: moderateScale(16),
+    lineHeight: moderateScale(24),
+    color: "#2D3748",
   },
-  inputContainer: {
+
+  userMessageContainer: {
     flexDirection: "row",
-    padding: hp("1.5%"),
+    alignItems: "flex-end",
+    marginVertical: hp(1),
+    paddingLeft: wp(12),
+  },
+  userMessage: {
+    backgroundColor: "#204CCF",
+    paddingVertical: hp(2),
+    paddingHorizontal: wp(4),
+    borderRadius: moderateScale(20),
+    borderBottomRightRadius: moderateScale(8),
+    flex: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 4,
+    borderWidth: 1,
+    borderColor: "#FFCCCB",
+  },
+  userMessageText: {
+    fontSize: moderateScale(16),
+    color: "#2D3748",
+    lineHeight: moderateScale(24),
+    fontWeight: "500",
+  },
+  userAvatar: {
+    width: moderateScale(36),
+    height: moderateScale(36),
+    borderRadius: moderateScale(18),
+    backgroundColor: "#FFFFFF",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: wp(3),
+    marginBottom: hp(0.5),
+    borderWidth: 1,
+  },
+
+  userAvatarText: {
+    fontSize: moderateScale(18),
+  },
+
+  loadingContainer: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    marginVertical: hp(1),
+    paddingRight: wp(12),
+  },
+  loadingBubble: {
+    backgroundColor: "#F0F8FF",
+    paddingVertical: hp(1.5),
+    paddingHorizontal: wp(4),
+    borderRadius: moderateScale(20),
+    borderBottomLeftRadius: moderateScale(8),
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: wp(12),
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 4,
+    borderWidth: 1,
+    borderColor: "#E0F2F1",
+  },
+  loadingText: {
+    fontSize: moderateScale(14),
+    color: "#2D3748",
+    marginLeft: wp(2),
+    fontStyle: "italic",
+  },
+
+  inputContainer: {
+    backgroundColor: "#F7FAFC",
     borderTopWidth: 1,
-    borderTopColor: "#DDD",
+    borderTopColor: "#E2E8F0",
+    paddingHorizontal: wp(4),
+    paddingVertical: hp(2),
+  },
+  inputWrapper: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    backgroundColor: "#FFFFFF",
+    borderRadius: moderateScale(25),
+    paddingHorizontal: wp(4),
+    paddingVertical: hp(1),
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 4,
+    borderWidth: 1,
+    borderColor: "#E2E8F0",
   },
   input: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: "#CCC",
-    borderRadius: moderateScale(20),
-    padding: hp("1.5%"),
     fontSize: moderateScale(16),
-    backgroundColor: "#F5F5F5",
+    color: "#2D3748",
+    paddingVertical: hp(1),
+    paddingRight: wp(2),
+    maxHeight: hp(12),
+    lineHeight: moderateScale(22),
   },
   sendButton: {
+    width: moderateScale(40),
+    height: moderateScale(40),
     borderRadius: moderateScale(20),
-    padding: hp("1.5%"),
-    marginLeft: wp("2%"),
+    marginLeft: wp(2),
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  sendButtonGradient: {
+    width: "100%",
+    height: "100%",
+    borderRadius: moderateScale(20),
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#4C9EEB",
-  },
-  sendButtonText: {
-    fontSize: moderateScale(20),
-    color: "#FFF",
-    fontWeight: "bold",
-  },
-  closeIcon: {
-    fontSize: moderateScale(20),
-    color: "#333",
-    paddingHorizontal: wp("1%"),
   },
 });

@@ -132,7 +132,6 @@ export default function ChatInterface() {
       <Modal visible={modalVisible} animationType="slide">
         <View style={styles.modalContainer}>
           <SafeAreaView style={styles.safeArea}>
-            {/* Header avec gradient */}
             <LinearGradient
               colors={["#204CCF", "#6006A4"]}
               start={{ x: 0, y: 0 }}
@@ -163,7 +162,6 @@ export default function ChatInterface() {
               </View>
             </LinearGradient>
 
-            {/* Container principal blanc */}
             <KeyboardAvoidingView
               behavior={Platform.OS === "ios" ? "padding" : "height"}
               style={styles.keyboardAvoidingView}
