@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
     elevation: 12,
     overflow: "hidden",
-    width: hp("45%"),
+    width: wp("45%"),
     height: hp("45%"),
   },
   cardHeader: {

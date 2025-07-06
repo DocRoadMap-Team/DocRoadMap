@@ -16,6 +16,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { LinearGradient } from "expo-linear-gradient";
 import tree from "../../locales/decision-tree/decisionTree.json";
 import { CreateFromTree } from "../../components/card/CreateFromTree";
 import { router } from "expo-router";
@@ -203,103 +204,160 @@ export default function DecisionTree() {
   }
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.keyboardAvoidingView}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
-      >
-        <ScrollView
-          contentContainerStyle={styles.container}
-          ref={scrollRef}
-          style={styles.scrollView}
-          keyboardShouldPersistTaps="handled"
+    <LinearGradient
+      colors={["#FFFFFF", "#FFFFFF"]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 0 }}
+      style={styles.gradientContainer}
+    >
+      <SafeAreaView style={styles.safeArea}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.keyboardAvoidingView}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
         >
-          {history.map((entry, index) => {
-            if (entry.type === "question") {
-              const node = decisionTree[entry.key];
-              if ("question" in node) {
+          <ScrollView
+            contentContainerStyle={styles.container}
+            ref={scrollRef}
+            style={styles.scrollView}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            {history.map((entry, index) => {
+              if (entry.type === "question") {
+                const node = decisionTree[entry.key];
+                if ("question" in node) {
+                  return (
+                    <View key={index} style={styles.botBubbleContainer}>
+                      <View style={styles.botAvatar}>
+                        <Text style={styles.botAvatarText}>🤖</Text>
+                      </View>
+                      <View style={styles.botBubble}>
+                        <Text style={styles.botText}>{node.question}</Text>
+                      </View>
+                    </View>
+                  );
+                }
+              } else if (entry.type === "answer") {
                 return (
-                  <View key={index} style={styles.botBubble}>
-                    <Text style={styles.botText}>{node.question}</Text>
+                  <View key={index} style={styles.userBubbleContainer}>
+                    <View style={styles.userBubble}>
+                      <Text style={styles.userText}>{entry.label}</Text>
+                    </View>
+                    <View style={styles.userAvatar}>
+                      <Text style={styles.userAvatarText}>👤</Text>
+                    </View>
                   </View>
                 );
               }
-            } else if (entry.type === "answer") {
-              return (
-                <View key={index} style={styles.userBubble}>
-                  <Text style={styles.userText}>{entry.label}</Text>
-                </View>
-              );
-            }
-            return null;
-          })}
+              return null;
+            })}
 
-          {showSteps && (
-            <View style={styles.botBubble}>
-              <Text style={[styles.botText, { fontWeight: "bold" }]}>
-                Votre roadmap personnalisée :
-              </Text>
-              {steps.map((step, idx) => (
-                <View key={idx} style={{ marginTop: 8 }}>
-                  <Text style={[styles.botText, { fontWeight: "bold" }]}>
-                    {step.step_title}
+            {showSteps && (
+              <View style={styles.roadmapContainer}>
+                <View style={styles.roadmapHeader}>
+                  <Text style={styles.roadmapTitle}>
+                    🎯 Voici votre Roadmap correspondante à vos choix
                   </Text>
-                  <Text style={styles.botText}>
-                    {step.answer.split(/(https?:\/\/[^\s]+)/g).map((part, i) =>
-                      part.match(/^https?:\/\//) ? (
-                        <Text
-                          key={i}
-                          style={styles.link}
-                          onPress={() => Linking.openURL(part)}
-                        >
-                          {part}
-                        </Text>
-                      ) : (
-                        <Text key={i}>{part}</Text>
-                      ),
-                    )}
+                  <Text style={styles.roadmapSubtitle}>
+                    Adaptez votre démarche selon vos besoins Vous pourrez la
+                    retrouver et la modifier depuis la carte dédiée à cette
+                    dernière sur la page d’accueil.
                   </Text>
                 </View>
-              ))}
-              <TouchableOpacity
-                style={styles.restartButton}
-                onPress={restartChat}
+
+                <View style={styles.roadmapContent}>
+                  {steps.map((step, idx) => (
+                    <View key={idx} style={styles.stepContainer}>
+                      <View style={styles.stepNumber}>
+                        <Text style={styles.stepNumberText}>{idx + 1}</Text>
+                      </View>
+                      <View style={styles.stepContent}>
+                        <Text style={styles.stepTitle}>{step.step_title}</Text>
+                        <Text style={styles.stepDescription}>
+                          {step.answer
+                            .split(/(https?:\/\/[^\s]+)/g)
+                            .map((part, i) =>
+                              part.match(/^https?:\/\//) ? (
+                                <Text
+                                  key={i}
+                                  style={styles.link}
+                                  onPress={() => Linking.openURL(part)}
+                                >
+                                  {part}
+                                </Text>
+                              ) : (
+                                <Text key={i}>{part}</Text>
+                              ),
+                            )}
+                        </Text>
+                      </View>
+                    </View>
+                  ))}
+                </View>
+
+                <TouchableOpacity
+                  style={styles.restartButton}
+                  onPress={restartChat}
+                  activeOpacity={0.8}
+                >
+                  <LinearGradient
+                    colors={["#204CCF", "#204CCF"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={styles.restartButtonGradient}
+                  >
+                    <Text style={styles.restartText}>🔄 Recommencer</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+            )}
+          </ScrollView>
+
+          {currentOptions.length > 0 && (
+            <View style={styles.optionsContainer}>
+              <View style={styles.optionsHeader}>
+                <Text style={styles.optionsTitle}>Choisissez une option</Text>
+              </View>
+              <ScrollView
+                style={styles.optionsScrollView}
+                contentContainerStyle={styles.optionsContent}
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
               >
-                <Text style={styles.restartText}>🔁 Recommencer</Text>
-              </TouchableOpacity>
+                {currentOptions.map(({ label, next }, idx) => (
+                  <TouchableOpacity
+                    key={idx}
+                    style={styles.optionBubble}
+                    onPress={() => handleOptionPress(next, label)}
+                    activeOpacity={0.8}
+                  >
+                    <LinearGradient
+                      colors={["#FFFFFF", "#F8F9FA"]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 0, y: 1 }}
+                      style={styles.optionGradient}
+                    >
+                      <Text style={styles.optionText}>{label}</Text>
+                      <Text style={styles.optionArrow}>→</Text>
+                    </LinearGradient>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
             </View>
           )}
-        </ScrollView>
-
-        {currentOptions.length > 0 && (
-          <View style={styles.optionsContainer}>
-            <ScrollView
-              style={styles.optionsScrollView}
-              contentContainerStyle={styles.optionsContent}
-              keyboardShouldPersistTaps="handled"
-            >
-              {currentOptions.map(({ label, next }, idx) => (
-                <TouchableOpacity
-                  key={idx}
-                  style={styles.optionBubble}
-                  onPress={() => handleOptionPress(next, label)}
-                >
-                  <Text style={styles.optionText}>{label}</Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </View>
-        )}
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 
 const styles = ScaledSheet.create({
+  gradientContainer: {
+    flex: 1,
+  },
   safeArea: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
   },
   keyboardAvoidingView: {
     flex: 1,
@@ -309,91 +367,244 @@ const styles = ScaledSheet.create({
   },
   container: {
     padding: wp(4),
-    gap: 10,
     paddingBottom: hp(2),
     flexGrow: 1,
   },
+
+  botBubbleContainer: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    marginVertical: hp(1),
+    paddingRight: wp(10),
+  },
+  botAvatar: {
+    width: moderateScale(36),
+    height: moderateScale(36),
+    borderRadius: moderateScale(18),
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: wp(3),
+    marginBottom: hp(0.5),
+  },
+  botAvatarText: {
+    fontSize: moderateScale(18),
+  },
   botBubble: {
     backgroundColor: "#FFFFFF",
-    paddingVertical: hp(1.5),
+    paddingVertical: hp(2),
     paddingHorizontal: wp(4),
     borderRadius: moderateScale(20),
-    alignSelf: "flex-start",
-    maxWidth: "85%",
+    borderBottomLeftRadius: moderateScale(8),
+    flex: 1,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
-    marginVertical: hp(0.5),
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 8,
   },
   botText: {
     fontSize: moderateScale(16),
-    lineHeight: moderateScale(22),
+    lineHeight: moderateScale(24),
+    color: "#2D3748",
+  },
+
+  userBubbleContainer: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    marginVertical: hp(1),
+    paddingLeft: wp(10),
   },
   userBubble: {
-    backgroundColor: "#3498db",
-    paddingVertical: hp(1.5),
+    backgroundColor: "rgba(255, 255, 255, 0.95)",
+    paddingVertical: hp(2),
     paddingHorizontal: wp(4),
     borderRadius: moderateScale(20),
-    alignSelf: "flex-end",
-    maxWidth: "85%",
+    borderBottomRightRadius: moderateScale(8),
+    flex: 1,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
-    marginVertical: hp(0.5),
+    shadowRadius: 6,
+    elevation: 6,
   },
   userText: {
     fontSize: moderateScale(16),
-    color: "#fff",
-    lineHeight: moderateScale(22),
+    color: "#4A5568",
+    lineHeight: moderateScale(24),
+    fontWeight: "500",
+  },
+  userAvatar: {
+    width: moderateScale(36),
+    height: moderateScale(36),
+    borderRadius: moderateScale(18),
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: wp(3),
+    marginBottom: hp(0.5),
+  },
+  userAvatarText: {
+    fontSize: moderateScale(18),
+  },
+
+  roadmapContainer: {
+    marginTop: hp(2),
+    marginBottom: hp(2),
+  },
+  roadmapHeader: {
+    paddingVertical: hp(2.5),
+    paddingHorizontal: wp(5),
+    borderRadius: moderateScale(16),
+    marginBottom: hp(2),
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  roadmapTitle: {
+    fontSize: moderateScale(20),
+    fontWeight: "bold",
+    color: "#2D3748",
+    marginBottom: hp(0.5),
+  },
+  roadmapSubtitle: {
+    fontSize: moderateScale(14),
+    color: "#718096",
+    fontStyle: "italic",
+  },
+  roadmapContent: {
+    backgroundColor: "rgba(255, 255, 255, 0.95)",
+    borderRadius: moderateScale(16),
+    padding: wp(4),
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  stepContainer: {
+    flexDirection: "row",
+    marginBottom: hp(2.5),
+    alignItems: "flex-start",
+  },
+  stepNumber: {
+    width: moderateScale(32),
+    height: moderateScale(32),
+    borderRadius: moderateScale(16),
+    backgroundColor: "#4299E1",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: wp(3),
+    marginTop: hp(0.5),
+  },
+  stepNumberText: {
+    color: "#FFFFFF",
+    fontSize: moderateScale(14),
+    fontWeight: "bold",
+  },
+  stepContent: {
+    flex: 1,
+  },
+  stepTitle: {
+    fontSize: moderateScale(16),
+    fontWeight: "bold",
+    color: "#2D3748",
+    marginBottom: hp(0.5),
+  },
+  stepDescription: {
+    fontSize: moderateScale(14),
+    color: "#4A5568",
+    lineHeight: moderateScale(20),
   },
   link: {
-    color: "#007AFF",
+    color: "#4299E1",
     textDecorationLine: "underline",
-    fontSize: moderateScale(15),
+    fontSize: moderateScale(14),
+    fontWeight: "500",
   },
   restartButton: {
     marginTop: hp(2),
     alignSelf: "center",
+    borderRadius: moderateScale(25),
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  restartButtonGradient: {
+    paddingVertical: hp(1.5),
+    paddingHorizontal: wp(6),
+    borderRadius: moderateScale(25),
+    alignItems: "center",
   },
   restartText: {
-    color: "#007AFF",
-    fontSize: moderateScale(15),
+    color: "#FFFFFF",
+    fontSize: moderateScale(16),
+    fontWeight: "bold",
   },
+
   optionsContainer: {
-    borderTopWidth: 1,
-    borderTopColor: "#e0e0e0",
-    backgroundColor: "#fff",
-    maxHeight: hp(25),
-    paddingTop: hp(1),
+    backgroundColor: "rgba(255, 255, 255, 0.95)",
+    borderTopLeftRadius: moderateScale(20),
+    borderTopRightRadius: moderateScale(20),
+    maxHeight: hp(35),
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 10,
+  },
+  optionsHeader: {
+    paddingVertical: hp(2),
+    paddingHorizontal: wp(5),
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(0, 0, 0, 0.1)",
+    alignItems: "center",
+  },
+  optionsTitle: {
+    fontSize: moderateScale(16),
+    fontWeight: "600",
+    color: "#4A5568",
   },
   optionsScrollView: {
     flex: 1,
   },
   optionsContent: {
     paddingHorizontal: wp(4),
-    paddingBottom: hp(2),
-    gap: hp(1),
+    paddingVertical: hp(2),
+    gap: hp(1.5),
   },
   optionBubble: {
-    backgroundColor: "#f8f9fa",
-    paddingVertical: hp(1.5),
+    borderRadius: moderateScale(15),
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  optionGradient: {
+    paddingVertical: hp(2),
     paddingHorizontal: wp(4),
     borderRadius: moderateScale(15),
-    justifyContent: "center",
+    flexDirection: "row",
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
+    justifyContent: "space-between",
     minHeight: hp(6),
-    width: "100%",
   },
   optionText: {
-    fontSize: moderateScale(14),
-    textAlign: "center",
-    color: "#333",
-    lineHeight: moderateScale(20),
+    fontSize: moderateScale(15),
+    color: "#2D3748",
+    lineHeight: moderateScale(22),
+    flex: 1,
+    fontWeight: "500",
+  },
+  optionArrow: {
+    fontSize: moderateScale(16),
+    color: "#4A5568",
+    marginLeft: wp(2),
   },
 });
