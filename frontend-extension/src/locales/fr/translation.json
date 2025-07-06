@@ -67,6 +67,8 @@
   "Not-authorized-for-DocRoadMap": "Ce site n'est pas autorisé pour l'extension DocRoadMap. Veuillez vous rendre sur une plateforme comme impots.gouv.fr ou ameli.fr pour commencer à utiliser DocRoadMap.",
   "update_roadmap": "Mettre à jour la roadmap",
   "invalid_email": "Adresse email invalide",
+  "Progress": "Progression",
+  "start": "Commencer",
 
   "dim": "dim",
   "lun": "lun",

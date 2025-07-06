@@ -159,20 +159,28 @@ const RoadmapView: React.FC = () => {
         height: 100%;
         overflow-y: auto;
         overflow-x: hidden;
-        padding: 1rem;
+        padding: 0.5rem;
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        align-items: center;
+        gap: 2rem;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+        .carousel-container::-webkit-scrollbar {
+        display: none;
       }
       .card {
         background: #ffffff;
         border-radius: 16px;
-        padding: 1.2rem 1.5rem;
+        padding: 1.5rem 2rem;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         display: flex;
         flex-direction: column;
         gap: 0.8rem;
         transition: box-shadow 0.2s;
+        width: 100%;
+        max-width: 1500px;
       }
       .card:hover {
         box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
@@ -187,12 +195,12 @@ const RoadmapView: React.FC = () => {
         display: flex;
         justify-content: space-between;
         font-size: 0.85rem;
-        color: #6c757d;
+        color:rgb(0, 0, 0);
         font-weight: 500;
         margin-top: 0.3rem;
       }
       .progress-bar-container {
-        background-color: #e6eaf2;
+        background-color:rgb(184, 189, 197);
         height: 8px;
         border-radius: 6px;
         width: 100%;
@@ -206,20 +214,37 @@ const RoadmapView: React.FC = () => {
       }
       .continue-button {
         margin-top: 0.8rem;
-        background: #4a63f3;
+        background: linear-gradient(90deg, #4a63f3 0%, #6a82fb 100%);
         color: white;
         border: none;
-        border-radius: 8px;
-        padding: 0.6rem 1rem;
-        font-size: 0.95rem;
-        font-weight: 500;
+        border-radius: 12px;
+        padding: 0.75rem 1.2rem;
+        font-size: 1rem;
+        font-weight: 600;
         cursor: pointer;
-        transition: background 0.2s ease;
+        transition: all 0.25s ease;
         width: 100%;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
       }
+
       .continue-button:hover {
-        background: #364bd1;
+        background: linear-gradient(90deg, #3c4edb 0%, #5f75eb 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(74, 99, 243, 0.25);
       }
+
+      .continue-button .arrow {
+        transition: transform 0.2s ease;
+      }
+
+      .continue-button:hover .arrow {
+        transform: translateX(4px);
+      }
+
       .modify-button {
         margin-top: 0.4rem;
         background: #f0f0f0;
@@ -340,8 +365,6 @@ const RoadmapView: React.FC = () => {
             align-items: center;
             justify-content: center;
           }
-
-
     `}</style>
 
       <Header title={t("currentRoadmaps") || ""} icon={<FaEye />} />
@@ -376,7 +399,7 @@ const RoadmapView: React.FC = () => {
                   </div>
 
                   <div className="progress-label-alt">
-                    <span>{t("progression")}</span>
+                    <span>{t("Progress")}</span>
                     <span style={{ fontWeight: 600 }}>
                       {percentage}% completed
                     </span>
@@ -392,7 +415,7 @@ const RoadmapView: React.FC = () => {
                     className="continue-button"
                     onClick={() => getSteps(card.id, card.name)}
                   >
-                    CONTINUE →
+                    {percentage === 0 ? t("start") : t("continue")}
                   </button>
                 </div>
               );
