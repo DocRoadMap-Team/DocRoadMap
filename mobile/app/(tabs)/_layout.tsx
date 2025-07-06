@@ -51,12 +51,12 @@ export default function TabLayout() {
         name="home"
         options={{
           title: "Home",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "home" : "home-outline"}
-              color={color}
-            />
-          ),
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          href: null,
+          headerShown: false,
+          tabBarStyle: {
+            display: "none",
+          },
         }}
       />
       <Tabs.Screen
@@ -77,12 +77,12 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "person" : "person-outline"}
-              color={color}
-            />
-          ),
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          href: null,
+          headerShown: false,
+          tabBarStyle: {
+            display: "none",
+          },
         }}
       />
       <Tabs.Screen
@@ -98,6 +98,28 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="calendar"
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          href: null,
+          headerShown: false,
+          tabBarStyle: {
+            display: "none",
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="editRoadmap"
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          href: null,
+          headerShown: false,
+          tabBarStyle: {
+            display: "none",
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="decisionTreeInterface"
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           href: null,

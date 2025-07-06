@@ -48,6 +48,7 @@ export class AiController {
     @ApiBearerAuth()
     @ApiTags('AI')
     @ApiOkResponse({ description: 'Chatbot roadmap' })
+
     async roadmapQuery(@Request() req: any, @Body() QueryRoadmapDto: QueryRoadmapDto): Promise<any> {
         const userId = req.user.sub;
         return this.aiService.queryRoadmap(QueryRoadmapDto.prompt, userId, QueryRoadmapDto.process_id);
