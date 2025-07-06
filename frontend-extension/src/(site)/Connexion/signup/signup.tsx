@@ -52,7 +52,7 @@ function Signup() {
     nextStep();
   };
 
-  const handleRegister = (e?: React.MouseEvent<HTMLButtonElement>) => {
+  const handleRegister = (e?: React.FormEvent | React.MouseEvent) => {
     e?.preventDefault();
     setError("");
 
@@ -89,13 +89,19 @@ function Signup() {
         </div>
 
         {step === 1 && (
-          <>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              nextStep();
+            }}
+          >
             <div className="input-group small">
               <input
                 type="text"
                 placeholder={t("firstName")}
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
+                required
               />
             </div>
             <div className="input-group small">
@@ -104,45 +110,52 @@ function Signup() {
                 placeholder={t("lastName")}
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
+                required
               />
             </div>
-
             <div className="register-button-wrapper">
-              <button className="register-button" onClick={nextStep}>
+              <button className="register-button" type="submit">
                 {t("continue") || "Continuer"}
               </button>
             </div>
-          </>
+          </form>
         )}
 
         {step === 2 && (
-          <>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleEmailStep();
+            }}
+          >
             <div className="input-group small">
               <input
                 type="email"
                 placeholder={t("email")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
 
             <div className="register-button-wrapper">
-              <button className="register-button" onClick={handleEmailStep}>
-                {t("continue") || "Continuer"}
+              <button className="register-button" type="submit">
+                {t("continue")}
               </button>
             </div>
             {error && <p className="signup-error">{error}</p>}
-          </>
+          </form>
         )}
 
         {step === 3 && (
-          <>
+          <form onSubmit={handleRegister}>
             <div className="input-group small">
               <input
                 type="password"
                 placeholder={t("password")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div className="input-group small">
@@ -151,15 +164,16 @@ function Signup() {
                 placeholder={t("confirmPassword")}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                required
               />
             </div>
             <div className="register-button-wrapper">
-              <button className="register-button" onClick={handleRegister}>
+              <button className="register-button" type="submit">
                 {t("submit")}
               </button>
             </div>
             {error && <p className="signup-error">{error}</p>}
-          </>
+          </form>
         )}
       </div>
     </div>
