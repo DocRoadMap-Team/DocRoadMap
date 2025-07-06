@@ -30,6 +30,11 @@ function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
+  const isValidEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.(com)$/i;
+    return regex.test(email);
+  };
+
   const nextStep = () => {
     setError("");
     setStep((prev) => prev + 1);
@@ -37,6 +42,15 @@ function Signup() {
 
   const prevStep = () =>
     step === 1 ? navigate("/") : setStep((prev) => prev - 1);
+
+  const handleEmailStep = () => {
+    setError("");
+    if (!isValidEmail(email)) {
+      setError(t("invalid_email"));
+      return;
+    }
+    nextStep();
+  };
 
   const handleRegister = (e?: React.MouseEvent<HTMLButtonElement>) => {
     e?.preventDefault();
@@ -113,10 +127,11 @@ function Signup() {
             </div>
 
             <div className="register-button-wrapper">
-              <button className="register-button" onClick={nextStep}>
+              <button className="register-button" onClick={handleEmailStep}>
                 {t("continue") || "Continuer"}
               </button>
             </div>
+            {error && <p className="signup-error">{error}</p>}
           </>
         )}
 
@@ -143,7 +158,7 @@ function Signup() {
                 {t("submit")}
               </button>
             </div>
-            {error && <p className="signup-error">{error}</p>}{" "}
+            {error && <p className="signup-error">{error}</p>}
           </>
         )}
       </div>

@@ -66,6 +66,7 @@
   "empty_fields": "Please fill in all fields",
   "Not-authorized-for-DocRoadMap": "This site is not authorized for the DocRoadMap extension.",
   "update_roadmap": "Update the roadmap",
+  "invalid_email": "Invalid email address",
 
   "dim": "sun",
   "lun": "mon",
