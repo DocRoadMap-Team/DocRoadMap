@@ -252,6 +252,96 @@ const RoadmapView: React.FC = () => {
         z-index: 100;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       }
+        .card-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .card-header-left {
+          display: flex;
+          align-items: center;
+        }
+
+        .doc-icon {
+          font-size: 1.6rem;
+        }
+
+        .card-header-center {
+          text-align: center;
+          flex-grow: 1;
+        }
+
+        .card-subtitle {
+          font-size: 0.85rem;
+          color: #9ca3af;
+          margin-top: -4px;
+        }
+
+        .card-header-right {
+          display: flex;
+          align-items: center;
+        }
+
+        .progress-circle {
+          background: #dbeafe;
+          color: #1e3a8a;
+          border-radius: 999px;
+          width: 50px;
+          height: 50px;
+          font-weight: 700;
+          font-size: 0.9rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .progress-label-alt {
+          display: flex;
+          justify-content: space-between;
+          font-size: 0.85rem;
+          color: #6b7280;
+          margin-top: 0.5rem;
+        }
+          .card-header-banner {
+            background: #4a63f3;
+            border-radius: 12px 12px 0 0;
+            padding: 1rem 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+          }
+
+          .card-banner-left {
+            font-size: 1.4rem;
+          }
+
+          .card-banner-center {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+          }
+
+          .card-banner-right {
+            display: flex;
+            align-items: center;
+          }
+
+          .circle-badge {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 46px;
+            height: 46px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+
     `}</style>
 
       <Header title={t("currentRoadmaps") || ""} icon={<FaEye />} />
@@ -272,21 +362,24 @@ const RoadmapView: React.FC = () => {
 
               return (
                 <div className="card" key={card.id}>
-                  <div className="card-title">{card.name}</div>
-                  <p
-                    style={{
-                      fontSize: "0.9rem",
-                      color: "#444",
-                      margin: "0 0 0.4rem 0",
-                    }}
-                  >
-                    {validatedSteps} {t("step")}
-                    {validatedSteps > 1 ? "s" : ""} {t("validated")} sur{" "}
-                    {totalSteps}
-                  </p>
-                  <div className="progress-label">
+                  <div className="card-header-banner">
+                    <div className="card-banner-left">📄</div>
+                    <div className="card-banner-center">
+                      <div className="card-banner-title">{card.name}</div>
+                      <div className="card-banner-subtitle">
+                        Dossier #{card.id}
+                      </div>
+                    </div>
+                    <div className="card-banner-right">
+                      <div className="circle-badge">{percentage}%</div>
+                    </div>
+                  </div>
+
+                  <div className="progress-label-alt">
                     <span>{t("progression")}</span>
-                    <span>{percentage}% completed</span>
+                    <span style={{ fontWeight: 600 }}>
+                      {percentage}% completed
+                    </span>
                   </div>
                   <div className="progress-bar-container">
                     <div
@@ -294,17 +387,12 @@ const RoadmapView: React.FC = () => {
                       style={{ width: `${percentage}%` }}
                     />
                   </div>
+
                   <button
                     className="continue-button"
                     onClick={() => getSteps(card.id, card.name)}
                   >
-                    {t("continue")}
-                  </button>
-                  <button
-                    className="modify-button"
-                    onClick={() => setChatProcessId(card.id)}
-                  >
-                    {t("update_roadmap")}
+                    CONTINUE →
                   </button>
                 </div>
               );
