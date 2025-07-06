@@ -18,7 +18,8 @@
     "i18next-browser-languagedetector": "^8.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-i18next": "^15.5.2"
+    "react-i18next": "^15.5.2",
+    "react-markdown": "^10.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.27.4",
@@ -64,6 +65,7 @@
     "typescript": "~5.7.3",
     "typescript-eslint": "^8.33.1",
     "vite": "^6.3.5",
+    "wcag-contrast-utils": "^1.0.1",
     "webpack": "^5.99.9",
     "webpack-cli": "^6.0.1"
   }

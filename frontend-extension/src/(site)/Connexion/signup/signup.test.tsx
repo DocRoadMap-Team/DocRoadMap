@@ -28,7 +28,7 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => jest.fn(),
 }));
 
-describe("Register Component", () => {
+describe("Signup Component", () => {
   const renderWithRouter = () =>
     render(
       <MemoryRouter>

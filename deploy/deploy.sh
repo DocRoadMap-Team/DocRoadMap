@@ -19,8 +19,12 @@ git reset --hard origin/main
 
 echo "Build and create Docker images..."
 docker compose down
-docker system prune -a -f
-docker compose up -d --build
+docker system prune -f
+docker compose up -d --build postgres backend
+
+echo "Ensure uuid-ossp extension is enabled in Postgres..."
+sleep 30
+docker compose exec -T postgres psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
 
 # === END ===
 echo "==== END OF DEPLOYEMENT ===="
