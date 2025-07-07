@@ -143,7 +143,9 @@ export default function ChatInterface() {
       </TouchableOpacity>
 
       <Modal visible={modalVisible} animationType="slide">
-        <View style={styles.modalContainer}>
+        <View
+          style={[styles.modalContainer, { backgroundColor: theme.background }]}
+        >
           <SafeAreaView style={styles.safeArea}>
             <LinearGradient
               colors={["#204CCF", "#6006A4"]}
@@ -175,136 +177,128 @@ export default function ChatInterface() {
               </View>
             </LinearGradient>
 
-            <KeyboardAvoidingView
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
-              style={styles.keyboardAvoidingView}
-              keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+            <ScrollView
+              ref={scrollRef}
+              style={[
+                styles.chatContainer,
+                { backgroundColor: theme.background },
+              ]}
+              contentContainerStyle={[
+                styles.chatContent,
+                { backgroundColor: theme.background },
+              ]}
+              showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps="handled"
             >
-              <ScrollView
-                ref={scrollRef}
-                style={[
-                  styles.chatContainer,
-                  { backgroundColor: theme.background },
-                ]}
-                contentContainerStyle={[
-                  styles.chatContent,
-                  { backgroundColor: theme.background },
-                ]}
-                showsVerticalScrollIndicator={false}
-                keyboardShouldPersistTaps="handled"
-              >
-                {messages.map((msg, index) => (
+              {messages.map((msg, index) => (
+                <View
+                  key={index}
+                  style={
+                    msg.sender === "user"
+                      ? styles.userMessageContainer
+                      : styles.botMessageContainer
+                  }
+                >
+                  {msg.sender === "bot" && (
+                    <View style={styles.botAvatar}>
+                      <Text style={styles.botAvatarText}>🤖</Text>
+                    </View>
+                  )}
+
                   <View
-                    key={index}
                     style={
                       msg.sender === "user"
-                        ? styles.userMessageContainer
-                        : styles.botMessageContainer
+                        ? styles.userMessage
+                        : styles.botMessage
                     }
                   >
-                    {msg.sender === "bot" && (
-                      <View style={styles.botAvatar}>
-                        <Text style={styles.botAvatarText}>🤖</Text>
-                      </View>
-                    )}
-
-                    <View
+                    <Text
                       style={
                         msg.sender === "user"
-                          ? styles.userMessage
-                          : styles.botMessage
+                          ? styles.userMessageText
+                          : styles.botMessageText
                       }
                     >
-                      <Text
-                        style={
-                          msg.sender === "user"
-                            ? styles.userMessageText
-                            : styles.botMessageText
-                        }
-                      >
-                        {msg.text}
-                      </Text>
-                    </View>
-
-                    {msg.sender === "user" && (
-                      <View style={styles.userAvatar}>
-                        <Text style={styles.userAvatarText}>👤</Text>
-                      </View>
-                    )}
+                      {msg.text}
+                    </Text>
                   </View>
-                ))}
 
-                {loading && (
-                  <View style={styles.loadingContainer}>
-                    <View style={styles.loadingBubble}>
-                      <ActivityIndicator size="small" color="#4A5568" />
-                      <Text style={styles.loadingText}>
-                        En cours de frappe...
-                      </Text>
+                  {msg.sender === "user" && (
+                    <View style={styles.userAvatar}>
+                      <Text style={styles.userAvatarText}>👤</Text>
                     </View>
-                  </View>
-                )}
-              </ScrollView>
+                  )}
+                </View>
+              ))}
 
+              {loading && (
+                <View style={styles.loadingContainer}>
+                  <View style={styles.loadingBubble}>
+                    <ActivityIndicator size="small" color="#4A5568" />
+                    <Text style={styles.loadingText}>
+                      En cours de frappe...
+                    </Text>
+                  </View>
+                </View>
+              )}
+            </ScrollView>
+
+            <View
+              style={[
+                styles.inputContainer,
+                { backgroundColor: theme.background },
+              ]}
+            >
               <View
                 style={[
-                  styles.inputContainer,
-                  { backgroundColor: theme.background },
+                  styles.inputWrapper,
+                  {
+                    backgroundColor: theme.background,
+                    borderColor:
+                      theme.background === "dark" ? "#A0AEC0" : "#CBD5E0",
+                    borderWidth: 1,
+                  },
                 ]}
               >
-                <View
-                  style={[
-                    styles.inputWrapper,
-                    {
-                      backgroundColor: theme.background,
-                      borderColor:
-                        theme.background === "dark" ? "#A0AEC0" : "#CBD5E0",
-                      borderWidth: 1,
-                    },
-                  ]}
+                <TextInput
+                  value={message}
+                  onChangeText={setMessage}
+                  placeholder={t("Ecris to meassge") || "Écris ton message..."}
+                  placeholderTextColor={
+                    theme.background === "#000000" ||
+                    theme.background === "#1A1A1A"
+                      ? "#E0E0E0"
+                      : "#FFFFFFFF"
+                  }
+                  style={[styles.input, { color: theme.text }]}
+                  multiline
+                  maxLength={500}
+                />
+                <TouchableOpacity
+                  onPress={handleSend}
+                  style={styles.sendButton}
+                  activeOpacity={0.8}
+                  disabled={!message.trim() || loading}
                 >
-                  <TextInput
-                    value={message}
-                    onChangeText={setMessage}
-                    placeholder={
-                      t("Ecris to meassge") || "Écris ton message..."
+                  <LinearGradient
+                    colors={
+                      message.trim() && !loading
+                        ? ["#204CCF", "#204CCF"]
+                        : ["#E2E8F0", "#CBD5E0"]
                     }
-                    placeholderTextColor={
-                      theme.background === "#000000" ||
-                      theme.background === "#1A1A1A"
-                        ? "#E0E0E0"
-                        : "#FFFFFFFF"
-                    }
-                    style={[styles.input, { color: theme.text }]}
-                    multiline
-                    maxLength={500}
-                  />
-                  <TouchableOpacity
-                    onPress={handleSend}
-                    style={styles.sendButton}
-                    activeOpacity={0.8}
-                    disabled={!message.trim() || loading}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={styles.sendButtonGradient}
                   >
-                    <LinearGradient
-                      colors={
-                        message.trim() && !loading
-                          ? ["#204CCF", "#204CCF"]
-                          : ["#E2E8F0", "#CBD5E0"]
-                      }
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 0 }}
-                      style={styles.sendButtonGradient}
-                    >
-                      <Ionicons
-                        name="send"
-                        size={20}
-                        color={message.trim() && !loading ? "white" : "#A0AEC0"}
-                      />
-                    </LinearGradient>
-                  </TouchableOpacity>
-                </View>
+                    <Ionicons
+                      name="send"
+                      size={20}
+                      color={message.trim() && !loading ? "white" : "#A0AEC0"}
+                    />
+                  </LinearGradient>
+                </TouchableOpacity>
               </View>
-            </KeyboardAvoidingView>
+            </View>
           </SafeAreaView>
         </View>
       </Modal>

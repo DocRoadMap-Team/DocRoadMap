@@ -184,7 +184,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                   <Text style={[styles.stepName, { color: theme.text }]}>
                     {item.name}
                   </Text>
-                  {/* Toggle End Status */}
+
                   <View style={styles.toggleContainer}>
                     <Text style={[styles.toggleLabel, { color: theme.text }]}>
                       Terminé
@@ -250,8 +250,8 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
   const currentProgress = calculateProgress(steps);
 
   return (
-    <View style={styles.cardContainer}>
-      <View style={styles.card}>
+    <View style={[styles.cardContainer, { backgroundColor: theme.background }]}>
+      <View style={[styles.card, { backgroundColor: theme.background }]}>
         <LinearGradient
           colors={["#204CCF", "#6006A4"]}
           start={{ x: 0, y: 0 }}
@@ -356,7 +356,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                 onPress={() => setModalVisible(false)}
                 activeOpacity={0.7}
               >
-                <Icon name="close" size={24} color={theme.text} />
+                <Icon name="close" size={24} color="#000000" />
               </TouchableOpacity>
             </View>
 
