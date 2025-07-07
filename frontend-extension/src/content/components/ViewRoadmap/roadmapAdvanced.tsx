@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
   FaArrowDown,
   FaCheckCircle,
   FaChevronDown,
   FaChevronUp,
 } from "react-icons/fa";
+
+import { useTranslation } from "react-i18next";
 import getToken from "../../utils/utils";
 
 const backendUrl = "https://www.docroadmap.fr";
@@ -167,7 +168,6 @@ const RoadmapAdvance: React.FC<Props> = ({
         .step-description {
           margin-top: 0.75rem;
           background: #f0f4ff;
-          border-left: 4px solid #007bff;
           padding: 0.75rem 1rem;
           border-radius: 6px;
           color: #20498a;
@@ -187,13 +187,19 @@ const RoadmapAdvance: React.FC<Props> = ({
           border-radius: 6px;
         }
         .step-footer button {
-          background: #343aeb;
+          background:rgb(255, 255, 255);
           color: white;
           border: none;
-          padding: 0.4rem 0.75rem;
-          border-radius: 6px;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           cursor: pointer;
-          font-size: 0.9rem;
+          font-size: 1.2rem;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          transition: background 0.2s ease;
         }
         .no-steps {
           text-align: center;
@@ -240,6 +246,21 @@ const RoadmapAdvance: React.FC<Props> = ({
         .validation-icon {
           color: #30c36b;
           font-size: 1.3rem;
+        }
+        .validate-button {
+          background: #30c36b; /* vert de validation */
+          color: white;
+          border: none;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          font-size: 1.1rem;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+          transition: background 0.2s ease;
         }
       `}</style>
 
