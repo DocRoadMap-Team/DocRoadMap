@@ -44,15 +44,9 @@ interface PanelProps {
   activePanel: string | null;
   isOpen: boolean;
   panelHeight: number;
-  // panelWidth: number;
 }
 
-const Panel: React.FC<PanelProps> = ({
-  activePanel,
-  isOpen,
-  panelHeight,
-  // panelWidth,
-}) => (
+const Panel: React.FC<PanelProps> = ({ activePanel, isOpen, panelHeight }) => (
   <div
     style={{
       position: "fixed",
@@ -94,7 +88,6 @@ const DocRoadmapBar: React.FC = () => {
   const [isPanelMounted, setIsPanelMounted] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [panelHeight, setPanelHeight] = useState(450);
-  // const [panelWidth, setPanelWidth] = useState(350);
 
   const [, forceUpdate] = useState(0);
   window.rerender = () => forceUpdate((x) => x + 1);
@@ -143,15 +136,8 @@ const DocRoadmapBar: React.FC = () => {
 
   const handleButtonClick = (label: string) => {
     setActivePanel((cur) => (cur === label ? null : label));
-    if (label === "Calendrier") {
-      setPanelHeight(600);
-      // setPanelWidth(350);
-      // } else if (label === "Voir Roadmap" && modifyChatState.isOpen === true) {
-      // setPanelWidth(600);
-    } else {
-      setPanelHeight(450);
-      // setPanelWidth(350);
-    }
+    if (label === "Calendrier") setPanelHeight(600);
+    else setPanelHeight(450);
   };
 
   return (
@@ -161,7 +147,6 @@ const DocRoadmapBar: React.FC = () => {
           activePanel={activePanel}
           isOpen={isPanelOpen}
           panelHeight={panelHeight}
-          // panelWidth={panelWidth}
         />
       )}
 
@@ -169,10 +154,10 @@ const DocRoadmapBar: React.FC = () => {
         <div
           style={{
             position: "fixed",
-            right: "350px",
+            right: "375px",
             bottom: "90px",
             width: "320px",
-            height: "300px",
+            height: "375px",
             background: "white",
             boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
             borderRadius: 8,
