@@ -6,13 +6,14 @@ import {
   FaRobot,
   FaWheelchair,
 } from "react-icons/fa";
-import Chatbot from "./components/Chatbot/chatbot";
-import RoadmapView from "./components/ViewRoadmap/roadmapView";
-import StepsCalendar from "./components/Calendar/calendar";
-import getToken from "./utils/utils";
-import DecisionTreeChat from "./components/roadmapCreation/decisionTree";
-import ContrastAdjuster from "./components/Accessibility/ContrastAdjuster";
 import logo from "../../public/assets/docroadmap_logo2.png";
+import ContrastAdjuster from "./components/Accessibility/ContrastAdjuster";
+import StepsCalendar from "./components/Calendar/calendar";
+import Chatbot from "./components/Chatbot/chatbot";
+import DecisionTreeChat from "./components/roadmapCreation/decisionTree";
+import ModifyRoadmapChat from "./components/ViewRoadmap/ModifyRoadmapChat";
+import RoadmapView from "./components/ViewRoadmap/roadmapView";
+import getToken from "./utils/utils";
 
 const buttonData = [
   { icon: <FaRoad />, label: "CreateRoadmapChat" },
@@ -22,22 +23,44 @@ const buttonData = [
   { icon: <FaWheelchair />, label: "Accessibility" },
 ];
 
+const modifyChatState = {
+  isOpen: false,
+  processId: null as number | null,
+};
+
+export const openModifyChat = (processId: number) => {
+  modifyChatState.isOpen = true;
+  modifyChatState.processId = processId;
+  window.rerender?.();
+};
+
+export const closeModifyChat = () => {
+  modifyChatState.isOpen = false;
+  modifyChatState.processId = null;
+  window.rerender?.();
+};
+
 interface PanelProps {
   activePanel: string | null;
   isOpen: boolean;
   panelHeight: number;
+  panelWidth: number;
 }
 
-const Panel: React.FC<PanelProps> = ({ activePanel, isOpen, panelHeight }) => (
+const Panel: React.FC<PanelProps> = ({
+  activePanel,
+  isOpen,
+  panelHeight,
+  panelWidth,
+}) => (
   <div
     style={{
       position: "fixed",
       bottom: "90px",
       right: "24px",
-      width: "350px",
-      maxWidth: "350px",
+      width: `${panelWidth}px`,
+      maxWidth: `${panelWidth}px`,
       height: `${panelHeight}px`,
-      // flexWrap: "wrap",
       background: "#fff",
       borderRadius: 8,
       boxShadow: "0 4px 16px rgba(5, 3, 51, 0.4)",
@@ -58,6 +81,12 @@ const Panel: React.FC<PanelProps> = ({ activePanel, isOpen, panelHeight }) => (
   </div>
 );
 
+declare global {
+  interface Window {
+    rerender?: () => void;
+  }
+}
+
 const DocRoadmapBar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [activePanel, setActivePanel] = useState<string | null>(null);
@@ -65,6 +94,10 @@ const DocRoadmapBar: React.FC = () => {
   const [isPanelMounted, setIsPanelMounted] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [panelHeight, setPanelHeight] = useState(450);
+  const [panelWidth, setPanelWidth] = useState(350);
+
+  const [, forceUpdate] = useState(0);
+  window.rerender = () => forceUpdate((x) => x + 1);
 
   useEffect(() => {
     getToken().then(setToken);
@@ -72,7 +105,7 @@ const DocRoadmapBar: React.FC = () => {
     if (typeof chrome !== "undefined" && chrome.storage?.local) {
       const onChanged = (
         changes: { [key: string]: chrome.storage.StorageChange },
-        area: string,
+        area: string
       ) => {
         if (area === "local" && changes.token) {
           setToken(changes.token.newValue ?? null);
@@ -95,7 +128,6 @@ const DocRoadmapBar: React.FC = () => {
     }
   }, []);
 
-  // Panel mounting/unmounting and animation logic
   useEffect(() => {
     if (activePanel) {
       setIsPanelMounted(true);
@@ -106,15 +138,19 @@ const DocRoadmapBar: React.FC = () => {
       return () => clearTimeout(timeout);
     }
   }, [activePanel, isPanelMounted]);
-  // don't render if token is not available
+
   if (!token) return null;
 
   const handleButtonClick = (label: string) => {
     setActivePanel((cur) => (cur === label ? null : label));
     if (label === "Calendrier") {
       setPanelHeight(600);
+      setPanelWidth(350);
+    } else if (label === "Voir Roadmap" && modifyChatState.isOpen === true) {
+      setPanelWidth(600);
     } else {
       setPanelHeight(450);
+      setPanelWidth(350);
     }
   };
 
@@ -125,7 +161,30 @@ const DocRoadmapBar: React.FC = () => {
           activePanel={activePanel}
           isOpen={isPanelOpen}
           panelHeight={panelHeight}
+          panelWidth={panelWidth}
         />
+      )}
+
+      {modifyChatState.isOpen && modifyChatState.processId !== null && (
+        <div
+          style={{
+            position: "fixed",
+            left: "60px",
+            bottom: "90px",
+            width: "400px",
+            height: "60vh",
+            background: "white",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+            borderRadius: 8,
+            padding: "1rem",
+            zIndex: 10000,
+          }}
+        >
+          <ModifyRoadmapChat
+            processId={modifyChatState.processId}
+            onClose={closeModifyChat}
+          />
+        </div>
       )}
 
       <div

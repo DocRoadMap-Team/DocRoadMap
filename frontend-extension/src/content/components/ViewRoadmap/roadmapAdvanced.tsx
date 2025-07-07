@@ -6,6 +6,8 @@ import {
   FaChevronUp,
 } from "react-icons/fa";
 
+import { openModifyChat } from "../../InjectedComponent";
+
 import { useTranslation } from "react-i18next";
 import getToken from "../../utils/utils";
 
@@ -22,6 +24,7 @@ interface Step {
 interface Props {
   steps: Step[];
   processName: string;
+  processId: number;
   onClose: () => void;
   onUpdateEndedAt: (stepId: number) => void;
   selectedDate: { [key: number]: string };
@@ -33,6 +36,7 @@ interface Props {
 const RoadmapAdvance: React.FC<Props> = ({
   steps,
   processName,
+  processId,
   onClose,
   onUpdateEndedAt,
   selectedDate,
@@ -42,6 +46,7 @@ const RoadmapAdvance: React.FC<Props> = ({
   const [expandedStep, setExpandedStep] = useState<number | null>(null);
   const [showScrollArrow, setShowScrollArrow] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  console.log("🔍 RoadmapAdvance received processId:", processId);
 
   useEffect(() => {
     const container = scrollRef.current;
@@ -338,6 +343,22 @@ const RoadmapAdvance: React.FC<Props> = ({
           <p className="no-steps">{t("roadmapFetchError")}</p>
         )}
       </div>
+
+      <button
+        onClick={() => openModifyChat(processId)}
+        style={{
+          background: "#1976d2",
+          color: "white",
+          padding: "0.4rem 0.8rem",
+          border: "none",
+          borderRadius: "4px",
+          fontWeight: "bold",
+          cursor: "pointer",
+          marginBottom: "1rem",
+        }}
+      >
+        ✏️ Modifier la roadmap
+      </button>
 
       {showScrollArrow && (
         <button

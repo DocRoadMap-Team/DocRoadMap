@@ -28,14 +28,19 @@ const ModifyRoadmapChat: React.FC<Props> = ({
   useEffect(() => {
     const fetchToken = async () => {
       const tok = await getToken();
-      if (!tok) setError("Token manquant");
-      else setToken(tok);
+      if (!tok) {
+        console.warn("Token manquant");
+        setError("Token manquant");
+      } else {
+        setToken(tok);
+      }
     };
     fetchToken();
   }, []);
 
   const handleSubmit = async () => {
     if (!token) {
+      console.error("handleSubmit: Token is null");
       setError("Token non disponible");
       return;
     }
@@ -55,7 +60,7 @@ const ModifyRoadmapChat: React.FC<Props> = ({
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
 
       const data = res.data;
@@ -67,7 +72,8 @@ const ModifyRoadmapChat: React.FC<Props> = ({
         onClose();
       }
     } catch (err) {
-      setError("Error");
+      console.error("Error during API call:", err);
+      setError("Erreur lors de l'envoi");
     } finally {
       setLoading(false);
     }
@@ -77,17 +83,22 @@ const ModifyRoadmapChat: React.FC<Props> = ({
     <div
       style={{
         position: "fixed",
-        right: "10px",
-        bottom: "10px",
+        right: "375px",
+        bottom: "280px",
         width: "350px",
         background: "white",
-        boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+        boxShadow: "0 0 10px rgba(72, 62, 62, 0.2)",
         borderRadius: "8px",
         padding: "1rem",
         zIndex: 9999,
       }}
     >
-      <button onClick={onClose} style={{ float: "right", fontSize: "1.2rem" }}>
+      <button
+        onClick={() => {
+          onClose();
+        }}
+        style={{ float: "right", fontSize: "1.2rem" }}
+      >
         ×
       </button>
       <h4>Modify Roadmap (#{processId})</h4>
@@ -96,7 +107,9 @@ const ModifyRoadmapChat: React.FC<Props> = ({
         rows={4}
         style={{ width: "100%", marginBottom: "0.5rem" }}
         value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
+        onChange={(e) => {
+          setPrompt(e.target.value);
+        }}
         placeholder="e.g. I want to add a step for user onboarding"
       />
 

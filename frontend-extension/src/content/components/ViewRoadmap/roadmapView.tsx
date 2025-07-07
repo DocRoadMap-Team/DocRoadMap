@@ -1,3 +1,4 @@
+// ✅ RoadmapView.tsx corrigé
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -35,6 +36,9 @@ interface Card {
 const RoadmapView: React.FC = () => {
   const { t } = useTranslation();
   const [cards, setCards] = useState<Card[]>([]);
+  const [selectedProcessId, setSelectedProcessId] = useState<number | null>(
+    null
+  );
   const [error, setError] = useState<string | null>(null);
   const [showSteps, setShowSteps] = useState(false);
   const [chatProcessId, setChatProcessId] = useState<number | null>(null);
@@ -71,9 +75,7 @@ const RoadmapView: React.FC = () => {
             await axios.post(
               `${backendUrl}/process/end-process/${card.id}`,
               {},
-              {
-                headers: { Authorization: `Bearer ${token}` },
-              }
+              { headers: { Authorization: `Bearer ${token}` } }
             );
           } catch (e) {
             console.error("Error closing process:", e);
@@ -125,6 +127,7 @@ const RoadmapView: React.FC = () => {
       });
       setSteps(res.data.steps.sort((a: Step, b: Step) => a.id - b.id));
       setSelectedProcessName(name);
+      setSelectedProcessId(id);
       setShowSteps(true);
     } catch {
       setError(t("fetchStepsError"));
@@ -350,10 +353,8 @@ const RoadmapView: React.FC = () => {
           justify-content: center;
         }
     `}</style>
-
       <Header title={t("currentRoadmaps") || ""} icon={<FaEye />} />
       {error && <p className="error-message">{error}</p>}
-
       {!showSteps ? (
         <div className="carousel-container" ref={scrollRef}>
           {cards
@@ -388,6 +389,7 @@ const RoadmapView: React.FC = () => {
                       {percentage}% {t("completed")}
                     </span>
                   </div>
+
                   <div className="progress-bar-container">
                     <div
                       className="progress-bar-fill"
@@ -406,19 +408,21 @@ const RoadmapView: React.FC = () => {
             })}
         </div>
       ) : (
-        <RoadmapAdvance
-          steps={steps}
-          processName={selectedProcessName}
-          onClose={async () => {
-            setShowSteps(false);
-            await fetchUserProcesses();
-          }}
-          onUpdateEndedAt={updateEndedAt}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-        />
+        selectedProcessId !== null && (
+          <RoadmapAdvance
+            steps={steps}
+            processName={selectedProcessName}
+            processId={selectedProcessId}
+            onClose={async () => {
+              setShowSteps(false);
+              await fetchUserProcesses();
+            }}
+            onUpdateEndedAt={updateEndedAt}
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+          />
+        )
       )}
-
       {chatProcessId && (
         <ModifyRoadmapChat
           processId={chatProcessId}
@@ -426,7 +430,6 @@ const RoadmapView: React.FC = () => {
           onRefresh={() => getSteps(chatProcessId, selectedProcessName)}
         />
       )}
-
       {showScrollArrow && (
         <button
           className="scroll-arrow-button"
