@@ -122,6 +122,12 @@ const DocRoadmapBar: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    if (activePanel !== "Voir Roadmap" && modifyChatState.isOpen) {
+      closeModifyChat();
+    }
+  }, [activePanel]);
+
+  useEffect(() => {
     if (activePanel) {
       setIsPanelMounted(true);
       setTimeout(() => setIsPanelOpen(true), 10);
@@ -157,11 +163,11 @@ const DocRoadmapBar: React.FC = () => {
             right: "375px",
             bottom: "90px",
             width: "320px",
-            height: "375px",
-            background: "white",
+            height: "400px",
+            background: "#f9f9fb",
             boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
             borderRadius: 8,
-            padding: "1rem",
+            padding: "0.2rem",
             zIndex: 10000,
           }}
         >

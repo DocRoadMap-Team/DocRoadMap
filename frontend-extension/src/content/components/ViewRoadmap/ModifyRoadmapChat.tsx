@@ -44,7 +44,25 @@ const ModifyRoadmapChat: React.FC<Props> = ({
             headers: { Authorization: `Bearer ${tok}` },
           }
         );
-        setHistory(res.data);
+        const parsed = res.data.map((item: any) => {
+          let responseText = "Réponse vide";
+
+          try {
+            const parsedResponse = JSON.parse(item.response);
+            responseText = parsedResponse.question || "Réponse vide";
+          } catch {
+            if (typeof item.response === "string") {
+              responseText = item.response;
+            }
+          }
+
+          return {
+            message: item.message,
+            response: responseText,
+          };
+        });
+
+        setHistory(parsed);
       } catch (err) {
         setError("Erreur chargement historique");
       }
@@ -110,6 +128,8 @@ const ModifyRoadmapChat: React.FC<Props> = ({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          borderTopLeftRadius: 8,
+          borderTopRightRadius: 8,
         }}
       >
         <span>Modifier la roadmap (#{processId})</span>
@@ -118,11 +138,16 @@ const ModifyRoadmapChat: React.FC<Props> = ({
           style={{
             background: "none",
             border: "none",
-            fontSize: "1.2rem",
+            fontSize: "1.5rem",
             color: "white",
             cursor: "pointer",
+            lineHeight: "1",
+            padding: 0,
           }}
-        ></button>
+          aria-label="Fermer"
+        >
+          &times;
+        </button>
       </div>
 
       <div
@@ -221,7 +246,7 @@ const ModifyRoadmapChat: React.FC<Props> = ({
           borderTop: "1px solid #ccc",
           background: "#fff",
           alignItems: "center",
-          marginBottom: "-10px",
+          marginBottom: "-6px",
         }}
       >
         <input
@@ -238,6 +263,7 @@ const ModifyRoadmapChat: React.FC<Props> = ({
             border: "1px solid #ccc",
             background: "#f0f2f5",
             marginRight: 10,
+            color: "#000",
           }}
         />
         <button
