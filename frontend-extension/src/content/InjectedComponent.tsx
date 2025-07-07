@@ -1,3 +1,4 @@
+import i18n from "i18next";
 import React, { useEffect, useState } from "react";
 import {
   FaCalendar,
@@ -88,9 +89,27 @@ const DocRoadmapBar: React.FC = () => {
   const [isPanelMounted, setIsPanelMounted] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [panelHeight, setPanelHeight] = useState(450);
-
+  const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
   const [, forceUpdate] = useState(0);
   window.rerender = () => forceUpdate((x) => x + 1);
+
+  useEffect(() => {
+    const onLanguageChange = (changes: {
+      [key: string]: chrome.storage.StorageChange;
+    }) => {
+      if (changes.language) {
+        const newLanguage = changes.language.newValue;
+        if (newLanguage && newLanguage !== currentLanguage) {
+          setCurrentLanguage(newLanguage);
+          i18n.changeLanguage(newLanguage);
+        }
+      }
+    };
+    chrome.storage.onChanged.addListener(onLanguageChange);
+    return () => {
+      chrome.storage.onChanged.removeListener(onLanguageChange);
+    };
+  }, [currentLanguage]);
 
   useEffect(() => {
     getToken().then(setToken);
