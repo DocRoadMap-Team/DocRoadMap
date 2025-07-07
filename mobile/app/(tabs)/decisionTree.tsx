@@ -20,6 +20,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import tree from "../../locales/decision-tree/decisionTree.json";
 import { CreateFromTree } from "../../components/card/CreateFromTree";
 import { router } from "expo-router";
+import { useTheme } from "@/components/ThemeContext";
 
 const decisionTree = tree as Record<string, any>;
 type HistoryEntry =
@@ -27,6 +28,7 @@ type HistoryEntry =
   | { type: "answer"; label: string };
 
 export default function DecisionTree() {
+  const { theme } = useTheme();
   const [history, setHistory] = useState<HistoryEntry[]>([
     { type: "question", key: "start" },
   ]);
@@ -210,7 +212,9 @@ export default function DecisionTree() {
       end={{ x: 1, y: 0 }}
       style={styles.gradientContainer}
     >
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView
+        style={[styles.safeArea, { backgroundColor: theme.background }]}
+      >
         <View style={styles.mainContainer}>
           <ScrollView
             contentContainerStyle={[
@@ -313,9 +317,16 @@ export default function DecisionTree() {
           </ScrollView>
 
           {currentOptions.length > 0 && (
-            <View style={styles.optionsContainer}>
+            <View
+              style={[
+                styles.optionsContainer,
+                { backgroundColor: theme.background },
+              ]}
+            >
               <View style={styles.optionsHeader}>
-                <Text style={styles.optionsTitle}>Choisissez une option</Text>
+                <Text style={[styles.optionsTitle, { color: theme.text }]}>
+                  Choisissez une option
+                </Text>
               </View>
               <ScrollView
                 style={styles.optionsScrollView}

@@ -297,8 +297,13 @@ export default function EditRoadmap() {
                     ? "Décris la modification souhaitée..."
                     : "Entre l'ID de la roadmap (ex: 123)..."
                 }
-                placeholderTextColor="#A0AEC0"
-                style={[styles.input, { backgroundColor: theme.background }]}
+                placeholderTextColor={
+                  theme.background === "#000000" ||
+                  theme.background === "#1A1A1A"
+                    ? "#E0E0E0"
+                    : "#FFFFFFFF"
+                }
+                style={[styles.input, { color: theme.text }]}
                 multiline
                 maxLength={500}
               />
@@ -537,7 +542,7 @@ const styles = ScaledSheet.create({
   input: {
     flex: 1,
     fontSize: moderateScale(16),
-    color: "#2D3748",
+
     paddingVertical: hp(1),
     paddingRight: wp(2),
     maxHeight: hp(12),
