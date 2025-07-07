@@ -41,6 +41,7 @@ export default function HomePage() {
   const fetchCards = useCallback(async () => {
     const response = await request.processperID();
     if ("data" in response && response.data) {
+      const sortedCards = response.data.sort((a, b) => a.id - b.id);
       setCards(response.data);
     } else {
       Alert.alert(t("home.error"), response.error || t("home.error_message"));
