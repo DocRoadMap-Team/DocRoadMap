@@ -488,7 +488,7 @@ export class AiService {
                     messages: [
                         {
                             role: 'system',
-                            content: 'You are an assistant that generates concise and accurate HTML alt text for images. You are given the image directly, not just a URL.'
+                            content: 'You are an assistant that generates concise and accurate HTML alt text for images. You are given the image directly, not just a URL. You must answer in French.',
                         },
                         {
                             role: 'user',
