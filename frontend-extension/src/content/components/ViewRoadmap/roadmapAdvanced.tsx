@@ -6,7 +6,7 @@ import {
   FaChevronUp,
 } from "react-icons/fa";
 
-import { openModifyChat } from "../../InjectedComponent";
+import { closeModifyChat, openModifyChat } from "../../InjectedComponent";
 
 import { useTranslation } from "react-i18next";
 import getToken from "../../utils/utils";
@@ -97,6 +97,12 @@ const RoadmapAdvance: React.FC<Props> = ({
       console.error("Erreur lors de la requête PATCH:", error);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      closeModifyChat();
+    };
+  }, []);
 
   return (
     <div className="advanced-steps-container">
@@ -350,11 +356,17 @@ const RoadmapAdvance: React.FC<Props> = ({
           background: "#1976d2",
           color: "white",
           padding: "0.4rem 0.8rem",
+          fontSize: "0.85rem",
           border: "none",
           borderRadius: "4px",
-          fontWeight: "bold",
+          fontWeight: 500,
           cursor: "pointer",
-          marginBottom: "1rem",
+          marginTop: "0.5rem",
+          marginBottom: "0.5rem",
+          marginLeft: "auto",
+          marginRight: "auto",
+          display: "block",
+          whiteSpace: "nowrap",
         }}
       >
         ✏️ Modifier la roadmap
