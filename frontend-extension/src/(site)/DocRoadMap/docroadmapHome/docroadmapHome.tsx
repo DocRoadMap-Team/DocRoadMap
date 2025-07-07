@@ -15,16 +15,21 @@ const docroadmapImg = isDev
   : "../assets/docroadmap.png";
 
 const authorizedDomains = [
-  /\.gouv\.fr$/,
   /\.ameli\.fr$/,
+  /\.apec\.fr$/,
   /\.caf\.fr$/,
-  /\.impots\.gouv\.fr$/,
-  /\.service-public\.fr$/,
-  /\.legifrance\.gouv\.fr$/,
-  /\.franceconnect\.gouv\.fr$/,
   /\.demarches-simplifiees\.fr$/,
-  /\.mesdroitssociaux\.gouv\.fr$/,
+  /\.energie-info\.fr$/,
+  /\.franceconnect\.gouv\.fr$/,
+  /\.francetravail\.fr$/,
+  /\.gouv\.fr$/,
+  /\.impots\.gouv\.fr$/,
+  /\.laposte\.fr$/,
+  /\.legifrance\.gouv\.fr$/,
   /\.mes-aides\.gouv\.fr$/,
+  /\.mesdroitssociaux\.gouv\.fr$/,
+  /\.orientation-pour-tous\.fr$/,
+  /\.service-public\.fr$/,
 ];
 
 function isAuthorizedUrl(url: string | null): boolean {
