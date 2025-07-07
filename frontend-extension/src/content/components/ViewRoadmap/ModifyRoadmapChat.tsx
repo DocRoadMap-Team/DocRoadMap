@@ -4,10 +4,6 @@ import getToken from "../../utils/utils";
 
 const backendUrl = "https://www.docroadmap.fr";
 
-// const env = import.meta.env.VITE_ENV_MODE;
-// const backendUrl =
-//   env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
-
 interface Props {
   processId: number;
   onClose: () => void;
@@ -80,25 +76,8 @@ const ModifyRoadmapChat: React.FC<Props> = ({
   };
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        right: "375px",
-        bottom: "280px",
-        width: "350px",
-        background: "white",
-        boxShadow: "0 0 10px rgba(72, 62, 62, 0.2)",
-        borderRadius: "8px",
-        padding: "1rem",
-        zIndex: 9999,
-      }}
-    >
-      <button
-        onClick={() => {
-          onClose();
-        }}
-        style={{ float: "right", fontSize: "1.2rem" }}
-      >
+    <div style={{ width: "100%", height: "100%" }}>
+      <button onClick={onClose} style={{ float: "right", fontSize: "1.2rem" }}>
         ×
       </button>
       <h4>Modify Roadmap (#{processId})</h4>

@@ -44,22 +44,22 @@ interface PanelProps {
   activePanel: string | null;
   isOpen: boolean;
   panelHeight: number;
-  panelWidth: number;
+  // panelWidth: number;
 }
 
 const Panel: React.FC<PanelProps> = ({
   activePanel,
   isOpen,
   panelHeight,
-  panelWidth,
+  // panelWidth,
 }) => (
   <div
     style={{
       position: "fixed",
       bottom: "90px",
       right: "24px",
-      width: `${panelWidth}px`,
-      maxWidth: `${panelWidth}px`,
+      width: `350px`,
+      maxWidth: `350px`,
       height: `${panelHeight}px`,
       background: "#fff",
       borderRadius: 8,
@@ -94,7 +94,7 @@ const DocRoadmapBar: React.FC = () => {
   const [isPanelMounted, setIsPanelMounted] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [panelHeight, setPanelHeight] = useState(450);
-  const [panelWidth, setPanelWidth] = useState(350);
+  // const [panelWidth, setPanelWidth] = useState(350);
 
   const [, forceUpdate] = useState(0);
   window.rerender = () => forceUpdate((x) => x + 1);
@@ -145,12 +145,12 @@ const DocRoadmapBar: React.FC = () => {
     setActivePanel((cur) => (cur === label ? null : label));
     if (label === "Calendrier") {
       setPanelHeight(600);
-      setPanelWidth(350);
-    } else if (label === "Voir Roadmap" && modifyChatState.isOpen === true) {
-      setPanelWidth(600);
+      // setPanelWidth(350);
+      // } else if (label === "Voir Roadmap" && modifyChatState.isOpen === true) {
+      // setPanelWidth(600);
     } else {
       setPanelHeight(450);
-      setPanelWidth(350);
+      // setPanelWidth(350);
     }
   };
 
@@ -161,7 +161,7 @@ const DocRoadmapBar: React.FC = () => {
           activePanel={activePanel}
           isOpen={isPanelOpen}
           panelHeight={panelHeight}
-          panelWidth={panelWidth}
+          // panelWidth={panelWidth}
         />
       )}
 
@@ -169,10 +169,10 @@ const DocRoadmapBar: React.FC = () => {
         <div
           style={{
             position: "fixed",
-            left: "60px",
+            right: "350px",
             bottom: "90px",
-            width: "400px",
-            height: "60vh",
+            width: "320px",
+            height: "300px",
             background: "white",
             boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
             borderRadius: 8,
