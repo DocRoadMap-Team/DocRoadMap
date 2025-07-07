@@ -127,8 +127,8 @@ export class AiService {
     }
 
     async query(prompt: string, model: string, userId: number): Promise<string> {
-        if (!prompt || !model || !userId) {
-            throw new BadRequestException("Prompt, model and userId are required");
+        if (!prompt || !userId) {
+            throw new BadRequestException("Prompt and userId are required");
         }
         const apiKey = process.env.OPENAI_API_KEY;
 
@@ -147,20 +147,23 @@ export class AiService {
             take: 5,
         });
 
-        const messages = history
-            .reverse()
-            .map((entry) => ({
+        const systemPrompt = `You are a chatbot whose goal is to answer questions about French administrative procedures as well as major life stages (studies, marriage, retirement, etc). All your answers must be based on the French system and you must always reply in the user's language.`;
+
+        const messages = [
+            { role: "system", content: systemPrompt },
+            ...history.reverse().map((entry) => ({
                 role: "user",
                 content: entry.history,
-            }));
-
-        messages.push({ role: "user", content: prompt });
+            })),
+            { role: "user", content: prompt }
+        ];
 
         try {
             const response = await axios.post(
                 "https://api.openai.com/v1/chat/completions",
                 {
-                    model: model,
+                    model: "gpt-4o-search-preview",
+                    web_search_options: {},
                     messages: messages,
                 },
                 {
