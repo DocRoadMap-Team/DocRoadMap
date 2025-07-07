@@ -21,7 +21,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import request from "@/constants/Request";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 
 type Message = {
   text: string;
@@ -32,16 +32,41 @@ export default function EditRoadmap() {
   const { t } = useTranslation();
   const { theme } = useTheme();
   const scrollRef = useRef<ScrollView>(null);
+  const { processId: paramProcessId } = useLocalSearchParams();
 
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      text: "Bonjour ! Quelle roadmap veux-tu éditer, supprimer ou changer selon ton cas personnel ? Commence par donner juste le chiffre entre parenthèses à côté du titre de ta démarche avant de pouvoir converser normalement avec moi pour éditer ta démarche !",
-      sender: "bot",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [processId, setProcessId] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (paramProcessId) {
+      const id = parseInt(paramProcessId as string, 10);
+      if (!isNaN(id)) {
+        setProcessId(id);
+        setMessages([
+          {
+            text: `✅ Roadmap ID ${id} trouvée automatiquement. Que veux-tu modifier ?`,
+            sender: "bot",
+          },
+        ]);
+      } else {
+        setMessages([
+          {
+            text: "Bonjour ! La roadmap n'a pas été trouvé , quelle roadmap veux-tu donc éditer, supprimer ou changer selon ton cas personnel ? Commence par donner juste le chiffre entre parenthèses à côté du titre de ta démarche avant de pouvoir converser normalement avec moi pour éditer ta démarche !",
+            sender: "bot",
+          },
+        ]);
+      }
+    } else {
+      setMessages([
+        {
+          text: "Bonjour ! Quelle roadmap veux-tu éditer, supprimer ou changer selon ton cas personnel ? Commence par donner juste le chiffre entre parenthèses à côté du titre de ta démarche avant de pouvoir converser normalement avec moi pour éditer ta démarche !",
+          sender: "bot",
+        },
+      ]);
+    }
+  }, [paramProcessId]);
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -122,8 +147,11 @@ export default function EditRoadmap() {
           } else if (!isAsking && roadmap) {
             setMessages([
               ...newMessages,
-              { text: "Voici la roadmap mise à jour 👇", sender: "bot" },
-              { text: JSON.stringify(roadmap, null, 2), sender: "bot" },
+              { text: "La roadmap a été mise à jour ! ", sender: "bot" },
+              {
+                text: "Raffraichissez la page d'accueil et retrouvez votre carte pour pouvoir voir vos modifications !",
+                sender: "bot",
+              },
             ]);
             console.log("Roadmap mise à jour : ", roadmap);
           }
@@ -172,7 +200,7 @@ export default function EditRoadmap() {
             </View>
           </View>
         </LinearGradient>
-        -
+
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.keyboardAvoidingView}
@@ -418,7 +446,7 @@ const styles = ScaledSheet.create({
   },
   userMessageText: {
     fontSize: moderateScale(16),
-    color: "#2D3748",
+    color: "#FFFFFF",
     lineHeight: moderateScale(24),
     fontWeight: "500",
   },

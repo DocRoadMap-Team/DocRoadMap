@@ -37,19 +37,23 @@ const getId = async (): Promise<number | null> => {
   const id = await AsyncStorage.getItem("id");
   return id ? parseInt(id, 10) : null;
 };
-const decisionTree = rawTree as unknown as DecisionTree;
 
+const decisionTree = rawTree as unknown as DecisionTree;
 let StepsId: number | null = null;
 
 export const useStepsId = () => {
   const [stepsId, setStepsId] = useState<number | null>(StepsId);
-
   const updateStepsId = (id: number | null) => {
     StepsId = id;
     setStepsId(id);
   };
-
   return { stepsId, setStepsId: updateStepsId };
+};
+
+const countTotalSteps = (stepGroup: Record<string, StepJSON>): number => {
+  return Object.values(stepGroup).filter(
+    (step) => step.step_title && step.options?.length,
+  ).length;
 };
 
 export const CreateFromTree = async ({
@@ -69,10 +73,11 @@ export const CreateFromTree = async ({
   }
 
   const stepGroup = decisionTree[answerKey];
+  const totalSteps = countTotalSteps(stepGroup);
 
   const processData = {
     name,
-    description: `Créée automatiquement par Donna pour une démarche de type ${name}`,
+    description: `${totalSteps} étapes au total`,
     userId,
     stepsId: StepsId!,
     endedAt: "",
@@ -88,12 +93,10 @@ export const CreateFromTree = async ({
     }
 
     const stepList: StepData[] = [];
-
     Object.values(stepGroup).forEach((step) => {
       if (!step.step_title || !step.options?.length) return;
 
       let answer = "";
-
       if (step.step_question) {
         const userLabel = userAnswers[step.step_question];
         const matchedOption = step.options.find(

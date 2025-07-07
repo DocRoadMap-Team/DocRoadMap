@@ -211,16 +211,14 @@ export default function DecisionTree() {
       style={styles.gradientContainer}
     >
       <SafeAreaView style={styles.safeArea}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.keyboardAvoidingView}
-          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
-        >
+        <View style={styles.mainContainer}>
           <ScrollView
-            contentContainerStyle={styles.container}
+            contentContainerStyle={[
+              styles.container,
+              { paddingBottom: currentOptions.length > 0 ? hp(1) : hp(2) },
+            ]}
             ref={scrollRef}
             style={styles.scrollView}
-            keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
           >
             {history.map((entry, index) => {
@@ -262,7 +260,7 @@ export default function DecisionTree() {
                   <Text style={styles.roadmapSubtitle}>
                     Adaptez votre démarche selon vos besoins Vous pourrez la
                     retrouver et la modifier depuis la carte dédiée à cette
-                    dernière sur la page d’accueil.
+                    dernière sur la page d'accueil.
                   </Text>
                 </View>
 
@@ -322,7 +320,6 @@ export default function DecisionTree() {
               <ScrollView
                 style={styles.optionsScrollView}
                 contentContainerStyle={styles.optionsContent}
-                keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={false}
               >
                 {currentOptions.map(({ label, next }, idx) => (
@@ -346,7 +343,7 @@ export default function DecisionTree() {
               </ScrollView>
             </View>
           )}
-        </KeyboardAvoidingView>
+        </View>
       </SafeAreaView>
     </LinearGradient>
   );
@@ -359,15 +356,15 @@ const styles = ScaledSheet.create({
   safeArea: {
     flex: 1,
   },
-  keyboardAvoidingView: {
+  mainContainer: {
     flex: 1,
+    justifyContent: "space-between",
   },
   scrollView: {
     flex: 1,
   },
   container: {
     padding: wp(4),
-    paddingBottom: hp(2),
     flexGrow: 1,
   },
 
@@ -548,15 +545,16 @@ const styles = ScaledSheet.create({
   },
 
   optionsContainer: {
-    backgroundColor: "rgba(255, 255, 255, 0.95)",
+    backgroundColor: "rgba(255, 255, 255, 0.98)",
     borderTopLeftRadius: moderateScale(20),
     borderTopRightRadius: moderateScale(20),
-    maxHeight: hp(35),
+    maxHeight: hp(40),
     shadowColor: "#000",
     shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.15,
     shadowRadius: 8,
-    elevation: 10,
+    elevation: 12,
+    marginTop: hp(1),
   },
   optionsHeader: {
     paddingVertical: hp(2),
@@ -566,12 +564,12 @@ const styles = ScaledSheet.create({
     alignItems: "center",
   },
   optionsTitle: {
-    fontSize: moderateScale(16),
+    fontSize: moderateScale(17),
     fontWeight: "600",
-    color: "#4A5568",
+    color: "#2D3748",
   },
   optionsScrollView: {
-    flex: 1,
+    maxHeight: hp(30),
   },
   optionsContent: {
     paddingHorizontal: wp(4),
@@ -587,7 +585,7 @@ const styles = ScaledSheet.create({
     elevation: 4,
   },
   optionGradient: {
-    paddingVertical: hp(2),
+    paddingVertical: hp(2.5),
     paddingHorizontal: wp(4),
     borderRadius: moderateScale(15),
     flexDirection: "row",

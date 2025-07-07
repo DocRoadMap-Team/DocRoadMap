@@ -168,7 +168,7 @@ const request = {
         {
           name: data.name,
           description: data.description,
-          status: "PENDING",
+          status: data.status,
           userId: id,
           stepsId: 15,
           endedAt: "2024-12-12, 12:00:00",
