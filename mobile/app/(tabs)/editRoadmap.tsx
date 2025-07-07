@@ -167,8 +167,10 @@ export default function EditRoadmap() {
   };
 
   return (
-    <View style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <SafeAreaView
+        style={[styles.safeArea, { backgroundColor: theme.background }]}
+      >
         <LinearGradient
           colors={["#204CCF", "#6006A4"]}
           start={{ x: 0, y: 0 }}
@@ -203,13 +205,22 @@ export default function EditRoadmap() {
 
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.keyboardAvoidingView}
+          style={[
+            styles.keyboardAvoidingView,
+            { backgroundColor: theme.background },
+          ]}
           keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
         >
           <ScrollView
             ref={scrollRef}
-            style={styles.chatContainer}
-            contentContainerStyle={styles.chatContent}
+            style={[
+              styles.chatContainer,
+              { backgroundColor: theme.background },
+            ]}
+            contentContainerStyle={[
+              styles.chatContent,
+              { backgroundColor: theme.background },
+            ]}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
           >
@@ -266,8 +277,18 @@ export default function EditRoadmap() {
             )}
           </ScrollView>
 
-          <View style={styles.inputContainer}>
-            <View style={styles.inputWrapper}>
+          <View
+            style={[
+              styles.inputContainer,
+              { backgroundColor: theme.background },
+            ]}
+          >
+            <View
+              style={[
+                styles.inputWrapper,
+                { backgroundColor: theme.background },
+              ]}
+            >
               <TextInput
                 value={message}
                 onChangeText={setMessage}
@@ -277,7 +298,7 @@ export default function EditRoadmap() {
                     : "Entre l'ID de la roadmap (ex: 123)..."
                 }
                 placeholderTextColor="#A0AEC0"
-                style={styles.input}
+                style={[styles.input, { backgroundColor: theme.background }]}
                 multiline
                 maxLength={500}
               />
@@ -315,15 +336,12 @@ export default function EditRoadmap() {
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
   },
   safeArea: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
   },
   keyboardAvoidingView: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
   },
 
   headerGradient: {
@@ -374,7 +392,6 @@ const styles = ScaledSheet.create({
 
   chatContainer: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
   },
   chatContent: {
     padding: wp(4),
@@ -454,7 +471,7 @@ const styles = ScaledSheet.create({
     width: moderateScale(36),
     height: moderateScale(36),
     borderRadius: moderateScale(18),
-    backgroundColor: "#FFFFFF",
+
     justifyContent: "center",
     alignItems: "center",
     marginLeft: wp(3),
@@ -497,7 +514,6 @@ const styles = ScaledSheet.create({
   },
 
   inputContainer: {
-    backgroundColor: "#F7FAFC",
     borderTopWidth: 1,
     borderTopColor: "#E2E8F0",
     paddingHorizontal: wp(4),
@@ -506,7 +522,7 @@ const styles = ScaledSheet.create({
   inputWrapper: {
     flexDirection: "row",
     alignItems: "flex-end",
-    backgroundColor: "#FFFFFF",
+
     borderRadius: moderateScale(25),
     paddingHorizontal: wp(4),
     paddingVertical: hp(1),
