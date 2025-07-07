@@ -81,7 +81,6 @@ const RoadmapView: React.FC = () => {
           completed.push(card);
         }
       }
-
       setCards(allCards.filter((card) => !completed.includes(card)));
     } catch {
       setError(t("fetchError"));
@@ -131,6 +130,7 @@ const RoadmapView: React.FC = () => {
       setError(t("fetchStepsError"));
     }
   };
+
   return (
     <div
       className="roadmap-panel-container"
@@ -228,21 +228,17 @@ const RoadmapView: React.FC = () => {
         max-width: 90%;
         min-width: 320px;
       }
-
       .continue-button:hover {
         background: linear-gradient(90deg, #3c4edb 0%, #5f75eb 100%);
         transform: translateY(-1px);
         box-shadow: 0 4px 10px rgba(74, 99, 243, 0.25);
       }
-
       .continue-button .arrow {
         transition: transform 0.2s ease;
       }
-
       .continue-button:hover .arrow {
         transform: translateX(4px);
       }
-
       .modify-button {
         margin-top: 0.4rem;
         background: #f0f0f0;
@@ -275,94 +271,84 @@ const RoadmapView: React.FC = () => {
         z-index: 100;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       }
-        .card-header {
-          display: flex;
+      .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .card-header-left {
+        display: flex;
+        align-items: center;
+      }
+      .doc-icon {
+        font-size: 1.6rem;
+      }
+      .card-header-center {
+        text-align: center;
+        flex-grow: 1;
+      }
+      .card-subtitle {
+        font-size: 0.85rem;
+        color: #9ca3af;
+        margin-top: -4px;
+      }
+      .card-header-right {
+        display: flex;
+        align-items: center;
+      }
+      .progress-circle {
+        background: #dbeafe;
+        color: #1e3a8a;
+        border-radius: 999px;
+        width: 50px;
+        height: 50px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .progress-label-alt {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin-top: 0.5rem;
+      }
+      .card-header-banner {
+        background: #4a63f3;
+        border-radius: 12px 12px 0 0;
+        padding: 1rem 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: white;
+      }
+      .card-banner-left {
+        font-size: 1.4rem;
+        }
+      .card-banner-center {
+        flex-grow: 1;
+        text-align: center;
+        font-size: 1rem;
+        font-weight: 600;
+        }
+      .card-banner-right {
+         display: flex;
           align-items: center;
-          justify-content: space-between;
         }
-
-        .card-header-left {
-          display: flex;
-          align-items: center;
-        }
-
-        .doc-icon {
-          font-size: 1.6rem;
-        }
-
-        .card-header-center {
-          text-align: center;
-          flex-grow: 1;
-        }
-
-        .card-subtitle {
-          font-size: 0.85rem;
-          color: #9ca3af;
-          margin-top: -4px;
-        }
-
-        .card-header-right {
-          display: flex;
-          align-items: center;
-        }
-
-        .progress-circle {
-          background: #dbeafe;
-          color: #1e3a8a;
-          border-radius: 999px;
-          width: 50px;
-          height: 50px;
-          font-weight: 700;
+       .circle-badge {
+          background-color: rgba(255, 255, 255, 0.2);
+          border: 2px solid white;
+          border-radius: 50%;
+          width: 46px;
+          height: 46px;
           font-size: 0.9rem;
+          font-weight: 600;
           display: flex;
           align-items: center;
           justify-content: center;
         }
-        .progress-label-alt {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.85rem;
-          color: #6b7280;
-          margin-top: 0.5rem;
-        }
-        .card-header-banner {
-          background: #4a63f3;
-          border-radius: 12px 12px 0 0;
-          padding: 1rem 1.2rem;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          color: white;
-        }
-
-          .card-banner-left {
-            font-size: 1.4rem;
-          }
-
-          .card-banner-center {
-            flex-grow: 1;
-            text-align: center;
-            font-size: 1rem;
-            font-weight: 600;
-          }
-
-          .card-banner-right {
-            display: flex;
-            align-items: center;
-          }
-
-          .circle-badge {
-            background-color: rgba(255, 255, 255, 0.2);
-            border: 2px solid white;
-            border-radius: 50%;
-            width: 46px;
-            height: 46px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
     `}</style>
 
       <Header title={t("currentRoadmaps") || ""} icon={<FaEye />} />
