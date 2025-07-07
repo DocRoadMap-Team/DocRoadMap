@@ -104,6 +104,8 @@ const RoadmapAdvance: React.FC<Props> = ({
     };
   }, []);
 
+  const sortedSteps = [...steps].sort((a, b) => a.id - b.id);
+
   return (
     <div className="advanced-steps-container">
       <style>{`
@@ -293,8 +295,8 @@ const RoadmapAdvance: React.FC<Props> = ({
       </div>
 
       <div className="steps-scroll" ref={scrollRef}>
-        {steps.length > 0 ? (
-          steps.map((step, idx) => (
+        {sortedSteps.length > 0 ? (
+          sortedSteps.map((step, idx) => (
             <div className="step-card" key={step.id}>
               <div
                 className={`step-header${step.status === "COMPLETED" ? " completed" : ""}`}
