@@ -250,11 +250,16 @@ export class AiService {
                 You are an assistant helping to edit a roadmap. The roadmap is structured as follows:
                 - Process Name: ${process.name}
                 - Description: ${process.description}
-                - Current Steps: ${process.steps.map(step => `name: ${step.name}, description: ${step.description}, processId: ${process.id}`).join('\n')}
+                - Current Steps: ${process.steps.map(step => `id: ${step.id}, name: ${step.name}, description: ${step.description}, status: ${step.status}, processId: ${process.id}`).join('\n')}
 
                 Your task is to identify steps to modify, add, or remove, and if necessary, ask questions to clarify the user's needs.
                 If the user requests to remove a step, you must always ask for confirmation before actually removing it. 
                 For example, if the user says to delete a step, respond with isAsking: true, roadmap: null, and a question confirming if they are sure about deleting that step.
+
+                Important rules:
+                - Each step has an 'id' that must be preserved when updating steps.
+                - You must not change the 'status' of a step unless the user explicitly requests it.
+
 
                 Once all questions are answered, generate a JSON object with the updated roadmap structure.
 
@@ -277,11 +282,18 @@ export class AiService {
                     "steps": [
                       {
                         "name": "Step 1",
-                        "description": "Description of step 1"
+                        "description": "Description of step 1",
+                        "status": "COMPLETED"
                       },
                       {
                         "name": "Step 2",
-                        "description": "Description of step 2"
+                        "description": "Description of step 2",
+                        "status": "PENDING"
+                      },
+                      {
+                        "name": "Step 3",
+                        "description": "Description of step 3",
+                        "status": "IN_PROGRESS"
                       }
                     ]
                   },
@@ -316,9 +328,10 @@ export class AiService {
                                                     type: "object",
                                                     properties: {
                                                         name: { type: "string" },
-                                                        description: { type: "string" }
+                                                        description: { type: "string" },
+                                                        status: { type: "string", enum: ["PENDING", "IN_PROGRESS", "COMPLETED"] }
                                                     },
-                                                    required: ["name", "description"],
+                                                    required: ["name", "description", "status"],
                                                     additionalProperties: false
                                                 }
                                             }
@@ -413,7 +426,10 @@ export class AiService {
     }
 
     private async updateProcessAndSteps(process_id: number, roadmapJson: any): Promise<void> {
-        const process = await this.processRepository.findOne({ where: { id: process_id } });
+        const process = await this.processRepository.findOne({
+            where: { id: process_id },
+            relations: ['steps'],
+        });
 
         if (!process) {
             throw new NotFoundException(`Process with ID ${process_id} not found`);
@@ -423,18 +439,30 @@ export class AiService {
         process.description = roadmapJson.description;
         await this.processRepository.save(process);
 
+        const existingStepsMap = new Map(
+            (process.steps || []).map((s) => [s.name.trim().toLowerCase(), s.status])
+        );
+
         await this.stepRepository.delete({ process: { id: process_id } });
 
         console.log("Updating process and steps with new roadmap data:", roadmapJson);
+
         for (const step of roadmapJson.steps) {
+            const stepNameKey = step.name.trim().toLowerCase();
+
             const newStep = this.stepRepository.create({
                 name: step.name,
                 description: step.description,
+                status: existingStepsMap.has(stepNameKey)
+                    ? existingStepsMap.get(stepNameKey)
+                    : (step.status || 'PENDING'),
                 process: process,
             });
+
             await this.stepRepository.save(newStep);
         }
     }
+
 
     async describeImage(url: string): Promise<{ alt: string }> {
         const apiKey = process.env.OPENAI_API_KEY;
