@@ -38,28 +38,27 @@ export default function ChatInterface() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
+  const [historyLoaded, setHistoryLoaded] = useState(false);
 
   useEffect(() => {
-    if (messages.length > 0) {
-      scrollRef.current?.scrollToEnd({ animated: true });
+    if (modalVisible || messages.length > 0 || loading) {
+      setTimeout(() => {
+        scrollRef.current?.scrollToEnd({ animated: true });
+      }, 100);
     }
-  }, [messages, loading]);
+  }, [modalVisible, messages, loading]);
 
   const openModal = async () => {
     setModalVisible(true);
+
+    if (historyLoaded) return;
+
     setLoading(true);
     try {
       const res = await request.aiHistory();
-      const historyText = res.data.history;
-      const history = historyText.split("\n").map((line: string) => {
-        const [roleLabel, ...rest] = line.split(": ");
-        const text = rest.join(": ");
-        return {
-          text,
-          sender: roleLabel.toLowerCase() === "user" ? "user" : "bot",
-        };
-      });
-      if (history.length === 0) {
+      const historyText = res?.data?.history;
+
+      if (!historyText || typeof historyText !== "string") {
         setMessages([
           {
             text: "Bonjour ! Demande-moi ce dont tu as besoin ! 👋",
@@ -67,8 +66,22 @@ export default function ChatInterface() {
           },
         ]);
       } else {
-        setMessages(history);
+        const history = historyText.split("\n").map((line: string) => {
+          const [roleLabel, ...rest] = line.split(": ");
+          const text = rest.join(": ");
+          return {
+            text,
+            sender: roleLabel.toLowerCase() === "user" ? "user" : "bot",
+          };
+        });
+        const convertedHistory: Message[] = history.map((msg) => ({
+          text: msg.text,
+          sender: msg.sender === "user" ? "user" : "bot",
+        }));
+
+        setMessages(convertedHistory);
       }
+      setHistoryLoaded(true);
     } catch (error) {
       console.error(error);
       setMessages([{ text: t("server_error"), sender: "bot" }]);
@@ -79,7 +92,7 @@ export default function ChatInterface() {
 
   const closeModal = () => {
     setModalVisible(false);
-    setMessages([]);
+
     setMessage("");
   };
 

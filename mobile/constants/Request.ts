@@ -461,7 +461,7 @@ const request = {
       const accessToken = await getAccessToken();
       const userId = await getId();
 
-      const response = await axios.get(`${url}/ai-history/${userId}`, {
+      const response = await axios.get(`${url}/ai-history/donna`, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",

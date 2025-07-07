@@ -72,7 +72,6 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
         const fetchedSteps = response.data;
         setSteps(fetchedSteps);
 
-        // Calculer et envoyer la progression au parent
         const newProgress = calculateProgress(fetchedSteps);
         if (onProgressUpdate) {
           onProgressUpdate(id, newProgress);
