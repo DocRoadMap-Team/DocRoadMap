@@ -30,6 +30,11 @@ function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
+  const isValidEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.(com)$/i;
+    return regex.test(email);
+  };
+
   const nextStep = () => {
     setError("");
     setStep((prev) => prev + 1);
@@ -38,7 +43,16 @@ function Signup() {
   const prevStep = () =>
     step === 1 ? navigate("/") : setStep((prev) => prev - 1);
 
-  const handleRegister = (e?: React.MouseEvent<HTMLButtonElement>) => {
+  const handleEmailStep = () => {
+    setError("");
+    if (!isValidEmail(email)) {
+      setError(t("invalid_email"));
+      return;
+    }
+    nextStep();
+  };
+
+  const handleRegister = (e?: React.FormEvent | React.MouseEvent) => {
     e?.preventDefault();
     setError("");
 
@@ -75,13 +89,19 @@ function Signup() {
         </div>
 
         {step === 1 && (
-          <>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              nextStep();
+            }}
+          >
             <div className="input-group small">
               <input
                 type="text"
                 placeholder={t("firstName")}
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
+                required
               />
             </div>
             <div className="input-group small">
@@ -90,44 +110,52 @@ function Signup() {
                 placeholder={t("lastName")}
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
+                required
               />
             </div>
-
             <div className="register-button-wrapper">
-              <button className="register-button" onClick={nextStep}>
+              <button className="register-button" type="submit">
                 {t("continue") || "Continuer"}
               </button>
             </div>
-          </>
+          </form>
         )}
 
         {step === 2 && (
-          <>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleEmailStep();
+            }}
+          >
             <div className="input-group small">
               <input
                 type="email"
                 placeholder={t("email")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
 
             <div className="register-button-wrapper">
-              <button className="register-button" onClick={nextStep}>
-                {t("continue") || "Continuer"}
+              <button className="register-button" type="submit">
+                {t("continue")}
               </button>
             </div>
-          </>
+            {error && <p className="signup-error">{error}</p>}
+          </form>
         )}
 
         {step === 3 && (
-          <>
+          <form onSubmit={handleRegister}>
             <div className="input-group small">
               <input
                 type="password"
                 placeholder={t("password")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div className="input-group small">
@@ -136,15 +164,16 @@ function Signup() {
                 placeholder={t("confirmPassword")}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                required
               />
             </div>
             <div className="register-button-wrapper">
-              <button className="register-button" onClick={handleRegister}>
+              <button className="register-button" type="submit">
                 {t("submit")}
               </button>
             </div>
-            {error && <p className="signup-error">{error}</p>}{" "}
-          </>
+            {error && <p className="signup-error">{error}</p>}
+          </form>
         )}
       </div>
     </div>

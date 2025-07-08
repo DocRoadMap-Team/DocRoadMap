@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 type ChatHistoryEntry =
   | { type: "question"; key: string }
@@ -54,6 +55,8 @@ const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({
   index,
   decisionTreeData,
 }) => {
+  const { t } = useTranslation();
+
   if (entry.type === "question") {
     const node = decisionTreeData[entry.key];
     if (node && "question" in node) {
@@ -65,7 +68,7 @@ const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({
           }}
           key={index}
         >
-          <div style={styles.botBubble}>{node.question}</div>
+          <div style={styles.botBubble}>{t(node.question)}</div>
         </div>
       );
     }
@@ -78,10 +81,11 @@ const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({
         }}
         key={index}
       >
-        <div style={styles.userBubble}>{entry.label}</div>
+        <div style={styles.userBubble}>{t(entry.label)}</div>
       </div>
     );
   }
+
   return null;
 };
 

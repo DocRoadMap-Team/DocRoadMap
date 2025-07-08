@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 interface Option {
   label: string;
@@ -47,9 +48,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     fontWeight: 600,
     cursor: "pointer",
     outline: "none",
-
     boxShadow: "0 3px 6px rgba(0, 0, 0, 0.08)",
-
     transition:
       "background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease",
   } as React.CSSProperties,
@@ -59,52 +58,56 @@ const OptionsColumn: React.FC<OptionsColumnProps> = ({
   options,
   onOptionSelect,
   isVisible,
-}) => (
-  <div
-    style={{
-      ...styles.optionsColumnWrapper,
-      opacity: isVisible ? 1 : 0,
-      pointerEvents: isVisible ? "auto" : "none",
-      transition: "opacity 0.35s cubic-bezier(.4,0,.2,1)",
-    }}
-    aria-live="polite"
-  >
-    <div style={styles.optionsColumn}>
-      {options.map(({ label, next }, idx) => (
-        <button
-          key={idx}
-          style={styles.optionColumnBtn}
-          onClick={() => onOptionSelect(next, label)}
-          aria-label={`Choisir : ${label}`}
-          tabIndex={0}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget;
-            el.style.background = HOVER_BLUE;
-            el.style.transform = "translateY(-2px)";
-            el.style.boxShadow = "0 6px 10px rgba(0, 0, 0, 0.12)";
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget;
-            el.style.background = PRIMARY_BLUE;
-            el.style.transform = "translateY(0)";
-            el.style.boxShadow = "0 3px 6px rgba(0, 0, 0, 0.08)";
-          }}
-          onMouseDown={(e) => {
-            const el = e.currentTarget;
-            el.style.transform = "translateY(1px)";
-            el.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.08)";
-          }}
-          onMouseUp={(e) => {
-            const el = e.currentTarget;
-            el.style.transform = "translateY(-2px)";
-            el.style.boxShadow = "0 6px 10px rgba(0, 0, 0, 0.12)";
-          }}
-        >
-          {label}
-        </button>
-      ))}
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <div
+      style={{
+        ...styles.optionsColumnWrapper,
+        opacity: isVisible ? 1 : 0,
+        pointerEvents: isVisible ? "auto" : "none",
+        transition: "opacity 0.35s cubic-bezier(.4,0,.2,1)",
+      }}
+      aria-live="polite"
+    >
+      <div style={styles.optionsColumn}>
+        {options.map(({ label, next }, idx) => (
+          <button
+            key={idx}
+            style={styles.optionColumnBtn}
+            onClick={() => onOptionSelect(next, label)}
+            aria-label={`Choisir : ${t(label)}`}
+            tabIndex={0}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget;
+              el.style.background = HOVER_BLUE;
+              el.style.transform = "translateY(-2px)";
+              el.style.boxShadow = "0 6px 10px rgba(0, 0, 0, 0.12)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget;
+              el.style.background = PRIMARY_BLUE;
+              el.style.transform = "translateY(0)";
+              el.style.boxShadow = "0 3px 6px rgba(0, 0, 0, 0.08)";
+            }}
+            onMouseDown={(e) => {
+              const el = e.currentTarget;
+              el.style.transform = "translateY(1px)";
+              el.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.08)";
+            }}
+            onMouseUp={(e) => {
+              const el = e.currentTarget;
+              el.style.transform = "translateY(-2px)";
+              el.style.boxShadow = "0 6px 10px rgba(0, 0, 0, 0.12)";
+            }}
+          >
+            {t(label)}
+          </button>
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default OptionsColumn;
