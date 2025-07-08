@@ -44,7 +44,7 @@ const ModifyRoadmapChat: React.FC<Props> = ({
           `${backendUrl}/ai-history/roadmap/${processId}`,
           {
             headers: { Authorization: `Bearer ${tok}` },
-          }
+          },
         );
         const parsed = res.data.map((item: any) => {
           let responseText = "Réponse vide";
@@ -94,7 +94,7 @@ const ModifyRoadmapChat: React.FC<Props> = ({
       const res = await axios.post(
         `${backendUrl}/ai/roadmap-query`,
         { prompt: userMessage, process_id: processId },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       const botResponse = res.data?.question || "Réponse vide";
       if (onRefresh && !res.data?.isAsking) onRefresh();

@@ -1,17 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import { useTranslation } from "react-i18next";
-
 type ChatHistoryEntry =
   | { type: "question"; key: string }
   | { type: "answer"; label: string };
-
 interface ChatMessageBubbleProps {
   entry: ChatHistoryEntry;
   index: number;
   decisionTreeData: any;
 }
-
 const styles: { [key: string]: React.CSSProperties } = {
   messageContainer: {
     display: "flex",
@@ -49,14 +45,11 @@ const styles: { [key: string]: React.CSSProperties } = {
     boxShadow: "0 1px 3px rgba(0, 0, 0, 0.15)",
   },
 };
-
 const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({
   entry,
   index,
   decisionTreeData,
 }) => {
-  const { t } = useTranslation();
-
   if (entry.type === "question") {
     const node = decisionTreeData[entry.key];
     if (node && "question" in node) {
@@ -68,7 +61,7 @@ const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({
           }}
           key={index}
         >
-          <div style={styles.botBubble}>{t(node.question)}</div>
+          <div style={styles.botBubble}>{node.question}</div>
         </div>
       );
     }
@@ -81,12 +74,10 @@ const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({
         }}
         key={index}
       >
-        <div style={styles.userBubble}>{t(entry.label)}</div>
+        <div style={styles.userBubble}>{entry.label}</div>
       </div>
     );
   }
-
   return null;
 };
-
 export default ChatMessageBubble;

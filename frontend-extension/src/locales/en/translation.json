@@ -199,6 +199,9 @@
   "ven": "fri",
   "sam": "sat",
 
+  "sendMessage": "Send message",
+
+  "start_question": "What procedure would you like to carry out?",
   "start_option_dem": "Moving within France",
   "start_option_logement": "Housing assistance",
   "start_option_independance": "I'm moving out of my parents' home",

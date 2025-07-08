@@ -4,7 +4,7 @@ interface HeaderProps {
   title: string;
 
   icon?: React.ReactNode;
-  onClose?: () => void;
+  // onClose?: () => void;
 }
 
 const styles: { [key: string]: React.CSSProperties } = {
@@ -23,11 +23,11 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
 };
 
-const Header: React.FC<HeaderProps> = ({ title, icon, onClose }) => (
+const Header: React.FC<HeaderProps> = ({ title, icon }) => (
   <div style={styles.header}>
     {icon}
     {title}
-    {onClose && (
+    {/* {onClose && (
       <button
         style={{
           marginLeft: "auto",
@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({ title, icon, onClose }) => (
       >
         ✕
       </button>
-    )}
+    )} */}
   </div>
 );
 

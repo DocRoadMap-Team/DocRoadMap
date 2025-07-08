@@ -1,102 +1,103 @@
 {
   "start": {
-    "question": "start_question",
+    "question": "Quelle démarche souhaites-tu effectuer ?",
     "options": [
       {
-        "next": "dem_1",
-        "label": "start_option_demenagement_en_france"
+        "label": "Déménagement en France",
+        "next": "dem_1"
       },
       {
-        "next": "logement_1",
-        "label": "start_option_aides_au_logement"
+        "label": "Aides au logement",
+        "next": "logement_1"
       },
       {
-        "next": "independance_1",
-        "label": "start_option_je_pars_de_chez_mes_parents"
+        "label": "Je pars de chez mes parents",
+        "next": "independance_1"
       },
       {
-        "next": "emploi_1",
-        "label": "start_option_je_recherche_un_emploi"
+        "label": "Je recherche un emploi",
+        "next": "emploi_1"
       }
     ]
   },
   "dem_1": {
-    "question": "dem_1_question",
+    "question": "Quelle est votre Situation avant le déménagement ?",
     "options": [
       {
-        "next": "dem_2",
-        "label": "dem_1_option_je_suis_locataire"
+        "label": "Je suis locataire",
+        "next": "dem_2"
       },
       {
-        "next": "dem_2",
-        "label": "dem_1_option_je_suis_proprietaire"
+        "label": "Je suis propriétaire",
+        "next": "dem_2"
       }
     ]
   },
   "dem_2": {
-    "question": "dem_2_question",
+    "question": "Où déménagez-vous ?",
     "options": [
       {
-        "next": "dem_3",
-        "label": "dem_2_option_dans_la_meme_commune"
+        "label": "Dans la même commune",
+        "next": "dem_3"
       },
       {
-        "next": "dem_3",
-        "label": "dem_2_option_dans_une_autre_commune"
+        "label": "Dans une autre commune",
+        "next": "dem_3"
       }
     ]
   },
   "dem_3": {
-    "question": "dem_3_question",
+    "question": "Quelle est votre nationalité ?",
     "options": [
       {
-        "next": "dem_4",
-        "label": "dem_3_option_français"
+        "label": "Français",
+        "next": "dem_4"
       },
       {
-        "next": "dem_4",
-        "label": "dem_3_option_europeen_ue"
+        "label": "Européen (UE)",
+        "next": "dem_4"
       },
       {
-        "next": "dem_4",
-        "label": "dem_3_option_etranger_autre_pays"
+        "label": "Étranger (autre pays)",
+        "next": "dem_4"
       }
     ]
   },
   "dem_4": {
-    "question": "dem_4_question",
+    "question": "Avez-vous un ou plusieurs enfants ?",
     "options": [
       {
-        "next": "dem_5",
-        "label": "dem_4_option_oui"
+        "label": "Oui",
+        "next": "dem_5"
       },
       {
-        "next": "dem_5",
-        "label": "dem_4_option_non"
+        "label": "Non",
+        "next": "dem_5"
       }
     ]
   },
   "dem_5": {
-    "question": "dem_5_question",
+    "question": "Quelle est votre situation professionnelle ?",
     "options": [
       {
-        "next": "dem_answers",
-        "label": "dem_5_option_salarie_du_secteur_prive"
+        "label": "Salarié du secteur privé",
+        "next": "dem_answers"
       },
       {
-        "next": "dem_answers",
-        "label": "dem_5_option_agent_public"
+        "label": "Agent public",
+        "next": "dem_answers"
       },
       {
-        "next": "dem_answers",
-        "label": "dem_5_option_demandeur_demploi"
+        "label": "Demandeur d'emploi",
+        "next": "dem_answers"
       },
       {
-        "next": "dem_answers",
-        "label": "dem_5_option_retraite"
+        "label": "Retraité",
+        "next": "dem_answers"
       }
     ]
   },
+
   "dem_answers": {
     "dem_step_1": {
       "step_title": "Démarches liées au logement que je quitte",
@@ -301,16 +302,17 @@
       ]
     }
   },
+
   "logement_1": {
-    "question": "logement_1_question",
+    "question": "As-tu un contrat de location signé ?",
     "options": [
       {
-        "next": "aide_logement_answers",
-        "label": "logement_1_option_oui"
+        "label": "Oui",
+        "next": "aide_logement_answers"
       },
       {
-        "next": "aide_logement_answers",
-        "label": "logement_1_option_non"
+        "label": "Non",
+        "next": "aide_logement_answers"
       }
     ]
   },
@@ -331,83 +333,85 @@
       ]
     }
   },
+
   "independance_1": {
-    "question": "independance_1_question",
+    "question": "Quelle est votre situation ?",
     "options": [
       {
-        "next": "independance_2",
-        "label": "independance_1_option_je_suis_etudiant_y_compris_apprenti_alternant"
+        "label": "Je suis étudiant (y compris apprenti/alternant)",
+        "next": "independance_2"
       },
       {
-        "next": "independance_2bis",
-        "label": "independance_1_option_autre"
+        "label": "Autre",
+        "next": "independance_2bis"
       }
     ]
   },
   "independance_2": {
-    "question": "independance_2_question",
+    "question": "Quel type de logement recherchez vous ?",
     "options": [
       {
-        "next": "independance_3",
-        "label": "independance_2_option_logement_du_crous_logement_social"
+        "label": "Logement du Crous (logement social)",
+        "next": "independance_3"
       },
       {
-        "next": "independance_3",
-        "label": "independance_2_option_logement_dun_proprietaire"
+        "label": "Logement d'un propriétaire",
+        "next": "independance_3"
       },
       {
-        "next": "independance_3",
-        "label": "independance_2_option_chambre_meublee_chez_lhabitant"
+        "label": "Chambre meublée chez l'habitant",
+        "next": "independance_3"
       }
     ]
   },
   "independance_2bis": {
-    "question": "independance_2bis_question",
+    "question": "Quel type de logement recherchez vous ?",
     "options": [
       {
-        "next": "independance_2.5",
-        "label": "independance_2bis_option_logement_social"
+        "label": "Logement social",
+        "next": "independance_2.5"
       },
       {
-        "next": "independance_2.5",
-        "label": "independance_2bis_option_logement_dun_proprietaire"
+        "label": "Logement d'un propriétaire",
+        "next": "independance_2.5"
       }
     ]
   },
   "independance_2.5": {
-    "question": "independance_2.5_question",
+    "question": "Quelle est votre situation professionnelle ?",
     "options": [
       {
-        "next": "independance_3",
-        "label": "independance_2.5_option_je_suis_salarie"
+        "label": "Je suis salarié",
+        "next": "independance_3"
       },
       {
-        "next": "independance_3",
-        "label": "independance_2.5_option_je_suis_agent_public_fonctionnaire_ou_contractuel"
+        "label": "Je suis agent public (fonctionnaire ou contractuel)",
+        "next": "independance_3"
       },
       {
-        "next": "independance_3",
-        "label": "independance_2.5_option_autre"
+        "label": "Autre",
+        "next": "independance_3"
       }
     ]
   },
   "independance_3": {
-    "question": "independance_3_question",
+    "question": "Quelle est votre nationalité ?",
     "options": [
       {
-        "next": "independance_answers",
-        "label": "independance_3_option_français"
+        "label": "Français",
+        "next": "independance_answers"
       },
       {
-        "next": "independance_answers",
-        "label": "independance_3_option_europeen_ue"
+        "label": "Européen (UE)",
+        "next": "independance_answers"
       },
       {
-        "next": "independance_answers",
-        "label": "independance_3_option_autre_situation"
+        "label": "Autre situation",
+        "next": "independance_answers"
       }
     ]
   },
+
   "independance_answers": {
     "independance_step_1": {
       "step_title": "Type de logement",
@@ -591,6 +595,7 @@
         }
       ]
     },
+
     "independance_step_8": {
       "step_title": "Transfert du courrier",
       "step_question": "independance_1",
@@ -682,16 +687,17 @@
       ]
     }
   },
+
   "emploi_1": {
-    "question": "emploi_1_question",
+    "question": "Quelle est votre situation ?",
     "options": [
       {
-        "next": "emploi_answers",
-        "label": "emploi_1_option_je_recherche_un_1er_emploi"
+        "label": "Je recherche un 1er emploi",
+        "next": "emploi_answers"
       },
       {
-        "next": "emploi_answers",
-        "label": "emploi_1_option_jai_deja_travaille_avec_contrat_de_travail"
+        "label": "J'ai déjà travaillé (avec contrat de travail)",
+        "next": "emploi_answers"
       }
     ]
   },

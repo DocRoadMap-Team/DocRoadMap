@@ -193,6 +193,9 @@
   "sam": "sáb",
   "dim": "dom",
 
+  "sendMessage": "Enviar mensaje",
+
+  "start_question": "¿Qué trámite deseas realizar?",
   "start_option_dem": "Mudanza en Francia",
   "start_option_logement": "Ayudas para el alojamiento",
   "start_option_independance": "Me voy de casa de mis padres",
