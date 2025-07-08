@@ -278,7 +278,7 @@ const RoadmapAdvance: React.FC<Props> = ({
       `}</style>
 
       <div className="advanced-header">
-        {processName}
+        {t(processName)}
         <button
           onClick={onClose}
           style={{
@@ -296,57 +296,65 @@ const RoadmapAdvance: React.FC<Props> = ({
 
       <div className="steps-scroll" ref={scrollRef}>
         {sortedSteps.length > 0 ? (
-          sortedSteps.map((step, idx) => (
-            <div className="step-card" key={step.id}>
-              <div
-                className={`step-header${step.status === "COMPLETED" ? " completed" : ""}`}
-                onClick={() => {
-                  if (step.status !== "COMPLETED") {
-                    setExpandedStep(expandedStep === step.id ? null : step.id);
-                  }
-                }}
-              >
-                <div className="step-title">
-                  <span className="step-index">{idx + 1}</span>
-                  {step.name}
+          sortedSteps.map((step, idx) => {
+            console.log("➡️ step.name =", step.name);
+            console.log("➡️ clé traduction :", `${step.name}_title`);
+
+            return (
+              <div className="step-card" key={step.id}>
+                <div
+                  className={`step-header${
+                    step.status === "COMPLETED" ? " completed" : ""
+                  }`}
+                  onClick={() => {
+                    if (step.status !== "COMPLETED") {
+                      setExpandedStep(
+                        expandedStep === step.id ? null : step.id
+                      );
+                    }
+                  }}
+                >
+                  <div className="step-title">
+                    <span className="step-index">{idx + 1}</span>
+                    {t(`${step.name}_title`)}
+                  </div>
+
+                  <div className="step-right-icon">
+                    {step.status === "COMPLETED" ? (
+                      <FaCheckCircle className="validation-icon" />
+                    ) : expandedStep === step.id ? (
+                      <FaChevronUp className="chevron-icon" />
+                    ) : (
+                      <FaChevronDown className="chevron-icon" />
+                    )}
+                  </div>
                 </div>
 
-                <div className="step-right-icon">
-                  {step.status === "COMPLETED" ? (
-                    <FaCheckCircle className="validation-icon" />
-                  ) : expandedStep === step.id ? (
-                    <FaChevronUp className="chevron-icon" />
-                  ) : (
-                    <FaChevronDown className="chevron-icon" />
-                  )}
-                </div>
+                {expandedStep === step.id && (
+                  <>
+                    <div className="step-description">{step.description}</div>
+                    {step.status !== "COMPLETED" && (
+                      <div className="step-footer">
+                        <input
+                          value={
+                            selectedDate[step.id] ||
+                            (step.endedAt ? step.endedAt.slice(0, 16) : "")
+                          }
+                          onChange={(e) =>
+                            setSelectedDate({
+                              ...selectedDate,
+                              [step.id]: e.target.value,
+                            })
+                          }
+                        />
+                        <button onClick={() => endProcess(step.id)}>✅</button>
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
-
-              {expandedStep === step.id && (
-                <>
-                  <div className="step-description">{step.description}</div>
-                  {step.status !== "COMPLETED" && (
-                    <div className="step-footer">
-                      <input
-                        type="datetime-local"
-                        value={
-                          selectedDate[step.id] ||
-                          (step.endedAt ? step.endedAt.slice(0, 16) : "")
-                        }
-                        onChange={(e) =>
-                          setSelectedDate({
-                            ...selectedDate,
-                            [step.id]: e.target.value,
-                          })
-                        }
-                      />
-                      <button onClick={() => endProcess(step.id)}>✅</button>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          ))
+            );
+          })
         ) : (
           <p className="no-steps">{t("roadmapFetchError")}</p>
         )}

@@ -1,4 +1,3 @@
-// ✅ RoadmapView.tsx corrigé
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -373,9 +372,9 @@ const RoadmapView: React.FC = () => {
                   <div className="card-header-banner">
                     <div className="card-banner-left">📄</div>
                     <div className="card-banner-center">
-                      <div className="card-banner-title">{card.name}</div>
+                      <div className="card-banner-title">{t(card.name)}</div>
                       <div className="card-banner-subtitle">
-                        Dossier #{card.id}
+                        {t("File")} #{card.id}
                       </div>
                     </div>
                     <div className="card-banner-right">
