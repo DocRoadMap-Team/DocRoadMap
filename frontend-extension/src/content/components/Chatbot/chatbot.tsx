@@ -56,7 +56,21 @@ const Chatbot: React.FC = () => {
           { text: entry.message, sender: "user" },
           { text: entry.response, sender: "bot" },
         ]);
-        setMessages(formatted);
+
+        if (formatted.length === 0) {
+          setLoading(true);
+          setTimeout(() => {
+            setMessages([
+              {
+                text: "Bonjour, je suis Donna le chatbot. En quoi puis-je vous aider ?",
+                sender: "bot",
+              },
+            ]);
+            setLoading(false);
+          }, 1000);
+        } else {
+          setMessages(formatted);
+        }
       } catch (err: any) {
         console.error("Erreur /ai-history/donna:", err.message);
       }

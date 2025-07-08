@@ -262,11 +262,11 @@ export async function applyAltSettings(
       /\.(png|jpe?g|gif|webp)(\?|@|$)/i.test(img.src),
   );
   // remove everything that is after tne extension
-    imagesWithoutAlt.forEach((img) => {
-        const match = img.src.match(/(\.(png|jpe?g|gif|webp))/i);
-        if (match && typeof match.index === "number") {
-          img.src = img.src.substring(0, match.index + match[0].length);
-        }
+  imagesWithoutAlt.forEach((img) => {
+    const match = img.src.match(/(\.(png|jpe?g|gif|webp))/i);
+    if (match && typeof match.index === "number") {
+      img.src = img.src.substring(0, match.index + match[0].length);
+    }
   });
 
   const token = await getToken();

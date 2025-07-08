@@ -16,6 +16,7 @@ const LanguageSelector: React.FC = () => {
 
   const handleLanguageChange = (lang: string) => {
     i18n.changeLanguage(lang);
+    chrome.storage.local.set({ language: lang }, () => {});
     navigate(-1);
   };
 

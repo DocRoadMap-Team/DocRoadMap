@@ -9,7 +9,6 @@ import ChatMessageBubble from "./DecisionTreeComponents/ChatMessageBubble";
 import OptionsColumn from "./DecisionTreeComponents/OptionsColumn";
 
 const backendUrl = "https://www.docroadmap.fr";
-const PRIMARY_BLUE = "#2253D1";
 
 // const env = import.meta.env.VITE_ENV_MODE;
 // const backendUrl =
@@ -112,7 +111,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   restartBtn: {
     marginTop: 16,
-    background: `${PRIMARY_BLUE}`,
+    background: "#4B7BFF",
     border: "none",
     color: "#fff",
     fontSize: 16,
@@ -124,13 +123,14 @@ const styles: { [key: string]: React.CSSProperties } = {
     transition: "background 0.18s, box-shadow 0.18s",
   },
   link: {
-    color: `${PRIMARY_BLUE}`,
+    color: "#4B7BFF",
     textDecoration: "underline",
     wordBreak: "break-all",
     fontWeight: 500,
   },
 };
-const DecisionTreeChat: React.FC = () => {
+
+const DecisionTreeChat: React.FC<{ onClose?: () => void }> = () => {
   const [history, setHistory] = useState<ChatHistoryEntry[]>([
     { type: "question", key: "start" },
   ]);

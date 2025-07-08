@@ -1,3 +1,4 @@
+import i18n from "i18next";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -7,12 +8,13 @@ import {
   FaRobot,
   FaWheelchair,
 } from "react-icons/fa";
-import Chatbot from "./components/Chatbot/chatbot";
-import RoadmapView from "./components/ViewRoadmap/roadmapView";
+import ContrastAdjuster from "./components/Accessibility/ContrastAdjuster";
 import StepsCalendar from "./components/Calendar/calendar";
+import Chatbot from "./components/Chatbot/chatbot";
+import ModifyRoadmapChat from "./components/ViewRoadmap/ModifyRoadmapChat";
+import RoadmapView from "./components/ViewRoadmap/roadmapView";
 import getToken from "./utils/utils";
 import DecisionTreeChat from "./components/roadmapCreation/decisionTree";
-import ContrastAdjuster from "./components/Accessibility/ContrastAdjuster";
 import { useAccessibilityPersistence } from "./components/Accessibility/UseAccessibilityPersistance";
 import logo from "../../public/assets/docroadmap_logo2.png";
 import {
@@ -28,7 +30,7 @@ const buttonData = [
   },
   {
     icon: <FaEye />,
-    label: "VoirRoadmap",
+    label: "Voir Roadmap",
     description: "View existing roadmap",
   },
   {
@@ -47,6 +49,23 @@ const buttonData = [
     description: "Open accessibility settings",
   },
 ];
+
+const modifyChatState = {
+  isOpen: false,
+  processId: null as number | null,
+};
+
+export const openModifyChat = (processId: number) => {
+  modifyChatState.isOpen = true;
+  modifyChatState.processId = processId;
+  window.rerender?.();
+};
+
+export const closeModifyChat = () => {
+  modifyChatState.isOpen = false;
+  modifyChatState.processId = null;
+  window.rerender?.();
+};
 
 interface PanelProps {
   activePanel: string | null;
@@ -70,8 +89,8 @@ const Panel: React.FC<PanelProps> = ({
       position: "fixed",
       bottom: "90px",
       right: "24px",
-      width: "350px",
-      maxWidth: "350px",
+      width: `350px`,
+      maxWidth: `350px`,
       height: `${panelHeight}px`,
       background: "#fff",
       borderRadius: 8,
@@ -95,6 +114,12 @@ const Panel: React.FC<PanelProps> = ({
   </div>
 );
 
+declare global {
+  interface Window {
+    rerender?: () => void;
+  }
+}
+
 const DocRoadmapBar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [activePanel, setActivePanel] = useState<string | null>(null);
@@ -105,6 +130,27 @@ const DocRoadmapBar: React.FC = () => {
 
   const { settings, updateSettings } = useAccessibilityPersistence();
   const initialLoadRef = useRef(false);
+  const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
+  const [, forceUpdate] = useState(0);
+  window.rerender = () => forceUpdate((x) => x + 1);
+
+  useEffect(() => {
+    const onLanguageChange = (changes: {
+      [key: string]: chrome.storage.StorageChange;
+    }) => {
+      if (changes.language) {
+        const newLanguage = changes.language.newValue;
+        if (newLanguage && newLanguage !== currentLanguage) {
+          setCurrentLanguage(newLanguage);
+          i18n.changeLanguage(newLanguage);
+        }
+      }
+    };
+    chrome.storage.onChanged.addListener(onLanguageChange);
+    return () => {
+      chrome.storage.onChanged.removeListener(onLanguageChange);
+    };
+  }, [currentLanguage]);
 
   useEffect(() => {
     getToken().then(setToken);
@@ -134,6 +180,12 @@ const DocRoadmapBar: React.FC = () => {
       };
     }
   }, []);
+
+  useEffect(() => {
+    if (activePanel !== "Voir Roadmap" && modifyChatState.isOpen) {
+      closeModifyChat();
+    }
+  }, [activePanel]);
 
   // appliquer automatiquement les paramètres d'accessibilité
   useEffect(() => {
@@ -198,11 +250,8 @@ const DocRoadmapBar: React.FC = () => {
 
   const handleButtonClick = (label: string) => {
     setActivePanel((cur) => (cur === label ? null : label));
-    if (label === "Calendrier") {
-      setPanelHeight(600);
-    } else {
-      setPanelHeight(450);
-    }
+    if (label === "Calendrier") setPanelHeight(600);
+    else setPanelHeight(450);
   };
 
   return (
@@ -214,6 +263,28 @@ const DocRoadmapBar: React.FC = () => {
           panelHeight={panelHeight}
           updateSettings={updateSettings}
         />
+      )}
+
+      {modifyChatState.isOpen && modifyChatState.processId !== null && (
+        <div
+          style={{
+            position: "fixed",
+            right: "375px",
+            bottom: "90px",
+            width: "320px",
+            height: "400px",
+            background: "#f9f9fb",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+            borderRadius: 8,
+            padding: "0.2rem",
+            zIndex: 10000,
+          }}
+        >
+          <ModifyRoadmapChat
+            processId={modifyChatState.processId}
+            onClose={closeModifyChat}
+          />
+        </div>
       )}
 
       <nav
