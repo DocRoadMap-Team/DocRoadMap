@@ -50,7 +50,7 @@ const buttonData = [
   },
 ];
 
-const modifyChatState = {
+export const modifyChatState = {
   isOpen: false,
   processId: null as number | null,
 };

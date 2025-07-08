@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaPaperPlane } from "react-icons/fa";
+import { closeModifyChat } from "../../InjectedComponent";
 import getToken from "../../utils/utils";
 
 const backendUrl = "https://www.docroadmap.fr";
@@ -44,14 +45,16 @@ const ModifyRoadmapChat: React.FC<Props> = ({
           `${backendUrl}/ai-history/roadmap/${processId}`,
           {
             headers: { Authorization: `Bearer ${tok}` },
-          },
+          }
         );
         const parsed = res.data.map((item: any) => {
-          let responseText = "Réponse vide";
+          let responseText = "Votre étape a bien été ajoutée à votre roadmap.";
 
           try {
             const parsedResponse = JSON.parse(item.response);
-            responseText = parsedResponse.question || "Réponse vide";
+            responseText =
+              parsedResponse.question ||
+              "Votre étape a bien été ajoutée à votre roadmap.";
           } catch {
             if (typeof item.response === "string") {
               responseText = item.response;
@@ -94,10 +97,23 @@ const ModifyRoadmapChat: React.FC<Props> = ({
       const res = await axios.post(
         `${backendUrl}/ai/roadmap-query`,
         { prompt: userMessage, process_id: processId },
-        { headers: { Authorization: `Bearer ${token}` } },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-      const botResponse = res.data?.question || "Réponse vide";
-      if (onRefresh && !res.data?.isAsking) onRefresh();
+
+      let botResponse = "";
+
+      if (res.data?.question) {
+        botResponse = res.data.question;
+      } else if (res.data?.roadmap) {
+        botResponse = "Votre étape a bien été ajoutée à votre roadmap.";
+
+        if (onRefresh) onRefresh();
+        setTimeout(() => {
+          closeModifyChat();
+        }, 1000);
+      } else {
+        botResponse = "Aucune réponse";
+      }
 
       setHistory((prev) => {
         const updated = [...prev];

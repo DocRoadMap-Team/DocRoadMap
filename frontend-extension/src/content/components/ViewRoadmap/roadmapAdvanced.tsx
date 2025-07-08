@@ -6,7 +6,7 @@ import {
   FaChevronUp,
 } from "react-icons/fa";
 
-import { closeModifyChat, openModifyChat } from "../../InjectedComponent";
+import { openModifyChat } from "../../InjectedComponent";
 
 import { useTranslation } from "react-i18next";
 import getToken from "../../utils/utils";
@@ -96,12 +96,6 @@ const RoadmapAdvance: React.FC<Props> = ({
       console.error("Erreur lors de la requête PATCH:", error);
     }
   };
-
-  useEffect(() => {
-    return () => {
-      closeModifyChat();
-    };
-  }, []);
 
   const sortedSteps = [...steps].sort((a, b) => a.id - b.id);
 
