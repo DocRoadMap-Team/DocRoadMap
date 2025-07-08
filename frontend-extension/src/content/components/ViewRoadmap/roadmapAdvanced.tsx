@@ -6,7 +6,7 @@ import {
   FaChevronUp,
 } from "react-icons/fa";
 
-import { closeModifyChat, openModifyChat } from "../../InjectedComponent";
+import { openModifyChat } from "../../InjectedComponent";
 
 import { useTranslation } from "react-i18next";
 import getToken from "../../utils/utils";
@@ -46,7 +46,6 @@ const RoadmapAdvance: React.FC<Props> = ({
   const [expandedStep, setExpandedStep] = useState<number | null>(null);
   const [showScrollArrow, setShowScrollArrow] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  console.log("🔍 RoadmapAdvance received processId:", processId);
 
   useEffect(() => {
     const container = scrollRef.current;
@@ -85,7 +84,7 @@ const RoadmapAdvance: React.FC<Props> = ({
       if (!response.ok) {
         console.error(
           `Erreur backend (${response.status}) pour l'étape ${stepId}:`,
-          data
+          data,
         );
         alert(`Erreur lors de la finalisation de la démarche ${stepId}`);
         return;
@@ -97,12 +96,6 @@ const RoadmapAdvance: React.FC<Props> = ({
       console.error("Erreur lors de la requête PATCH:", error);
     }
   };
-
-  useEffect(() => {
-    return () => {
-      closeModifyChat();
-    };
-  }, []);
 
   const sortedSteps = [...steps].sort((a, b) => a.id - b.id);
 
@@ -275,6 +268,11 @@ const RoadmapAdvance: React.FC<Props> = ({
           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
           transition: background 0.2s ease;
         }
+        .step-icons {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
       `}</style>
 
       <div className="advanced-header">
@@ -301,23 +299,27 @@ const RoadmapAdvance: React.FC<Props> = ({
               <div
                 className={`step-header${step.status === "COMPLETED" ? " completed" : ""}`}
                 onClick={() => {
-                  if (step.status !== "COMPLETED") {
-                    setExpandedStep(expandedStep === step.id ? null : step.id);
-                  }
+                  setExpandedStep(expandedStep === step.id ? null : step.id);
                 }}
               >
                 <div className="step-title">
                   <span className="step-index">{idx + 1}</span>
-                  {step.name}
+                  <span>{step.name}</span>
                 </div>
 
-                <div className="step-right-icon">
-                  {step.status === "COMPLETED" ? (
-                    <FaCheckCircle className="validation-icon" />
-                  ) : expandedStep === step.id ? (
-                    <FaChevronUp className="chevron-icon" />
-                  ) : (
-                    <FaChevronDown className="chevron-icon" />
+                <div className="step-icons">
+                  <div className="step-right-icon">
+                    {expandedStep === step.id ? (
+                      <FaChevronUp className="chevron-icon" />
+                    ) : (
+                      <FaChevronDown className="chevron-icon" />
+                    )}
+                  </div>
+                  {step.status === "COMPLETED" && (
+                    <FaCheckCircle
+                      className="validation-icon"
+                      title={t("completed")}
+                    />
                   )}
                 </div>
               </div>

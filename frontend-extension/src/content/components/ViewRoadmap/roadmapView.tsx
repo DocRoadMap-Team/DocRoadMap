@@ -1,8 +1,8 @@
-// ✅ RoadmapView.tsx corrigé
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaArrowDown, FaEye } from "react-icons/fa";
+import { modifyChatState } from "../../InjectedComponent";
 import Header from "../../utils/Header";
 import getToken from "../../utils/utils";
 import ModifyRoadmapChat from "./ModifyRoadmapChat";
@@ -37,7 +37,7 @@ const RoadmapView: React.FC = () => {
   const { t } = useTranslation();
   const [cards, setCards] = useState<Card[]>([]);
   const [selectedProcessId, setSelectedProcessId] = useState<number | null>(
-    null
+    null,
   );
   const [error, setError] = useState<string | null>(null);
   const [showSteps, setShowSteps] = useState(false);
@@ -46,16 +46,12 @@ const RoadmapView: React.FC = () => {
   const [selectedProcessName, setSelectedProcessName] = useState<string>("");
   const [token, setToken] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<{ [key: number]: string }>(
-    {}
+    {},
   );
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showScrollArrow, setShowScrollArrow] = useState(false);
 
-  useEffect(() => {
-    fetchUserProcesses();
-  }, []);
-
-  const fetchUserProcesses = async () => {
+  const fetchUserProcesses = useCallback(async () => {
     const token = await getToken();
     setToken(token);
     if (!token) return setError(t("missingToken"));
@@ -75,7 +71,7 @@ const RoadmapView: React.FC = () => {
             await axios.post(
               `${backendUrl}/process/end-process/${card.id}`,
               {},
-              { headers: { Authorization: `Bearer ${token}` } }
+              { headers: { Authorization: `Bearer ${token}` } },
             );
           } catch (e) {
             console.error("Error closing process:", e);
@@ -87,7 +83,11 @@ const RoadmapView: React.FC = () => {
     } catch {
       setError(t("fetchError"));
     }
-  };
+  }, [t]);
+
+  useEffect(() => {
+    fetchUserProcesses();
+  }, [fetchUserProcesses]);
 
   useEffect(() => {
     const container = scrollRef.current;
@@ -109,10 +109,10 @@ const RoadmapView: React.FC = () => {
       await axios.patch(
         `${backendUrl}/steps/${stepId}`,
         { endedAt: formatted },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       setSteps((prev) =>
-        prev.map((s) => (s.id === stepId ? { ...s, endedAt: formatted } : s))
+        prev.map((s) => (s.id === stepId ? { ...s, endedAt: formatted } : s)),
       );
     } catch {
       console.error(t("updateEndedAtError"));
@@ -133,6 +133,21 @@ const RoadmapView: React.FC = () => {
       setError(t("fetchStepsError"));
     }
   };
+
+  useEffect(() => {
+    let previousChatOpen = modifyChatState.isOpen;
+
+    const interval = setInterval(() => {
+      const current = modifyChatState.isOpen;
+      if (previousChatOpen && !current && showSteps) {
+        setShowSteps(false);
+        fetchUserProcesses();
+      }
+      previousChatOpen = current;
+    }, 200);
+
+    return () => clearInterval(interval);
+  }, [showSteps]);
 
   return (
     <div
@@ -362,7 +377,7 @@ const RoadmapView: React.FC = () => {
             .map((card) => {
               const totalSteps = card.steps.length;
               const validatedSteps = card.steps.filter(
-                (s) => s.status === "COMPLETED"
+                (s) => s.status === "COMPLETED",
               ).length;
               const percentage = totalSteps
                 ? Math.round((validatedSteps / totalSteps) * 100)
@@ -373,9 +388,9 @@ const RoadmapView: React.FC = () => {
                   <div className="card-header-banner">
                     <div className="card-banner-left">📄</div>
                     <div className="card-banner-center">
-                      <div className="card-banner-title">{card.name}</div>
+                      <div className="card-banner-title">{t(card.name)}</div>
                       <div className="card-banner-subtitle">
-                        Dossier #{card.id}
+                        {t("File")} #{card.id}
                       </div>
                     </div>
                     <div className="card-banner-right">

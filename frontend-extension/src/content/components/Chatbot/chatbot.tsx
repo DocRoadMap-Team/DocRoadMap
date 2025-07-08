@@ -128,7 +128,11 @@ const Chatbot: React.FC = () => {
   };
 
   return (
-    <div className="chatbot-container">
+    <div
+      className="chatbot-container"
+      role="region"
+      aria-label="Roadmap Extension Donna Chatbot Panel"
+    >
       <style>{`
         .chatbot-container {
           display: flex;
@@ -332,6 +336,7 @@ const Chatbot: React.FC = () => {
           onClick={sendMessage}
           disabled={loading || !token}
           className="send-button"
+          aria-label={t("sendMessage")}
         >
           <FaPaperPlane />
         </button>

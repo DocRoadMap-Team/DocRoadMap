@@ -73,6 +73,7 @@
   "updateRoadmap": "Modifier la roadmap",
   "processAssistant": "Assistant de démarches",
   "startAgain": "Recommencer",
+  "File": "Dossier",
 
   "start_question": "Quelle démarche souhaites-tu effectuer ?",
   "start_option_demenagement_en_france": "Déménagement en France",
@@ -121,7 +122,6 @@
   "emploi_1_question": "Quelle est votre situation ?",
   "emploi_1_option_je_recherche_un_1er_emploi": "Je recherche un 1er emploi",
   "emploi_1_option_jai_deja_travaille_avec_contrat_de_travail": "J'ai déjà travaillé (avec contrat de travail)",
-
   "dem_step_1_answer_je_suis_locataire": "Avant de quitter mon logement :\n- Je dois donner congé à mon propriétaire (ou bailleur) en respectant un délai de préavis, qui peut être de 1 ou 3 mois.\n- Je dois ensuite faire avec lui ou son représentant (agent immobilier) un état des lieux. A cette occasion, je lui indique ma nouvelle adresse. S'il refuse de faire un état des lieux, je peux faire appel à un commissaire de justice (anciennement huissier de justice et commissaire-priseur judiciaire).\nJe récupérerai le dépôt de garantie que je lui ai versé dans le mois ou les 2 mois qui suivent mon départ.\nAttention :\nJe dois conserver les papiers liés à ce logement pendant un certain temps.",
   "dem_step_1_answer_je_suis_propriétaire": "Si je suis copropriétaire et que je vends un lot de copropriété, je dois informer le syndic de copropriété de ma nouvelle adresse et lui demander un arrêté de compte de charges. Attention : Je dois conserver les papiers liés à ce logement pendant un certain temps.",
   "dem_step_2_answer_oui": "- Si mes enfants sont à l'école maternelle ou primaire, il faut demander à changer d'établissement ou les maintenir dans leur ancienne école.\n- Si mes enfants vont au collège ou au lycée, il peut être nécessaire de changer d'établissement. Je peux me renseigner sur les aides qu'ils peuvent obtenir pour utiliser les transports en commun.\n- Il peut être nécessaire de réorganiser la garde des enfants en dehors du temps scolaire.\nAttention :\nEn cas de séparation, il faut avertir l'autre parent et, si nécessaire, adapter le droit de visite et d'hébergement.",
@@ -196,6 +196,9 @@
   "ven": "ven",
   "sam": "sam",
 
+  "sendMessage": "Envoyer le message",
+
+  "start_question": "Quelle démarche souhaites-tu effectuer ?",
   "start_option_dem": "Déménagement en France",
   "start_option_logement": "Aides au logement",
   "start_option_independance": "Je pars de chez mes parents",

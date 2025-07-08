@@ -1,5 +1,6 @@
 import i18n from "i18next";
-import React, { useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useRef, useState } from "react";
 import {
   FaCalendar,
   FaEye,
@@ -7,24 +8,49 @@ import {
   FaRobot,
   FaWheelchair,
 } from "react-icons/fa";
-import logo from "../../public/assets/docroadmap_logo2.png";
 import ContrastAdjuster from "./components/Accessibility/ContrastAdjuster";
 import StepsCalendar from "./components/Calendar/calendar";
 import Chatbot from "./components/Chatbot/chatbot";
-import DecisionTreeChat from "./components/roadmapCreation/decisionTree";
 import ModifyRoadmapChat from "./components/ViewRoadmap/ModifyRoadmapChat";
 import RoadmapView from "./components/ViewRoadmap/roadmapView";
 import getToken from "./utils/utils";
+import DecisionTreeChat from "./components/roadmapCreation/decisionTree";
+import { useAccessibilityPersistence } from "./components/Accessibility/UseAccessibilityPersistance";
+import logo from "../../public/assets/docroadmap_logo2.png";
+import {
+  applyContrastSettings,
+  applyAltSettings,
+} from "./components/Accessibility/accessibilityUtils";
 
 const buttonData = [
-  { icon: <FaRoad />, label: "CreateRoadmapChat" },
-  { icon: <FaEye />, label: "Voir Roadmap" },
-  { icon: <FaRobot />, label: "Chatbot" },
-  { icon: <FaCalendar />, label: "Calendrier" },
-  { icon: <FaWheelchair />, label: "Accessibility" },
+  {
+    icon: <FaRoad />,
+    label: "CreateRoadmapChat",
+    description: "Create a new roadmap using chat",
+  },
+  {
+    icon: <FaEye />,
+    label: "Voir Roadmap",
+    description: "View existing roadmap",
+  },
+  {
+    icon: <FaRobot />,
+    label: "Chatbot",
+    description: "Open chatbot assistant",
+  },
+  {
+    icon: <FaCalendar />,
+    label: "Calendrier",
+    description: "Open calendar view",
+  },
+  {
+    icon: <FaWheelchair />,
+    label: "Accessibility",
+    description: "Open accessibility settings",
+  },
 ];
 
-const modifyChatState = {
+export const modifyChatState = {
   isOpen: false,
   processId: null as number | null,
 };
@@ -45,10 +71,20 @@ interface PanelProps {
   activePanel: string | null;
   isOpen: boolean;
   panelHeight: number;
+  updateSettings: (settings: any) => void;
 }
 
-const Panel: React.FC<PanelProps> = ({ activePanel, isOpen, panelHeight }) => (
+const Panel: React.FC<PanelProps> = ({
+  activePanel,
+  isOpen,
+  panelHeight,
+  updateSettings,
+}) => (
   <div
+    role="dialog"
+    aria-label={`${activePanel} panel`}
+    aria-hidden={!isOpen}
+    aria-live="polite"
     style={{
       position: "fixed",
       bottom: "90px",
@@ -72,7 +108,9 @@ const Panel: React.FC<PanelProps> = ({ activePanel, isOpen, panelHeight }) => (
     {activePanel === "Voir Roadmap" && <RoadmapView />}
     {activePanel === "Chatbot" && <Chatbot />}
     {activePanel === "Calendrier" && <StepsCalendar />}
-    {activePanel === "Accessibility" && <ContrastAdjuster />}
+    {activePanel === "Accessibility" && (
+      <ContrastAdjuster updateSettings={updateSettings} />
+    )}
   </div>
 );
 
@@ -89,6 +127,9 @@ const DocRoadmapBar: React.FC = () => {
   const [isPanelMounted, setIsPanelMounted] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [panelHeight, setPanelHeight] = useState(450);
+
+  const { settings, updateSettings } = useAccessibilityPersistence();
+  const initialLoadRef = useRef(false);
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
   const [, forceUpdate] = useState(0);
   window.rerender = () => forceUpdate((x) => x + 1);
@@ -117,7 +158,7 @@ const DocRoadmapBar: React.FC = () => {
     if (typeof chrome !== "undefined" && chrome.storage?.local) {
       const onChanged = (
         changes: { [key: string]: chrome.storage.StorageChange },
-        area: string
+        area: string,
       ) => {
         if (area === "local" && changes.token) {
           setToken(changes.token.newValue ?? null);
@@ -146,6 +187,53 @@ const DocRoadmapBar: React.FC = () => {
     }
   }, [activePanel]);
 
+  // appliquer automatiquement les paramètres d'accessibilité
+  useEffect(() => {
+    if (token && !initialLoadRef.current) {
+      initialLoadRef.current = true;
+      console.log("Initial accessibility settings application");
+
+      setTimeout(() => {
+        if (settings.contrastEnabled) {
+          applyContrastSettings(true, true); // force = true pour la première application
+        }
+        if (settings.altEnabled) {
+          applyAltSettings(true);
+        }
+      }, 200);
+    }
+  }, [token, settings]);
+
+  // Écouter les changements d'url pour réappliquer les paramètres
+  // Utilisation d'un debounce pour éviter trop d'appels rapides
+  useEffect(() => {
+    let debounceTimer: NodeJS.Timeout;
+
+    const handleUrlChange = (event: CustomEvent) => {
+      const newSettings = event.detail;
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        console.log("URL changed, reapplying settings after debounce");
+        if (newSettings.contrastEnabled) {
+          applyContrastSettings(true);
+        }
+        if (newSettings.altEnabled) {
+          applyAltSettings(true);
+        }
+      }, 300);
+    };
+
+    window.addEventListener("urlChanged", handleUrlChange as EventListener);
+    return () => {
+      clearTimeout(debounceTimer);
+      window.removeEventListener(
+        "urlChanged",
+        handleUrlChange as EventListener,
+      );
+    };
+  }, []);
+
+  // Gérer l'ouverture et la fermeture du panneau
   useEffect(() => {
     if (activePanel) {
       setIsPanelMounted(true);
@@ -157,6 +245,7 @@ const DocRoadmapBar: React.FC = () => {
     }
   }, [activePanel, isPanelMounted]);
 
+  // Vérifier si le token est disponible avant de rendre le composant
   if (!token) return null;
 
   const handleButtonClick = (label: string) => {
@@ -172,6 +261,7 @@ const DocRoadmapBar: React.FC = () => {
           activePanel={activePanel}
           isOpen={isPanelOpen}
           panelHeight={panelHeight}
+          updateSettings={updateSettings}
         />
       )}
 
@@ -197,7 +287,8 @@ const DocRoadmapBar: React.FC = () => {
         </div>
       )}
 
-      <div
+      <nav
+        role="navigation"
         style={{
           position: "fixed",
           bottom: 24,
@@ -224,11 +315,12 @@ const DocRoadmapBar: React.FC = () => {
             border: "none",
             cursor: "pointer",
           }}
-          aria-label="Doc Roadmap"
+          aria-label={`Doc Roadmap main menu`}
+          aria-expanded={open}
         >
           <img
             src={logo}
-            alt="Doc Roadmap"
+            alt="Doc Roadmap logo"
             style={{
               borderRadius: "50%",
               border: "2px solid #1976d2",
@@ -236,7 +328,12 @@ const DocRoadmapBar: React.FC = () => {
             }}
           />
         </button>
+
         <div
+          role="toolbar"
+          aria-label="Doc Roadmap actions"
+          aria-hidden={!open}
+          aria-live="polite"
           style={{
             display: "flex",
             flexDirection: "row",
@@ -277,14 +374,16 @@ const DocRoadmapBar: React.FC = () => {
                   cursor: "pointer",
                   transition: "all 0.2s",
                 }}
-                aria-label={btn.label}
+                aria-label={`${btn.description} button`}
+                aria-pressed={activePanel === btn.label}
+                tabIndex={open ? 0 : -1}
               >
-                {btn.icon}
+                <span aria-hidden="true">{btn.icon}</span>
               </button>
             ))}
           </div>
         </div>
-      </div>
+      </nav>
     </>
   );
 };
