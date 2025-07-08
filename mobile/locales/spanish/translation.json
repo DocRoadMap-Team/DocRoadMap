@@ -24,7 +24,10 @@
     "rememberMe": "Recuérdame",
     "loginButton": "Iniciar sesión",
     "forgotPassword": "¿Olvidaste tu contraseña?",
-    "createAccount": "Crear una cuenta"
+    "createAccount": "Crear una cuenta",
+
+    "showPassword": "Mostrar la contraseña",
+    "hidePassword": "Ocultar la contraseña"
   },
   "home": {
     "generate_roadmap": "Generar nueva hoja de ruta",

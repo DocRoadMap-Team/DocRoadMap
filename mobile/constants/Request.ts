@@ -110,20 +110,18 @@ const request = {
         const result = response.data;
         await AsyncStorage.setItem("accessToken", result.accessToken);
         await AsyncStorage.setItem("id", result.id.toString());
-        console.log("Connecté !");
+
         Alert.alert("Connecté ! Bienvenue sur DocRoadmap");
         return {
           data: result,
           error: null,
         };
       } else if (response.status === 400) {
-        console.warn("Connexion échoué");
         Alert.alert("Veuillez vérifier vos données et réessayer");
         return {
           error: "Veuillez vérifier vos données et réessayer",
         };
       } else if (response.status === 404) {
-        console.warn("Connexion échoué");
         Alert.alert(
           "Mauvaise information. Veuillez vérifier votre mail et votre mot de passe",
         );

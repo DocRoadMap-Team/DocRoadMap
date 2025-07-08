@@ -24,7 +24,9 @@
     "rememberMe": "Remember me",
     "loginButton": "Log In",
     "forgotPassword": "Forgot password?",
-    "createAccount": "Create an account"
+    "createAccount": "Create an account",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "home": {
     "generate_roadmap": "Generate new roadmap",

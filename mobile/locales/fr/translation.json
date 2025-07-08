@@ -25,7 +25,7 @@
     "loginButton": "Connexion",
     "forgotPassword": "Mot de passe oublié ?",
     "createAccount": "Création d'un compte",
-    //faire la trad
+
     "showPassword": "Afficher le mot de passe",
     "hidePassword": "Masquer le mot de passe"
   },
@@ -99,7 +99,7 @@
   "yes": "Oui",
   "no": "Non",
   "reminder_time": "Combien de temps avant l'événement ?",
-  //faire la trad à partir de là en eng et es
+
   "permission_calendar": "Permission refusée .Accès au calendrier nécessaire.",
   "permission_notif": "Permission refusée. Notifications désactivées",
   "roadmap_created": "✅ Roadmap générée . Elle a été générée automatiquement en fonction de vos choix",
