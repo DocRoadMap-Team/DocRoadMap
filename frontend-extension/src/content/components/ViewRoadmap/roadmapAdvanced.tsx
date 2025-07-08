@@ -268,6 +268,11 @@ const RoadmapAdvance: React.FC<Props> = ({
           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
           transition: background 0.2s ease;
         }
+        .step-icons {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
       `}</style>
 
       <div className="advanced-header">
@@ -294,23 +299,27 @@ const RoadmapAdvance: React.FC<Props> = ({
               <div
                 className={`step-header${step.status === "COMPLETED" ? " completed" : ""}`}
                 onClick={() => {
-                  if (step.status !== "COMPLETED") {
-                    setExpandedStep(expandedStep === step.id ? null : step.id);
-                  }
+                  setExpandedStep(expandedStep === step.id ? null : step.id);
                 }}
               >
                 <div className="step-title">
                   <span className="step-index">{idx + 1}</span>
-                  {step.name}
+                  <span>{step.name}</span>
                 </div>
 
-                <div className="step-right-icon">
-                  {step.status === "COMPLETED" ? (
-                    <FaCheckCircle className="validation-icon" />
-                  ) : expandedStep === step.id ? (
-                    <FaChevronUp className="chevron-icon" />
-                  ) : (
-                    <FaChevronDown className="chevron-icon" />
+                <div className="step-icons">
+                  <div className="step-right-icon">
+                    {expandedStep === step.id ? (
+                      <FaChevronUp className="chevron-icon" />
+                    ) : (
+                      <FaChevronDown className="chevron-icon" />
+                    )}
+                  </div>
+                  {step.status === "COMPLETED" && (
+                    <FaCheckCircle
+                      className="validation-icon"
+                      title={t("completed")}
+                    />
                   )}
                 </div>
               </div>
