@@ -22,12 +22,17 @@ jobs:
         run: npm install
         working-directory: mobile
 
-      - name: Format check
+      - name: Format check (Prettier) check
         run: |
           npx prettier --check .
-          npx prettier --write .
         working-directory: mobile
 
+      - name: Format files (Prettier) write
+        if: failure() 
+        run: |
+          npx prettier --write .
+          
+        working-directory: mobile
       - name: Run Jest tests (unit + UI)
         run: npm test
         working-directory: mobile

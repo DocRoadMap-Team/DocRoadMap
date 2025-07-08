@@ -7,10 +7,15 @@ import "./signup.css";
 
 const backendUrl = "https://www.docroadmap.fr";
 
+// const env = import.meta.env.VITE_ENV_MODE;
+// const backendUrl =
+//   env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
+
 const isDev = process.env.NODE_ENV !== "production";
 const docroadmapImg = isDev
   ? "/assets/docroadmap.png"
   : "../assets/docroadmap.png";
+
 const ArrowLeftIcon = FaArrowLeft as unknown as React.FC<any>;
 
 function Signup() {
@@ -23,16 +28,39 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const nextStep = () => setStep((prev) => prev + 1);
+  const isValidEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.(com)$/i;
+    return regex.test(email);
+  };
+
+  const nextStep = () => {
+    setError("");
+    setStep((prev) => prev + 1);
+  };
+
   const prevStep = () =>
-    step === 1 ? navigate(-1) : setStep((prev) => prev - 1);
+    step === 1 ? navigate("/") : setStep((prev) => prev - 1);
 
-  const handleRegister = () => {
-    if (password !== confirmPassword) {
-      console.log("Passwords do not match");
+  const handleEmailStep = () => {
+    setError("");
+    if (!isValidEmail(email)) {
+      setError(t("invalid_email"));
       return;
     }
+    nextStep();
+  };
+
+  const handleRegister = (e?: React.FormEvent | React.MouseEvent) => {
+    e?.preventDefault();
+    setError("");
+
+    if (password !== confirmPassword) {
+      setError(t("password_mismatch"));
+      return;
+    }
+
     axios
       .post(`${backendUrl}/auth/register`, {
         firstName,
@@ -41,10 +69,11 @@ function Signup() {
         password,
       })
       .then(() => {
-        navigate("/account-confirmation");
+        setError("");
+        navigate("/signupconfirm");
       })
       .catch(() => {
-        console.error("Registration failed");
+        setError(t("registration_error"));
       });
   };
 
@@ -60,13 +89,19 @@ function Signup() {
         </div>
 
         {step === 1 && (
-          <>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              nextStep();
+            }}
+          >
             <div className="input-group small">
               <input
                 type="text"
                 placeholder={t("firstName")}
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
+                required
               />
             </div>
             <div className="input-group small">
@@ -75,43 +110,52 @@ function Signup() {
                 placeholder={t("lastName")}
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
+                required
               />
             </div>
-
             <div className="register-button-wrapper">
-              <button className="register-button" onClick={nextStep}>
+              <button className="register-button" type="submit">
                 {t("continue") || "Continuer"}
               </button>
             </div>
-          </>
+          </form>
         )}
 
         {step === 2 && (
-          <>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleEmailStep();
+            }}
+          >
             <div className="input-group small">
               <input
                 type="email"
                 placeholder={t("email")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
+
             <div className="register-button-wrapper">
-              <button className="register-button" onClick={nextStep}>
-                {t("continue") || "Continuer"}
+              <button className="register-button" type="submit">
+                {t("continue")}
               </button>
             </div>
-          </>
+            {error && <p className="signup-error">{error}</p>}
+          </form>
         )}
 
         {step === 3 && (
-          <>
+          <form onSubmit={handleRegister}>
             <div className="input-group small">
               <input
                 type="password"
                 placeholder={t("password")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div className="input-group small">
@@ -120,15 +164,16 @@ function Signup() {
                 placeholder={t("confirmPassword")}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                required
               />
             </div>
-
             <div className="register-button-wrapper">
-              <button className="register-button" onClick={handleRegister}>
-                {t("submit") || "S'inscrire"}
+              <button className="register-button" type="submit">
+                {t("submit")}
               </button>
             </div>
-          </>
+            {error && <p className="signup-error">{error}</p>}
+          </form>
         )}
       </div>
     </div>

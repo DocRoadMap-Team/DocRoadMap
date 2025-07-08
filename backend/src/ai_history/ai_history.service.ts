@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { AiHistory } from './entities/ai_history.entity';
 import { CreateAiHistoryDto } from './dto/create-ai_history.dto';
 import { UpdateAiHistoryDto } from './dto/update-ai_history.dto';
+import { AiHistoryResponseDto } from './dto/ai_history.response.dto';
 import { User } from '../users/entities/user.entity';
 
 @Injectable()
@@ -39,6 +40,31 @@ export class AiHistoryService {
     });
     if (!history) throw new NotFoundException(`AiHistory with the user ID ${user_id} not found`);
     return history;
+  }
+
+  async findByUuid(uuid: string): Promise<AiHistoryResponseDto[]> {
+    const histories = await this.aiHistoryRepo.find({
+      where: { uuid },
+      order: { id: 'ASC' },
+    });
+
+    console.log(`Found ${histories.length} AI histories for UUID: ${uuid}`);
+    return histories.map(h => {
+      const userSplit = h.history.split('AI:');
+      let message = '';
+      let response = '';
+      if (userSplit.length === 2) {
+        message = userSplit[0].replace(/^User:/, '').trim();
+        response = userSplit[1].trim();
+      } else {
+        message = h.history;
+        response = '';
+      }
+      return {
+        message,
+        response,
+      };
+    });
   }
 
   async update(id: number, updateDto: UpdateAiHistoryDto): Promise<AiHistory> {

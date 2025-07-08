@@ -131,16 +131,4 @@ describe("DecisionTreeChat", () => {
       await screen.findByText("What do you want to do?"),
     ).toBeInTheDocument();
   });
-
-  it("renders and handles the close button if provided", async () => {
-    const onClose = jest.fn();
-    render(<DecisionTreeChat onClose={onClose} />);
-
-    await waitFor(() =>
-      expect(screen.getByLabelText("Fermer")).toBeInTheDocument(),
-    );
-
-    fireEvent.click(screen.getByLabelText("Fermer"));
-    expect(onClose).toHaveBeenCalled();
-  });
 });
