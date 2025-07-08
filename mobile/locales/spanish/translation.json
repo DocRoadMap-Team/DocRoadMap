@@ -130,6 +130,7 @@
   "error_find_id": "No se pudo recuperar el ID del trámite creado.",
   "error_create_process": "No se pudo crear el trámite o los pasos. Por favor, inténtalo de nuevo.",
   "process_created": "Trámite \"{{name}}\" creado con {{count}} paso(s).",
+  "select_language": "Elección de idiomas",
 
   "cancel": "Cancelar",
   "start_question": "¿Qué trámite deseas realizar?",

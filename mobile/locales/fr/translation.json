@@ -30,7 +30,7 @@
     "hidePassword": "Masquer le mot de passe"
   },
   "home": {
-    "generate_roadmap": "Liste des démarches disponibles",
+    "generate_roadmap": "Générer une démarche administrative",
     "my_reminders": "Mes rappels",
     "error": "Erreur",
     "error_message": "Impossible de récupérer les cartes des démarches administratives. Veuillez réessayer",
@@ -129,6 +129,7 @@
   "error_find_id": "Impossible de récupérer l'ID de la démarche créée.",
   "error_create_process": "Impossible de créer la démarche ou les étapes. Veuillez réessayer",
   "process_created": "Démarche \"{{name}}\" créée avec {{count}} étape(s).",
+  "select_language": "Choix des langues",
 
   "cancel": "Annuler",
   "start_question": "Quelle démarche souhaites-tu effectuer ?",
