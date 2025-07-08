@@ -21,7 +21,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import request from "@/constants/Request";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 
 type Message = {
   text: string;
@@ -32,16 +32,41 @@ export default function EditRoadmap() {
   const { t } = useTranslation();
   const { theme } = useTheme();
   const scrollRef = useRef<ScrollView>(null);
+  const { processId: paramProcessId } = useLocalSearchParams();
 
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      text: "Bonjour ! Quelle roadmap veux-tu éditer, supprimer ou changer selon ton cas personnel ? Commence par donner juste le chiffre entre parenthèses à côté du titre de ta démarche avant de pouvoir converser normalement avec moi pour éditer ta démarche !",
-      sender: "bot",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [processId, setProcessId] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (paramProcessId) {
+      const id = parseInt(paramProcessId as string, 10);
+      if (!isNaN(id)) {
+        setProcessId(id);
+        setMessages([
+          {
+            text: t("roadmap_found"),
+            sender: "bot",
+          },
+        ]);
+      } else {
+        setMessages([
+          {
+            text: t("roadmap_not_found"),
+            sender: "bot",
+          },
+        ]);
+      }
+    } else {
+      setMessages([
+        {
+          text: t("roadmap_not_found"),
+          sender: "bot",
+        },
+      ]);
+    }
+  }, [paramProcessId]);
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -58,51 +83,42 @@ export default function EditRoadmap() {
     setMessage("");
     setLoading(true);
 
-    console.log("Message envoyé par l'utilisateur : ", message);
-
     try {
       if (!processId) {
         const parsedId = parseInt(message.trim(), 10);
-
-        console.log("Tentative de parsing de l'ID : ", parsedId);
 
         if (isNaN(parsedId)) {
           setMessages([
             ...newMessages,
             {
-              text: "❌ Ce n'est pas un ID valide. Réessaie avec un chiffre.",
+              text: t("id_not_valid"),
               sender: "bot",
             },
           ]);
-          console.log("ID invalide.");
         } else {
           const testRes = await request.editRoadMap("ping", parsedId);
-          console.log("Réponse de l'API pour tester l'ID : ", testRes);
 
           if (testRes.error || !testRes.data) {
             setMessages([
               ...newMessages,
               {
-                text: "❌ Aucune roadmap trouvée avec cet ID. Réessaie.",
+                text: t("roadmap_not_found"),
                 sender: "bot",
               },
             ]);
-            console.log("Aucune roadmap trouvée.");
           } else {
             setProcessId(parsedId);
             setMessages([
               ...newMessages,
               {
-                text: "✅ Roadmap trouvée. Donne une instruction pour la modifier.",
+                text: t("roadmap_found"),
                 sender: "bot",
               },
             ]);
-            console.log("Roadmap trouvée, ID : ", parsedId);
           }
         }
       } else {
         const res = await request.editRoadMap(message, processId);
-        console.log("Réponse de l'API pour modifier la roadmap : ", res);
 
         if (res.error) {
           setMessages([
@@ -122,25 +138,28 @@ export default function EditRoadmap() {
           } else if (!isAsking && roadmap) {
             setMessages([
               ...newMessages,
-              { text: "Voici la roadmap mise à jour 👇", sender: "bot" },
-              { text: JSON.stringify(roadmap, null, 2), sender: "bot" },
+              { text: t("roadmap_update"), sender: "bot" },
+              {
+                text: t("refresh_roadmap"),
+                sender: "bot",
+              },
             ]);
             console.log("Roadmap mise à jour : ", roadmap);
           }
         }
       }
     } catch (error) {
-      console.error("Erreur survenue : ", error);
       setMessages([...newMessages, { text: t("server_error"), sender: "bot" }]);
     } finally {
       setLoading(false);
-      console.log("Chargement terminé.");
     }
   };
 
   return (
-    <View style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <SafeAreaView
+        style={[styles.safeArea, { backgroundColor: theme.background }]}
+      >
         <LinearGradient
           colors={["#204CCF", "#6006A4"]}
           start={{ x: 0, y: 0 }}
@@ -156,7 +175,7 @@ export default function EditRoadmap() {
                 <View>
                   <Text style={styles.headerTitle}>Modifier la roadmap</Text>
                   <Text style={styles.headerSubtitle}>
-                    {processId ? `ID: ${processId}` : "Éditeur de roadmap"}
+                    {processId ? `ID: ${processId}` : t("edit_roadmap")}
                   </Text>
                 </View>
               </View>
@@ -165,23 +184,32 @@ export default function EditRoadmap() {
                 style={styles.closeButton}
                 activeOpacity={0.8}
                 accessibilityRole="button"
-                accessibilityLabel="Fermer"
+                accessibilityLabel={t("home.close")}
               >
                 <Ionicons name="close" size={24} color="white" />
               </TouchableOpacity>
             </View>
           </View>
         </LinearGradient>
-        -
+
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.keyboardAvoidingView}
+          style={[
+            styles.keyboardAvoidingView,
+            { backgroundColor: theme.background },
+          ]}
           keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
         >
           <ScrollView
             ref={scrollRef}
-            style={styles.chatContainer}
-            contentContainerStyle={styles.chatContent}
+            style={[
+              styles.chatContainer,
+              { backgroundColor: theme.background },
+            ]}
+            contentContainerStyle={[
+              styles.chatContent,
+              { backgroundColor: theme.background },
+            ]}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
           >
@@ -230,26 +258,35 @@ export default function EditRoadmap() {
               <View style={styles.loadingContainer}>
                 <View style={styles.loadingBubble}>
                   <ActivityIndicator size="small" color="#4ECDC4" />
-                  <Text style={styles.loadingText}>
-                    Modification en cours...
-                  </Text>
+                  <Text style={styles.loadingText}>{t("edit_roadmap")}</Text>
                 </View>
               </View>
             )}
           </ScrollView>
 
-          <View style={styles.inputContainer}>
-            <View style={styles.inputWrapper}>
+          <View
+            style={[
+              styles.inputContainer,
+              { backgroundColor: theme.background },
+            ]}
+          >
+            <View
+              style={[
+                styles.inputWrapper,
+                { backgroundColor: theme.background },
+              ]}
+            >
               <TextInput
                 value={message}
                 onChangeText={setMessage}
-                placeholder={
-                  processId
-                    ? "Décris la modification souhaitée..."
-                    : "Entre l'ID de la roadmap (ex: 123)..."
+                placeholder={processId ? t("edit_roadmap") : t("enter_id")}
+                placeholderTextColor={
+                  theme.background === "#000000" ||
+                  theme.background === "#1A1A1A"
+                    ? "#E0E0E0"
+                    : "#FFFFFFFF"
                 }
-                placeholderTextColor="#A0AEC0"
-                style={styles.input}
+                style={[styles.input, { color: theme.text }]}
                 multiline
                 maxLength={500}
               />
@@ -287,15 +324,12 @@ export default function EditRoadmap() {
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
   },
   safeArea: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
   },
   keyboardAvoidingView: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
   },
 
   headerGradient: {
@@ -346,7 +380,6 @@ const styles = ScaledSheet.create({
 
   chatContainer: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
   },
   chatContent: {
     padding: wp(4),
@@ -418,7 +451,7 @@ const styles = ScaledSheet.create({
   },
   userMessageText: {
     fontSize: moderateScale(16),
-    color: "#2D3748",
+    color: "#FFFFFF",
     lineHeight: moderateScale(24),
     fontWeight: "500",
   },
@@ -426,7 +459,7 @@ const styles = ScaledSheet.create({
     width: moderateScale(36),
     height: moderateScale(36),
     borderRadius: moderateScale(18),
-    backgroundColor: "#FFFFFF",
+
     justifyContent: "center",
     alignItems: "center",
     marginLeft: wp(3),
@@ -469,7 +502,6 @@ const styles = ScaledSheet.create({
   },
 
   inputContainer: {
-    backgroundColor: "#F7FAFC",
     borderTopWidth: 1,
     borderTopColor: "#E2E8F0",
     paddingHorizontal: wp(4),
@@ -478,7 +510,7 @@ const styles = ScaledSheet.create({
   inputWrapper: {
     flexDirection: "row",
     alignItems: "flex-end",
-    backgroundColor: "#FFFFFF",
+
     borderRadius: moderateScale(25),
     paddingHorizontal: wp(4),
     paddingVertical: hp(1),
@@ -493,7 +525,7 @@ const styles = ScaledSheet.create({
   input: {
     flex: 1,
     fontSize: moderateScale(16),
-    color: "#2D3748",
+
     paddingVertical: hp(1),
     paddingRight: wp(2),
     maxHeight: hp(12),

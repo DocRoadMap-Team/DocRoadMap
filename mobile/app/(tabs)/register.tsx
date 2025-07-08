@@ -71,21 +71,21 @@ export default function Register() {
             value: firstname,
             set: setFirstname,
             placeholder: t("register.firstname"),
-            label: "Prénom",
+            label: t("register.firstname"),
           },
           {
             icon: "person",
             value: lastname,
             set: setLastname,
             placeholder: t("register.lastname"),
-            label: "Nom de famille",
+            label: t("register.lastname"),
           },
           {
             icon: "mail",
             value: email,
             set: setEmail,
             placeholder: t("register.email"),
-            label: "Adresse e-mail",
+            label: t("register.email"),
           },
         ].map((field, i) => (
           <View
@@ -132,13 +132,17 @@ export default function Register() {
             value={password}
             onChangeText={setPassword}
             secureTextEntry={!showPassword}
-            accessibilityLabel="Champ de texte pour le mot de passe"
+            accessibilityLabel={t("register.password")}
             allowFontScaling
           />
           <TouchableOpacity
             onPress={() => setShowPassword(!showPassword)}
             style={styles.eyeIcon}
-            accessibilityLabel="Afficher ou masquer le mot de passe"
+            accessibilityLabel={
+              showPassword
+                ? t("connexion.hidePassword")
+                : t("connexion.showPassword")
+            }
             accessibilityRole="button"
           >
             <Ionicons
@@ -155,7 +159,7 @@ export default function Register() {
             Vibration.vibrate(100);
             handleSignUp();
           }}
-          accessibilityLabel="Créer un nouveau compte"
+          accessibilityLabel={t("register.create_account")}
           accessibilityRole="button"
         >
           <Text style={[styles.buttonText, { color: theme.buttonText }]}>
@@ -169,7 +173,7 @@ export default function Register() {
             { backgroundColor: theme.buttonText },
           ]}
           onPress={handleBackClick}
-          accessibilityLabel="Retour à la page de connexion"
+          accessibilityLabel={t("register.back_to_home")}
           accessibilityRole="button"
         >
           <Text style={[styles.secondaryButtonText, { color: theme.primary }]}>

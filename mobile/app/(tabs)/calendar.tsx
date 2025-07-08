@@ -47,14 +47,14 @@ const CalendarScreen = () => {
     const setup = async () => {
       const { status } = await Calendar.requestCalendarPermissionsAsync();
       if (status !== "granted") {
-        Alert.alert("Permission refusée", "Accès au calendrier nécessaire.");
+        Alert.alert(t("permission_calendar"));
         return;
       }
 
       const { status: notifStatus } =
         await Notifications.requestPermissionsAsync();
       if (notifStatus !== "granted") {
-        Alert.alert("Permission refusée", "Notifications désactivées.");
+        Alert.alert(t("permission_notif"));
         return;
       }
 
@@ -233,11 +233,29 @@ const CalendarScreen = () => {
 
       {events.length > 0 && (
         <View style={{ padding: 10 }}>
-          <Text>{t("today_event")}</Text>
+          <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 8 }}>
+            {t("today_event")}
+          </Text>
           {events.map((e) => (
-            <Text key={e.id}>
-              • {e.title} ({new Date(e.startDate).toLocaleTimeString()})
-            </Text>
+            <View
+              key={e.id}
+              style={{
+                borderWidth: 1,
+                borderColor: "#000",
+                borderRadius: 10,
+                padding: 10,
+                marginBottom: 8,
+                backgroundColor: "rgba(255,255,255,0.05)",
+              }}
+              accessible
+              accessibilityRole="text"
+              accessibilityLabel={`${t("event")}: ${e.title}, ${t("start_time")}: ${new Date(e.startDate).toLocaleTimeString()}`}
+            >
+              <Text style={{ color: "#00000", fontSize: 14 }}>{e.title}</Text>
+              <Text style={{ color: "#00000", fontSize: 12 }}>
+                {new Date(e.startDate).toLocaleTimeString()}
+              </Text>
+            </View>
           ))}
         </View>
       )}
