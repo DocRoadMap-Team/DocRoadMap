@@ -46,14 +46,14 @@ export default function EditRoadmap() {
         setProcessId(id);
         setMessages([
           {
-            text: `✅ Roadmap ID ${id} trouvée automatiquement. Que veux-tu modifier ?`,
+            text: t("roadmap_found"),
             sender: "bot",
           },
         ]);
       } else {
         setMessages([
           {
-            text: "Bonjour ! La roadmap n'a pas été trouvé , quelle roadmap veux-tu donc éditer, supprimer ou changer selon ton cas personnel ? Commence par donner juste le chiffre entre parenthèses à côté du titre de ta démarche avant de pouvoir converser normalement avec moi pour éditer ta démarche !",
+            text: t("roadmap_not_found"),
             sender: "bot",
           },
         ]);
@@ -61,7 +61,7 @@ export default function EditRoadmap() {
     } else {
       setMessages([
         {
-          text: "Bonjour ! Quelle roadmap veux-tu éditer, supprimer ou changer selon ton cas personnel ? Commence par donner juste le chiffre entre parenthèses à côté du titre de ta démarche avant de pouvoir converser normalement avec moi pour éditer ta démarche !",
+          text: t("roadmap_not_found"),
           sender: "bot",
         },
       ]);
@@ -83,51 +83,42 @@ export default function EditRoadmap() {
     setMessage("");
     setLoading(true);
 
-    console.log("Message envoyé par l'utilisateur : ", message);
-
     try {
       if (!processId) {
         const parsedId = parseInt(message.trim(), 10);
-
-        console.log("Tentative de parsing de l'ID : ", parsedId);
 
         if (isNaN(parsedId)) {
           setMessages([
             ...newMessages,
             {
-              text: "❌ Ce n'est pas un ID valide. Réessaie avec un chiffre.",
+              text: t("id_not_valid"),
               sender: "bot",
             },
           ]);
-          console.log("ID invalide.");
         } else {
           const testRes = await request.editRoadMap("ping", parsedId);
-          console.log("Réponse de l'API pour tester l'ID : ", testRes);
 
           if (testRes.error || !testRes.data) {
             setMessages([
               ...newMessages,
               {
-                text: "❌ Aucune roadmap trouvée avec cet ID. Réessaie.",
+                text: t("roadmap_not_found"),
                 sender: "bot",
               },
             ]);
-            console.log("Aucune roadmap trouvée.");
           } else {
             setProcessId(parsedId);
             setMessages([
               ...newMessages,
               {
-                text: "✅ Roadmap trouvée. Donne une instruction pour la modifier.",
+                text: t("roadmap_found"),
                 sender: "bot",
               },
             ]);
-            console.log("Roadmap trouvée, ID : ", parsedId);
           }
         }
       } else {
         const res = await request.editRoadMap(message, processId);
-        console.log("Réponse de l'API pour modifier la roadmap : ", res);
 
         if (res.error) {
           setMessages([
@@ -147,9 +138,9 @@ export default function EditRoadmap() {
           } else if (!isAsking && roadmap) {
             setMessages([
               ...newMessages,
-              { text: "La roadmap a été mise à jour ! ", sender: "bot" },
+              { text: t("roadmap_update"), sender: "bot" },
               {
-                text: "Raffraichissez la page d'accueil et retrouvez votre carte pour pouvoir voir vos modifications !",
+                text: t("refresh_roadmap"),
                 sender: "bot",
               },
             ]);
@@ -158,11 +149,9 @@ export default function EditRoadmap() {
         }
       }
     } catch (error) {
-      console.error("Erreur survenue : ", error);
       setMessages([...newMessages, { text: t("server_error"), sender: "bot" }]);
     } finally {
       setLoading(false);
-      console.log("Chargement terminé.");
     }
   };
 
@@ -186,7 +175,7 @@ export default function EditRoadmap() {
                 <View>
                   <Text style={styles.headerTitle}>Modifier la roadmap</Text>
                   <Text style={styles.headerSubtitle}>
-                    {processId ? `ID: ${processId}` : "Éditeur de roadmap"}
+                    {processId ? `ID: ${processId}` : t("edit_roadmap")}
                   </Text>
                 </View>
               </View>
@@ -195,7 +184,7 @@ export default function EditRoadmap() {
                 style={styles.closeButton}
                 activeOpacity={0.8}
                 accessibilityRole="button"
-                accessibilityLabel="Fermer"
+                accessibilityLabel={t("home.close")}
               >
                 <Ionicons name="close" size={24} color="white" />
               </TouchableOpacity>
@@ -269,9 +258,7 @@ export default function EditRoadmap() {
               <View style={styles.loadingContainer}>
                 <View style={styles.loadingBubble}>
                   <ActivityIndicator size="small" color="#4ECDC4" />
-                  <Text style={styles.loadingText}>
-                    Modification en cours...
-                  </Text>
+                  <Text style={styles.loadingText}>{t("edit_roadmap")}</Text>
                 </View>
               </View>
             )}
@@ -292,11 +279,7 @@ export default function EditRoadmap() {
               <TextInput
                 value={message}
                 onChangeText={setMessage}
-                placeholder={
-                  processId
-                    ? "Décris la modification souhaitée..."
-                    : "Entre l'ID de la roadmap (ex: 123)..."
-                }
+                placeholder={processId ? t("edit_roadmap") : t("enter_id")}
                 placeholderTextColor={
                   theme.background === "#000000" ||
                   theme.background === "#1A1A1A"

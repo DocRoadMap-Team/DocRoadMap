@@ -96,8 +96,8 @@ export default function ConnectionPage() {
             accessibilityRole="button"
             accessibilityLabel={
               showPassword
-                ? t("connexion.hidePassword") || "Masquer le mot de passe"
-                : t("connexion.showPassword") || "Afficher le mot de passe"
+                ? t("connexion.hidePassword")
+                : t("connexion.showPassword")
             }
           >
             <Icon
@@ -110,7 +110,10 @@ export default function ConnectionPage() {
         </View>
 
         {error && (
-          <Text style={styles.errorText} accessibilityLabel="Message d'erreur">
+          <Text
+            style={styles.errorText}
+            accessibilityLabel={t("register.error")}
+          >
             {error}
           </Text>
         )}
@@ -121,7 +124,7 @@ export default function ConnectionPage() {
             handleLogin();
           }}
           style={[styles.loginButton, { backgroundColor: theme.primary }]}
-          accessibilityLabel="Bouton pour se connecter à l'application"
+          accessibilityLabel={t("connexion.loginButton")}
           accessibilityRole="button"
           accessible
         >
@@ -135,7 +138,7 @@ export default function ConnectionPage() {
 
         <TouchableOpacity
           onPress={() => router.push("/register")}
-          accessibilityLabel="Lien pour créer un nouveau compte"
+          accessibilityLabel={t("connexion.createAccount")}
         >
           <Text style={[styles.registerLink, { color: theme.text }]}>
             {t("connexion.createAccount")}

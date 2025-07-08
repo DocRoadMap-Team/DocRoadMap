@@ -21,6 +21,7 @@ import tree from "../../locales/decision-tree/decisionTree.json";
 import { CreateFromTree } from "../../components/card/CreateFromTree";
 import { router } from "expo-router";
 import { useTheme } from "@/components/ThemeContext";
+import { useTranslation } from "react-i18next";
 
 const decisionTree = tree as Record<string, any>;
 type HistoryEntry =
@@ -28,6 +29,7 @@ type HistoryEntry =
   | { type: "answer"; label: string };
 
 export default function DecisionTree() {
+  const { t } = useTranslation();
   const { theme } = useTheme();
   const [history, setHistory] = useState<HistoryEntry[]>([
     { type: "question", key: "start" },
@@ -141,10 +143,7 @@ export default function DecisionTree() {
       userAnswers: answers,
     });
 
-    Alert.alert(
-      "✅ Roadmap générée",
-      `La roadmap "${demarcheType}" a été générée automatiquement en fonction de vos choix.`,
-    );
+    Alert.alert(t("roadmap_created"));
   };
 
   const handleOptionPress = (nextKey: string, label: string) => {
@@ -258,13 +257,9 @@ export default function DecisionTree() {
             {showSteps && (
               <View style={styles.roadmapContainer}>
                 <View style={styles.roadmapHeader}>
-                  <Text style={styles.roadmapTitle}>
-                    🎯 Voici votre Roadmap correspondante à vos choix
-                  </Text>
+                  <Text style={styles.roadmapTitle}>(t("your_roadmap"));</Text>
                   <Text style={styles.roadmapSubtitle}>
-                    Adaptez votre démarche selon vos besoins Vous pourrez la
-                    retrouver et la modifier depuis la carte dédiée à cette
-                    dernière sur la page d'accueil.
+                    (t("check_roadmap"));
                   </Text>
                 </View>
 
@@ -309,7 +304,7 @@ export default function DecisionTree() {
                     end={{ x: 1, y: 0 }}
                     style={styles.restartButtonGradient}
                   >
-                    <Text style={styles.restartText}>🔄 Recommencer</Text>
+                    <Text style={styles.restartText}>(t("restart"));</Text>
                   </LinearGradient>
                 </TouchableOpacity>
               </View>
@@ -325,7 +320,7 @@ export default function DecisionTree() {
             >
               <View style={styles.optionsHeader}>
                 <Text style={[styles.optionsTitle, { color: theme.text }]}>
-                  Choisissez une option
+                  (t("choose_option"));
                 </Text>
               </View>
               <ScrollView

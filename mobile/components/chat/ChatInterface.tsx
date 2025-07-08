@@ -61,7 +61,7 @@ export default function ChatInterface() {
       if (!historyText || typeof historyText !== "string") {
         setMessages([
           {
-            text: "Bonjour ! Demande-moi ce dont tu as besoin ! 👋",
+            text: t("start_conversation"),
             sender: "bot",
           },
         ]);
@@ -84,7 +84,7 @@ export default function ChatInterface() {
       setHistoryLoaded(true);
     } catch (error) {
       console.error(error);
-      setMessages([{ text: t("server_error"), sender: "bot" }]);
+      setMessages([{ text: t("history_error"), sender: "bot" }]);
     } finally {
       setLoading(false);
     }
@@ -107,13 +107,13 @@ export default function ChatInterface() {
 
     try {
       const res = await request.aiQuery(message, "gpt-4o-mini");
-      const botReply = res?.data?.response ?? t("server_error");
+      const botReply = res?.data?.response ?? t("history_error");
       setMessages([...newMessages, { text: botReply, sender: "bot" as const }]);
     } catch (error) {
       console.error(error);
       setMessages([
         ...newMessages,
-        { text: t("server_error"), sender: "bot" as const },
+        { text: t("history_error"), sender: "bot" as const },
       ]);
     } finally {
       setLoading(false);
@@ -235,9 +235,7 @@ export default function ChatInterface() {
                 <View style={styles.loadingContainer}>
                   <View style={styles.loadingBubble}>
                     <ActivityIndicator size="small" color="#4A5568" />
-                    <Text style={styles.loadingText}>
-                      En cours de frappe...
-                    </Text>
+                    <Text style={styles.loadingText}>{t("writting")}</Text>
                   </View>
                 </View>
               )}
@@ -263,7 +261,7 @@ export default function ChatInterface() {
                 <TextInput
                   value={message}
                   onChangeText={setMessage}
-                  placeholder={t("Ecris to meassge") || "Écris ton message..."}
+                  placeholder={t("write_message")}
                   placeholderTextColor={
                     theme.background === "#000000" ||
                     theme.background === "#1A1A1A"

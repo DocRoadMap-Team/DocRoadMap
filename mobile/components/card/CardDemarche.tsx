@@ -78,7 +78,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
         }
       }
     } catch (error) {
-      setError(t("errorFetchingSteps"));
+      setError(t("fetch_steps_error"));
     } finally {
       setIsLoading(false);
       setRefreshing(false);
@@ -187,7 +187,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
 
                   <View style={styles.toggleContainer}>
                     <Text style={[styles.toggleLabel, { color: theme.text }]}>
-                      Terminé
+                      {t("finish")}
                     </Text>
                     <Switch
                       value={item.endStatus || false}
@@ -204,7 +204,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                 {item.completed && (
                   <View style={styles.completedBadge}>
                     <Icon name="check-circle" size={14} color="#10B981" />
-                    <Text style={styles.completedText}>Terminé</Text>
+                    <Text style={styles.completedText}>{t("finish")}</Text>
                   </View>
                 )}
               </View>
@@ -300,7 +300,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
             </View>
             <View style={styles.progressLabels}>
               <Text style={[styles.progressLabel, { color: theme.text }]}>
-                Progression
+                {t("progress")}
               </Text>
               <Text style={[styles.progressValue, { color: theme.text }]}>
                 {currentProgress}% {t("completed")}
@@ -376,7 +376,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                       <Icon name="loading" size={32} color="#FFFFFF" />
                     </LinearGradient>
                     <Text style={[styles.loadingText, { color: theme.text }]}>
-                      {t("loading", "Chargement...")}
+                      {t("loading")}
                     </Text>
                   </View>
                 ) : error ? (
@@ -398,7 +398,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                       >
                         <Icon name="refresh" size={16} color="#FFFFFF" />
                         <Text style={styles.retryButtonText}>
-                          {t("retry", "Réessayer")}
+                          {t("restart")}
                         </Text>
                       </TouchableOpacity>
                     </LinearGradient>
@@ -409,7 +409,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                       <Icon name="file-outline" size={48} color="#9CA3AF" />
                     </View>
                     <Text style={[styles.emptyText, { color: theme.text }]}>
-                      {t("noStepsAvailable", "Aucune étape disponible")}
+                      {t("noSteps")}
                     </Text>
                   </View>
                 ) : (
@@ -438,9 +438,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                   }}
                   activeOpacity={0.9}
                 >
-                  <Text style={styles.closeButtonText}>
-                    {t("Modifier la démarche")}
-                  </Text>
+                  <Text style={styles.closeButtonText}>{t("edit_rodamp")}</Text>
                 </TouchableOpacity>
               </LinearGradient>
             </View>

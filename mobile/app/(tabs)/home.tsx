@@ -64,7 +64,6 @@ export default function HomePage() {
 
     try {
       const registrationResponse = await request.create(requestBody);
-      console.log("Registration Response:", registrationResponse);
 
       if (registrationResponse.error) {
         setError(registrationResponse.error);
@@ -218,7 +217,7 @@ export default function HomePage() {
         >
           <View style={styles.cardsSectionHeader}>
             <Text style={[styles.sectionTitle, { color: theme.text }]}>
-              Mes Démarches
+              {t("my_process")}
             </Text>
             <LinearGradient
               colors={["#204CCF", "#6006A4"]}
@@ -269,7 +268,7 @@ export default function HomePage() {
               {loadingAdministrative ? (
                 <View style={styles.loadingContainer}>
                   <Text style={[styles.loadingText, { color: theme.text }]}>
-                    {t("Chargement...")}
+                    {t("loading")}
                   </Text>
                 </View>
               ) : errorAdministrative ? (

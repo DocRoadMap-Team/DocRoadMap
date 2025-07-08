@@ -3,6 +3,7 @@ import request from "@/constants/Request";
 import rawTree from "@/locales/decision-tree/decisionTree.json";
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useTranslation } from "react-i18next";
 
 type StepData = {
   name: string;
@@ -43,6 +44,7 @@ let StepsId: number | null = null;
 
 export const useStepsId = () => {
   const [stepsId, setStepsId] = useState<number | null>(StepsId);
+
   const updateStepsId = (id: number | null) => {
     StepsId = id;
     setStepsId(id);
@@ -66,9 +68,10 @@ export const CreateFromTree = async ({
   const lowerName = name.toLowerCase();
   const answerKey = processNameToAnswerKey[lowerName];
   const userId = await getId();
+  const { t } = useTranslation();
 
   if (!answerKey || !decisionTree[answerKey]) {
-    Alert.alert("Erreur", `Aucune démarche trouvée pour "${name}".`);
+    Alert.alert(t("no_demarche"));
     return;
   }
 
@@ -77,7 +80,7 @@ export const CreateFromTree = async ({
 
   const processData = {
     name,
-    description: `${totalSteps} étapes au total`,
+    description: `${totalSteps} ${t("total_steps")}`,
     userId,
     stepsId: StepsId!,
     endedAt: "",
@@ -89,7 +92,7 @@ export const CreateFromTree = async ({
     const processId = processResponse?.data?.id;
 
     if (!processId) {
-      throw new Error("Impossible de récupérer l'ID de la démarche créée.");
+      throw new Error(t("error_find_id"));
     }
 
     const stepList: StepData[] = [];
@@ -123,11 +126,11 @@ export const CreateFromTree = async ({
     }
 
     Alert.alert(
-      "Succès",
-      `Démarche "${name}" créée avec ${stepList.length} étape(s).`,
+      t("success"),
+      t("process_created", { name, count: stepList.length }),
     );
   } catch (err) {
     console.error(err);
-    Alert.alert("Erreur", "Impossible de créer la démarche ou les étapes.");
+    Alert.alert(t("error_create_process"));
   }
 };

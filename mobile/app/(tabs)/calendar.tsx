@@ -47,14 +47,14 @@ const CalendarScreen = () => {
     const setup = async () => {
       const { status } = await Calendar.requestCalendarPermissionsAsync();
       if (status !== "granted") {
-        Alert.alert("Permission refusée", "Accès au calendrier nécessaire.");
+        Alert.alert(t("permission_calendar"));
         return;
       }
 
       const { status: notifStatus } =
         await Notifications.requestPermissionsAsync();
       if (notifStatus !== "granted") {
-        Alert.alert("Permission refusée", "Notifications désactivées.");
+        Alert.alert(t("permission_notif"));
         return;
       }
 

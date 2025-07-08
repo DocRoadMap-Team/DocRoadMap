@@ -135,7 +135,7 @@ const Settings = () => {
         <TouchableOpacity
           onPress={() => router.replace("/home")}
           style={[styles.button, { backgroundColor: theme.primary }]}
-          accessibilityLabel={t("back_to_profile")}
+          accessibilityLabel={t("register.back_to_home")}
           accessibilityRole="button"
         >
           <Ionicons name="person-outline" size={24} color={theme.buttonText} />
@@ -143,7 +143,7 @@ const Settings = () => {
             style={[styles.buttonText, { color: theme.buttonText }]}
             allowFontScaling={true}
           >
-            {t("back_to_home")}
+            {t("register.back_to_home")}
           </Text>
         </TouchableOpacity>
 
@@ -162,7 +162,7 @@ const Settings = () => {
             style={[styles.buttonText, { color: theme.buttonText }]}
             allowFontScaling={true}
           >
-            {"Calendrier des évènements"}
+            {"event_calendar"}
           </Text>
         </TouchableOpacity>
       </View>
