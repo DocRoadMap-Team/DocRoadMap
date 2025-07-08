@@ -261,6 +261,12 @@ export async function applyAltSettings(
       (!img.hasAttribute("alt") || img.getAttribute("alt") === "") &&
       /\.(png|jpe?g|gif|webp)(\?|@|$)/i.test(img.src),
   );
+  const otherImages = images.filter(
+    (img) =>
+      !img.hasAttribute("alt") &&
+      !/\.(png|jpe?g|gif|webp)(\?|@|$)/i.test(img.src),
+  );
+
   // remove everything that is after tne extension
   imagesWithoutAlt.forEach((img) => {
     const match = img.src.match(/(\.(png|jpe?g|gif|webp))/i);
@@ -273,6 +279,11 @@ export async function applyAltSettings(
   if (!token) {
     console.error("Token non disponible pour l'application des alt texts");
     return;
+  }
+
+  for (const img of otherImages) {
+    img.alt = "alt";
+    console.log(`Added alt for image ${img.src}: alt`);
   }
 
   for (const img of imagesWithoutAlt) {

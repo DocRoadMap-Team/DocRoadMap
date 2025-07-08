@@ -11,8 +11,8 @@ interface OptionsColumnProps {
   isVisible: boolean;
 }
 
-const PRIMARY_BLUE = "#4B7BFF";
-const HOVER_BLUE = "#3A67E6";
+const PRIMARY_BLUE = "#2253D1";
+const HOVER_BLUE = "#1A44B8";
 
 const styles: { [key: string]: React.CSSProperties } = {
   optionsColumnWrapper: {

@@ -14,6 +14,9 @@ const backendUrl = "https://www.docroadmap.fr";
 // const backendUrl =
 //   env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
 
+const PRIMARY_BLUE = "#2253D1";
+const HOVER_BLUE = "#1A44B8";
+
 interface Step {
   id: number;
   name: string;
@@ -37,7 +40,7 @@ const RoadmapView: React.FC = () => {
   const { t } = useTranslation();
   const [cards, setCards] = useState<Card[]>([]);
   const [selectedProcessId, setSelectedProcessId] = useState<number | null>(
-    null
+    null,
   );
   const [error, setError] = useState<string | null>(null);
   const [showSteps, setShowSteps] = useState(false);
@@ -46,7 +49,7 @@ const RoadmapView: React.FC = () => {
   const [selectedProcessName, setSelectedProcessName] = useState<string>("");
   const [token, setToken] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<{ [key: number]: string }>(
-    {}
+    {},
   );
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showScrollArrow, setShowScrollArrow] = useState(false);
@@ -71,7 +74,7 @@ const RoadmapView: React.FC = () => {
             await axios.post(
               `${backendUrl}/process/end-process/${card.id}`,
               {},
-              { headers: { Authorization: `Bearer ${token}` } }
+              { headers: { Authorization: `Bearer ${token}` } },
             );
           } catch (e) {
             console.error("Error closing process:", e);
@@ -109,10 +112,10 @@ const RoadmapView: React.FC = () => {
       await axios.patch(
         `${backendUrl}/steps/${stepId}`,
         { endedAt: formatted },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       setSteps((prev) =>
-        prev.map((s) => (s.id === stepId ? { ...s, endedAt: formatted } : s))
+        prev.map((s) => (s.id === stepId ? { ...s, endedAt: formatted } : s)),
       );
     } catch {
       console.error(t("updateEndedAtError"));
@@ -197,7 +200,7 @@ const RoadmapView: React.FC = () => {
         display: flex;
         flex-direction: column;
         gap: 0.8rem;
-        width: 100%;
+        width: 95%;
         max-width: 1500px;
       }
       .card-title {
@@ -229,11 +232,11 @@ const RoadmapView: React.FC = () => {
       }
       .continue-button {
         margin: 0.5rem auto 0 auto;
-        background: linear-gradient(90deg, #4a63f3 0%, #6a82fb 100%);
+        background: royalblue;
         color: white;
         border: none;
         border-radius: 12px;
-        padding: 0.5rem 0.5rem;
+        padding: 1rem 1rem;
         font-size: 1rem;
         font-weight: 600;
         cursor: pointer;
@@ -243,11 +246,11 @@ const RoadmapView: React.FC = () => {
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
-        max-width: 90%;
-        min-width: 320px;
+        max-width: 70%;
+        min-width: 70%;
       }
       .continue-button:hover {
-        background: linear-gradient(90deg, #3c4edb 0%, #5f75eb 100%);
+        background: #4a63f3 ;
         transform: translateY(-1px);
         box-shadow: 0 4px 10px rgba(74, 99, 243, 0.25);
       }
@@ -256,6 +259,7 @@ const RoadmapView: React.FC = () => {
       }
       .continue-button:hover .arrow {
         transform: translateX(4px);
+        background: ${HOVER_BLUE};
       }
       .modify-button {
         margin-top: 0.4rem;
@@ -329,14 +333,15 @@ const RoadmapView: React.FC = () => {
       .progress-label-alt {
         display: flex;
         justify-content: space-between;
-        font-size: 0.85rem;
+        font-size: 12px;
         color: #6b7280;
         margin-top: 0.5rem;
       }
       .card-header-banner {
-        background: #4a63f3;
+        background: royalblue;
+        background: linear-gradient(180deg, royalblue 0%, ${PRIMARY_BLUE} 100%);
         border-radius: 12px 12px 0 0;
-        padding: 1rem 1.2rem;
+        padding: 1.5rem 2rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -348,7 +353,7 @@ const RoadmapView: React.FC = () => {
       .card-banner-center {
         flex-grow: 1;
         text-align: center;
-        font-size: 1rem;
+        font-size: 16px;
         font-weight: 600;
         }
       .card-banner-right {
@@ -356,7 +361,7 @@ const RoadmapView: React.FC = () => {
           align-items: center;
         }
        .circle-badge {
-          background-color: rgba(255, 255, 255, 0.2);
+        background: linear-gradient(180deg, ${PRIMARY_BLUE} 0%, ${HOVER_BLUE} 100%);
           border: 2px solid white;
           border-radius: 50%;
           width: 46px;
@@ -371,13 +376,18 @@ const RoadmapView: React.FC = () => {
       <Header title={t("currentRoadmaps") || ""} icon={<FaEye />} />
       {error && <p className="error-message">{error}</p>}
       {!showSteps ? (
-        <div className="carousel-container" ref={scrollRef}>
+        <div
+          className="carousel-container"
+          ref={scrollRef}
+          tabIndex={0}
+          aria-label={`scrollable Cards container`}
+        >
           {cards
             .sort((a, b) => b.id - a.id)
             .map((card) => {
               const totalSteps = card.steps.length;
               const validatedSteps = card.steps.filter(
-                (s) => s.status === "COMPLETED"
+                (s) => s.status === "COMPLETED",
               ).length;
               const percentage = totalSteps
                 ? Math.round((validatedSteps / totalSteps) * 100)
@@ -386,12 +396,12 @@ const RoadmapView: React.FC = () => {
               return (
                 <div className="card" key={card.id}>
                   <div className="card-header-banner">
-                    <div className="card-banner-left">📄</div>
+                    {/* <div className="card-banner-left">📄</div> */}
                     <div className="card-banner-center">
                       <div className="card-banner-title">{t(card.name)}</div>
-                      <div className="card-banner-subtitle">
+                      {/* <div className="card-banner-subtitle">
                         {t("File")} #{card.id}
-                      </div>
+                      </div> */}
                     </div>
                     <div className="card-banner-right">
                       <div className="circle-badge">{percentage}%</div>
@@ -400,7 +410,7 @@ const RoadmapView: React.FC = () => {
 
                   <div className="progress-label-alt">
                     <span>{t("Progress")}</span>
-                    <span style={{ fontWeight: 600 }}>
+                    <span style={{ fontWeight: 600, fontSize: "12px" }}>
                       {percentage}% {t("completed")}
                     </span>
                   </div>

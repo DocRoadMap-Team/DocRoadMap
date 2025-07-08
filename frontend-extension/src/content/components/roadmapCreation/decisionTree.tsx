@@ -92,6 +92,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     padding: 24,
     flex: 1,
     overflowY: "auto",
+    scrollbarWidth: "thin",
     scrollBehavior: "smooth",
     display: "flex",
     flexDirection: "column",
@@ -289,7 +290,12 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = () => {
   return (
     <div style={styles.outer}>
       <Header title="Assistant démarches" icon={<FaRoad />} />
-      <div style={styles.chatWindow} ref={chatRef}>
+      <div
+        style={styles.chatWindow}
+        ref={chatRef}
+        tabIndex={0}
+        aria-label="Chat window"
+      >
         {history.map((entry, index) => {
           const isLast = index === history.length - 1;
           return (
