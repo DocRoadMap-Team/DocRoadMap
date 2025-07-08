@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FaRoad } from "react-icons/fa";
 import Header from "../../utils/Header";
 import getToken from "../../utils/utils";
@@ -51,7 +52,7 @@ function getProcessAnswersKey(processKey: string): string | null {
 
 function getStepsForProcess(
   processAnswers: Record<string, StepNode>,
-  userAnswers: Record<string, string>,
+  userAnswers: Record<string, string>
 ): { step_title: string; answer: string }[] {
   const steps: { step_title: string; answer: string }[] = [];
   for (const step of Object.values(processAnswers)) {
@@ -131,13 +132,14 @@ const styles: { [key: string]: React.CSSProperties } = {
 };
 
 const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
+  const { t } = useTranslation();
   const [history, setHistory] = useState<ChatHistoryEntry[]>([
     { type: "question", key: "start" },
   ]);
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
   const [showSteps, setShowSteps] = useState(false);
   const [steps, setSteps] = useState<{ step_title: string; answer: string }[]>(
-    [],
+    []
   );
   const chatRef = useRef<HTMLDivElement | null>(null);
   const lastMessageRef = useRef<HTMLDivElement | null>(null);
@@ -188,9 +190,9 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
                   "Content-Type": "application/json",
                   Authorization: `Bearer ${token}`,
                 },
-              },
-            ),
-          ),
+              }
+            )
+          )
         );
       } catch (error) {
         console.error("Error creating steps:", error);
@@ -213,7 +215,7 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
       const lastProcessId = response.data.id;
       await handleCreateSteps(lastProcessId);
@@ -288,7 +290,12 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
 
   return (
     <div style={styles.outer}>
-      <Header onClose={onClose} title="Assistant démarches" icon={<FaRoad />} />
+      <Header
+        onClose={onClose}
+        title={t("processAssistant")}
+        icon={<FaRoad />}
+      />
+
       <div style={styles.chatWindow} ref={chatRef}>
         {history.map((entry, index) => {
           const isLast = index === history.length - 1;
@@ -323,13 +330,13 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
                       </a>
                     ) : (
                       <span key={i}>{part}</span>
-                    ),
+                    )
                   )}
                 </li>
               ))}
             </ul>
             <button style={styles.restartBtn} onClick={handleRestartChat}>
-              🔁 Recommencer
+              🔁 {t("recommencer")}
             </button>
           </div>
         )}

@@ -70,6 +70,9 @@
   "Progress": "Progress",
   "start": "Start",
   "completed": "completed",
+  "updateRoadmap": "Update the roadmap",
+  "processAssistant": "Process Assistant",
+  "startAgain": "Restart",
 
   "dim": "sun",
   "lun": "mon",

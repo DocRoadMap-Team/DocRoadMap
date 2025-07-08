@@ -371,7 +371,7 @@ const RoadmapAdvance: React.FC<Props> = ({
           whiteSpace: "nowrap",
         }}
       >
-        ✏️ Modifier la roadmap
+        ✏️ {t("updateRoadmap")}
       </button>
 
       {showScrollArrow && (

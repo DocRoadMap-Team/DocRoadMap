@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FaPaperPlane } from "react-icons/fa";
 import getToken from "../../utils/utils";
 
@@ -21,6 +22,7 @@ const ModifyRoadmapChat: React.FC<Props> = ({
   onClose,
   onRefresh,
 }) => {
+  const { t } = useTranslation();
   const [prompt, setPrompt] = useState("");
   const [token, setToken] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -132,7 +134,8 @@ const ModifyRoadmapChat: React.FC<Props> = ({
           borderTopRightRadius: 8,
         }}
       >
-        <span>Modifier la roadmap (#{processId})</span>
+        <span>{t("updateRoadmap", { id: processId })}</span>
+
         <button
           onClick={onClose}
           style={{

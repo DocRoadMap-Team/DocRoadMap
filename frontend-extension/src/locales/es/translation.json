@@ -70,6 +70,9 @@
   "Progress": "Progreso",
   "start": "Comenzar",
   "completed": "completado",
+  "updateRoadmap": "Actualizar la hoja de ruta",
+  "processAssistant": "Asistente de trámites",
+  "startAgain": "Reiniciar",
 
   "dim": "dom",
   "lun": "lun",
