@@ -74,7 +74,7 @@ describe("RoadmapView", () => {
     render(<RoadmapView />);
 
     expect(
-      await screen.findByText(/Impossible de récupérer les roadmaps/i)
+      await screen.findByText(/Impossible de récupérer les roadmaps/i),
     ).toBeInTheDocument();
   });
 

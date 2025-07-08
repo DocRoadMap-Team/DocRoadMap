@@ -37,7 +37,7 @@ const RoadmapView: React.FC = () => {
   const { t } = useTranslation();
   const [cards, setCards] = useState<Card[]>([]);
   const [selectedProcessId, setSelectedProcessId] = useState<number | null>(
-    null
+    null,
   );
   const [error, setError] = useState<string | null>(null);
   const [showSteps, setShowSteps] = useState(false);
@@ -46,7 +46,7 @@ const RoadmapView: React.FC = () => {
   const [selectedProcessName, setSelectedProcessName] = useState<string>("");
   const [token, setToken] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<{ [key: number]: string }>(
-    {}
+    {},
   );
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showScrollArrow, setShowScrollArrow] = useState(false);
@@ -71,7 +71,7 @@ const RoadmapView: React.FC = () => {
             await axios.post(
               `${backendUrl}/process/end-process/${card.id}`,
               {},
-              { headers: { Authorization: `Bearer ${token}` } }
+              { headers: { Authorization: `Bearer ${token}` } },
             );
           } catch (e) {
             console.error("Error closing process:", e);
@@ -109,10 +109,10 @@ const RoadmapView: React.FC = () => {
       await axios.patch(
         `${backendUrl}/steps/${stepId}`,
         { endedAt: formatted },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       setSteps((prev) =>
-        prev.map((s) => (s.id === stepId ? { ...s, endedAt: formatted } : s))
+        prev.map((s) => (s.id === stepId ? { ...s, endedAt: formatted } : s)),
       );
     } catch {
       console.error(t("updateEndedAtError"));
@@ -377,7 +377,7 @@ const RoadmapView: React.FC = () => {
             .map((card) => {
               const totalSteps = card.steps.length;
               const validatedSteps = card.steps.filter(
-                (s) => s.status === "COMPLETED"
+                (s) => s.status === "COMPLETED",
               ).length;
               const percentage = totalSteps
                 ? Math.round((validatedSteps / totalSteps) * 100)

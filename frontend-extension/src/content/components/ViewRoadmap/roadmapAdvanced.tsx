@@ -84,7 +84,7 @@ const RoadmapAdvance: React.FC<Props> = ({
       if (!response.ok) {
         console.error(
           `Erreur backend (${response.status}) pour l'étape ${stepId}:`,
-          data
+          data,
         );
         alert(`Erreur lors de la finalisation de la démarche ${stepId}`);
         return;
