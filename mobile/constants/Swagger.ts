@@ -72,3 +72,16 @@ export type SwaggerAIHistory = {
 export type SwaggerAIconversation = {
   collection_name: string;
 };
+
+export type SwaggerEditRoadmap = {
+  prompt: string;
+  process_id: number;
+};
+
+export type SwaggerEndStep = {
+  id: number;
+};
+
+export type SwaggerEndProcess = {
+  id: number;
+};

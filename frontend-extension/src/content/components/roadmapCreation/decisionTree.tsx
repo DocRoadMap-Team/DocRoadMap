@@ -1,13 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { FaRoad } from "react-icons/fa";
+import Header from "../../utils/Header";
 import getToken from "../../utils/utils";
 import rawData from "./decisionTree.json";
+import ChatMessageBubble from "./DecisionTreeComponents/ChatMessageBubble";
+import OptionsColumn from "./DecisionTreeComponents/OptionsColumn";
 
 const backendUrl = "https://www.docroadmap.fr";
 
+// const env = import.meta.env.VITE_ENV_MODE;
+// const backendUrl =
+//   env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
+
 type DecisionTreeData = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any; // <-- This allows string indexing
+  [key: string]: any;
 };
 
 const decisionTreeData: DecisionTreeData = rawData;
@@ -33,62 +41,6 @@ type ChatHistoryEntry =
   | { type: "question"; key: string }
   | { type: "answer"; label: string };
 
-const ChatHeader: React.FC<{ onClose?: () => void }> = ({ onClose }) => (
-  <div style={styles.header}>
-    🤖 Assistant démarches
-    {onClose && (
-      <button style={styles.closeBtn} onClick={onClose} aria-label="Fermer">
-        ×
-      </button>
-    )}
-  </div>
-);
-
-const ChatMessageBubble: React.FC<{
-  entry: ChatHistoryEntry;
-  index: number;
-}> = ({ entry, index }) => {
-  if (entry.type === "question") {
-    const node = decisionTreeData[entry.key] as QuestionNode | undefined;
-    if (node && "question" in node) {
-      return (
-        <div style={styles.botBubble} key={index}>
-          {/* <strong>Bot:</strong>
-          <br /> */}
-          {node.question}
-        </div>
-      );
-    }
-  } else if (entry.type === "answer") {
-    return (
-      <div style={styles.userBubble} key={index}>
-        {entry.label}
-      </div>
-    );
-  }
-  return null;
-};
-
-const OptionsRow: React.FC<{
-  options: { label: string; next: string }[];
-  onOptionSelect: (nextKey: string, label: string) => void;
-}> = ({ options, onOptionSelect }) => (
-  <div style={styles.optionsBar}>
-    <div style={styles.optionsScroll}>
-      {options.map(({ label, next }, idx) => (
-        <button
-          key={idx}
-          style={styles.optionRow}
-          onClick={() => onOptionSelect(next, label)}
-          aria-label={`Choisir: ${label}`}
-        >
-          {label}
-        </button>
-      ))}
-    </div>
-  </div>
-);
-
 function getProcessAnswersKey(processKey: string): string | null {
   if (processKey === "dem_answers") return "dem_answers";
   if (processKey === "aide_logement_answers") return "aide_logement_answers";
@@ -97,14 +49,12 @@ function getProcessAnswersKey(processKey: string): string | null {
   return null;
 }
 
-// Helper: get all steps to display for a process, based on user answers
 function getStepsForProcess(
   processAnswers: Record<string, StepNode>,
   userAnswers: Record<string, string>,
 ): { step_title: string; answer: string }[] {
   const steps: { step_title: string; answer: string }[] = [];
   for (const step of Object.values(processAnswers)) {
-    // If step depends on a question
     if (step.step_question) {
       const userValue = userAnswers[step.step_question];
       const option = step.options.find((opt) => opt.label === userValue);
@@ -115,7 +65,6 @@ function getStepsForProcess(
         steps.push({ step_title: step.step_title, answer: option.answer });
       }
     } else {
-      // No step_question: always display if answer exists
       const option = step.options[0];
       if (option && option.answer) {
         steps.push({ step_title: step.step_title, answer: option.answer });
@@ -124,6 +73,62 @@ function getStepsForProcess(
   }
   return steps;
 }
+
+const styles: { [key: string]: React.CSSProperties } = {
+  outer: {
+    width: "100%",
+    height: "100%",
+    boxSizing: "border-box",
+    background: "#fff",
+    borderRadius: 8,
+    boxShadow: "0 4px 24px rgba(75, 123, 255, 0.10)",
+    display: "flex",
+    flexDirection: "column",
+    fontFamily: "'Inter', 'Roboto', 'Segoe UI', Arial, sans-serif",
+    zIndex: 1001,
+    color: "#222",
+  },
+  chatWindow: {
+    padding: 24,
+    flex: 1,
+    overflowY: "auto",
+    scrollBehavior: "smooth",
+    display: "flex",
+    flexDirection: "column",
+    gap: 16,
+  },
+  botBubble: {
+    background: "#F4F8FF",
+    padding: "16px 20px",
+    borderRadius: 20,
+    alignSelf: "flex-start",
+    maxWidth: "80%",
+    marginBottom: 6,
+    fontSize: 16,
+    color: "#222",
+    fontWeight: 500,
+    boxShadow: "0 2px 8px rgba(75, 123, 255, 0.07)",
+  },
+  restartBtn: {
+    marginTop: 16,
+    background: "#4B7BFF",
+    border: "none",
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: 700,
+    borderRadius: 16,
+    padding: "12px 32px",
+    cursor: "pointer",
+    boxShadow: "0 2px 8px rgba(75, 123, 255, 0.07)",
+    transition: "background 0.18s, box-shadow 0.18s",
+  },
+  link: {
+    color: "#4B7BFF",
+    textDecoration: "underline",
+    wordBreak: "break-all",
+    fontWeight: 500,
+  },
+};
 
 const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
   const [history, setHistory] = useState<ChatHistoryEntry[]>([
@@ -135,23 +140,22 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
     [],
   );
   const chatRef = useRef<HTMLDivElement | null>(null);
+  const lastMessageRef = useRef<HTMLDivElement | null>(null);
   const [user, setUser] = useState<{ id: string } | null>(null);
   const [hasCreatedProcess, setHasCreatedProcess] = useState(false);
-
-  // const [error, setError] = useState<string | null>(null);
-  //const [lastProcessId, setLastProcessId] = useState<string | null>(null);
+  const [optionsVisible, setOptionsVisible] = useState(true);
 
   useEffect(() => {
-    if (chatRef.current) {
-      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
 
     const fetchData = async () => {
       const token = await getToken();
-      if (!token) {
-        // setError("Token unavailable");
-        return;
-      }
+      if (!token) return;
       try {
         const userRes = await axios.get(`${backendUrl}/users/me`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -159,7 +163,6 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
         setUser({ id: userRes.data.id });
       } catch (err) {
         console.error(err);
-        // setError("Failed to fetch user");
       }
     };
     fetchData();
@@ -171,7 +174,6 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
       if (!user?.id || !token) return;
 
       try {
-        // Send all requests in parallel
         await Promise.all(
           steps.map((step) =>
             axios.post(
@@ -190,7 +192,6 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
             ),
           ),
         );
-        console.log("All steps created successfully");
       } catch (error) {
         console.error("Error creating steps:", error);
       }
@@ -229,37 +230,39 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
   }, [showSteps, hasCreatedProcess, steps, handleCreateProcessAndSteps]);
 
   const handleUserSelectsOption = (nextKey: string, label: string) => {
-    // save answer to the current question in history
-    const lastQuestionEntry = [...history]
-      .reverse()
-      .find((e) => e.type === "question");
-    const newAnswers = { ...userAnswers };
-    if (lastQuestionEntry && "key" in lastQuestionEntry) {
-      newAnswers[lastQuestionEntry.key] = label;
-    }
+    setOptionsVisible(false);
+    setTimeout(() => {
+      const lastQuestionEntry = [...history]
+        .reverse()
+        .find((e) => e.type === "question");
+      const newAnswers = { ...userAnswers };
+      if (lastQuestionEntry && "key" in lastQuestionEntry) {
+        newAnswers[lastQuestionEntry.key] = label;
+      }
 
-    // Check if nextKey is a process answers key (like "dem_answers")
-    const processAnswersKey = getProcessAnswersKey(nextKey);
-    if (processAnswersKey && decisionTreeData[processAnswersKey]) {
-      const processAnswers = decisionTreeData[processAnswersKey] as Record<
-        string,
-        StepNode
-      >;
-      const filteredSteps = getStepsForProcess(processAnswers, newAnswers);
-      setSteps(filteredSteps);
+      const processAnswersKey = getProcessAnswersKey(nextKey);
+      if (processAnswersKey && decisionTreeData[processAnswersKey]) {
+        const processAnswers = decisionTreeData[processAnswersKey] as Record<
+          string,
+          StepNode
+        >;
+        const filteredSteps = getStepsForProcess(processAnswers, newAnswers);
+        setSteps(filteredSteps);
+        setUserAnswers(newAnswers);
+        setShowSteps(true);
+        setHistory([...history, { type: "answer", label }]);
+        setOptionsVisible(true);
+        return;
+      }
+
+      setHistory([
+        ...history,
+        { type: "answer", label },
+        { type: "question", key: nextKey },
+      ]);
       setUserAnswers(newAnswers);
-      setShowSteps(true);
-      setHistory([...history, { type: "answer", label }]);
-      return;
-    }
-
-    // if nextKey is also a question, continue the flow
-    setHistory([
-      ...history,
-      { type: "answer", label },
-      { type: "question", key: nextKey },
-    ]);
-    setUserAnswers(newAnswers);
+      setOptionsVisible(true);
+    }, 350);
   };
 
   const handleRestartChat = () => {
@@ -268,9 +271,9 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
     setShowSteps(false);
     setSteps([]);
     setHasCreatedProcess(false);
+    setOptionsVisible(true);
   };
 
-  // get current options
   const lastHistoryEntry = history[history.length - 1];
   let currentOptions: { label: string; next: string }[] = [];
   if (
@@ -283,23 +286,22 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
       .options;
   }
 
-  // const displayHistoryInConsole = () => {
-  //   console.log("Chat History:", history);
-  //   console.log("User Answers:", userAnswers);
-  //   console.log("Steps:", steps);
-  //   // console.log("Steps:", steps.map((step) => ({
-  //   //   title: step.step_title,
-  //   //   answer: step.answer,
-  //   // })));
-  // };
-
   return (
     <div style={styles.outer}>
-      <ChatHeader onClose={onClose} />
+      <Header onClose={onClose} title="Assistant démarches" icon={<FaRoad />} />
       <div style={styles.chatWindow} ref={chatRef}>
-        {history.map((entry, index) => (
-          <ChatMessageBubble entry={entry} index={index} key={index} />
-        ))}
+        {history.map((entry, index) => {
+          const isLast = index === history.length - 1;
+          return (
+            <div key={index} ref={isLast ? lastMessageRef : undefined}>
+              <ChatMessageBubble
+                entry={entry}
+                index={index}
+                decisionTreeData={decisionTreeData}
+              />
+            </div>
+          );
+        })}
         {showSteps && (
           <div style={styles.botBubble}>
             <strong>Étapes à suivre :</strong>
@@ -326,14 +328,6 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
                 </li>
               ))}
             </ul>
-            {/* <button
-              style={styles.restartBtn}
-              onClick={() => {
-                // displayHistoryInConsole();
-              }}
-            >
-              display history
-            </button> */}
             <button style={styles.restartBtn} onClick={handleRestartChat}>
               🔁 Recommencer
             </button>
@@ -341,114 +335,14 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
         )}
       </div>
       {!showSteps && currentOptions.length > 0 && (
-        <OptionsRow
+        <OptionsColumn
           options={currentOptions}
           onOptionSelect={handleUserSelectsOption}
+          isVisible={optionsVisible}
         />
       )}
     </div>
   );
-};
-
-const styles: { [key: string]: React.CSSProperties } = {
-  outer: {
-    width: "100%",
-    height: "100%",
-    boxSizing: "border-box",
-    background: "#fff",
-    borderRadius: 12,
-    boxShadow: "0 2px 16px rgba(44,62,80,0.10)",
-    display: "flex",
-    flexDirection: "column",
-    fontFamily: "sans-serif",
-    zIndex: 1001,
-    color: "#222",
-  },
-  header: {
-    padding: "10px 16px",
-    borderBottom: "1px solid #e0e0e0",
-    fontWeight: "bold",
-    fontSize: 16,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    background: "#f5f5f5",
-    borderRadius: "12px 12px 0 0",
-  },
-  closeBtn: {
-    background: "none",
-    border: "none",
-    fontSize: 20,
-    cursor: "pointer",
-    color: "#888",
-  },
-  chatWindow: {
-    padding: 16,
-    flex: 1,
-    overflowY: "auto",
-    display: "flex",
-    flexDirection: "column",
-    gap: 10,
-  },
-  botBubble: {
-    background: "#f0f0f0",
-    padding: "12px 14px",
-    borderRadius: 16,
-    alignSelf: "flex-start",
-    maxWidth: "80%",
-    marginBottom: 4,
-    fontSize: 15,
-    color: "#222",
-  },
-  userBubble: {
-    background: "#cce4fb",
-    padding: "12px 14px",
-    borderRadius: 16,
-    alignSelf: "flex-end",
-    maxWidth: "80%",
-    fontSize: 15,
-    color: "#222",
-    marginBottom: 4,
-  },
-  optionsBar: {
-    borderTop: "1px solid #e0e0e0",
-    background: "#fff",
-    padding: "10px 0 10px 0",
-  },
-  optionsScroll: {
-    display: "flex",
-    flexDirection: "row",
-    overflowX: "auto",
-    gap: 10,
-    paddingLeft: 12,
-    paddingRight: 12,
-  },
-  optionRow: {
-    background: "#f5f5f5",
-    color: "#222",
-    border: "none",
-    borderRadius: 20,
-    padding: "10px 18px",
-    fontSize: 15,
-    cursor: "pointer",
-    marginBottom: 0,
-    whiteSpace: "nowrap",
-    transition: "background 0.18s",
-  },
-  restartBtn: {
-    marginTop: 10,
-    background: "none",
-    border: "none",
-    color: "#1976d2",
-    fontSize: 15,
-    cursor: "pointer",
-    textDecoration: "underline",
-  },
-  link: {
-    color: "#1976d2",
-    textDecoration: "underline",
-    wordBreak: "break-all",
-  },
 };
 
 export default DecisionTreeChat;

@@ -7,14 +7,16 @@ import "./login.css";
 
 const backendUrl = "https://www.docroadmap.fr";
 
+// const env = import.meta.env.VITE_ENV_MODE;
+// const backendUrl =
+//   env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
+
 const isDev = process.env.NODE_ENV !== "production";
 const docroadmapImg = isDev
   ? "/assets/docroadmap.png"
   : "../assets/docroadmap.png";
 
-const ArrowLeftIcon = FaArrowLeft as unknown as React.FC<
-  React.SVGProps<SVGSVGElement>
->;
+const ArrowLeftIcon = FaArrowLeft as unknown as React.FC<any>;
 
 function Login() {
   const navigate = useNavigate();
@@ -27,15 +29,20 @@ function Login() {
   const [resetEmail, setResetEmail] = useState("");
 
   const handleLogin = () => {
+    setError("");
+
+    if (!email.trim() || !password.trim()) {
+      setError(t("empty_fields"));
+      return;
+    }
+
     axios
       .post(`${backendUrl}/auth/login`, { email, password })
       .then((response) => {
         const token = response.data.accessToken;
         localStorage.setItem("token", token);
         if (typeof chrome !== "undefined" && chrome.storage) {
-          chrome.storage.local.set({ token }, () => {
-            console.log("Token saved in chrome.storage :", token);
-          });
+          chrome.storage.local.set({ token }, () => {});
         }
         if (token) {
           if (chrome?.tabs?.query && chrome?.tabs?.sendMessage) {
@@ -52,8 +59,8 @@ function Login() {
         }
       })
       .catch(() => {
-        setError(t("error"));
-        console.error("Login failed.");
+        setError(t("login_error"));
+        console.error("Login failed");
       });
   };
 
@@ -69,7 +76,6 @@ function Login() {
         </div>
         {!isResetMode ? (
           <>
-            {error && <p className="error-message">{error}</p>}
             <div className="input-group small">
               <input
                 type="email"
@@ -91,6 +97,7 @@ function Login() {
                 {t("login")}
               </button>
             </div>
+            {error && <p className="login-error">{error}</p>}
           </>
         ) : (
           <>

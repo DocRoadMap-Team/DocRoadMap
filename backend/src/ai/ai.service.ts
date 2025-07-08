@@ -1,4 +1,4 @@
-import { Injectable, Inject, BadRequestException, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { Injectable, Inject, BadRequestException, InternalServerErrorException, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import axios from "axios"
 import { SendQueryResponseMistralDTO } from "./dto/send-query-response-mistral.dto";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -28,7 +28,7 @@ export class AiService {
 
         @Inject('AI_URL')
         private aiUrl: string,
-    ) {}
+    ) { }
 
     async sendQuery(prompt: string, collection_name: string, user_id: number): Promise<SendQueryResponseMistralDTO> {
         try {
@@ -45,7 +45,7 @@ export class AiService {
                 "collection_name": collection_name,
                 "history": ai_history.history
             });
-            
+
             let responseData = null;
             try {
                 responseData = {
@@ -72,7 +72,7 @@ export class AiService {
 
             if (responseData.is_roadmap) {
                 await this.aiHistoryRepository.delete({ user: { id: user_id } });
-        
+
                 const roadmap = response.data.roadmap;
 
                 const process = this.processRepository.create({
@@ -118,7 +118,7 @@ export class AiService {
                 });
                 await this.aiHistoryRepository.save(ai_history);
             }
-    
+
             return { is_roadmap: false, collection_name: collection_name, response: response.data.question };
         } catch (error) {
             console.error("Erreur lors de l'appel API:", error);
@@ -430,6 +430,78 @@ export class AiService {
                 process: process,
             });
             await this.stepRepository.save(newStep);
+        }
+    }
+
+    async describeImage(url: string): Promise<{ alt: string }> {
+        const apiKey = process.env.OPENAI_API_KEY;
+
+        if (!apiKey) {
+            throw new BadRequestException("OPENAI_API_KEY is not set");
+        }
+
+        if (!url || typeof url !== 'string') {
+            throw new BadRequestException('Image URL is required and must be a string.');
+        }
+
+        const validImageUrl = /^https?:\/\/.+\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i;
+        if (!validImageUrl.test(url)) {
+            throw new BadRequestException('Invalid image URL format.');
+        }
+
+        try {
+            const response = await axios.post(
+                'https://api.openai.com/v1/chat/completions',
+                {
+                    model: 'gpt-4o',
+                    messages: [
+                        {
+                            role: 'system',
+                            content: 'You are an assistant that generates concise and accurate HTML alt text for images. You are given the image directly, not just a URL.'
+                        },
+                        {
+                            role: 'user',
+                            content: [
+                                {
+                                    type: 'text',
+                                    text: 'Describe the image in one sentence suitable for an HTML alt attribute.'
+                                },
+                                {
+                                    type: 'image_url',
+                                    image_url: {
+                                        url,
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    max_tokens: 60,
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            const message = response?.data?.choices?.[0]?.message?.content?.trim();
+            if (!message) {
+                throw new InternalServerErrorException('Invalid response from AI service.');
+            }
+
+            return { alt: message };
+        } catch (error: any) {
+            if (error instanceof BadRequestException || error instanceof UnauthorizedException) {
+                throw error;
+            }
+            if (axios.isAxiosError(error) && error.response) {
+                if (error.response.status === 401) {
+                    throw new UnauthorizedException('Unauthorized to access the AI service.');
+                }
+                throw new BadRequestException(error.response.data?.error?.message || 'Error from AI service.');
+            }
+            throw new InternalServerErrorException('An unexpected error occurred while generating the image description.');
         }
     }
 }

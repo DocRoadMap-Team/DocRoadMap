@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "version": "1.0.0",
+  "version": "1.2.0",
   "name": "DocRoadMap",
-  "description": "This is the Extension for Browser",
+  "description": "DocRoadMap App",
   "icons": {
     "128": "icon128.png"
   },
@@ -10,25 +10,59 @@
     "default_icon": {
       "128": "icon128.png"
     },
-    "default_title": "test",
+    "default_title": "DocRoadMap",
     "default_popup": "index.html"
   },
   "web_accessible_resources": [
     {
       "resources": ["assets/*.png"],
-      "matches": ["<all_urls>"]
+      "matches": [
+        "*://*.gouv.fr/*",
+        "*://*.ameli.fr/*",
+        "*://*.caf.fr/*",
+        "*://*.impots.gouv.fr/*",
+        "*://*.service-public.fr/*",
+        "*://*.legifrance.gouv.fr/*",
+        "*://*.franceconnect.gouv.fr/*",
+        "*://*.demarches-simplifiees.fr/*",
+        "*://*.mesdroitssociaux.gouv.fr/*",
+        "*://*.mes-aides.gouv.fr/*"
+      ]
     }
   ],
+
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": [
+        "*://*.gouv.fr/*",
+        "*://*.ameli.fr/*",
+        "*://*.caf.fr/*",
+        "*://*.impots.gouv.fr/*",
+        "*://*.service-public.fr/*",
+        "*://*.legifrance.gouv.fr/*",
+        "*://*.franceconnect.gouv.fr/*",
+        "*://*.demarches-simplifiees.fr/*",
+        "*://*.mesdroitssociaux.gouv.fr/*",
+        "*://*.mes-aides.gouv.fr/*"
+      ],
       "js": ["src/content/content.tsx"]
     }
   ],
   "background": {
     "service_worker": "public/background.js"
   },
-  "permissions": ["tabs", "storage", "activeTab", "scripting"],
+  "permissions": ["storage", "activeTab"],
 
-  "host_permissions": ["<all_urls>"]
+  "host_permissions": [
+    "*://*.gouv.fr/*",
+    "*://*.ameli.fr/*",
+    "*://*.caf.fr/*",
+    "*://*.impots.gouv.fr/*",
+    "*://*.service-public.fr/*",
+    "*://*.legifrance.gouv.fr/*",
+    "*://*.franceconnect.gouv.fr/*",
+    "*://*.demarches-simplifiees.fr/*",
+    "*://*.mesdroitssociaux.gouv.fr/*",
+    "*://*.mes-aides.gouv.fr/*"
+  ]
 }

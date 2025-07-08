@@ -21,12 +21,12 @@ const LanguageSelector: React.FC = () => {
 
   return (
     <div className="roadmap-container">
-      <div className="settings-content">
-        <button className="back-button" onClick={() => navigate(-1)}>
-          <ArrowLeftIcon />
-        </button>
-        <h1 className="roadmap-title">{t("languageTitle")}</h1>
+      <button className="back-button" onClick={() => navigate(-1)}>
+        <ArrowLeftIcon />
+      </button>
+      <h1 className="roadmap-title">{t("languageTitle")}</h1>
 
+      <div className="settings-content">
         <div className="roadmap-buttons">
           <button onClick={() => handleLanguageChange("fr")}>
             <img src={frenchImg} alt="French flag" className="flag-img" />

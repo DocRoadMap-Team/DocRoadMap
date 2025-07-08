@@ -20,16 +20,12 @@ function SignupConfirm() {
     <div className="confirmation-page">
       <div className="confirmation-container">
         <div className="confirmation-header">
-          <div className="DocRoadMap-Logo confirmation">
-            <img src={docroadmapImg} alt="DocRoadMap" />
-          </div>
+          <img src={docroadmapImg} alt="DocRoadMap" />
         </div>
-        <p>{t("instruction")}</p>
-        <div className="button-group">
-          <button className="login-button" onClick={handleLoginRedirect}>
-            {t("login")}
-          </button>
-        </div>
+        <p className="confirmation-message">{t("instruction")}</p>
+        <button className="confirmation-button" onClick={handleLoginRedirect}>
+          {t("login")}
+        </button>
       </div>
     </div>
   );
