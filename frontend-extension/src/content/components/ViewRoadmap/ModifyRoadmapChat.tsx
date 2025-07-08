@@ -139,10 +139,11 @@ const ModifyRoadmapChat: React.FC<Props> = ({
     >
       <div
         style={{
-          background: "#007bff",
+          background: "royalblue",
           padding: "0.5rem",
           color: "white",
           fontWeight: 600,
+          fontSize: "14px",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -171,6 +172,8 @@ const ModifyRoadmapChat: React.FC<Props> = ({
 
       <div
         ref={chatRef}
+        tabIndex={0}
+        aria-label={`scrollable Modify roadmap container`}
         style={{
           flex: 1,
           overflowY: "auto",
@@ -186,12 +189,16 @@ const ModifyRoadmapChat: React.FC<Props> = ({
           <React.Fragment key={idx}>
             <div
               style={{
+                background: "royalblue",
+                padding: "12px 16px",
+                borderRadius: "18px 18px 4px 18px",
+                maxWidth: "70%",
+                fontSize: "14px",
+                color: "rgb(255, 255, 255)",
+                fontWeight: 500,
+                lineHeight: 1.4,
+                boxShadow: "rgba(0, 0, 0, 0.15) 0px 1px 3px",
                 alignSelf: "flex-end",
-                background: "#90c9f5",
-                color: "#000",
-                padding: "10px 10px",
-                borderRadius: "16px",
-                maxWidth: "75%",
               }}
             >
               {pair.message}
@@ -200,12 +207,16 @@ const ModifyRoadmapChat: React.FC<Props> = ({
             {pair.response && (
               <div
                 style={{
-                  alignSelf: "flex-start",
-                  background: "#d4c562",
-                  color: "#000",
+                  background: "rgb(232, 244, 248)",
                   padding: "12px 16px",
-                  borderRadius: "16px",
-                  maxWidth: "75%",
+                  borderRadius: "18px 18px 18px 4px",
+                  maxWidth: "70%",
+                  fontSize: "14px",
+                  color: "rgb(44, 62, 80)",
+                  fontWeight: 400,
+                  lineHeight: 1.4,
+                  boxShadow: "rgba(0, 0, 0, 0.1) 0px 1px 3px",
+                  border: "1px solid rgba(64, 224, 208, 0.2)",
                 }}
               >
                 {pair.response}
@@ -289,12 +300,16 @@ const ModifyRoadmapChat: React.FC<Props> = ({
           onClick={handleSubmit}
           disabled={loading || !prompt.trim()}
           style={{
-            background: "#007bff",
+            background: "#4e54c8",
             color: "white",
-            padding: "10px 10px",
-            borderRadius: 8,
+            padding: "10px 12px",
             border: "none",
+            borderRadius: "8px",
             cursor: "pointer",
+            transition: "background 0.2s",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <FaPaperPlane />

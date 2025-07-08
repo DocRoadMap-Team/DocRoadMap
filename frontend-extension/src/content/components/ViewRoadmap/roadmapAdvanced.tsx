@@ -97,26 +97,33 @@ const RoadmapAdvance: React.FC<Props> = ({
     }
   };
 
-  const sortedSteps = [...steps].sort((a, b) => a.id - b.id);
+  const sortedSteps = [...steps]; //.sort((a, b) => a.id - b.id);
 
   return (
     <div className="advanced-steps-container">
       <style>{`
-        .advanced-steps-container {
-          width: 100%;
-          height: 100%;
-          background: #f9fafc;
-          box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      .link {
+        color: #007bff;
+        text-decoration: none;
+      }
+      .link:hover {
+        text-decoration: underline;
+      }
+      .advanced-steps-container {
+        width: 100%;
+        height: 100%;
+        background: #f9fafc;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
           display: flex;
           flex-direction: column;
           overflow: hidden;
           position: relative;
         }
         .advanced-header {
-          background: #007bff;
+          background: royalblue;
           color: white;
           padding: 1rem 1.5rem;
-          font-size: 1.1rem;
+          font-size: 14px;
           font-weight: bold;
           display: flex;
           justify-content: space-between;
@@ -129,6 +136,7 @@ const RoadmapAdvance: React.FC<Props> = ({
           display: flex;
           flex-direction: column;
           gap: 1rem;
+
           scrollbar-width: none; /* Firefox */
           -ms-overflow-style: none;  /* IE and Edge */
         }
@@ -292,63 +300,89 @@ const RoadmapAdvance: React.FC<Props> = ({
         </button>
       </div>
 
-      <div className="steps-scroll" ref={scrollRef}>
+      <div
+        className="steps-scroll"
+        ref={scrollRef}
+        tabIndex={0}
+        aria-label="Scrollable Steps Container"
+      >
         {sortedSteps.length > 0 ? (
-          sortedSteps.map((step, idx) => (
-            <div className="step-card" key={step.id}>
-              <div
-                className={`step-header${step.status === "COMPLETED" ? " completed" : ""}`}
-                onClick={() => {
-                  setExpandedStep(expandedStep === step.id ? null : step.id);
-                }}
-              >
-                <div className="step-title">
-                  <span className="step-index">{idx + 1}</span>
-                  <span>{step.name}</span>
-                </div>
+          sortedSteps
+            .sort((a, b) => a.id - b.id)
+            .map((step, idx) => (
+              <div className="step-card" key={step.id}>
+                <div
+                  className={`step-header${step.status === "COMPLETED" ? " completed" : ""}`}
+                  onClick={() => {
+                    setExpandedStep(expandedStep === step.id ? null : step.id);
+                  }}
+                >
+                  <div className="step-title">
+                    <span className="step-index">{idx + 1}</span>
+                    <span>{step.name}</span>
+                  </div>
 
-                <div className="step-icons">
-                  <div className="step-right-icon">
-                    {expandedStep === step.id ? (
-                      <FaChevronUp className="chevron-icon" />
-                    ) : (
-                      <FaChevronDown className="chevron-icon" />
+                  <div className="step-icons">
+                    <div className="step-right-icon">
+                      {expandedStep === step.id ? (
+                        <FaChevronUp className="chevron-icon" />
+                      ) : (
+                        <FaChevronDown className="chevron-icon" />
+                      )}
+                    </div>
+                    {step.status === "COMPLETED" && (
+                      <FaCheckCircle
+                        className="validation-icon"
+                        title={t("completed")}
+                      />
                     )}
                   </div>
-                  {step.status === "COMPLETED" && (
-                    <FaCheckCircle
-                      className="validation-icon"
-                      title={t("completed")}
-                    />
-                  )}
                 </div>
-              </div>
 
-              {expandedStep === step.id && (
-                <>
-                  <div className="step-description">{step.description}</div>
-                  {step.status !== "COMPLETED" && (
-                    <div className="step-footer">
-                      <input
-                        type="datetime-local"
-                        value={
-                          selectedDate[step.id] ||
-                          (step.endedAt ? step.endedAt.slice(0, 16) : "")
-                        }
-                        onChange={(e) =>
-                          setSelectedDate({
-                            ...selectedDate,
-                            [step.id]: e.target.value,
-                          })
-                        }
-                      />
-                      <button onClick={() => endProcess(step.id)}>✅</button>
+                {expandedStep === step.id && (
+                  <>
+                    <div className="step-description">
+                      {step.description
+                        .split(/(https?:\/\/[^\s]+)/g)
+                        .map((part, i) =>
+                          part.match(/^https?:\/\/[^\s]+$/) ? (
+                            <a
+                              key={i}
+                              href={part}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="link"
+                            >
+                              {part}
+                            </a>
+                          ) : (
+                            <span key={i}>{part}</span>
+                          ),
+                        )}
+                      {step.description}
                     </div>
-                  )}
-                </>
-              )}
-            </div>
-          ))
+                    {step.status !== "COMPLETED" && (
+                      <div className="step-footer">
+                        <input
+                          type="datetime-local"
+                          value={
+                            selectedDate[step.id] ||
+                            (step.endedAt ? step.endedAt.slice(0, 16) : "")
+                          }
+                          onChange={(e) =>
+                            setSelectedDate({
+                              ...selectedDate,
+                              [step.id]: e.target.value,
+                            })
+                          }
+                        />
+                        <button onClick={() => endProcess(step.id)}>✅</button>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            ))
         ) : (
           <p className="no-steps">{t("roadmapFetchError")}</p>
         )}
@@ -357,10 +391,10 @@ const RoadmapAdvance: React.FC<Props> = ({
       <button
         onClick={() => openModifyChat(processId)}
         style={{
-          background: "#1976d2",
+          background: "royalblue",
           color: "white",
           padding: "0.4rem 0.8rem",
-          fontSize: "0.85rem",
+          fontSize: "14px",
           border: "none",
           borderRadius: "4px",
           fontWeight: 500,
