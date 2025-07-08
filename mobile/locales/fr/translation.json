@@ -17,7 +17,7 @@
     "logout": "Se déconnecter"
   },
   "connexion": {
-    "welcome": "Bienvenue !",
+    "welcome": "Bienvenue sur DocRoadmap!",
     "pleaseLogin": "Veuillez vous connecter.",
     "emailPlaceholder": "Email",
     "passwordPlaceholder": "Mot de passe",
@@ -102,7 +102,7 @@
 
   "permission_calendar": "Permission refusée .Accès au calendrier nécessaire.",
   "permission_notif": "Permission refusée. Notifications désactivées",
-  "roadmap_created": "✅ Roadmap générée . Elle a été générée automatiquement en fonction de vos choix",
+  "roadmap_created": "✅ Roadmap générée.",
   "your_roadmap": " 🎯 Voici votre Roadmap correspondante à vos choix",
   "check_roadmap": "Adaptez votre demarche selon vos besoins. Vous pouvez la retrouver et la modifier depuis la carte dédiée à cette dernière sur la page d'accueil.",
   "choose_option": "Choisissez une option",

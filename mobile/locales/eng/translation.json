@@ -103,7 +103,7 @@
 
   "permission_calendar": "Permission denied. Calendar access is required.",
   "permission_notif": "Permission denied. Notifications are disabled.",
-  "roadmap_created": "✅ Roadmap generated. It was automatically created based on your choices.",
+  "roadmap_created": "✅ Roadmap generated.",
   "your_roadmap": "🎯 Here is your roadmap based on your selections.",
   "check_roadmap": "Adapt your roadmap to your needs. You can find and edit it from its dedicated card on the home page.",
   "choose_option": "Choose an option",
@@ -130,7 +130,7 @@
   "error_find_id": "Failed to retrieve the ID of the created process.",
   "error_create_process": "Failed to create the process or steps. Please try again.",
   "process_created": "Process \"{{name}}\" created with {{count}} step(s).",
-  "select_language": "Choice of langueage",
+  "select_language": "Choice langueage",
 
   "cancel": "Cancel",
   "start_question": "What procedure would you like to carry out?",

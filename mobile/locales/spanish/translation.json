@@ -103,7 +103,7 @@
 
   "permission_calendar": "Permiso denegado. Se requiere acceso al calendario.",
   "permission_notif": "Permiso denegado. Las notificaciones están desactivadas.",
-  "roadmap_created": "✅ Hoja de ruta generada. Fue creada automáticamente según tus elecciones.",
+  "roadmap_created": "✅ Hoja de ruta generada.",
   "your_roadmap": "🎯 Aquí tienes tu hoja de ruta basada en tus elecciones.",
   "check_roadmap": "Adapta tu hoja de ruta según tus necesidades. Puedes encontrarla y modificarla desde su tarjeta dedicada en la página de inicio.",
   "choose_option": "Elige una opción",
