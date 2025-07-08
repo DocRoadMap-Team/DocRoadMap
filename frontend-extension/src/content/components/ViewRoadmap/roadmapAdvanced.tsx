@@ -46,7 +46,6 @@ const RoadmapAdvance: React.FC<Props> = ({
   const [expandedStep, setExpandedStep] = useState<number | null>(null);
   const [showScrollArrow, setShowScrollArrow] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  console.log("🔍 RoadmapAdvance received processId:", processId);
 
   useEffect(() => {
     const container = scrollRef.current;
@@ -297,9 +296,6 @@ const RoadmapAdvance: React.FC<Props> = ({
       <div className="steps-scroll" ref={scrollRef}>
         {sortedSteps.length > 0 ? (
           sortedSteps.map((step, idx) => {
-            console.log("➡️ step.name =", step.name);
-            console.log("➡️ clé traduction :", `${step.name}_title`);
-
             return (
               <div className="step-card" key={step.id}>
                 <div
