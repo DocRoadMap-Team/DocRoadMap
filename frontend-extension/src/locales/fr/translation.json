@@ -75,6 +75,8 @@
   "ven": "ven",
   "sam": "sam",
 
+  "sendMessage": "Envoyer le message",
+
   "start_question": "Quelle démarche souhaites-tu effectuer ?",
   "start_option_dem": "Déménagement en France",
   "start_option_logement": "Aides au logement",

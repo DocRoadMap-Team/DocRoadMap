@@ -75,6 +75,8 @@
   "ven": "vie",
   "sam": "sáb",
 
+  "sendMessage": "Enviar mensaje",
+
   "start_question": "¿Qué trámite deseas realizar?",
   "start_option_dem": "Mudanza en Francia",
   "start_option_logement": "Ayudas para el alojamiento",

@@ -9,6 +9,7 @@ import ChatMessageBubble from "./DecisionTreeComponents/ChatMessageBubble";
 import OptionsColumn from "./DecisionTreeComponents/OptionsColumn";
 
 const backendUrl = "https://www.docroadmap.fr";
+const PRIMARY_BLUE = "#2253D1";
 
 // const env = import.meta.env.VITE_ENV_MODE;
 // const backendUrl =
@@ -111,7 +112,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   restartBtn: {
     marginTop: 16,
-    background: "#4B7BFF",
+    background: `${PRIMARY_BLUE}`,
     border: "none",
     color: "#fff",
     fontSize: 16,
@@ -123,14 +124,13 @@ const styles: { [key: string]: React.CSSProperties } = {
     transition: "background 0.18s, box-shadow 0.18s",
   },
   link: {
-    color: "#4B7BFF",
+    color: `${PRIMARY_BLUE}`,
     textDecoration: "underline",
     wordBreak: "break-all",
     fontWeight: 500,
   },
 };
-
-const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
+const DecisionTreeChat: React.FC = () => {
   const [history, setHistory] = useState<ChatHistoryEntry[]>([
     { type: "question", key: "start" },
   ]);
@@ -288,7 +288,7 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
 
   return (
     <div style={styles.outer}>
-      <Header onClose={onClose} title="Assistant démarches" icon={<FaRoad />} />
+      <Header title="Assistant démarches" icon={<FaRoad />} />
       <div style={styles.chatWindow} ref={chatRef}>
         {history.map((entry, index) => {
           const isLast = index === history.length - 1;
