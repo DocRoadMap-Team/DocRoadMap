@@ -105,7 +105,7 @@ export const CreateFromTree = async ({
 
   const processData = {
     name,
-    description: `${totalSteps} étapes au total`,
+    description: `${totalSteps} étapes/steps/etapas total`,
     userId,
     stepsId: StepsId!,
     endedAt: "",

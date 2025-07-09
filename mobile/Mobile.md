@@ -1,82 +1,115 @@
-# 📱 DocRoadMap Mobile - User Documentation
+# 📱 DocRoadMap Mobile – User Documentation
 
 ---
 
 ## 1. Introduction
 
-**DocRoadMap** is a comprehensive mobile solution designed to guide users through administrative procedures with ease. The app provides a personalized, step-by-step roadmap for handling all your administrative tasks. The mobile app complements the **web extension**, offering a seamless experience across devices.
+**DocRoadMap** is a mobile app that helps users manage all their administrative tasks by offering personalized, step-by-step guidance. It complements the web extension to provide a smooth, accessible, and interactive experience on mobile.
 
-**Key Features**:
+### Key Features:
 
-- Personalized procedure guides tailored to your personal situation.
-- Visual and interactive step-by-step assistance.
-- **Mistral AI Chatbot** for on-demand support.
+- Automatic generation of personalized procedures via a smart **decision tree**.
+- Visual and interactive step navigation.
+- Two integrated chatbots:
+  - One to answer your **administrative questions**.
+  - One to help **edit your existing procedures**.
+- Integration with the phone’s **native calendar**.
+- Smart reminders and notifications.
 - Multi-language support.
-- Accessibility compliance (WCAG and RGAA).
-- Critical date reminders and notifications.
+- Accessibility compliant with **WCAG** and **RGAA** standards.
+- Light or dark theme available.
 
 ---
 
 ## 2. Getting Started
 
-### **1. Download & Install**
+### 1. Download & Install
 
-- To be done
+- Available via an **APK** – download and install the app manually.
 
-### **2. Register/Log In**
+### 2. Create an Account / Log In
 
-1. Open the app and choose to **Create account** or **Log In**.
+1. Launch the app and choose **Create Account** or **Log In**.
 2. Enter your email and a secure password.
-3. A verification email will be sent to confirm your email address.
-4. Once verified, log in to access your personalized dashboard.
+3. You'll receive a verification email.
+4. Once verified, you'll access your personal dashboard.
 
 ---
 
-## 3. Main Features
+## 3. Core Features
 
-### **Authentication**
+### 🧾 Create a Procedure via Decision Tree
 
-- Secure login and logout process.
-- Error messages displayed for incorrect credentials.
+At the heart of the DocRoadMap experience is an **interactive decision tree** that guides you to automatically generate a procedure tailored to your situation:
 
-### **Creating a Procedure**
+1. Tap **Generate an administrative procedure** from the home screen.
+2. Answer a series of multiple-choice questions (e.g., _“Have you just moved?”_, _“Are you a student?”_).
+3. Based on your answers, the app generates a **personalized roadmap** with the exact steps you need to follow.
+4. This procedure is automatically added to your **My Procedures** section.
 
-The **Mistral AI** chatbot guides users through creating personalized administrative procedures based on their answers to a series of questions.
+#### Each step includes:
 
-1. Access the **Create Procedure** option in the chatbot.
-2. Answer the questions about your personal situation (e.g., “What should I do after buying a house”).
-3. Mistral AI will generate the required steps based on your input.
-4. Your new procedure will be displayed under the **My Procedures** tab.
+- A **title** and **description**.
+- Relevant **resources** (links, documents, assistance).
+- An **add to calendar** option with optional notification.
 
-### **Carousel Navigation**
+---
 
-The app presents a carousel of procedures (for the moment) that you can swipe through to see various tasks. Each task comes with an icon, visual aids, and detailed steps.
+### 📚 Navigating Your Procedures
 
-- **Swipe left/right** to browse.
-- **Click on a card** to explore more details and initiate a procedure.
+- Procedures are shown as **cards** in a carousel view.
+- **Swipe** to scroll through your saved procedures.
+- Tap a card to view the **list of steps**.
+- Each step can be tapped to:
+  - Access **detailed instructions**.
+  - **Add the step to your calendar**.
+  - Enable or disable **notifications**.
+  - Enable or disable a **progress bar**.
 
-### **Mistral AI Chatbot**
+---
 
-The chatbot helps answer any questions you have about the procedures. Simply open the chat window, on the bootom right and ask your question to get relevant answers based on your situation.
+### 📅 Smart Calendar Integration
 
-### **Accessibility Features**
+- Connected to the phone’s **native calendar** via `expo-calendar`.
+- When selecting a date, you can view all **tasks scheduled for that day** (based on your procedures).
+- From any step, you can:
+  - Choose a **date and time** with a **clock-style picker**.
+  - Add an **optional notification**.
+  - Manage all reminders in a **clear, intuitive calendar view**.
 
-- **Screen Reader Compatibility**: Fully compatible with **TalkBack (Android)**.
-- **Text Adjustments**: Ability to change text size and adjust for visual needs based on device settings.
-- **Color Contrast**: App ensures that colors meet **WCAG** standards for readability.
-- **Dark Mode/Light Mode**: Switch to dark or light mode for a comfortable viewing experience.
+---
+
+### 🤖 Integrated Chatbots
+
+- **Administrative Assistance Chatbot** (available in the top-right corner between the app title and the settings icon):  
+  Ask any question related to administrative procedures.
+- **Procedure Editor Chatbot**:  
+  Available from inside any procedure. It helps you **modify your roadmap** if your situation changes or if you’re not satisfied with the generated steps.
+
+---
+
+### ♿ Accessibility
+
+The app is designed to meet **digital accessibility standards** and can be accessed via the **gear-shaped settings button** in the top right corner:
+
+- **TalkBack compatibility** (Android).
+- **Text size scaling** based on system settings.
+- **High contrast**, **light/dark mode**, and smooth navigation.
+- Accessible UI components, **descriptive labels**, defined **roles**, and **allowFontScaling** enabled.
 
 ---
 
 ## 4. Troubleshooting
 
-If you encounter issues:
-
-1. **Login Issues**: Verify your email and password, check your internet connection, or reset your password via the app’s **Forgot Password** feature.
-2. **App Not Responding**: Try restarting the app or your device.
+- **Cannot log in**: Double-check your credentials or contact the dev team via the beta Discord or Instagram.
+- **App crashes**: Close and reopen the app or restart your phone.
+- **No reminders received**: Make sure calendar and notification permissions are enabled in your phone settings.
 
 ---
 
 ## 5. Conclusion
 
-The **DocRoadMap** mobile app is designed to simplify and guide users through administrative tasks with the help of personalized procedures, intuitive navigation, and an intelligent chatbot.
+**DocRoadMap Mobile** is your personal assistant for administrative tasks. With its smart **decision tree**, **two complementary chatbots**, **calendar integration**, and **accessible interface**, it guides you step by step — stress-free and without forgetting anything.
+
+Now you know **what to do, when to do it, and how**.  
+Welcome to simplified administration.

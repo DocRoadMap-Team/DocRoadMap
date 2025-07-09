@@ -173,9 +173,9 @@ export default function EditRoadmap() {
                   <Ionicons name="map-outline" size={24} color="white" />
                 </View>
                 <View>
-                  <Text style={styles.headerTitle}>Modifier la roadmap</Text>
+                  <Text style={styles.headerTitle}>{t("edit_rodamap")}</Text>
                   <Text style={styles.headerSubtitle}>
-                    {processId ? `ID: ${processId}` : t("edit_roadmap")}
+                    {`ID: ${processId}`}
                   </Text>
                 </View>
               </View>
@@ -258,7 +258,7 @@ export default function EditRoadmap() {
               <View style={styles.loadingContainer}>
                 <View style={styles.loadingBubble}>
                   <ActivityIndicator size="small" color="#4ECDC4" />
-                  <Text style={styles.loadingText}>{t("edit_roadmap")}</Text>
+                  <Text style={styles.loadingText}>{t("edit_rodamap")}</Text>
                 </View>
               </View>
             )}
