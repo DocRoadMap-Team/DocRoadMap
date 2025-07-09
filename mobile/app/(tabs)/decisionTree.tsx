@@ -78,6 +78,24 @@ export default function DecisionTree() {
     if (
       answerValues.some(
         (answer) =>
+          answer.includes("indépendance") ||
+          answer.includes("independance") ||
+          answer.includes("independence") ||
+          answer.includes("independencia") ||
+          answer.includes("apprenti") ||
+          answer.includes("apprentice") ||
+          answer.includes("aprendiz") ||
+          answer.includes("autonomie") ||
+          answer.includes("autonomy") ||
+          answer.includes("autonomía"),
+      )
+    ) {
+      return "indépendance";
+    }
+
+    if (
+      answerValues.some(
+        (answer) =>
           answer.includes("logement") ||
           answer.includes("appartement") ||
           answer.includes("maison") ||
@@ -128,24 +146,6 @@ export default function DecisionTree() {
       )
     ) {
       return "emploi";
-    }
-
-    if (
-      answerValues.some(
-        (answer) =>
-          answer.includes("indépendance") ||
-          answer.includes("indépendant") ||
-          answer.includes("freelance") ||
-          answer.includes("auto-entrepreneur") ||
-          answer.includes("independence") ||
-          answer.includes("independent") ||
-          answer.includes("self-employed") ||
-          answer.includes("independencia") ||
-          answer.includes("independiente") ||
-          answer.includes("autónomo"),
-      )
-    ) {
-      return "indépendance";
     }
 
     return "generale";

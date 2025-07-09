@@ -279,7 +279,7 @@
   },
   "logement_1": {
     "step_title": "Do you already have housing?",
-    "step_question": "dem_1",
+
     "status": "mandatory",
     "options": [
       {
