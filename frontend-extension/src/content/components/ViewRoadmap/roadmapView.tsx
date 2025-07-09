@@ -236,7 +236,7 @@ const RoadmapView: React.FC = () => {
         color: white;
         border: none;
         border-radius: 12px;
-        padding: 1rem 1rem;
+        padding: 0.7rem 0.7rem;
         font-size: 1rem;
         font-weight: 600;
         cursor: pointer;
@@ -246,8 +246,8 @@ const RoadmapView: React.FC = () => {
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
-        max-width: 70%;
-        min-width: 70%;
+        max-width: 95%;
+        min-width: 95%;
       }
       .continue-button:hover {
         background: #4a63f3 ;
