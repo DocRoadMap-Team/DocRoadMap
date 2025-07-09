@@ -92,6 +92,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     padding: 24,
     flex: 1,
     overflowY: "auto",
+    scrollbarWidth: "thin",
     scrollBehavior: "smooth",
     display: "flex",
     flexDirection: "column",
@@ -130,7 +131,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
 };
 
-const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
+const DecisionTreeChat: React.FC<{ onClose?: () => void }> = () => {
   const [history, setHistory] = useState<ChatHistoryEntry[]>([
     { type: "question", key: "start" },
   ]);
@@ -288,8 +289,13 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
 
   return (
     <div style={styles.outer}>
-      <Header onClose={onClose} title="Assistant démarches" icon={<FaRoad />} />
-      <div style={styles.chatWindow} ref={chatRef}>
+      <Header title="Assistant démarches" icon={<FaRoad />} />
+      <div
+        style={styles.chatWindow}
+        ref={chatRef}
+        tabIndex={0}
+        aria-label="Chat window"
+      >
         {history.map((entry, index) => {
           const isLast = index === history.length - 1;
           return (

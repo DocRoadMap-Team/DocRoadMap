@@ -74,14 +74,21 @@ function Login() {
         <div className="login-header">
           <img src={docroadmapImg} alt="DocRoadMap" />
         </div>
+
         {!isResetMode ? (
-          <>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleLogin();
+            }}
+          >
             <div className="input-group small">
               <input
                 type="email"
                 placeholder={t("emailPlaceholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             <div className="input-group small">
@@ -90,15 +97,16 @@ function Login() {
                 placeholder={t("passwordPlaceholder")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div className="input-group small">
-              <button className="login-button" onClick={handleLogin}>
+              <button className="login-button" type="submit">
                 {t("login")}
               </button>
             </div>
             {error && <p className="login-error">{error}</p>}
-          </>
+          </form>
         ) : (
           <>
             <h2>{t("reset")}</h2>
