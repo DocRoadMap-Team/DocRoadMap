@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { FaGlobe, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "./docroadmapHome.css";
@@ -15,16 +15,21 @@ const docroadmapImg = isDev
   : "../assets/docroadmap.png";
 
 const authorizedDomains = [
-  /\.gouv\.fr$/,
   /\.ameli\.fr$/,
+  /\.apec\.fr$/,
   /\.caf\.fr$/,
-  /\.impots\.gouv\.fr$/,
-  /\.service-public\.fr$/,
-  /\.legifrance\.gouv\.fr$/,
-  /\.franceconnect\.gouv\.fr$/,
   /\.demarches-simplifiees\.fr$/,
-  /\.mesdroitssociaux\.gouv\.fr$/,
+  /\.energie-info\.fr$/,
+  /\.franceconnect\.gouv\.fr$/,
+  /\.francetravail\.fr$/,
+  /\.gouv\.fr$/,
+  /\.impots\.gouv\.fr$/,
+  /\.laposte\.fr$/,
+  /\.legifrance\.gouv\.fr$/,
   /\.mes-aides\.gouv\.fr$/,
+  /\.mesdroitssociaux\.gouv\.fr$/,
+  /\.orientation-pour-tous\.fr$/,
+  /\.service-public\.fr$/,
 ];
 
 function isAuthorizedUrl(url: string | null): boolean {
@@ -67,31 +72,6 @@ const DocroadmapHome: React.FC = () => {
     });
   }, []);
 
-  const goToProfile = () => navigate("/profile");
-  const changeLanguage = () => navigate("/language");
-  const logout = () => {
-    localStorage.removeItem("token");
-    sessionStorage.clear();
-    localStorage.removeItem(LOGOUT_EXPIRY_KEY);
-    if (typeof chrome !== "undefined" && chrome.storage?.local) {
-      chrome.storage.local.remove("token", () => {});
-    }
-    navigate("/");
-  };
-
-  if (isAuthorized === false) {
-    return (
-      <div className="roadmap-container">
-        <div className="DocRoadMap-Logo">
-          <img src={docroadmapImg} alt="DocRoadMap" />
-        </div>
-        <div className="not-authorized-message">
-          <p>{t("Not-authorized-for-DocRoadMap")}</p>
-        </div>
-      </div>
-    );
-  }
-
   useEffect(() => {
     const expiry = localStorage.getItem(LOGOUT_EXPIRY_KEY);
     let expiryTime: number;
@@ -114,6 +94,47 @@ const DocroadmapHome: React.FC = () => {
     }
     // eslint-disable-next-line
   }, []);
+
+  const goToProfile = () => navigate("/profile");
+  const changeLanguage = () => navigate("/language");
+  const logout = () => {
+    localStorage.removeItem("token");
+    sessionStorage.clear();
+    localStorage.removeItem(LOGOUT_EXPIRY_KEY);
+    if (typeof chrome !== "undefined" && chrome.storage?.local) {
+      chrome.storage.local.remove("token", () => {});
+    }
+    navigate("/");
+  };
+
+  if (isAuthorized === null) {
+    return (
+      <div className="roadmap-container">
+        <div className="DocRoadMap-Logo">
+          <img src={docroadmapImg} alt="DocRoadMap" />
+        </div>
+        <p>{t("loading")}</p>
+      </div>
+    );
+  }
+
+  if (isAuthorized === false) {
+    return (
+      <div className="roadmap-container">
+        <div className="DocRoadMap-Logo">
+          <img src={docroadmapImg} alt="DocRoadMap" />
+        </div>
+        <div className="not-authorized-message">
+          <p>
+            <Trans
+              i18nKey="Not-authorized-for-DocRoadMap"
+              components={{ br: <br />, strong: <strong /> }}
+            />
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="roadmap-container">

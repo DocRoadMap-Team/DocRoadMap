@@ -51,4 +51,4 @@ Join our community of developers creating universal apps.
 
 ## To see more
 
-Check Mobile.md, Mobile_FR.md, Mobile_APK_ENG, Mobile_APK_FR to undersand our project in detail
+Check Mobile.md, Mobile_FR.md, Mobile_APK_ENG, Mobile_APK_FR to understand our project in detail

@@ -1,72 +1,37 @@
-import axios from "axios";
-import React, { useState } from "react"; //{ useState }
-import getToken from "../../utils/utils";
-import AccessibilityButton from "./AccessibilityButton"; // Assuming you have a button component for accessibility actions
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useState, useEffect } from "react";
+import AccessibilityButton from "./AccessibilityButton";
+import { applyAltSettings } from "./accessibilityUtils";
 
-const backendUrl = "https://www.docroadmap.fr";
+interface CorrectAltsProps {
+  updateSettings: (settings: any) => void;
+}
 
-// const env = import.meta.env.VITE_ENV_MODE;
-// const backendUrl =
-//   env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
-
-const CorrectAlts: React.FC = () => {
-  const [error, setError] = useState<string | null>(null);
+const CorrectAlts: React.FC<CorrectAltsProps> = ({ updateSettings }) => {
   const [enabled, setEnabled] = useState<boolean>(false);
 
-  const handleToggle = () => {
-    setEnabled((prev) => !prev);
-    if (!enabled) {
-      handleFindImages();
-    }
-  };
-
-  const handleFindImages = async () => {
-    const images = Array.from(
-      document.querySelectorAll<HTMLImageElement>("img"),
-    );
-    const imagesWithoutAlt = images.filter(
-      (img) =>
-        (!img.hasAttribute("alt") || img.getAttribute("alt") === "") &&
-        (img.src.endsWith(".png") ||
-          img.src.endsWith(".jpg") ||
-          img.src.endsWith(".jpeg") ||
-          img.src.endsWith(".gif") ||
-          img.src.endsWith(".webp")),
-    );
-
-    // to remove later
-    const urls = imagesWithoutAlt.map((img) => img.src);
-    console.log("Images without alt attributes:", urls);
-
-    const token = await getToken();
-    if (!token) {
-      setError("Token non disponible. Veuillez vous connecter.");
-      return;
-    }
-
-    for (const img of imagesWithoutAlt) {
+  // Charger l'état au démarrage
+  useEffect(() => {
+    const stored = localStorage.getItem("accessibility-settings");
+    if (stored) {
       try {
-        const response = await axios.post(
-          `${backendUrl}/ai/query-img`,
-          { url: img.src },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-        if (response.status !== 201) {
-          console.error(`Failed to fetch alt for image: ${img.src}`);
-          continue;
-        }
-        const data = response.data;
-        if (data.alt) {
-          img.alt = data.alt;
-          console.log(`Updated alt for image ${img.src}: ${data.alt}`);
-        }
-      } catch (error) {
-        console.error(`Error fetching alt for image ${img.src}:`, error);
+        const settings = JSON.parse(stored);
+        setEnabled(settings.altEnabled || false);
+      } catch (e) {
+        console.error("Error parsing stored settings:", e);
       }
+    }
+  }, []);
+
+  const handleToggle = () => {
+    const newEnabled = !enabled;
+    setEnabled(newEnabled);
+
+    // Utiliser le hook centralisé pour mettre à jour
+    updateSettings({ altEnabled: newEnabled });
+
+    if (newEnabled) {
+      applyAltSettings(true);
     }
   };
 
@@ -78,7 +43,6 @@ const CorrectAlts: React.FC = () => {
         onClick={handleToggle}
         enabled={enabled}
       />
-      {error && <div style={{ color: "red" }}>{error}</div>}
     </div>
   );
 };
