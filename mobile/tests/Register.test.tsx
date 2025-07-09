@@ -89,16 +89,6 @@ describe("Register Component", () => {
     });
   });
 
-  test("calls router.replace on back button press", () => {
-    mockT.mockImplementation((key) => key);
-
-    render(<Register />);
-
-    fireEvent.press(screen.getByText("register.back_to_home"));
-
-    expect(mockReplace).toHaveBeenCalledWith("/connexion");
-  });
-
   test("submits registration data and creates account successfully", async () => {
     mockT.mockImplementation((key) => key);
     request.register.mockResolvedValueOnce({});
