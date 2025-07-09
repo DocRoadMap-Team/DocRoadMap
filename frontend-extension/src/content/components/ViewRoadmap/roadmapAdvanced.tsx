@@ -97,7 +97,7 @@ const RoadmapAdvance: React.FC<Props> = ({
     }
   };
 
-  const sortedSteps = [...steps]; //.sort((a, b) => a.id - b.id);
+  const sortedSteps = [...steps];
 
   return (
     <div className="advanced-steps-container">
