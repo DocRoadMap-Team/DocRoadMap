@@ -84,7 +84,7 @@ const RoadmapAdvance: React.FC<Props> = ({
       if (!response.ok) {
         console.error(
           `Erreur backend (${response.status}) pour l'étape ${stepId}:`,
-          data,
+          data
         );
         alert(`Erreur lors de la finalisation de la démarche ${stepId}`);
         return;
@@ -357,13 +357,14 @@ const RoadmapAdvance: React.FC<Props> = ({
                             </a>
                           ) : (
                             <span key={i}>{part}</span>
-                          ),
+                          )
                         )}
                       {step.description}
                     </div>
                     {step.status !== "COMPLETED" && (
                       <div className="step-footer">
                         <input
+                          aria-label="Select date and time"
                           type="datetime-local"
                           value={
                             selectedDate[step.id] ||
