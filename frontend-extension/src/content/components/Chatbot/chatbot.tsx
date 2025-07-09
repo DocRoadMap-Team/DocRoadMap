@@ -179,7 +179,7 @@ const Chatbot: React.FC = () => {
         .chat-message.user {
           background: rgb(232, 244, 248);
           padding: 12px 16px;
-          border-radius: 18px 18px 18px 4px;
+          border-radius: 18px 18px 4px 18px;
           max-width: 70%;
           font-size: 14px;
           color: rgb(44, 62, 80);
@@ -187,13 +187,14 @@ const Chatbot: React.FC = () => {
           line-height: 1.4;
           box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px;
           border: 1px solid rgba(64, 224, 208, 0.2);
-          align-self: "flex-start";
+          align-self: flex-end;
+          background-color: #dff6ff;
         }
 
         .chat-message.bot {
           background: royalblue;
           padding: 12px 16px;
-          border-radius: 18px 18px 4px;
+          border-radius: 18px 18px 18px 4px;
           max-width: 70%;
           font-size: 14px;
           color: rgb(255, 255, 255);
