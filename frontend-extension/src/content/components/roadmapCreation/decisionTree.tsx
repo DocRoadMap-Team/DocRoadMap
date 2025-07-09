@@ -10,6 +10,8 @@ import OptionsColumn from "./DecisionTreeComponents/OptionsColumn";
 
 const backendUrl = "https://www.docroadmap.fr";
 
+const PRIMARY_BLUE = "#2253D1";
+
 // const env = import.meta.env.VITE_ENV_MODE;
 // const backendUrl =
 //   env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
@@ -112,7 +114,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   restartBtn: {
     marginTop: 16,
-    background: "#4B7BFF",
+    background: PRIMARY_BLUE,
     border: "none",
     color: "#fff",
     fontSize: 16,
