@@ -56,7 +56,21 @@ const Chatbot: React.FC = () => {
           { text: entry.message, sender: "user" },
           { text: entry.response, sender: "bot" },
         ]);
-        setMessages(formatted);
+
+        if (formatted.length === 0) {
+          setLoading(true);
+          setTimeout(() => {
+            setMessages([
+              {
+                text: "Bonjour, je suis Donna le chatbot. En quoi puis-je vous aider ?",
+                sender: "bot",
+              },
+            ]);
+            setLoading(false);
+          }, 1000);
+        } else {
+          setMessages(formatted);
+        }
       } catch (err: any) {
         console.error("Erreur /ai-history/donna:", err.message);
       }
@@ -114,7 +128,11 @@ const Chatbot: React.FC = () => {
   };
 
   return (
-    <div className="chatbot-container">
+    <div
+      className="chatbot-container"
+      role="region"
+      aria-label="Roadmap Extension Donna Chatbot Panel"
+    >
       <style>{`
         .chatbot-container {
           display: flex;
@@ -158,28 +176,31 @@ const Chatbot: React.FC = () => {
           display: none;
         }
 
-        .chat-message {
-          max-width: 75%;
-          padding: 12px 16px;
-          border-radius: 16px;
-          font-size: 15px;
-          line-height: 1.4;
-          word-break: break-word;
-          white-space: pre-wrap;
-        }
-
         .chat-message.user {
-          align-self: flex-end;
-          background: #dcf2ff;
-          color: #000;
-          border-bottom-right-radius: 4px;
+          background: rgb(232, 244, 248);
+          padding: 12px 16px;
+          border-radius: 18px 18px 18px 4px;
+          max-width: 70%;
+          font-size: 14px;
+          color: rgb(44, 62, 80);
+          font-weight: 400;
+          line-height: 1.4;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px;
+          border: 1px solid rgba(64, 224, 208, 0.2);
+          align-self: "flex-start";
         }
 
         .chat-message.bot {
-          align-self: flex-start;
-          background: #f4eeba;
-          color: #000;
-          border-bottom-left-radius: 4px;
+          background: royalblue;
+          padding: 12px 16px;
+          border-radius: 18px 18px 4px;
+          max-width: 70%;
+          font-size: 14px;
+          color: rgb(255, 255, 255);
+          font-weight: 500;
+          line-height: 1.4;
+          box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px;
+          align-self: "flex-start";
         }
 
         .typing-indicator {
@@ -318,6 +339,7 @@ const Chatbot: React.FC = () => {
           onClick={sendMessage}
           disabled={loading || !token}
           className="send-button"
+          aria-label={t("sendMessage")}
         >
           <FaPaperPlane />
         </button>
