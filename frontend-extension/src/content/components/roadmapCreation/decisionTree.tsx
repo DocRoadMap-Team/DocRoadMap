@@ -4,9 +4,31 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaRoad } from "react-icons/fa";
 import Header from "../../utils/Header";
 import getToken from "../../utils/utils";
-import rawData from "./decisionTree.json";
+// import rawData from "./decisionTree.json";
 import ChatMessageBubble from "./DecisionTreeComponents/ChatMessageBubble";
 import OptionsColumn from "./DecisionTreeComponents/OptionsColumn";
+import rawDataFR from "./FR/decisionTree.json";
+import rawDataES from "./ES/decisionTree.json";
+import rawDataEN from "./EN/decisionTree.json";
+import { useTranslation } from "react-i18next";
+
+type DecisionTreeData = {
+  [key: string]: any;
+};
+
+// const systemLang = navigator.language || navigator.languages[0];
+
+// let decisionTreeData: DecisionTreeData;
+
+// if (systemLang.startsWith("fr")) {
+//   decisionTreeData = rawDataFR;
+//  } //else if (systemLang.startsWith("es")) {
+// //   decisionTreeData = rawDataES;
+// // } 
+// else {
+//   decisionTreeData = rawDataEN;
+// }
+
 
 const backendUrl = "https://www.docroadmap.fr";
 
@@ -14,11 +36,11 @@ const backendUrl = "https://www.docroadmap.fr";
 // const backendUrl =
 //   env === "development" ? "http://localhost:8082" : "https://www.docroadmap.fr";
 
-type DecisionTreeData = {
-  [key: string]: any;
-};
+// type DecisionTreeData = {
+//   [key: string]: any;
+// };
 
-const decisionTreeData: DecisionTreeData = rawData;
+// const decisionTreeData: DecisionTreeData = rawData;
 
 type QuestionNode = {
   question: string;
@@ -145,6 +167,16 @@ const DecisionTreeChat: React.FC<{ onClose?: () => void }> = () => {
   const [user, setUser] = useState<{ id: string } | null>(null);
   const [hasCreatedProcess, setHasCreatedProcess] = useState(false);
   const [optionsVisible, setOptionsVisible] = useState(true);
+  const { i18n } = useTranslation();
+
+  let decisionTreeData: DecisionTreeData;
+  if (i18n.language.startsWith("fr")) {
+    decisionTreeData = rawDataFR;
+  } else if (i18n.language.startsWith("es")) {
+    decisionTreeData = rawDataES;
+  } else {
+    decisionTreeData = rawDataEN;
+  }
 
   useEffect(() => {
     if (lastMessageRef.current) {
