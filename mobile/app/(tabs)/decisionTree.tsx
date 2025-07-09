@@ -17,16 +17,33 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { LinearGradient } from "expo-linear-gradient";
-import tree from "../../locales/decision-tree/decisionTree.json";
 import { CreateFromTree } from "../../components/card/CreateFromTree";
 import { router } from "expo-router";
+import { useTheme } from "@/components/ThemeContext";
+import { useTranslation } from "react-i18next";
 
-const decisionTree = tree as Record<string, any>;
+import treeFr from "../../locales/fr/decisionTree.json";
+import treeEs from "../../locales/spanish/decisionTree.json";
+import treeEn from "../../locales/eng/decisionTree.json";
+
+const getDecisionTree = (language: string) => {
+  switch (language) {
+    case "es":
+      return treeEs;
+    case "en":
+      return treeEn;
+    default:
+      return treeFr;
+  }
+};
+
 type HistoryEntry =
   | { type: "question"; key: string }
   | { type: "answer"; label: string };
 
 export default function DecisionTree() {
+  const { theme } = useTheme();
+  const { i18n, t } = useTranslation();
   const [history, setHistory] = useState<HistoryEntry[]>([
     { type: "question", key: "start" },
   ]);
@@ -35,7 +52,19 @@ export default function DecisionTree() {
     [],
   );
   const [showSteps, setShowSteps] = useState(false);
+  const [decisionTree, setDecisionTree] = useState<Record<string, any>>(
+    getDecisionTree(i18n.language),
+  );
   const scrollRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    const newTree = getDecisionTree(i18n.language);
+    setDecisionTree(newTree);
+    setHistory([{ type: "question", key: "start" }]);
+    setUserAnswers({});
+    setShowSteps(false);
+    setSteps([]);
+  }, [i18n.language]);
 
   useEffect(() => {
     scrollRef.current?.scrollToEnd({ animated: true });
@@ -52,7 +81,15 @@ export default function DecisionTree() {
           answer.includes("logement") ||
           answer.includes("appartement") ||
           answer.includes("maison") ||
-          answer.includes("loyer"),
+          answer.includes("loyer") ||
+          answer.includes("housing") ||
+          answer.includes("apartment") ||
+          answer.includes("house") ||
+          answer.includes("rent") ||
+          answer.includes("vivienda") ||
+          answer.includes("apartamento") ||
+          answer.includes("casa") ||
+          answer.includes("alquiler"),
       )
     ) {
       return "logement";
@@ -63,7 +100,13 @@ export default function DecisionTree() {
         (answer) =>
           answer.includes("déménagement") ||
           answer.includes("déménager") ||
-          answer.includes("changer d'adresse"),
+          answer.includes("changer d'adresse") ||
+          answer.includes("moving") ||
+          answer.includes("relocation") ||
+          answer.includes("change address") ||
+          answer.includes("mudanza") ||
+          answer.includes("mudarse") ||
+          answer.includes("cambiar dirección"),
       )
     ) {
       return "déménagement";
@@ -75,7 +118,13 @@ export default function DecisionTree() {
           answer.includes("emploi") ||
           answer.includes("travail") ||
           answer.includes("job") ||
-          answer.includes("recherche d'emploi"),
+          answer.includes("recherche d'emploi") ||
+          answer.includes("employment") ||
+          answer.includes("work") ||
+          answer.includes("job search") ||
+          answer.includes("empleo") ||
+          answer.includes("trabajo") ||
+          answer.includes("búsqueda de empleo"),
       )
     ) {
       return "emploi";
@@ -87,7 +136,13 @@ export default function DecisionTree() {
           answer.includes("indépendance") ||
           answer.includes("indépendant") ||
           answer.includes("freelance") ||
-          answer.includes("auto-entrepreneur"),
+          answer.includes("auto-entrepreneur") ||
+          answer.includes("independence") ||
+          answer.includes("independent") ||
+          answer.includes("self-employed") ||
+          answer.includes("independencia") ||
+          answer.includes("independiente") ||
+          answer.includes("autónomo"),
       )
     ) {
       return "indépendance";
@@ -128,7 +183,6 @@ export default function DecisionTree() {
     }
     return steps;
   };
-
   const generateRoadmap = (answers: Record<string, string>) => {
     const demarcheType = getDemarcheTypeFromAnswers(answers);
 
@@ -137,12 +191,10 @@ export default function DecisionTree() {
         demarcheType.charAt(0).toUpperCase() +
         demarcheType.slice(1).toLowerCase(),
       userAnswers: answers,
+      language: i18n.language,
     });
 
-    Alert.alert(
-      "✅ Roadmap générée",
-      `La roadmap "${demarcheType}" a été générée automatiquement en fonction de vos choix.`,
-    );
+    Alert.alert(t("roadmap_created"));
   };
 
   const handleOptionPress = (nextKey: string, label: string) => {
@@ -210,17 +262,17 @@ export default function DecisionTree() {
       end={{ x: 1, y: 0 }}
       style={styles.gradientContainer}
     >
-      <SafeAreaView style={styles.safeArea}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.keyboardAvoidingView}
-          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
-        >
+      <SafeAreaView
+        style={[styles.safeArea, { backgroundColor: theme.background }]}
+      >
+        <View style={styles.mainContainer}>
           <ScrollView
-            contentContainerStyle={styles.container}
+            contentContainerStyle={[
+              styles.container,
+              { paddingBottom: currentOptions.length > 0 ? hp(1) : hp(2) },
+            ]}
             ref={scrollRef}
             style={styles.scrollView}
-            keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
           >
             {history.map((entry, index) => {
@@ -256,13 +308,9 @@ export default function DecisionTree() {
             {showSteps && (
               <View style={styles.roadmapContainer}>
                 <View style={styles.roadmapHeader}>
-                  <Text style={styles.roadmapTitle}>
-                    🎯 Voici votre Roadmap correspondante à vos choix
-                  </Text>
+                  <Text style={styles.roadmapTitle}>{t("your_roadmap")}</Text>
                   <Text style={styles.roadmapSubtitle}>
-                    Adaptez votre démarche selon vos besoins Vous pourrez la
-                    retrouver et la modifier depuis la carte dédiée à cette
-                    dernière sur la page d’accueil.
+                    {t("check_roadmap")}
                   </Text>
                 </View>
 
@@ -307,7 +355,7 @@ export default function DecisionTree() {
                     end={{ x: 1, y: 0 }}
                     style={styles.restartButtonGradient}
                   >
-                    <Text style={styles.restartText}>🔄 Recommencer</Text>
+                    <Text style={styles.restartText}>{t("restart")}</Text>
                   </LinearGradient>
                 </TouchableOpacity>
               </View>
@@ -315,14 +363,20 @@ export default function DecisionTree() {
           </ScrollView>
 
           {currentOptions.length > 0 && (
-            <View style={styles.optionsContainer}>
+            <View
+              style={[
+                styles.optionsContainer,
+                { backgroundColor: theme.background },
+              ]}
+            >
               <View style={styles.optionsHeader}>
-                <Text style={styles.optionsTitle}>Choisissez une option</Text>
+                <Text style={[styles.optionsTitle, { color: theme.text }]}>
+                  {t("choose_option")}
+                </Text>
               </View>
               <ScrollView
                 style={styles.optionsScrollView}
                 contentContainerStyle={styles.optionsContent}
-                keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={false}
               >
                 {currentOptions.map(({ label, next }, idx) => (
@@ -346,7 +400,7 @@ export default function DecisionTree() {
               </ScrollView>
             </View>
           )}
-        </KeyboardAvoidingView>
+        </View>
       </SafeAreaView>
     </LinearGradient>
   );
@@ -359,15 +413,15 @@ const styles = ScaledSheet.create({
   safeArea: {
     flex: 1,
   },
-  keyboardAvoidingView: {
+  mainContainer: {
     flex: 1,
+    justifyContent: "space-between",
   },
   scrollView: {
     flex: 1,
   },
   container: {
     padding: wp(4),
-    paddingBottom: hp(2),
     flexGrow: 1,
   },
 
@@ -548,15 +602,16 @@ const styles = ScaledSheet.create({
   },
 
   optionsContainer: {
-    backgroundColor: "rgba(255, 255, 255, 0.95)",
+    backgroundColor: "rgba(255, 255, 255, 0.98)",
     borderTopLeftRadius: moderateScale(20),
     borderTopRightRadius: moderateScale(20),
-    maxHeight: hp(35),
+    maxHeight: hp(40),
     shadowColor: "#000",
     shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.15,
     shadowRadius: 8,
-    elevation: 10,
+    elevation: 12,
+    marginTop: hp(1),
   },
   optionsHeader: {
     paddingVertical: hp(2),
@@ -566,12 +621,12 @@ const styles = ScaledSheet.create({
     alignItems: "center",
   },
   optionsTitle: {
-    fontSize: moderateScale(16),
+    fontSize: moderateScale(17),
     fontWeight: "600",
-    color: "#4A5568",
+    color: "#2D3748",
   },
   optionsScrollView: {
-    flex: 1,
+    maxHeight: hp(30),
   },
   optionsContent: {
     paddingHorizontal: wp(4),
@@ -587,7 +642,7 @@ const styles = ScaledSheet.create({
     elevation: 4,
   },
   optionGradient: {
-    paddingVertical: hp(2),
+    paddingVertical: hp(2.5),
     paddingHorizontal: wp(4),
     borderRadius: moderateScale(15),
     flexDirection: "row",

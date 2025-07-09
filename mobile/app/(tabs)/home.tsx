@@ -41,6 +41,7 @@ export default function HomePage() {
   const fetchCards = useCallback(async () => {
     const response = await request.processperID();
     if ("data" in response && response.data) {
+      const sortedCards = response.data.sort((a, b) => a.id - b.id);
       setCards(response.data);
     } else {
       Alert.alert(t("home.error"), response.error || t("home.error_message"));
@@ -63,7 +64,6 @@ export default function HomePage() {
 
     try {
       const registrationResponse = await request.create(requestBody);
-      console.log("Registration Response:", registrationResponse);
 
       if (registrationResponse.error) {
         setError(registrationResponse.error);
@@ -217,7 +217,7 @@ export default function HomePage() {
         >
           <View style={styles.cardsSectionHeader}>
             <Text style={[styles.sectionTitle, { color: theme.text }]}>
-              Mes Démarches
+              {t("my_process")}
             </Text>
             <LinearGradient
               colors={["#204CCF", "#6006A4"]}
@@ -268,7 +268,7 @@ export default function HomePage() {
               {loadingAdministrative ? (
                 <View style={styles.loadingContainer}>
                   <Text style={[styles.loadingText, { color: theme.text }]}>
-                    {t("Chargement...")}
+                    {t("loading")}
                   </Text>
                 </View>
               ) : errorAdministrative ? (

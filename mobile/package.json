@@ -23,7 +23,7 @@
       "^@/(.*)$": "<rootDir>/$1"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|@react-native|expo|@expo|@unimodules)"
+      "node_modules/(?!(jest-)?react-native|@react-native|expo|@expo|@unimodules|expo-linear-gradient)"
     ]
   },
   "dependencies": {

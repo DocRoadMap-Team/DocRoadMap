@@ -64,7 +64,7 @@ export default function ProfileCard() {
       setFirstname(userProfile.firstName);
       setLastname(userProfile.lastName);
     } catch (error) {
-      setError("Erreur, veuillez vérifier vos informations");
+      setError(t("error"));
     }
   }, [firstname, lastname, email]);
 

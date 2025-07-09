@@ -16,6 +16,7 @@ import {
 import axios, { AxiosError } from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
+import { useTranslation } from "react-i18next";
 
 export type SwaggerRequest<T> =
   | {
@@ -110,20 +111,17 @@ const request = {
         const result = response.data;
         await AsyncStorage.setItem("accessToken", result.accessToken);
         await AsyncStorage.setItem("id", result.id.toString());
-        console.log("Connecté !");
-        Alert.alert("Connecté ! Bienvenue sur DocRoadmap");
+
         return {
           data: result,
           error: null,
         };
       } else if (response.status === 400) {
-        console.warn("Connexion échoué");
         Alert.alert("Veuillez vérifier vos données et réessayer");
         return {
           error: "Veuillez vérifier vos données et réessayer",
         };
       } else if (response.status === 404) {
-        console.warn("Connexion échoué");
         Alert.alert(
           "Mauvaise information. Veuillez vérifier votre mail et votre mot de passe",
         );
@@ -168,7 +166,7 @@ const request = {
         {
           name: data.name,
           description: data.description,
-          status: "PENDING",
+          status: data.status,
           userId: id,
           stepsId: 15,
           endedAt: "2024-12-12, 12:00:00",
@@ -461,7 +459,7 @@ const request = {
       const accessToken = await getAccessToken();
       const userId = await getId();
 
-      const response = await axios.get(`${url}/ai-history/${userId}`, {
+      const response = await axios.get(`${url}/ai-history/donna`, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",

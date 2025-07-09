@@ -1,0 +1,792 @@
+{
+  "start": {
+    "question": "Quelle démarche souhaites-tu effectuer ?",
+    "options": [
+      {
+        "label": "Déménagement en France",
+        "next": "dem_1"
+      },
+      {
+        "label": "Aides au logement",
+        "next": "logement_1"
+      },
+      {
+        "label": "Je pars de chez mes parents",
+        "next": "independance_1"
+      },
+      {
+        "label": "Je recherche un emploi",
+        "next": "emploi_1"
+      }
+    ]
+  },
+  "dem_1": {
+    "question": "Quelle est votre Situation avant le déménagement ?",
+    "options": [
+      {
+        "label": "Je suis locataire",
+        "next": "dem_2"
+      },
+      {
+        "label": "Je suis propriétaire",
+        "next": "dem_2"
+      }
+    ]
+  },
+  "dem_2": {
+    "question": "Où déménagez-vous ?",
+    "options": [
+      {
+        "label": "Dans la même commune",
+        "next": "dem_3"
+      },
+      {
+        "label": "Dans une autre commune",
+        "next": "dem_3"
+      }
+    ]
+  },
+  "dem_3": {
+    "question": "Quelle est votre nationalité ?",
+    "options": [
+      {
+        "label": "Français",
+        "next": "dem_4"
+      },
+      {
+        "label": "Européen (UE)",
+        "next": "dem_4"
+      },
+      {
+        "label": "Étranger (autre pays)",
+        "next": "dem_4"
+      }
+    ]
+  },
+  "dem_4": {
+    "question": "Avez-vous un ou plusieurs enfants ?",
+    "options": [
+      {
+        "label": "Oui",
+        "next": "dem_5"
+      },
+      {
+        "label": "Non",
+        "next": "dem_5"
+      }
+    ]
+  },
+  "dem_5": {
+    "question": "Quelle est votre situation professionnelle ?",
+    "options": [
+      {
+        "label": "Salarié du secteur privé",
+        "next": "dem_answers"
+      },
+      {
+        "label": "Agent public",
+        "next": "dem_answers"
+      },
+      {
+        "label": "Demandeur d'emploi",
+        "next": "dem_answers"
+      },
+      {
+        "label": "Retraité",
+        "next": "dem_answers"
+      }
+    ]
+  },
+
+  "dem_answers": {
+    "dem_step_1": {
+      "step_title": "Démarches liées au logement que je quitte",
+      "step_question": "dem_1",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Je suis locataire",
+          "answer": "Avant de quitter mon logement :\n- Je dois donner congé à mon propriétaire (ou bailleur) en respectant un délai de préavis, qui peut être de 1 ou 3 mois.\n- Je dois ensuite faire avec lui ou son représentant (agent immobilier) un état des lieux. A cette occasion, je lui indique ma nouvelle adresse. S'il refuse de faire un état des lieux, je peux faire appel à un commissaire de justice (anciennement huissier de justice et commissaire-priseur judiciaire).\nJe récupérerai le dépôt de garantie que je lui ai versé dans le mois ou les 2 mois qui suivent mon départ.\nAttention :\nJe dois conserver les papiers liés à ce logement pendant un certain temps."
+        },
+        {
+          "label": "Je suis propriétaire",
+          "answer": "Si je suis copropriétaire et que je vends un lot de copropriété, je dois informer le syndic de copropriété de ma nouvelle adresse et lui demander un arrêté de compte de charges. Attention : Je dois conserver les papiers liés à ce logement pendant un certain temps."
+        }
+      ]
+    },
+    "dem_step_2": {
+      "step_title": "Enfants",
+      "step_question": "dem_4",
+      "status": "optional",
+      "options": [
+        {
+          "label": "Oui",
+          "answer": "- Si mes enfants sont à l'école maternelle ou primaire, il faut demander à changer d'établissement ou les maintenir dans leur ancienne école.\n- Si mes enfants vont au collège ou au lycée, il peut être nécessaire de changer d'établissement. Je peux me renseigner sur les aides qu'ils peuvent obtenir pour utiliser les transports en commun.\n- Il peut être nécessaire de réorganiser la garde des enfants en dehors du temps scolaire.\nAttention :\nEn cas de séparation, il faut avertir l'autre parent et, si nécessaire, adapter le droit de visite et d'hébergement."
+        },
+        {
+          "label": "Non",
+          "answer": null
+        }
+      ]
+    },
+    "dem_step_3": {
+      "step_title": "Choisir le transport (déménageur)",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Lorsque je fais appel à un déménageur professionnel :\n\n- Le déménageur est responsable en cas de perte ou de casse lors du transport. Je peux donc lui en demander le remboursement.\n- Je peux être indemnisé en cas de retard\n- Je peux obtenir un devis gratuit\n- Je peux vérifier si le déménageur est bien inscrit au registre des transporteurs\n\nje ne fais pas appel à un professionnel :\n\nJe ne serai pas dédommagé des vols ou détériorations lors du transport\n- Ma responsabilité est engagée en cas de dommages matériels (locaux) ou d'accidents corporels\n- Je peux être poursuivi en justice en cas de recours au travail illégal"
+        }
+      ]
+    },
+    "dem_step_4": {
+      "step_title": "Aides au paiement des frais de déménagement",
+      "step_question": "dem_4",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Oui",
+          "answer": "Que je vive seul ou en couple, je peux contacter ma mairie ou mon département pour éventuellement obtenir une aide au paiement de mes frais de déménagement (facture du déménageur, location d'un camion...) ou d'installation (achat des meubles de 1re nécessité...). Il s'agit notamment de l'aide accordée par le Fonds de solidarité pour le logement (FSL).\n\nSi j'ai au moins 3 enfants (nés ou à naître), je peux obtenir une prime de déménagement de la Caf ou de la MSA pour m'aider à payer les frais de déménagement (facture du déménageur, location d'un camion...). Je dois en faire la demande dans les 6 mois qui suivent le déménagement.\n\nRappel\n\nEn tant que salarié, je consulte la convention collective dont je relève pour savoir si elle prévoit que mon entreprise prend à sa charge tout ou partie de mes frais de déménagement.\n\nSi je viens d'entrer dans la fonction publique d'État (fonctionnaire stagiaire ou titulaire), je peux obtenir l'aide à l'installation des personnels de l'État (AIP), sous certaines conditions."
+        },
+        {
+          "label": "Non",
+          "answer": "Que je vive seul ou en couple, je peux contacter ma mairie ou mon département pour éventuellement obtenir une aide au paiement de mes frais de déménagement (facture du déménageur, location d'un camion...) ou d'installation (achat des meubles de 1re nécessité...). Il s'agit notamment de l'aide accordée par le Fonds de solidarité pour le logement (FSL).\n\nRappel :\n\nEn tant que salarié, je consulte la convention collective dont je relève pour savoir si elle prévoit que mon entreprise prend à sa charge tout ou partie de mes frais de déménagement.\n\nSi je viens d'entrer dans la fonction publique d'État (fonctionnaire stagiaire ou titulaire), je peux obtenir l'aide à l'installation des personnels de l'État (AIP), sous certaines conditions."
+        }
+      ]
+    },
+    "dem_step_5": {
+      "step_title": "Jours de congé",
+      "step_question": "dem_5",
+      "status": "optional",
+      "options": [
+        {
+          "label": "Salarié du secteur privé",
+          "answer": "Je peux éventuellement obtenir un congé pour déménagement, si cela est prévu par un accord collectif ou la convention collective dont dépend mon entreprise."
+        },
+        {
+          "label": "Agent public",
+          "answer": "Je peux éventuellement obtenir une autorisation d'absence."
+        },
+        {
+          "label": "Demandeur d'emploi",
+          "answer": null
+        },
+        {
+          "label": "Retraité",
+          "answer": null
+        }
+      ]
+    },
+    "dem_step_6": {
+      "step_title": "Assurance habitation",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Si j'avais souscris un contrat d'assurance habitation pour le logement que je quitte, je le résilie.\n\nS'agissant de mon nouveau logement :\n\nSi je suis locataire, je dois signer un contrat d'assurance couvrant les risques locatifs. Mais je peux également souscrire des garanties supplémentaires pour être mieux couvert en cas de sinistres.\nSi je suis colocataire, les règles de souscription d'un contrat d'assurance habitation dépendent du type de la colocation (avec un seul ou avec plusieurs contrat de location)\nSi je suis propriétaire, je peux souscrire un contrat d'assurance habitation, sans y être obligé. Mais si mon logement est situé dans une copropriété, je suis obligé de souscrire l'assurance imposée par la copropriété."
+        }
+      ]
+    },
+    "dem_step_7": {
+      "step_title": "Eau, électricité, gaz, téléphone, télévision, internet",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Électricité, gaz\nJ'effectue les démarches utiles auprès de mes fournisseurs de gaz et électricité.\nJe peux connaître les fournisseurs d'électricité ou de gaz présents dans ma future commune :\nIdentifier les fournisseurs d'électricité ou de gaz par commune : https://comparateur-offres.energie-info.fr/calculette/process/suppliers-list?zipcode=\n\nEau, téléphone, télévision, internet\nJ'informe les entreprises qui gèrent mes comptes ou abonnements, passés ou à venir : services des eaux, opérateurs de téléphonie, télévision, internet.\nJe m'informe de la façon dont je peux avoir accès à internet dans mon nouveau logement.\nÀ savoir\n\nSi mon opérateur internet n'a pas d'offres disponibles pour mon nouveau domicile, je peux demander la résiliation de mon abonnement, sans frais, pour motif légitime."
+        }
+      ]
+    },
+    "dem_step_8": {
+      "step_title": "Transfert du courrier",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Je peux faire réexpédier mon courrier en utilisant le service payant de La Poste : https://www.laposte.fr/demenagement-absence"
+        }
+      ]
+    },
+    "dem_step_9": {
+      "step_title": "Déclaration du changement d'adresse",
+      "step_question": "dem_5",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Salarié du secteur privé",
+          "answer": "Déclaration unique et en ligne à la CPAM, impôts, EDF, France Travail, Caf...\n\nJe peux déclarer en ligne et en une seule opération, mon changement d'adresse à plusieurs organismes (CPAM, impôts, EDF, France Travail, Caf...) :\nChangement d'adresse en ligne : https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=balzS22bLtXcqK4vPbGsMCexPyi-qidsA0V0Dyz_uGc%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid_connect_login&nonce=pHLCVO3vzTvUwKBtj8XD_KNRQRZds1akgBjlyyDSk6Q\nAdministrations\n\nJe dois avertir le service des impôts.\nOrganismes sociaux\n\nJe dois informer les organismes qui gèrent les prestations qui me concernent :\n- Caisse d'allocations familiales (Caf) ou Mutualité sociale agricole (MSA)\n- Caisse primaire d'assurance maladie (CPAM) ou éventuellement l'organisme chargé de ma couverture maladie si je suis agent public\n- Complémentaire santé, mutuelle\nBanque - Assurance\n\n- Je suis locataire\n- Je suis propriétaire\n- Je suis locataire\nJ'indique ma nouvelle adresse aux organismes qui gèrent :\n- Mes comptes bancaires\n- Mon assurance auto\n- Mon assurance-vie\nEmploi - Travail\n\n\nSi je suis salarié, je dois prévenir mon employeur.\nSyndic de copropriété\n\nSi je possède un ou plusieurs lots de copropriété (appartement, parking...), j'informe le syndic de copropriété de ma nouvelle adresse afin d'être notamment averti de la tenue de la prochaine assemblée générale des copropriétaires."
+        },
+        {
+          "label": "Agent public",
+          "answer": "Déclaration unique et en ligne à la CPAM, impôts, EDF, France Travail, Caf...\n\nJe peux déclarer en ligne et en une seule opération, mon changement d'adresse à plusieurs organismes (CPAM, impôts, EDF, France Travail, Caf...) :\nChangement d'adresse en ligne : https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=balzS22bLtXcqK4vPbGsMCexPyi-qidsA0V0Dyz_uGc%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid_connect_login&nonce=pHLCVO3vzTvUwKBtj8XD_KNRQRZds1akgBjlyyDSk6Q\nAdministrations\n\nJe dois avertir le service des impôts.\nOrganismes sociaux\n\nJe dois informer les organismes qui gèrent les prestations qui me concernent :\n- Caisse d'allocations familiales (Caf) ou Mutualité sociale agricole (MSA)\n- Caisse primaire d'assurance maladie (CPAM) ou éventuellement l'organisme chargé de ma couverture maladie si je suis agent public\n- Complémentaire santé, mutuelle\nBanque - Assurance\n\n\n- Je suis locataire\n- Je suis propriétaire\n- Je suis locataire\nJ'indique ma nouvelle adresse aux organismes qui gèrent :\n- Mes comptes bancaires\n- Mon assurance auto\n- Mon assurance-vie\nEmploi - Travail\n\nSi je suis agent public (fonctionnaire ou contractuel), je dois prévenir mon administration.\nSyndic de copropriété\n\nSi je possède un ou plusieurs lots de copropriété (appartement, parking...), j'informe le syndic de copropriété de ma nouvelle adresse afin d'être notamment averti de la tenue de la prochaine assemblée générale des copropriétaires."
+        },
+        {
+          "label": "Demandeur d'emploi",
+          "answer": "Déclaration unique et en ligne à la CPAM, impôts, EDF, France Travail, Caf...\n\nJe peux déclarer en ligne et en une seule opération, mon changement d'adresse à plusieurs organismes (CPAM, impôts, EDF, France Travail, Caf...) :\nChangement d'adresse en ligne : https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=balzS22bLtXcqK4vPbGsMCexPyi-qidsA0V0Dyz_uGc%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid_connect_login&nonce=pHLCVO3vzTvUwKBtj8XD_KNRQRZds1akgBjlyyDSk6Q\nAdministrations\n\nJe dois avertir le service des impôts.\nOrganismes sociaux\n\nJe dois informer les organismes qui gèrent les prestations qui me concernent :\n- Caisse d'allocations familiales (Caf) ou Mutualité sociale agricole (MSA)\n- Caisse primaire d'assurance maladie (CPAM) ou éventuellement l'organisme chargé de ma couverture maladie si je suis agent public\n- Complémentaire santé, mutuelle\nBanque - Assurance\n\n- Je suis locataire\n- Je suis propriétaire\n- Je suis locataire\nJ'indique ma nouvelle adresse aux organismes qui gèrent :\n- Mes comptes bancaires\n- Mon assurance auto\n- Mon assurance-vie\nEmploi - Travail\n\nSi je suis inscrit à France Travail (anciennement Pôle emploi), je dois actualiser ma situation.\nSyndic de copropriété\n\nSi je possède un ou plusieurs lots de copropriété (appartement, parking...), j'informe le syndic de copropriété de ma nouvelle adresse afin d'être notamment averti de la tenue de la prochaine assemblée générale des copropriétaires."
+        },
+        {
+          "label": "Retraité",
+          "answer": "Déclaration unique et en ligne à la CPAM, impôts, EDF, France Travail, Caf...\n\nJe peux déclarer en ligne et en une seule opération, mon changement d'adresse à plusieurs organismes (CPAM, impôts, EDF, France Travail, Caf...) :\n\nChangement d'adresse en ligne: https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=LeJS-NUeAnHarFZ52rZL282HZTJQctIA42c2mcNtuzg%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid_connect_login&nonce=pTx0lOl6v80wV7lKEuDPamIUUhyX_m_tOZZkZbuJG7c\n\nAdministrations\n\nJe dois avertir le service des impôts.\n\nOrganismes sociaux\n\nJe dois informer les organismes qui gèrent les prestations qui me concernent :\n- Caisse d'allocations familiales (Caf) ou Mutualité sociale agricole (MSA)\n- Caisse primaire d'assurance maladie (CPAM) ou éventuellement l'organisme chargé de ma couverture maladie si je suis agent public\n- Complémentaire santé, mutuelle\n- Caisse de retraite\nBanque - Assurance\n\nJ'indique ma nouvelle adresse aux organismes qui gèrent :\n- Mes comptes bancaires\n- Mon assurance auto\n- Mon assurance-vie\n\nSyndic de copropriété\nSi je possède un ou plusieurs lots de copropriété (appartement, parking...), j'informe le syndic de copropriété de ma nouvelle adresse afin d'être notamment averti de la tenue de la prochaine assemblée générale des copropriétaires."
+        }
+      ]
+    },
+    "dem_step_10": {
+      "step_title": "Carte grise et permis de conduire",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Carte grise\n\nCas général\n\nJe dois faire inscrire ma nouvelle adresse sur la carte grise.\nLeasing ou location de longue durée\n\nSi mon véhicule est en leasing ou en location longue durée (LLD), je dois contacter l'organisme prêteur pour qu'il fasse les démarches de changement d'adresse.\n\nPermis de conduire\n\nJe ne suis pas obligé de changer l'adresse sur mon permis de conduire. Par exemple, je pourrai le faire à l'occasion d'une demande de nouveau permis (en cas de perte, vol...)."
+        }
+      ]
+    },
+    "dem_step_11": {
+      "step_title": "Papiers d'identité",
+      "step_question": "dem_3",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Français",
+          "answer": "Je suis Français\n\nJe ne suis pas obligé de faire modifier l'adresse qui figure sur ma carte nationale d'identité et mon passeport.\nMais si je veux que ma nouvelle adresse apparaisse, je dois faire une demande de renouvellement de ma carte d'identité et de mon passeport.\nSi j'ai entre 16 et 25 ans, je dois prévenir mon centre du service national."
+        },
+        {
+          "label": "Européen (UE)",
+          "answer": "Si je suis citoyen d'un État membre de l'Union européenne et que j'ai une carte de séjour UE (non obligatoire), je dois la faire modifier."
+        },
+        {
+          "label": "Étranger (autre pays)",
+          "answer": "Je dois faire modifier mon titre de séjour: https://www.service-public.fr/particuliers/vosdroits/N110"
+        }
+      ]
+    },
+    "dem_step_12": {
+      "step_title": "Listes électorales",
+      "step_question": "dem_2",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Dans la même commune",
+          "answer": "A FAIRE"
+        },
+        {
+          "label": "Dans une autre commune",
+          "answer": "A FAIRE"
+        }
+      ]
+    },
+    "dem_step_13": {
+      "step_title": "Animal de compagnie",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Si j'ai un chien, un chat ou un furet identifié (tatoué ou pucé), je dois indiquer ma nouvelle adresse dans le fichier national d'identification des carnivores domestiques (fichier I-Cad)."
+        }
+      ]
+    },
+    "dem_step_14": {
+      "step_title": "Santé",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Je peux choisir un nouveau médecin traitant, si son cabinet est plus proche de mon nouveau logement, par exemple."
+        }
+      ]
+    }
+  },
+
+  "logement_1": {
+    "question": "As-tu un contrat de location signé ?",
+    "options": [
+      {
+        "label": "Oui",
+        "next": "aide_logement_answers"
+      },
+      {
+        "label": "Non",
+        "next": "aide_logement_answers"
+      }
+    ]
+  },
+  "aide_logement_answers": {
+    "aide_log_step_1": {
+      "step_title": "Logement",
+      "aide_log_question": "logement_1",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Oui",
+          "answer": "Tu peux demander l’APL sur https://www.caf.fr/. Il te faudra : ton bail, ton RIB, ta pièce d'identité et ton numéro d’allocataire (si tu en as un)."
+        },
+        {
+          "label": "Non",
+          "answer": "Tu dois d’abord signer un bail pour être éligible à l’APL. Pense à chercher un logement éligible aux aides."
+        }
+      ]
+    }
+  },
+
+  "independance_1": {
+    "question": "Quelle est votre situation ?",
+    "options": [
+      {
+        "label": "Je suis étudiant (y compris apprenti/alternant)",
+        "next": "independance_2"
+      },
+      {
+        "label": "Autre",
+        "next": "independance_2bis"
+      }
+    ]
+  },
+  "independance_2": {
+    "question": "Quel type de logement recherchez vous ?",
+    "options": [
+      {
+        "label": "Logement du Crous (logement social)",
+        "next": "independance_3"
+      },
+      {
+        "label": "Logement d'un propriétaire",
+        "next": "independance_3"
+      },
+      {
+        "label": "Chambre meublée chez l'habitant",
+        "next": "independance_3"
+      }
+    ]
+  },
+  "independance_2bis": {
+    "question": "Quel type de logement recherchez vous ?",
+    "options": [
+      {
+        "label": "Logement social",
+        "next": "independance_2.5"
+      },
+      {
+        "label": "Logement d'un propriétaire",
+        "next": "independance_2.5"
+      }
+    ]
+  },
+  "independance_2.5": {
+    "question": "Quelle est votre situation professionnelle ?",
+    "options": [
+      {
+        "label": "Je suis salarié",
+        "next": "independance_3"
+      },
+      {
+        "label": "Je suis agent public (fonctionnaire ou contractuel)",
+        "next": "independance_3"
+      },
+      {
+        "label": "Autre",
+        "next": "independance_3"
+      }
+    ]
+  },
+  "independance_3": {
+    "question": "Quelle est votre nationalité ?",
+    "options": [
+      {
+        "label": "Français",
+        "next": "independance_answers"
+      },
+      {
+        "label": "Européen (UE)",
+        "next": "independance_answers"
+      },
+      {
+        "label": "Autre situation",
+        "next": "independance_answers"
+      }
+    ]
+  },
+
+  "independance_answers": {
+    "independance_step_1": {
+      "step_title": "Type de logement",
+      "step_question": "independance_2",
+      "status": "optional",
+      "options": [
+        {
+          "label": "Logement du Crous (logement social)",
+          "answer": "Je peux demander un logement étudiant auprès du Crous.\n\nJe dois utiliser ce téléservice :\n\nMes services étudiant\n\nCe logement, situé en résidence universitaire ou dans une autre résidence affectée au logement des étudiants, est attribué sous conditions de ressources.\n\nJe suis prioritaire pour obtenir ce type de logement lorsque je perçois une bourse sur critères sociaux.\n\nLors de mon installation dans le logement, je devrai :\n\n- Fournir un dépôt de garantie. Si nécessaire, je peux demander l'avance loca-pass (prêt sans intérêt)\n- Présenter une caution qui s'engage à payer le loyer et les charges si je suis dans l'incapacité de le faire. Il peut s'agir d'une personne physique (parent, ami...) ou d'une personne morale (garantie Visale notamment)."
+        },
+        {
+          "label": "Logement d'un propriétaire",
+          "answer": "Je peux devenir locataire :\n\n- Soit d'un logement loué vide, avec un bail d'habitation\n- Soit d'un logement loué meublé, avec un bail d'habitation classique ou un bail mobilité (sous certaines conditions)\n\nÀ savoir:\n\nJe peux être le seul locataire du logement, ou le louer avec d'autres personnes en colocation, ou le louer pour mon couple (si je suis marié, pacsé, concubin).\n\nPour trouver le logement, je peux :\n\n- Consulter les offres de logement sur sur Lokaviz\n- Faire appel à un agence immobilière, mais je devrai payer des frais de visite, de dossier, d'état des lieux ...\n- Utiliser DossierFacile.fr pour signaler au propriétaire le sérieux de mon dossier\n\nAvant la signature du bail, le propriétaire du logement peut m'imposer d'avoir une caution. La caution est une personne physique (parent, ami ...) ou une personne morale (exemple : garantie Visale) qui s'engage à payer le loyer et les charges si je suis dans l'incapacité de le faire.\n\nEn outre, je peux :\n\n- Demander l'avance loca-pass (prêt sans intérêt) pour financer le dépôt de garantie, réclamé par le propriétaire lors de la signature du bail\n- Demander l'aide du fonds de solidarité pour le logement (FSL) pour m'aider à financer mon installation dans le logement.\n\nLors de la remise des clés, je dois faire avec le propriétaire ou son représentant (notamment agent immobilier) un état des lieux d'entrée."
+        },
+        {
+          "label": "Chambre meublée chez l'habitant",
+          "answer": "Je peux louer une chambre meublée chez l'habitant.\n\nLa chambre doit faire 9 m2 minimum, avoir une fenêtre, être chauffée et contenir un minimum de meubles (literie, table, siège, rangements, luminaires).\n\nSi la chambre n'a pas de coin cuisine, ni d'équipements sanitaires privatifs, il est obligatoire de rédiger un bail avec une annexe indiquant que le propriétaire partage ceux de son logement avec le locataire de la chambre.\n\nDans tous les cas, il est recommandé de signer un bail d'habitation classique pour un logement meublé ou un bail mobilité.\n\nPour trouver ce logement, je peux consulter les offres de location sur Lokaviz"
+        },
+        {
+          "label": null,
+          "answer": null
+        }
+      ]
+    },
+    "independance_step_1bis": {
+      "step_title": "Type de logement",
+      "step_question": "independance_2bis",
+      "status": "optional",
+      "options": [
+        {
+          "label": "Logement social",
+          "answer": "Je fais une demande de logement social, qui est attribué sous conditions de ressources.\n\nJe peux consulter le site Bienvéo pour connaître les logements sociaux disponibles :\n\nDemande de logement social en ligne (et renouvellement de demande)\n\nSi je suis agent de l'État affecté en Île-de-France :\n\nJ'ai aussi accès à la Bourse au logement des agents de l'État (BALAE) recensant les logements sociaux interministériels disponibles.\nJe peux aussi recourir à une solution de logement temporaire.\nJe peux demander l'avance Loca-pass (prêt sans intérêt) pour financer le dépôt de garantie demandé par le bailleur lors de la signature du bail.\n\nPour en faire la demande, je dois utiliser ce téléservice :\n\nDemander une avance Loca-Pass\n\nAttention\n\nJe ne néglige pas l'état des lieux. Il est obligatoire et doit être effectué avec le bailleur au moment de la remise des clés"
+        },
+        {
+          "label": "Logement d'un propriétaire",
+          "answer": "Je peux devenir locataire :\n\n- Soit d'un logement loué vide, avec un bail d'habitation\n- Soit d'un logement loué meublé, avec un bail d'habitation classique ou un bail mobilité (sous certaines conditions)\n\nÀ savoir\n\nJe peux être le seul locataire du logement, ou le louer avec d'autres personnes en colocation, ou le louer pour mon couple (si je suis marié, pacsé, concubin).\n\nPour trouver le logement, je peux :\n\n- Faire appel à une agence immobilière. Mais je devrai payer des frais de visite, de dossier, d'état des lieux ...\n- Utiliser DossierFacile pour signaler au propriétaire le sérieux de mon dossier.\n\nAvant la signature du bail, le propriétaire du logement peut m'imposer d'avoir une caution qui s'engage à payer le loyer et les charges si je suis dans l'incapacité de le faire. Il peut s'agir d'une personne physique (parent, ami, ...) ou d'une personne morale (exemple : garantie Visale).\n\nEn outre, je peux :\n\n- Demander l'avance loca-pass (prêt sans intérêt) pour financer le dépôt de garantie réclamé par le propriétaire lors de la signature du bail.\n- Demander l'aide du fonds de solidarité pour le logement (FSL) pour m'installer dans le logement.\n\nLors de la remise des clés, je fais avec le propriétaire du logement ou son représentant (notamment agent immobilier) l'état des lieux d'entrée."
+        },
+        {
+          "label": null,
+          "answer": null
+        }
+      ]
+    },
+    "independance_step_2": {
+      "step_title": "Choisir le mode de déménagement",
+      "step_question": "independance_1",
+      "status": "optional",
+      "options": [
+        {
+          "label": "Je suis étudiant (y compris apprenti/alternant)",
+          "answer": null
+        },
+        {
+          "label": "Autre",
+          "answer": "Lorsque je fais appel à un déménageur professionnel, le déménageur est responsable en cas de perte ou de casse d'un objet et je peux donc en demander le remboursement.\n\nEn outre, je peux :\n\n- Être indemnisé en cas de retard\n- Obtenir un devis gratuit\n- Vérifier si le déménageur est bien inscrit au registre des transporteurs\n\nSi je ne fais pas appel à un professionnel :\n\n- Je n'ai pas de recours si mes objets sont détériorés ou volés\n- Ma responsabilité est engagée en cas de dommages matériels (à l'immeuble) ou d'accidents corporels (aux personnes)\n- Je peux être poursuivi pour recours au travail illégal (si c'est le cas)"
+        }
+      ]
+    },
+    "independance_step_3": {
+      "step_title": "Aides financières au déménagement",
+      "step_question": "independance_2.5",
+      "status": "optional",
+      "options": [
+        {
+          "label": "Je suis salarié",
+          "answer": "Ma commune ou mon département propose peut-être des aides financières pour les personnes seules ou vivant en couple qui déménagent (facture déménageur, location camion ...), notamment par le biais du Fonds de solidarité pour le logement (FSL). Il peut également s'agir d'une aide pour s'installer (achat du mobilier de 1re nécessité ...).\n\nJe me renseigne auprès de ma mairie.\n\nEn tant que salarié, je peux obtenir une aide au déménagement, sous certaines conditions :\n\nJe dois consulter la convention collective dont je relève pour savoir si mon entreprise peut prendre en charge mes frais de déménagement."
+        },
+        {
+          "label": "Je suis agent public (fonctionnaire ou contractuel)",
+          "answer": "Ma commune ou mon département propose peut-être des aides financières pour les personnes seules ou vivant en couple qui déménagent (facture déménageur, location camion ...), notamment par le biais du Fonds de solidarité pour le logement (FSL). Il peut également s'agir d'une aide pour s'installer (achat du mobilier de 1re nécessité ...).\n\nJe me renseigne auprès de ma mairie.\n\nSi je viens d'intégrer la fonction publique de l’État, je peux obtenir l'aide à l'installation des personnels de l'État (AIP), sous certaines conditions."
+        },
+        {
+          "label": "Autre",
+          "answer": null
+        },
+        {
+          "label": null,
+          "answer": null
+        }
+      ]
+    },
+    "independance_step_4": {
+      "step_title": "Chauffage, eau, électricité et internet",
+      "step_question": "independance_2",
+      "status": "optional",
+      "options": [
+        {
+          "label": "Logement du Crous (logement social)",
+          "answer": "Le prix des consommations d'eau et d'électricité est inclus dans le loyer.\nLa connexion internet est disponible dans la chambre et éventuellement dans une pièce commune de la résidence. Son coût est compris dans le loyer."
+        },
+        {
+          "label": "Logement d'un propriétaire",
+          "answer": "Je souscris une offre auprès d'un opérateur de téléphone, télévision, internet. Le coût de ces communications électroniques est à ma charge.\nJe dois payer les dépenses relatives aux consommations d'eau, de gaz et d'électricité qui font partie des charges locatives.\nÀ noter\n\nLes éventuelles réparations locatives sont à ma charge pendant toute la durée de la location."
+        },
+        {
+          "label": "Chambre meublée chez l'habitant",
+          "answer": "Le plus souvent, le propriétaire ne demande pas à l'étudiant de participer au paiement de la connexion internet.\n\nEn revanche, il lui fait payer un forfait charges pour l'électricité, le gaz et l'eau. Ce forfait doit être mentionné dans le contrat de location."
+        },
+        {
+          "label": null,
+          "answer": null
+        }
+      ]
+    },
+    "independance_step_4bis": {
+      "step_title": "Chauffage, eau, électricité et internet",
+      "step_question": "independance_1",
+      "status": "optional",
+      "options": [
+        {
+          "label": "Je suis étudiant (y compris apprenti/alternant)",
+          "answer": null
+        },
+        {
+          "label": "Autre",
+          "answer": "Je souscris une offre auprès d'un opérateur de téléphone, télévision, internet. Le coût de ces communications électroniques est à ma charge.\nJe dois payer les dépenses liées aux consommations d'eau, de gaz et d'électricité qui font partie des charges locatives.\nÀ noter\n\nLes éventuelles réparations locatives sont à ma charge pendant toute la durée de la location."
+        }
+      ]
+    },
+    "independance_step_5": {
+      "step_title": "Aide au logement (APL, ALS, ALF)",
+      "step_question": "independance_2",
+      "status": "optional",
+      "options": [
+        {
+          "label": "Logement du Crous (logement social)",
+          "answer": "Je peux demander une aide au logement à la Caf.\n\nPour en faire la demande, j'utilise ce téléservice :\n\nDemande d'allocation logement en ligne\n\nPour savoir si j'ai droit à ces aides et quel montant je peux obtenir, j'utilise ce simulateur :\n\nCaf : estimer son droit aux allocations logement et calculer son montant\n\nÀ noter\n\nSi je suis en contrat d'alternance dans une entreprise du secteur privé agricole, je peux obtenir l'aide Agri-Mobili-Jeune, dans certains cas. Je peux tester mon éligibilité et faire ma demande à l'aide d'un téléservice.\n\nSi je suis en contrat d'alternance dans une autre entreprise du secteur privé, je peux aussi obtenir l'aide Mobili-Jeune, dans certains cas. Je peux tester mon éligibilité et faire ma demande à l'aide d'un téléservice."
+        },
+        {
+          "label": "Logement d'un propriétaire",
+          "answer": "Je peux bénéficier d'une aide au logement de la Caf sous certaines conditions.\n\nPour en faire la demande, j'utilise ce téléservice :\n\nDemande d'allocation logement en ligne\n\nPour savoir si j'ai droit à ces aides et quel montant je peux obtenir, j'utilise ce simulateur :\n\nCaf : estimer son droit aux allocations logement et calculer son montant\n\nÀ noter\n\nSi je suis en contrat d'alternance dans une entreprise privée agricole, je peux obtenir l'aide Agri-Mobili-Jeune, dans certains cas. Je peux tester mon éligibilité et faire ma demande à l'aide d'un téléservice.\n\nSi je suis en contrat d'alternance dans une autre entreprise du secteur privé, je peux aussi obtenir l'aide Mobili-Jeune, dans certains cas. Je peux tester mon éligibilité et faire ma demande à l'aide d'un téléservice."
+        },
+        {
+          "label": "Chambre meublée chez l'habitant",
+          "answer": "Je peux demander une aide au logement de la Caf à la condition d'avoir bien signé un bail.\n\nPour cela, j'utilise ce téléservice :\n\nDemande d'allocation logement en ligne\n\nPour savoir si j'ai droit à ces aides et quel montant je peux obtenir, j'utilise ce simulateur :\n\nCaf : estimer son droit aux allocations logement et calculer son montant\n\nÀ noter\n\nSi je suis en contrat d'alternance dans une entreprise du secteur privé agricole, je peux obtenir l'aide Agri-Mobili-Jeune, dans certains cas. Je peux tester mon éligibilité et faire ma demande à l'aide d'un téléservice.\n\nSi je suis en contrat d'alternance dans une autre entreprise du secteur privé, je peux aussi obtenir l'aide Mobili-Jeune, dans certains cas. Je peux tester mon éligibilité et faire ma demande à l'aide d'un téléservice."
+        },
+        {
+          "label": null,
+          "answer": null
+        }
+      ]
+    },
+    "independance_step_5bis": {
+      "step_title": "Aide au logement (APL, ALS, ALF)",
+      "step_question": "independance_1",
+      "status": "optional",
+      "options": [
+        {
+          "label": "Je suis étudiant (y compris apprenti/alternant)",
+          "answer": null
+        },
+        {
+          "label": "Autre",
+          "answer": "Je peux bénéficier d'une aide au logement de la Caf, sous certaines conditions.\nJe dois en faire la demande à l'aide de ce téléservice :\nDemande d'allocation logement en ligne\nPour savoir si j'ai droit à ces aides et quel montant je peux obtenir, j'utilise ce simulateur :\nCaf : estimer son droit aux allocations logement et calculer son montant"
+        }
+      ]
+    },
+    "independance_step_6": {
+      "step_title": "Assurance habitation",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Si je suis locataire, je dois signer un contrat d'assurance couvrant les risques locatifs. Je peux également souscrire des garanties supplémentaires pour être mieux couvert en cas de sinistres. Mais si je suis locataire d'une chambre meublée chez l'habitant, et que le propriétaire a déjà souscrit une assurance complète, je ne suis pas obligé de souscrire de contrat d'assurance.\nSi je suis colocataire, les règles de souscription d'un contrat d'assurance habitation dépendent du type de la colocation (avec un seul ou avec plusieurs contrat de location)."
+        }
+      ]
+    },
+    "independance_step_7": {
+      "step_title": "Assurance du logement",
+      "step_question": "independance_1",
+      "status": "optional",
+      "options": [
+        {
+          "label": "Je suis étudiant (y compris apprenti/alternant)",
+          "answer": null
+        },
+        {
+          "label": "Autre",
+          "answer": "En tant que locataire, je dois souscrire une assurance pour le logement loué."
+        }
+      ]
+    },
+
+    "independance_step_8": {
+      "step_title": "Transfert du courrier",
+      "step_question": "independance_1",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Je suis étudiant (y compris apprenti/alternant)",
+          "answer": "Je dois prévenir mon établissement scolaire de mon changement d'adresse.\n\nJe peux faire réexpédier mon courrier à ma nouvelle adresse en utilisant le service proposé par la Poste :\n\nFaire suivre son courrier en cas de déménagement"
+        },
+        {
+          "label": "Autre",
+          "answer": "Je peux faire réexpédier mon courrier à ma nouvelle adresse en utilisant le service proposé par la Poste :\n\nFaire suivre son courrier en cas de déménagement"
+        }
+      ]
+    },
+    "independance_step_9": {
+      "step_title": "Journée défense et citoyenneté (JDC)",
+      "step_question": "independance_1",
+      "status": "optional",
+      "options": [
+        {
+          "label": "Je suis étudiant (y compris apprenti/alternant)",
+          "answer": "Après avoir fait mon recensement citoyen à 16 ans, je dois participer à une JDC.\nSi je veux faire ma JDC à proximité de ma nouvelle adresse, je dois la déclarer à mon centre du service national.\nÀ savoir\nJusqu'à mon 25e anniversaire, je dois déclarer à mon centre du service national chaque changement de situation (familiale, professionnelle, déménagement) qui me concerne."
+        },
+        {
+          "label": "Autre",
+          "answer": null
+        }
+      ]
+    },
+    "independance_step_10": {
+      "step_title": "Aides pour utiliser les transports en commun",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Je me renseigne sur les aides que je peux obtenir: https://www.service-public.fr/particuliers/vosdroits/F34964"
+        }
+      ]
+    },
+    "independance_step_11": {
+      "step_title": "Impôts",
+      "step_question": "independance_1",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Je suis étudiant (y compris apprenti/alternant)",
+          "answer": "Si je suis locataire d'un logement appartenant à un propriétaire privé, je dois payer une taxe ou redevance d'enlèvement des ordures ménagères, dans certaines communes."
+        },
+        {
+          "label": "Autre",
+          "answer": "Dans certaines communes, je dois payer une taxe ou redevance d'enlèvement des ordures ménagères pour financer la collecte des déchets ménagers.\nRappel\nDès 18 ans, si je ne suis pas rattaché au foyer fiscal de mes parents, je dois remplir une déclaration de revenus."
+        }
+      ]
+    },
+    "independance_step_12": {
+      "step_title": "Santé",
+      "step_question": "independance_1",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Je suis étudiant (y compris apprenti/alternant)",
+          "answer": "Je peux choisir un nouveau médecin traitant, parce que son cabinet se situe à proximité de ma nouvelle adresse, par exemple.\nJe m'informe des règles en vigueur s'agissant de l'affiliation d'un étudiant à la sécurité sociale."
+        },
+        {
+          "label": "Autre",
+          "answer": "Je peux choisir un nouveau médecin traitant, parce que son cabinet se situe à proximité de ma nouvelle adresse, par exemple."
+        }
+      ]
+    },
+    "independance_step_13": {
+      "step_title": "Si mon emménagement est définitif",
+      "step_question": "independance_3",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Je suis français",
+          "answer": "Si je quitte le domicile de mes parents de façon définitive, je dois :\n\n- Déclarer mon changement d'adresse à divers organismes et entreprises. Je peux déclarer par internet et en une seule opération mon changement d'adresse à La Poste, France Travail (anciennement Pôle emploi), aux impôts ...\n- Actualiser ma situation auprès des entreprises qui gèrent mes contrats et abonnements (banque, abonnement téléphonique, assureur auto...)\n- Faire inscrire ma nouvelle adresse sur le certificat d'immatriculation (carte grise) de ma voiture. Il n'est pas nécessaire de changer l'adresse de mon permis de conduire, je pourrai le faire à l'occasion d'une demande de nouveau permis (en cas de perte, vol, nouvelle catégorie...)\n- Faire modifier mes papiers d'identité et ma carte électorale, selon ma nationalité :\n  Répondez aux questions successives et les réponses s’afficheront automatiquement\n  Je suis français\n\nModifier\n\nSi je suis majeur, je dois m'inscrire sur les listes électorales de ma nouvelle commune (ou du nouvel arrondissement, à Paris, Lyon et Marseille).\n\nÀ savoir\n\nSi je n'ai pas le temps de faire cette démarche, et que je suis encore inscrit dans mon ancienne commune, je peux y voter, notamment en faisant une procuration avant le jour de l'élection ou en me rendant dans mon bureau de vote le jour de l'élection.\n\nSi j'ai plus de 16 ans, et jusqu'à mon 25e anniversaire, je dois prévenir mon centre du service national de mon changement d'adresse.\n\nÀ noter\n\nJe ne suis pas obligé de demander la modification de l'adresse qui figure sur ma carte d'identité et mon passeport."
+        },
+        {
+          "label": "Je suis européen",
+          "answer": "Si je quitte le domicile de mes parents de façon définitive, je dois :\n\n- Déclarer mon changement d'adresse à divers organismes et entreprises. Je peux déclarer par internet et en une seule opération mon changement d'adresse à La Poste, France Travail (anciennement Pôle emploi), aux impôts ...\n- Actualiser ma situation auprès des entreprises qui gèrent mes contrats et abonnements (banque, abonnement téléphonique, assureur auto...)\n- Faire inscrire ma nouvelle adresse sur le certificat d'immatriculation (carte grise) de ma voiture. Il n'est pas nécessaire de changer l'adresse de mon permis de conduire, je pourrai le faire à l'occasion d'une demande de nouveau permis (en cas de perte, vol, nouvelle catégorie...)\n- Faire modifier mes papiers d'identité et ma carte électorale, selon ma nationalité :\n  Répondez aux questions successives et les réponses s’afficheront automatiquement\n  Je suis européen\n\nModifier\n\nSi je suis citoyen d'un autre État membre de l'Union européenne :\n\n- Je peux m'inscrire sur les listes électorales de ma nouvelle commune pour participer aux élections municipales et/ou aux élections européennes 2024 (pour y élire les représentants français au Parlement européen)\n- Si j'ai une carte de séjour UE (non obligatoire), je dois la faire modifier."
+        },
+        {
+          "label": "Autre situation",
+          "answer": "Si je quitte le domicile de mes parents de façon définitive, je dois :\n\n- Déclarer mon changement d'adresse à divers organismes et entreprises. Je peux déclarer par internet et en une seule opération mon changement d'adresse à La Poste, France Travail (anciennement Pôle emploi), aux impôts ...\n- Actualiser ma situation auprès des entreprises qui gèrent mes contrats et abonnements (banque, abonnement téléphonique, assureur auto...)\n- Faire inscrire ma nouvelle adresse sur le certificat d'immatriculation (carte grise) de ma voiture. Il n'est pas nécessaire de changer l'adresse de mon permis de conduire, je pourrai le faire à l'occasion d'une demande de nouveau permis (en cas de perte, vol, nouvelle catégorie...)\n- Faire modifier mes papiers d'identité et ma carte électorale, selon ma nationalité :\n  Répondez aux questions successives et les réponses s’afficheront automatiquement\n  Autre situation\n\nModifier\n\nJe dois faire modifier mon titre de séjour."
+        }
+      ]
+    }
+  },
+
+  "emploi_1": {
+    "question": "Quelle est votre situation ?",
+    "options": [
+      {
+        "label": "Je recherche un 1er emploi",
+        "next": "emploi_answers"
+      },
+      {
+        "label": "J'ai déjà travaillé (avec contrat de travail)",
+        "next": "emploi_answers"
+      }
+    ]
+  },
+  "emploi_answers": {
+    "emploi_step_1": {
+      "step_title": "Je m'inscris à France Travail",
+      "step_question": "emploi_1",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Je recherche un 1er emploi",
+          "answer": "Je m'inscris auprès de France Travail en tant que demandeur d'emploi.\nJe me rends à mon rendez-vous avec mon agence France Travail pour bénéficier d'un suivi personnalisé et réaliser mon projet personnalisé d'accès à l'emploi (PPAE).\nAttention\n\nJ'ai l'obligation d'actualiser ma situation par internet, par téléphone ou sur place dans mon agence France Travail pour confirmer que je suis toujours en recherche d'emploi.\nEn cas d'oubli, je risque d'être radié(e) de la liste des demandeurs d'emploi."
+        },
+        {
+          "label": "J'ai déjà travaillé (avec contrat de travail)",
+          "answer": "Je m'inscris auprès de France Travail en tant que demandeur d'emploi.\nJe me rends à mon rendez-vous avec mon agence France Travail pour bénéficier d'un suivi personnalisé et réaliser mon projet personnalisé d'accès à l'emploi (PPAE).\nJe dois actualiser votre situation pour confirmer que je suis toujours en recherche d'emploi. En cas d'oubli, je risque ma radiation de la liste des demandeurs d'emploi.\nÀ noter\n\npour certains salariés touchés par une procédure de licenciement économique, l'accompagnement de France Travail peut être prévu dans un contrat de sécurisation professionnelle (CSP)."
+        }
+      ]
+    },
+    "emploi_step_2": {
+      "step_title": "Je recherche un emploi",
+      "step_question": "emploi_1",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Je recherche un 1er emploi",
+          "answer": "J'utilise 'la bonne boîte' pour connaître les entreprises qui embauchent sans passer d'offres d'emploi : https://labonneboite.francetravail.fr/\n- Je consulte les offres d'emploi sur le site de France Travail (https://candidat.francetravail.fr/offres/emploi) et je gère mes candidatures avec Memo (de France Travail)\n- Je consulte les offres d'emploi sur le site du Centre d'information et de documentation jeunesse (CIDJ)\n- Je consulte le site de l'Association pour l'emploi des cadres (Apec): https://www.apec.fr/candidat.html\n- Je consulte le site site Choisir le service public : https://choisirleservicepublic.gouv.fr/\n- Je m'informe sur la possibilité de rechercher un CCD d'usage ou de recourir à l'intérim : https://www.service-public.fr/particuliers/vosdroits/F32476\n- Je demande à conclure un contrat d'aide à l'insertion, selon ma situation (jeune, senior, ...)\n- J'élargis ma recherche d'emploi aux autres pays de l'Union européenne ou du reste du monde"
+        },
+        {
+          "label": "J'ai déjà travaillé (avec contrat de travail)",
+          "answer": "J'utilise 'la bonne boîte' pour connaître les entreprises qui embauchent sans passer d'offres d'emploi : https://labonneboite.francetravail.fr/\n- Je consulte les offres d'emploi sur le site de France Travail (https://candidat.francetravail.fr/offres/emploi) et je gère mes candidatures avec Memo (de France Travail)\n- Je consulte le site de l'Association pour l'emploi des cadres (Apec): https://www.apec.fr/candidat.html\n- Je consulte le site site Choisir le service public : https://choisirleservicepublic.gouv.fr/\n- Je m'informe sur la possibilité de rechercher un CCD d'usage ou de recourir à l'intérim : https://www.service-public.fr/particuliers/vosdroits/F32476\n- Je demande à conclure un contrat d'aide à l'insertion, selon ma situation (jeune, senior, ...)\n- J'élargis ma recherche d'emploi aux autres pays de l'Union européenne ou du reste du monde\n\nÀ savoir  \n\nlorsque je suis en situation de préavis de licenciement, il arrive que l'employeur m'accorde la possibilité de s'absenter quelques heures pour rechercher un emploi."
+        }
+      ]
+    },
+    "emploi_step_3": {
+      "step_title": "Je peux bénéficier d'aides financières",
+      "step_question": "emploi_1",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Je recherche un 1er emploi",
+          "answer": "Le fait de m'inscrire à France Travail me permet de m'informer sur les aides financières disponibles.\nJe m'informe sur les autres aides auxquelles je peux avoir droit :\n- Revenu de solidarité active (RSA), sous certaines conditions\n- Aide à la mobilité (notamment bons de transport et de réservation SNCF)\n- Aide au permis B\n- Allocation de solidarité spécifique (ASS), sous certaines conditions\n- Aide à la reprise ou à la création d'entreprise (Arce), sous certaines conditions\n- Aide à la garde d'enfant, sous certaines conditions"
+        },
+        {
+          "label": "J'ai déjà travaillé (avec contrat de travail)",
+          "answer": "Le fait de m'inscrire à France Travail me permet de demander l'allocation d'aide au retour à l'emploi (ARE). Cette allocation chômage est accordée, sous certaines conditions (y compris en cas de démission).\nUn simulateur permet d'estimer vos droits à l'allocation chômage : https://candidat.francetravail.fr/portail-simulateurs/\nLe fait de m'inscrire à France Travail me permet de m'informer sur les aides financières disponibles.\nJe m'informe sur les autres aides auxquelles je peux avoir droit :\n- Revenu de solidarité active (RSA), sous certaines conditions\n- Aide à la mobilité (notamment bons de transport et de réservation SNCF)\n- Aide au permis B\n- Allocation de solidarité spécifique (ASS), sous certaines conditions\n- Aide à la reprise ou à la création d'entreprise (Arce), sous certaines conditions\n- Aide à la garde d'enfants pour parent isolé (Agepi), sous certaines conditions\nÀ la suite de la baisse de mes revenus :\n- Je peux, dans certains cas, obtenir la prime d'activité\n- Si je suis locataire d'un logement social, j'informe mon bailleur du changement de ma situation. Je peux bénéficier, dans certains cas, d'une réduction de mon supplément de loyer de solidarité (SLS), si je le paie."
+        }
+      ]
+    },
+    "emploi_step_4": {
+      "step_title": "Je peux obtenir une formation",
+      "step_question": "emploi_1",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Je recherche un 1er emploi",
+          "answer": "- Je peux demander à France Travail de réaliser un bilan de compétences\n- Je peux chercher une formation sur le site de France Travail (https://candidat.francetravail.fr/formations/recherche;JSESSIONID_RECH_FORMATION=qS4Ru83zqV8tUrjYPax3-YHSN4VeXNZJrC9-5Z8njQPIHR6zMx6U!-1906646965?range=0-9&tri=0) et du Centre pour le développement de l'information sur la formation (Centre Inffo : https://www.orientation-pour-tous.fr/)\n- Je peux aussi m'engager dans une mission de volontariat, formatrice et indemnisée"
+        },
+        {
+          "label": "J'ai déjà travaillé (avec contrat de travail)",
+          "answer": "- Je demande à France Travail de réaliser un bilan de compétences\n- Je cherche une formation sur le site de France Travail (https://candidat.francetravail.fr/formations/recherche;JSESSIONID_RECH_FORMATION=qS4Ru83zqV8tUrjYPax3-YHSN4VeXNZJrC9-5Z8njQPIHR6zMx6U!-1906646965?range=0-9&tri=0) et du Centre pour le développement de l'information sur la formation (Centre Inffo : https://www.orientation-pour-tous.fr/)\n- Je peux aussi m'engager dans une mission de volontariat, formatrice et indemnisée\n- Je peux demander à réaliser une validation des acquis de l'expérience (VAE)"
+        }
+      ]
+    },
+    "emploi_step_5": {
+      "step_title": "J'ai trouvé un emploi",
+      "step_question": "emploi_1",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Je recherche un 1er emploi",
+          "answer": "Je dois prévenir de mon changement de situation :\n\n- Mon agence France Travail\n- Ma caisse d'allocations familiales\n- Mon centre de service national si j'ai moins de 25 ans"
+        },
+        {
+          "label": "J'ai déjà travaillé (avec contrat de travail)",
+          "answer": "Je dois prévenir de mon changement de situation :\n\n- Mon agence France Travail\n- Ma caisse d'allocations familiales\n- Mon centre de service national si j'ai moins de 25 ans\n- Mon assureur ou ma banque (en cas de crédit assuré contre la perte d'emploi)"
+        }
+      ]
+    },
+    "emploi_step_6": {
+      "step_title": "Je peux bénéficier d'une aide financière liée à mon emploi",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Sous certaines conditions, je peux bénéficier de la prime d'activité : https://www.service-public.fr/particuliers/vosdroits/N31477"
+        }
+      ]
+    }
+  }
+}

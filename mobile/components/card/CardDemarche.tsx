@@ -6,7 +6,9 @@ import {
   StyleSheet,
   Modal,
   ScrollView,
+  Switch,
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { LinearGradient } from "expo-linear-gradient";
 import request from "@/constants/Request";
@@ -24,6 +26,7 @@ interface CardDemarcheProps {
   description: string;
   progress: number;
   id: number;
+  onProgressUpdate?: (id: number, progress: number) => void;
 }
 
 type Step = {
@@ -31,13 +34,14 @@ type Step = {
   name: string;
   description: string;
   completed?: boolean;
+  endStatus?: boolean;
 };
 
 const CardDemarche: React.FC<CardDemarcheProps> = ({
   name,
   description,
-  progress,
   id,
+  onProgressUpdate,
 }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
@@ -49,6 +53,15 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [selectedStep, setSelectedStep] = useState<Step | null>(null);
 
+  const calculateProgress = useCallback((stepsArray: Step[]) => {
+    if (stepsArray.length === 0) return 0;
+
+    const completedSteps = stepsArray.filter(
+      (step) => step.endStatus === true,
+    ).length;
+    return Math.round((completedSteps / stepsArray.length) * 100);
+  }, []);
+
   const fetchSteps = useCallback(async () => {
     if (typeof id !== "number") return;
     setIsLoading(true);
@@ -57,15 +70,27 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
       if (response.error) {
         setError(response.error);
       } else {
-        setSteps(response.data);
+        const fetchedSteps = response.data;
+        setSteps(fetchedSteps);
+
+        const newProgress = calculateProgress(fetchedSteps);
+        if (onProgressUpdate) {
+          onProgressUpdate(id, newProgress);
+        }
       }
     } catch (error) {
-      setError(t("errorFetchingSteps"));
+      setError(t("fetch_steps_error"));
     } finally {
       setIsLoading(false);
       setRefreshing(false);
     }
-  }, [id, t]);
+  }, [id, t, calculateProgress, onProgressUpdate]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchSteps();
+    }, [fetchSteps]),
+  );
 
   useEffect(() => {
     fetchSteps();
@@ -76,8 +101,13 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
   };
 
   const handleModifyRoadmap = async () => {
-    router.push("/editRoadmap");
+    setModalVisible(false);
+    router.push({
+      pathname: "/editRoadmap",
+      params: { processId: id.toString() },
+    });
   };
+
   const handleCalendarNavigation = useCallback(
     (step: Step) => {
       setModalVisible(false);
@@ -92,6 +122,25 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
     },
     [router],
   );
+
+  const handleEndStatusToggle = (stepId: string, currentStatus: boolean) => {
+    const newEndStatus = !currentStatus;
+    const updatedSteps = steps.map((step) =>
+      step.id === stepId ? { ...step, endStatus: newEndStatus } : step,
+    );
+
+    setSteps(updatedSteps);
+
+    const newProgress = calculateProgress(updatedSteps);
+    if (onProgressUpdate) {
+      onProgressUpdate(id, newProgress);
+    }
+  };
+
+  const handleRefresh = useCallback(() => {
+    setRefreshing(true);
+    fetchSteps();
+  }, [fetchSteps]);
 
   const StepItem = ({ item, index }: { item: Step; index: number }) => {
     const isSelected = selectedStep?.id === item.id;
@@ -109,7 +158,9 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                 styles.circle,
                 item.completed
                   ? styles.completedCircle
-                  : styles.incompleteCircle,
+                  : item.endStatus
+                    ? styles.endStatusCircle
+                    : styles.incompleteCircle,
               ]}
             >
               {item.completed ? (
@@ -123,7 +174,11 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
             <View
               style={[
                 styles.connectorLine,
-                item.completed ? styles.completedLine : styles.incompleteLine,
+                item.completed
+                  ? styles.completedLine
+                  : item.endStatus
+                    ? styles.endStatusLine
+                    : styles.incompleteLine,
               ]}
             />
           )}
@@ -141,13 +196,31 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
           >
             <View style={styles.stepHeader}>
               <View style={styles.stepInfo}>
-                <Text style={[styles.stepName, { color: theme.text }]}>
-                  {item.name}
-                </Text>
+                <View style={styles.stepNameContainer}>
+                  <Text style={[styles.stepName, { color: theme.text }]}>
+                    {item.name}
+                  </Text>
+
+                  <View style={styles.toggleContainer}>
+                    <Text style={[styles.toggleLabel, { color: theme.text }]}>
+                      {t("finish")}
+                    </Text>
+                    <Switch
+                      value={item.endStatus || false}
+                      onValueChange={(value) =>
+                        handleEndStatusToggle(item.id, item.endStatus || false)
+                      }
+                      trackColor={{ false: "#E5E7EB", true: "#10B981" }}
+                      thumbColor={item.endStatus ? "#FFFFFF" : "#9CA3AF"}
+                      ios_backgroundColor="#E5E7EB"
+                      style={styles.switch}
+                    />
+                  </View>
+                </View>
                 {item.completed && (
                   <View style={styles.completedBadge}>
                     <Icon name="check-circle" size={14} color="#10B981" />
-                    <Text style={styles.completedText}>Terminé</Text>
+                    <Text style={styles.completedText}>{t("finish")}</Text>
                   </View>
                 )}
               </View>
@@ -169,9 +242,19 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
 
             {isSelected && (
               <View style={styles.stepDescriptionContainer}>
-                <Text style={[styles.stepDescription, { color: theme.text }]}>
-                  {item.description}
-                </Text>
+                {item.description
+                  .split(/(?<=[.?!])\s+/)
+                  .map((sentence, idx) => (
+                    <Text
+                      key={idx}
+                      style={[
+                        styles.stepDescription,
+                        { color: theme.text, marginBottom: moderateScale(4) },
+                      ]}
+                    >
+                      {sentence}
+                    </Text>
+                  ))}
               </View>
             )}
           </TouchableOpacity>
@@ -180,9 +263,11 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
     );
   };
 
+  const currentProgress = calculateProgress(steps);
+
   return (
-    <View style={styles.cardContainer}>
-      <View style={styles.card}>
+    <View style={[styles.cardContainer, { backgroundColor: theme.background }]}>
+      <View style={[styles.card, { backgroundColor: theme.background }]}>
         <LinearGradient
           colors={["#204CCF", "#6006A4"]}
           start={{ x: 0, y: 0 }}
@@ -202,7 +287,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
               </View>
             </View>
             <View style={styles.progressIndicator}>
-              <Text style={styles.progressPercentage}>{progress}%</Text>
+              <Text style={styles.progressPercentage}>{currentProgress}%</Text>
             </View>
           </View>
         </LinearGradient>
@@ -223,15 +308,15 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                 colors={["#204CCF", "#6006A4"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                style={[styles.progressBarFill, { width: `${progress}%` }]}
+                style={[
+                  styles.progressBarFill,
+                  { width: `${currentProgress}%` },
+                ]}
               />
             </View>
             <View style={styles.progressLabels}>
-              <Text style={[styles.progressLabel, { color: theme.text }]}>
-                Progression
-              </Text>
               <Text style={[styles.progressValue, { color: theme.text }]}>
-                {progress}% {t("completed")}
+                {currentProgress}% {t("finish")}
               </Text>
             </View>
           </View>
@@ -252,7 +337,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
               activeOpacity={0.9}
             >
               <Text style={styles.continueButtonText}>
-                {progress < 100 ? t("continue") : t("complete")}
+                {currentProgress < 100 ? t("continue") : t("complete")}
               </Text>
               <Icon name="arrow-right" size={18} color="#FFFFFF" />
             </TouchableOpacity>
@@ -279,13 +364,22 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                   {name}
                 </Text>
               </View>
-              <TouchableOpacity
-                style={styles.modalCloseButton}
-                onPress={() => setModalVisible(false)}
-                activeOpacity={0.7}
-              >
-                <Icon name="close" size={24} color={theme.text} />
-              </TouchableOpacity>
+              <View style={styles.headerActions}>
+                <TouchableOpacity
+                  style={styles.refreshButton}
+                  onPress={handleRefresh}
+                  activeOpacity={0.7}
+                >
+                  <Icon name="refresh" size={20} color="#000000" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.modalCloseButton}
+                  onPress={() => setModalVisible(false)}
+                  activeOpacity={0.7}
+                >
+                  <Icon name="close" size={24} color="#000000" />
+                </TouchableOpacity>
+              </View>
             </View>
 
             <View style={styles.modalBody}>
@@ -304,7 +398,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                       <Icon name="loading" size={32} color="#FFFFFF" />
                     </LinearGradient>
                     <Text style={[styles.loadingText, { color: theme.text }]}>
-                      {t("loading", "Chargement...")}
+                      {t("loading")}
                     </Text>
                   </View>
                 ) : error ? (
@@ -326,7 +420,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                       >
                         <Icon name="refresh" size={16} color="#FFFFFF" />
                         <Text style={styles.retryButtonText}>
-                          {t("retry", "Réessayer")}
+                          {t("restart")}
                         </Text>
                       </TouchableOpacity>
                     </LinearGradient>
@@ -337,7 +431,7 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                       <Icon name="file-outline" size={48} color="#9CA3AF" />
                     </View>
                     <Text style={[styles.emptyText, { color: theme.text }]}>
-                      {t("noStepsAvailable", "Aucune étape disponible")}
+                      {t("noSteps")}
                     </Text>
                   </View>
                 ) : (
@@ -357,14 +451,11 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
               >
                 <TouchableOpacity
                   style={styles.closeButtonInner}
-                  onPress={() => {
-                    setModalVisible(false);
-                    router.replace("/(tabs)/editRoadmap");
-                  }}
+                  onPress={handleModifyRoadmap}
                   activeOpacity={0.9}
                 >
                   <Text style={styles.closeButtonText}>
-                    {t("Modifier la démarche")}
+                    {t("edit_rodamap")}
                   </Text>
                 </TouchableOpacity>
               </LinearGradient>
@@ -394,8 +485,8 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
     elevation: 12,
     overflow: "hidden",
-    width: wp("45%"),
-    height: hp("50%"),
+    width: wp("85%"),
+    height: hp("45%"),
   },
   cardHeader: {
     paddingHorizontal: wp("5%"),
@@ -556,6 +647,19 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     fontWeight: "500",
   },
+  headerActions: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  refreshButton: {
+    width: moderateScale(40),
+    height: moderateScale(40),
+    borderRadius: moderateScale(20),
+    backgroundColor: "#F3F4F6",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: wp("2%"),
+  },
   modalCloseButton: {
     width: moderateScale(44),
     height: moderateScale(44),
@@ -600,6 +704,9 @@ const styles = StyleSheet.create({
   completedCircle: {
     backgroundColor: "#10B981",
   },
+  endStatusCircle: {
+    backgroundColor: "#10B981",
+  },
   incompleteCircle: {
     backgroundColor: "#9CA3AF",
   },
@@ -614,6 +721,9 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(1.5),
   },
   completedLine: {
+    backgroundColor: "#10B981",
+  },
+  endStatusLine: {
     backgroundColor: "#10B981",
   },
   incompleteLine: {
@@ -651,11 +761,28 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: wp("3%"),
   },
+  stepNameContainer: {
+    flexDirection: "column",
+  },
   stepName: {
     fontSize: moderateScale(16),
     fontWeight: "600",
     lineHeight: moderateScale(22),
     marginBottom: hp("0.5%"),
+  },
+  toggleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: hp("0.5%"),
+  },
+  toggleLabel: {
+    fontSize: moderateScale(12),
+    fontWeight: "500",
+    marginRight: wp("2%"),
+    opacity: 0.7,
+  },
+  switch: {
+    transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }],
   },
   completedBadge: {
     flexDirection: "row",

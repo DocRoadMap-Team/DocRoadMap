@@ -1,12 +1,16 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import DecisionTreeInterface from "@/app/DecisionTreeInterface";
+import DecisionTreeInterface from "@/app/(tabs)/decisionTreeInterface";
 
 jest.mock("@/app/(tabs)/decisionTree", () => {
   return function MockDecisionTree() {
     return null;
   };
 });
+
+jest.mock("expo-router", () => ({
+  useRouter: jest.fn(),
+}));
 
 jest.mock("react-native-size-matters", () => ({
   ScaledSheet: {
