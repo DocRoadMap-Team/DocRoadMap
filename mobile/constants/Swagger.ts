@@ -61,10 +61,27 @@ export type SwaggerProcessListAdministrative = {
 };
 
 export type SwaggerAIquery = {
-  query: string;
-  collection_name: string;
+  prompt: string;
+  model: string;
+};
+
+export type SwaggerAIHistory = {
+  user_id: number;
 };
 
 export type SwaggerAIconversation = {
   collection_name: string;
+};
+
+export type SwaggerEditRoadmap = {
+  prompt: string;
+  process_id: number;
+};
+
+export type SwaggerEndStep = {
+  id: number;
+};
+
+export type SwaggerEndProcess = {
+  id: number;
 };

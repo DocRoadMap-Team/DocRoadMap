@@ -1,14 +1,24 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Modal } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Modal,
+  SafeAreaView,
+} from "react-native";
 import { useTheme } from "@/components/ThemeContext";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Picker } from "@react-native-picker/picker";
 import { ScaledSheet, moderateScale } from "react-native-size-matters";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+
+const languageFlags = {
+  fr: "🇫🇷",
+  es: "🇪🇸",
+  en: "🇬🇧",
+};
 
 const Settings = () => {
   const { theme, toggleTheme } = useTheme();
@@ -24,63 +34,139 @@ const Settings = () => {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <TouchableOpacity
-        onPress={toggleTheme}
-        style={[styles.button, { backgroundColor: theme.primary }]}
-      >
-        <Text style={styles.buttonText}>{t("change_theme")}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => setModalVisible(true)}
-        style={[styles.button, { backgroundColor: theme.primary }]}
-      >
-        <Text style={styles.buttonText}>{t("switch_language")}</Text>
-      </TouchableOpacity>
-      <Modal
-        transparent={true}
-        visible={modalVisible}
-        animationType="fade"
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.container}>
-          <View
-            style={[styles.container, { backgroundColor: theme.background }]}
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.background }]}
+    >
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          onPress={toggleTheme}
+          style={[styles.button, { backgroundColor: theme.primary }]}
+          accessibilityLabel={t("change_theme")}
+          accessibilityRole="button"
+        >
+          <Ionicons
+            name="color-palette-outline"
+            size={24}
+            color={theme.buttonText}
+          />
+          <Text
+            style={[styles.buttonText, { color: theme.buttonText }]}
+            allowFontScaling={true}
           >
-            <Picker
-              selectedValue={selectedLanguage}
-              onValueChange={handleLanguageChange}
-              style={{ width: 200 }}
-            >
-              <Picker.Item label={t("fr")} value="fr" />
-              <Picker.Item label={t("es")} value="es" />
-              <Picker.Item label={t("en")} value="en" />
-            </Picker>
-            <TouchableOpacity
-              onPress={() => setModalVisible(false)}
+            {t("change_theme")}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={[styles.button, { backgroundColor: theme.primary }]}
+          accessibilityLabel={t("switch_language")}
+          accessibilityRole="button"
+        >
+          <MaterialIcons name="language" size={24} color={theme.buttonText} />
+          <Text
+            style={[styles.buttonText, { color: theme.buttonText }]}
+            allowFontScaling={true}
+          >
+            {t("switch_language")}
+          </Text>
+        </TouchableOpacity>
+
+        <Modal
+          transparent={true}
+          visible={modalVisible}
+          animationType="fade"
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View
+            style={[
+              styles.modalBackground,
+              { backgroundColor: "rgba(0,0,0,0.5)" },
+            ]}
+          >
+            <View
               style={[
-                styles.button,
-                { backgroundColor: theme.primary, marginTop: 10 },
+                styles.modalContainer,
+                { backgroundColor: theme.background },
               ]}
             >
-              <Text style={styles.buttonText}>{t("close")}</Text>
-            </TouchableOpacity>
+              <Text style={[styles.modalTitle, { color: theme.text }]}>
+                {t("select_language")}
+              </Text>
+              <Picker
+                selectedValue={selectedLanguage}
+                onValueChange={(itemValue) => handleLanguageChange(itemValue)}
+                style={[styles.picker]}
+                accessibilityLabel={t("select_language")}
+              >
+                <Picker.Item
+                  label={`${languageFlags.fr} ${t("fr")}`}
+                  value="fr"
+                />
+                <Picker.Item
+                  label={`${languageFlags.es} ${t("es")}`}
+                  value="es"
+                />
+                <Picker.Item
+                  label={`${languageFlags.en} ${t("en")}`}
+                  value="en"
+                />
+              </Picker>
+              <TouchableOpacity
+                onPress={() => setModalVisible(false)}
+                style={[
+                  styles.button,
+                  { backgroundColor: theme.primary, marginTop: 10 },
+                ]}
+                accessibilityLabel={t("close")}
+                accessibilityRole="button"
+              >
+                <Text
+                  style={[styles.buttonText, { color: theme.buttonText }]}
+                  allowFontScaling={true}
+                >
+                  {t("close")}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </Modal>
-      <TouchableOpacity
-        onPress={() => router.replace("/profile")}
-        style={[styles.button, { backgroundColor: theme.primary }]}
-      >
-        <Text style={styles.buttonText}>{t("back_to_profile")}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => router.replace("/calendar")}
-        style={[styles.button, { backgroundColor: theme.primary }]}
-      >
-        <Text style={styles.buttonText}>{"Calendrier des évènements"}</Text>
-      </TouchableOpacity>
-    </View>
+        </Modal>
+
+        <TouchableOpacity
+          onPress={() => router.replace("/home")}
+          style={[styles.button, { backgroundColor: theme.primary }]}
+          accessibilityLabel={t("register.back_to_home")}
+          accessibilityRole="button"
+        >
+          <Ionicons name="person-outline" size={24} color={theme.buttonText} />
+          <Text
+            style={[styles.buttonText, { color: theme.buttonText }]}
+            allowFontScaling={true}
+          >
+            {t("register.back_to_home")}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => router.replace("/calendar")}
+          style={[styles.button, { backgroundColor: theme.primary }]}
+          accessibilityLabel={t("calendar_events")}
+          accessibilityRole="button"
+        >
+          <Ionicons
+            name="calendar-outline"
+            size={24}
+            color={theme.buttonText}
+          />
+          <Text
+            style={[styles.buttonText, { color: theme.buttonText }]}
+            allowFontScaling={true}
+          >
+            {t("event_calendar")}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -91,17 +177,54 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     padding: moderateScale(20),
   },
+  buttonContainer: {
+    width: "80%",
+    paddingVertical: moderateScale(15),
+  },
   button: {
-    padding: moderateScale(12),
-    borderRadius: moderateScale(8),
+    flexDirection: "row",
+    paddingVertical: moderateScale(15),
+    paddingHorizontal: moderateScale(20),
+    borderRadius: moderateScale(10),
     marginTop: moderateScale(15),
-    minWidth: wp("45%"),
+    width: wp("80%"),
     alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+    elevation: 5,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
   },
   buttonText: {
-    color: "#FFF",
     fontSize: moderateScale(16),
-    fontWeight: "bold",
+    fontWeight: "600",
+    marginLeft: moderateScale(10),
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    padding: moderateScale(20),
+    borderRadius: moderateScale(12),
+    minWidth: wp("80%"),
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 10,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+  },
+  modalTitle: {
+    fontSize: moderateScale(18),
+    fontWeight: "600",
+    marginBottom: moderateScale(10),
+  },
+  picker: {
+    width: wp("70%"),
+    marginVertical: moderateScale(10),
   },
 });
 

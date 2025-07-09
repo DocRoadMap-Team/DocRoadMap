@@ -1,4 +1,4 @@
-import { Injectable, Inject, BadRequestException, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { Injectable, Inject, BadRequestException, InternalServerErrorException, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import axios from "axios"
 import { SendQueryResponseMistralDTO } from "./dto/send-query-response-mistral.dto";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -28,7 +28,7 @@ export class AiService {
 
         @Inject('AI_URL')
         private aiUrl: string,
-    ) {}
+    ) { }
 
     async sendQuery(prompt: string, collection_name: string, user_id: number): Promise<SendQueryResponseMistralDTO> {
         try {
@@ -45,7 +45,7 @@ export class AiService {
                 "collection_name": collection_name,
                 "history": ai_history.history
             });
-            
+
             let responseData = null;
             try {
                 responseData = {
@@ -72,7 +72,7 @@ export class AiService {
 
             if (responseData.is_roadmap) {
                 await this.aiHistoryRepository.delete({ user: { id: user_id } });
-        
+
                 const roadmap = response.data.roadmap;
 
                 const process = this.processRepository.create({
@@ -118,7 +118,7 @@ export class AiService {
                 });
                 await this.aiHistoryRepository.save(ai_history);
             }
-    
+
             return { is_roadmap: false, collection_name: collection_name, response: response.data.question };
         } catch (error) {
             console.error("Erreur lors de l'appel API:", error);
@@ -127,8 +127,8 @@ export class AiService {
     }
 
     async query(prompt: string, model: string, userId: number): Promise<string> {
-        if (!prompt || !model || !userId) {
-            throw new BadRequestException("Prompt, model and userId are required");
+        if (!prompt || !userId) {
+            throw new BadRequestException("Prompt and userId are required");
         }
         const apiKey = process.env.OPENAI_API_KEY;
 
@@ -147,20 +147,23 @@ export class AiService {
             take: 5,
         });
 
-        const messages = history
-            .reverse()
-            .map((entry) => ({
+        const systemPrompt = `You are a chatbot whose goal is to answer questions about French administrative procedures as well as major life stages (studies, marriage, retirement, etc). All your answers must be based on the French system and you must always reply in the user's language.`;
+
+        const messages = [
+            { role: "system", content: systemPrompt },
+            ...history.reverse().map((entry) => ({
                 role: "user",
                 content: entry.history,
-            }));
-
-        messages.push({ role: "user", content: prompt });
+            })),
+            { role: "user", content: prompt }
+        ];
 
         try {
             const response = await axios.post(
                 "https://api.openai.com/v1/chat/completions",
                 {
-                    model: model,
+                    model: "gpt-4o-search-preview",
+                    web_search_options: {},
                     messages: messages,
                 },
                 {
@@ -247,11 +250,16 @@ export class AiService {
                 You are an assistant helping to edit a roadmap. The roadmap is structured as follows:
                 - Process Name: ${process.name}
                 - Description: ${process.description}
-                - Current Steps: ${process.steps.map(step => `name: ${step.name}, description: ${step.description}, processId: ${process.id}`).join('\n')}
+                - Current Steps: ${process.steps.map(step => `id: ${step.id}, name: ${step.name}, description: ${step.description}, status: ${step.status}, processId: ${process.id}`).join('\n')}
 
                 Your task is to identify steps to modify, add, or remove, and if necessary, ask questions to clarify the user's needs.
                 If the user requests to remove a step, you must always ask for confirmation before actually removing it. 
                 For example, if the user says to delete a step, respond with isAsking: true, roadmap: null, and a question confirming if they are sure about deleting that step.
+
+                Important rules:
+                - Each step has an 'id' that must be preserved when updating steps.
+                - You must not change the 'status' of a step unless the user explicitly requests it.
+
 
                 Once all questions are answered, generate a JSON object with the updated roadmap structure.
 
@@ -274,11 +282,18 @@ export class AiService {
                     "steps": [
                       {
                         "name": "Step 1",
-                        "description": "Description of step 1"
+                        "description": "Description of step 1",
+                        "status": "COMPLETED"
                       },
                       {
                         "name": "Step 2",
-                        "description": "Description of step 2"
+                        "description": "Description of step 2",
+                        "status": "PENDING"
+                      },
+                      {
+                        "name": "Step 3",
+                        "description": "Description of step 3",
+                        "status": "IN_PROGRESS"
                       }
                     ]
                   },
@@ -313,9 +328,10 @@ export class AiService {
                                                     type: "object",
                                                     properties: {
                                                         name: { type: "string" },
-                                                        description: { type: "string" }
+                                                        description: { type: "string" },
+                                                        status: { type: "string", enum: ["PENDING", "IN_PROGRESS", "COMPLETED"] }
                                                     },
-                                                    required: ["name", "description"],
+                                                    required: ["name", "description", "status"],
                                                     additionalProperties: false
                                                 }
                                             }
@@ -410,7 +426,10 @@ export class AiService {
     }
 
     private async updateProcessAndSteps(process_id: number, roadmapJson: any): Promise<void> {
-        const process = await this.processRepository.findOne({ where: { id: process_id } });
+        const process = await this.processRepository.findOne({
+            where: { id: process_id },
+            relations: ['steps'],
+        });
 
         if (!process) {
             throw new NotFoundException(`Process with ID ${process_id} not found`);
@@ -420,16 +439,100 @@ export class AiService {
         process.description = roadmapJson.description;
         await this.processRepository.save(process);
 
+        const existingStepsMap = new Map(
+            (process.steps || []).map((s) => [s.name.trim().toLowerCase(), s.status])
+        );
+
         await this.stepRepository.delete({ process: { id: process_id } });
 
         console.log("Updating process and steps with new roadmap data:", roadmapJson);
+
         for (const step of roadmapJson.steps) {
+            const stepNameKey = step.name.trim().toLowerCase();
+
             const newStep = this.stepRepository.create({
                 name: step.name,
                 description: step.description,
+                status: existingStepsMap.has(stepNameKey)
+                    ? existingStepsMap.get(stepNameKey)
+                    : (step.status || 'PENDING'),
                 process: process,
             });
+
             await this.stepRepository.save(newStep);
+        }
+    }
+
+
+    async describeImage(url: string): Promise<{ alt: string }> {
+        const apiKey = process.env.OPENAI_API_KEY;
+
+        if (!apiKey) {
+            throw new BadRequestException("OPENAI_API_KEY is not set");
+        }
+
+        if (!url || typeof url !== 'string') {
+            throw new BadRequestException('Image URL is required and must be a string.');
+        }
+
+        const validImageUrl = /^https?:\/\/.+\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i;
+        if (!validImageUrl.test(url)) {
+            throw new BadRequestException('Invalid image URL format.');
+        }
+
+        try {
+            const response = await axios.post(
+                'https://api.openai.com/v1/chat/completions',
+                {
+                    model: 'gpt-4o',
+                    messages: [
+                        {
+                            role: 'system',
+                            content: 'You are an assistant that generates concise and accurate HTML alt text for images. You are given the image directly, not just a URL. You must answer in French.',
+                        },
+                        {
+                            role: 'user',
+                            content: [
+                                {
+                                    type: 'text',
+                                    text: 'Describe the image in one sentence suitable for an HTML alt attribute.'
+                                },
+                                {
+                                    type: 'image_url',
+                                    image_url: {
+                                        url,
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    max_tokens: 60,
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            const message = response?.data?.choices?.[0]?.message?.content?.trim();
+            if (!message) {
+                throw new InternalServerErrorException('Invalid response from AI service.');
+            }
+
+            return { alt: message };
+        } catch (error: any) {
+            if (error instanceof BadRequestException || error instanceof UnauthorizedException) {
+                throw error;
+            }
+            if (axios.isAxiosError(error) && error.response) {
+                if (error.response.status === 401) {
+                    throw new UnauthorizedException('Unauthorized to access the AI service.');
+                }
+                throw new BadRequestException(error.response.data?.error?.message || 'Error from AI service.');
+            }
+            throw new InternalServerErrorException('An unexpected error occurred while generating the image description.');
         }
     }
 }
