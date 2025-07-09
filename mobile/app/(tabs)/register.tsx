@@ -158,6 +158,7 @@ export default function Register() {
           onPress={() => {
             Vibration.vibrate(100);
             handleSignUp();
+            Alert.alert(t("register.checkmail"));
           }}
           accessibilityLabel={t("register.create_account")}
           accessibilityRole="button"

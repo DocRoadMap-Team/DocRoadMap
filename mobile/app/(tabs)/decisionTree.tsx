@@ -96,6 +96,8 @@ export default function DecisionTree() {
     if (
       answerValues.some(
         (answer) =>
+          answer.includes("Yes, I'm a student or have a low income") ||
+          answer.includes("No, I don't think I qualify") ||
           answer.includes("logement") ||
           answer.includes("appartement") ||
           answer.includes("maison") ||
@@ -116,6 +118,7 @@ export default function DecisionTree() {
     if (
       answerValues.some(
         (answer) =>
+          answer.includes("In another municipality") ||
           answer.includes("déménagement") ||
           answer.includes("déménager") ||
           answer.includes("changer d'adresse") ||
@@ -133,6 +136,10 @@ export default function DecisionTree() {
     if (
       answerValues.some(
         (answer) =>
+          answer.includes("I am looking for my first job") ||
+          answer.includes(
+            "I have already worked (with an employment contract)",
+          ) ||
           answer.includes("emploi") ||
           answer.includes("travail") ||
           answer.includes("job") ||
