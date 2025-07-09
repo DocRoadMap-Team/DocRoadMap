@@ -16,6 +16,7 @@ import {
 import axios, { AxiosError } from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
+import { useTranslation } from "react-i18next";
 
 export type SwaggerRequest<T> =
   | {
@@ -111,7 +112,6 @@ const request = {
         await AsyncStorage.setItem("accessToken", result.accessToken);
         await AsyncStorage.setItem("id", result.id.toString());
 
-        Alert.alert("Connecté ! Bienvenue sur DocRoadmap");
         return {
           data: result,
           error: null,

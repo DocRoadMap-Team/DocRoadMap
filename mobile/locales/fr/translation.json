@@ -17,7 +17,7 @@
     "logout": "Se déconnecter"
   },
   "connexion": {
-    "welcome": "Bienvenue !",
+    "welcome": "Bienvenue sur DocRoadmap!",
     "pleaseLogin": "Veuillez vous connecter.",
     "emailPlaceholder": "Email",
     "passwordPlaceholder": "Mot de passe",
@@ -30,7 +30,7 @@
     "hidePassword": "Masquer le mot de passe"
   },
   "home": {
-    "generate_roadmap": "Liste des démarches disponibles",
+    "generate_roadmap": "Générer une démarche administrative",
     "my_reminders": "Mes rappels",
     "error": "Erreur",
     "error_message": "Impossible de récupérer les cartes des démarches administratives. Veuillez réessayer",
@@ -102,7 +102,7 @@
 
   "permission_calendar": "Permission refusée .Accès au calendrier nécessaire.",
   "permission_notif": "Permission refusée. Notifications désactivées",
-  "roadmap_created": "✅ Roadmap générée . Elle a été générée automatiquement en fonction de vos choix",
+  "roadmap_created": "✅ Roadmap générée.",
   "your_roadmap": " 🎯 Voici votre Roadmap correspondante à vos choix",
   "check_roadmap": "Adaptez votre demarche selon vos besoins. Vous pouvez la retrouver et la modifier depuis la carte dédiée à cette dernière sur la page d'accueil.",
   "choose_option": "Choisissez une option",
@@ -111,14 +111,14 @@
   "roadmap_not_found": "Bonjour ! La roadmap n'a pas été trouvé , quelle roadmap veux-tu donc éditer, supprimer ou changer selon ton cas personnel ? Commence par donner juste le chiffre entre parenthèses à côté du titre de ta démarche avant de pouvoir converser normalement avec moi pour éditer ta démarche !",
   "id_not_valid": "❌ Ce n'est pas un ID valide. Réessaie avec un chiffre.",
   "roadmap_update": "La roadmap a été mise à jour",
-  "refresh_roadmap": "Raffraichissez la page d'accueil et retrouvez votre carte pour pouvoir voir vos modifications !",
-  "edit_rodamp": "Edition de roadmap",
+  "refresh_roadmap": "Pour voir vos modifications, rafraîchissez votre carte en utilisant le bouton situé à gauche du bouton de fermeture dans la liste des étapes à effectuer !",
+  "edit_rodamap": "Edition de roadmap",
   "roadmap_modif": "Que souhaites tu modifier ?",
   "enter_id": "Entre l'ID de la roadmap (ex: 123)...",
   "my_process": "Mes démarches",
   "loading": "Chargement ...",
   "event_calendar": "Calendrier des évènements",
-  "progess": "Progression",
+  "progress": "Progression",
   "finish": "Terminé",
   "write_message": "Ecris ton messge ...",
   "writting": "Est en train d'écrire ...",
@@ -129,6 +129,7 @@
   "error_find_id": "Impossible de récupérer l'ID de la démarche créée.",
   "error_create_process": "Impossible de créer la démarche ou les étapes. Veuillez réessayer",
   "process_created": "Démarche \"{{name}}\" créée avec {{count}} étape(s).",
+  "select_language": "Choix des langues",
 
   "cancel": "Annuler",
   "start_question": "Quelle démarche souhaites-tu effectuer ?",

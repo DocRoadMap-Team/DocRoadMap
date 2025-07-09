@@ -17,20 +17,33 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { LinearGradient } from "expo-linear-gradient";
-import tree from "../../locales/decision-tree/decisionTree.json";
 import { CreateFromTree } from "../../components/card/CreateFromTree";
 import { router } from "expo-router";
 import { useTheme } from "@/components/ThemeContext";
 import { useTranslation } from "react-i18next";
 
-const decisionTree = tree as Record<string, any>;
+import treeFr from "../../locales/fr/decisionTree.json";
+import treeEs from "../../locales/spanish/decisionTree.json";
+import treeEn from "../../locales/eng/decisionTree.json";
+
+const getDecisionTree = (language: string) => {
+  switch (language) {
+    case "es":
+      return treeEs;
+    case "en":
+      return treeEn;
+    default:
+      return treeFr;
+  }
+};
+
 type HistoryEntry =
   | { type: "question"; key: string }
   | { type: "answer"; label: string };
 
 export default function DecisionTree() {
-  const { t } = useTranslation();
   const { theme } = useTheme();
+  const { i18n, t } = useTranslation();
   const [history, setHistory] = useState<HistoryEntry[]>([
     { type: "question", key: "start" },
   ]);
@@ -39,7 +52,19 @@ export default function DecisionTree() {
     [],
   );
   const [showSteps, setShowSteps] = useState(false);
+  const [decisionTree, setDecisionTree] = useState<Record<string, any>>(
+    getDecisionTree(i18n.language),
+  );
   const scrollRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    const newTree = getDecisionTree(i18n.language);
+    setDecisionTree(newTree);
+    setHistory([{ type: "question", key: "start" }]);
+    setUserAnswers({});
+    setShowSteps(false);
+    setSteps([]);
+  }, [i18n.language]);
 
   useEffect(() => {
     scrollRef.current?.scrollToEnd({ animated: true });
@@ -56,7 +81,15 @@ export default function DecisionTree() {
           answer.includes("logement") ||
           answer.includes("appartement") ||
           answer.includes("maison") ||
-          answer.includes("loyer"),
+          answer.includes("loyer") ||
+          answer.includes("housing") ||
+          answer.includes("apartment") ||
+          answer.includes("house") ||
+          answer.includes("rent") ||
+          answer.includes("vivienda") ||
+          answer.includes("apartamento") ||
+          answer.includes("casa") ||
+          answer.includes("alquiler"),
       )
     ) {
       return "logement";
@@ -67,7 +100,13 @@ export default function DecisionTree() {
         (answer) =>
           answer.includes("déménagement") ||
           answer.includes("déménager") ||
-          answer.includes("changer d'adresse"),
+          answer.includes("changer d'adresse") ||
+          answer.includes("moving") ||
+          answer.includes("relocation") ||
+          answer.includes("change address") ||
+          answer.includes("mudanza") ||
+          answer.includes("mudarse") ||
+          answer.includes("cambiar dirección"),
       )
     ) {
       return "déménagement";
@@ -79,7 +118,13 @@ export default function DecisionTree() {
           answer.includes("emploi") ||
           answer.includes("travail") ||
           answer.includes("job") ||
-          answer.includes("recherche d'emploi"),
+          answer.includes("recherche d'emploi") ||
+          answer.includes("employment") ||
+          answer.includes("work") ||
+          answer.includes("job search") ||
+          answer.includes("empleo") ||
+          answer.includes("trabajo") ||
+          answer.includes("búsqueda de empleo"),
       )
     ) {
       return "emploi";
@@ -91,7 +136,13 @@ export default function DecisionTree() {
           answer.includes("indépendance") ||
           answer.includes("indépendant") ||
           answer.includes("freelance") ||
-          answer.includes("auto-entrepreneur"),
+          answer.includes("auto-entrepreneur") ||
+          answer.includes("independence") ||
+          answer.includes("independent") ||
+          answer.includes("self-employed") ||
+          answer.includes("independencia") ||
+          answer.includes("independiente") ||
+          answer.includes("autónomo"),
       )
     ) {
       return "indépendance";
@@ -132,7 +183,6 @@ export default function DecisionTree() {
     }
     return steps;
   };
-
   const generateRoadmap = (answers: Record<string, string>) => {
     const demarcheType = getDemarcheTypeFromAnswers(answers);
 
@@ -141,6 +191,7 @@ export default function DecisionTree() {
         demarcheType.charAt(0).toUpperCase() +
         demarcheType.slice(1).toLowerCase(),
       userAnswers: answers,
+      language: i18n.language,
     });
 
     Alert.alert(t("roadmap_created"));
@@ -257,9 +308,9 @@ export default function DecisionTree() {
             {showSteps && (
               <View style={styles.roadmapContainer}>
                 <View style={styles.roadmapHeader}>
-                  <Text style={styles.roadmapTitle}>(t("your_roadmap"));</Text>
+                  <Text style={styles.roadmapTitle}>{t("your_roadmap")}</Text>
                   <Text style={styles.roadmapSubtitle}>
-                    (t("check_roadmap"));
+                    {t("check_roadmap")}
                   </Text>
                 </View>
 
@@ -304,7 +355,7 @@ export default function DecisionTree() {
                     end={{ x: 1, y: 0 }}
                     style={styles.restartButtonGradient}
                   >
-                    <Text style={styles.restartText}>(t("restart"));</Text>
+                    <Text style={styles.restartText}>{t("restart")}</Text>
                   </LinearGradient>
                 </TouchableOpacity>
               </View>
@@ -320,7 +371,7 @@ export default function DecisionTree() {
             >
               <View style={styles.optionsHeader}>
                 <Text style={[styles.optionsTitle, { color: theme.text }]}>
-                  (t("choose_option"));
+                  {t("choose_option")}
                 </Text>
               </View>
               <ScrollView

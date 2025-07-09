@@ -97,7 +97,7 @@ const RoadmapAdvance: React.FC<Props> = ({
     }
   };
 
-  const sortedSteps = [...steps]; //.sort((a, b) => a.id - b.id);
+  const sortedSteps = [...steps];
 
   return (
     <div className="advanced-steps-container">
@@ -188,18 +188,18 @@ const RoadmapAdvance: React.FC<Props> = ({
           font-size: 0.95rem;
           white-space: pre-line;
         }
-        .step-footer {
-          margin-top: 0.5rem;
-          display: flex;
-          gap: 0.5rem;
-        }
-        .step-footer input {
+          .step-footer {
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+          }
+          .step-footer input {
           flex: 1;
           padding: 0.4rem;
-          font-size: 0.9rem;
-          border: 1px solid #ccc;
-          border-radius: 6px;
-        }
+            font-size: 0.9rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+          }
         .step-footer button {
           background:rgb(255, 255, 255);
           color: white;
@@ -280,6 +280,24 @@ const RoadmapAdvance: React.FC<Props> = ({
           display: flex;
           align-items: center;
           gap: 0.75rem;
+        }
+          .save-date-button {
+          background:rgb(255, 255, 255);
+          color: white;
+          border: none;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          font-size: 1.1rem;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          transition: background 0.2s ease;
+        }
+        .save-date-button:hover {
+          background:rgb(255, 255, 255);
         }
       `}</style>
 
@@ -364,6 +382,7 @@ const RoadmapAdvance: React.FC<Props> = ({
                     {step.status !== "COMPLETED" && (
                       <div className="step-footer">
                         <input
+                          aria-label="Select date and time"
                           type="datetime-local"
                           value={
                             selectedDate[step.id] ||
@@ -376,7 +395,20 @@ const RoadmapAdvance: React.FC<Props> = ({
                             })
                           }
                         />
-                        <button onClick={() => endProcess(step.id)}>✅</button>
+                        <button
+                          className="save-date-button"
+                          onClick={() => onUpdateEndedAt(step.id)}
+                          title={t("saveDate") || "Enregistrer la date"}
+                        >
+                          📅
+                        </button>
+                        <button
+                          className="validate-button"
+                          onClick={() => endProcess(step.id)}
+                          title={t("validateStep") || "Valider l'étape"}
+                        >
+                          ✅
+                        </button>
                       </div>
                     )}
                   </>

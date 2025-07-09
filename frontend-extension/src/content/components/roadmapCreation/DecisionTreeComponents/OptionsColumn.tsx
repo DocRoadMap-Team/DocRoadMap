@@ -41,15 +41,13 @@ const styles: { [key: string]: React.CSSProperties } = {
     color: "#fff",
     border: "none",
     padding: "12px 16px",
-    borderRadius: "18px 4px 18px 4px",
+    borderRadius: "18px 18px 18px 18px",
     maxWidth: "70%",
     fontSize: 14,
     fontWeight: 600,
     cursor: "pointer",
     outline: "none",
-
     boxShadow: "0 3px 6px rgba(0, 0, 0, 0.08)",
-
     transition:
       "background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease",
   } as React.CSSProperties,

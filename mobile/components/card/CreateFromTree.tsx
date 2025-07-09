@@ -1,9 +1,22 @@
 import { Alert } from "react-native";
 import request from "@/constants/Request";
-import rawTree from "@/locales/decision-tree/decisionTree.json";
+import rawTreeFr from "@/locales/fr/decisionTree.json";
+import rawTreeEs from "@/locales/spanish/decisionTree.json";
+import rawTreeEn from "@/locales/eng/decisionTree.json";
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
+
+const getRawTree = (language: string) => {
+  switch (language) {
+    case "es":
+      return rawTreeEs;
+    case "en":
+      return rawTreeEn;
+    default:
+      return rawTreeFr;
+  }
+};
 
 type StepData = {
   name: string;
@@ -16,6 +29,16 @@ const processNameToAnswerKey: Record<string, string> = {
   logement: "aide_logement_answers",
   indépendance: "independance_answers",
   emploi: "emploi_answers",
+
+  moving: "dem_answers",
+  housing: "aide_logement_answers",
+  independence: "independance_answers",
+  employment: "emploi_answers",
+
+  mudanza: "dem_answers",
+  vivienda: "aide_logement_answers",
+  independencia: "independance_answers",
+  empleo: "emploi_answers",
 };
 
 interface StepJSON {
@@ -39,12 +62,10 @@ const getId = async (): Promise<number | null> => {
   return id ? parseInt(id, 10) : null;
 };
 
-const decisionTree = rawTree as unknown as DecisionTree;
 let StepsId: number | null = null;
 
 export const useStepsId = () => {
   const [stepsId, setStepsId] = useState<number | null>(StepsId);
-
   const updateStepsId = (id: number | null) => {
     StepsId = id;
     setStepsId(id);
@@ -61,17 +82,21 @@ const countTotalSteps = (stepGroup: Record<string, StepJSON>): number => {
 export const CreateFromTree = async ({
   name,
   userAnswers,
+  language = "fr",
 }: {
   name: string;
   userAnswers: Record<string, string>;
+  language?: string;
 }) => {
+  const rawTree = getRawTree(language);
+  const decisionTree = rawTree as unknown as DecisionTree;
+
   const lowerName = name.toLowerCase();
   const answerKey = processNameToAnswerKey[lowerName];
   const userId = await getId();
-  const { t } = useTranslation();
 
   if (!answerKey || !decisionTree[answerKey]) {
-    Alert.alert(t("no_demarche"));
+    Alert.alert("Erreur", `Aucune démarche trouvée pour "${name}".`);
     return;
   }
 
@@ -80,7 +105,7 @@ export const CreateFromTree = async ({
 
   const processData = {
     name,
-    description: `${totalSteps} ${t("total_steps")}`,
+    description: `${totalSteps} étapes/steps/etapas total`,
     userId,
     stepsId: StepsId!,
     endedAt: "",
@@ -92,14 +117,16 @@ export const CreateFromTree = async ({
     const processId = processResponse?.data?.id;
 
     if (!processId) {
-      throw new Error(t("error_find_id"));
+      throw new Error("Impossible de récupérer l'ID de la démarche créée.");
     }
 
     const stepList: StepData[] = [];
+
     Object.values(stepGroup).forEach((step) => {
       if (!step.step_title || !step.options?.length) return;
 
       let answer = "";
+
       if (step.step_question) {
         const userLabel = userAnswers[step.step_question];
         const matchedOption = step.options.find(
@@ -125,12 +152,9 @@ export const CreateFromTree = async ({
       await request.createStep(step);
     }
 
-    Alert.alert(
-      t("success"),
-      t("process_created", { name, count: stepList.length }),
-    );
+    Alert.alert("Succès");
   } catch (err) {
     console.error(err);
-    Alert.alert(t("error_create_process"));
+    Alert.alert("Erreur", "Impossible de créer la démarche ou les étapes.");
   }
 };
