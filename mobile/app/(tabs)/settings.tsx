@@ -162,7 +162,7 @@ const Settings = () => {
             style={[styles.buttonText, { color: theme.buttonText }]}
             allowFontScaling={true}
           >
-            {"event_calendar"}
+            {t("event_calendar")}
           </Text>
         </TouchableOpacity>
       </View>

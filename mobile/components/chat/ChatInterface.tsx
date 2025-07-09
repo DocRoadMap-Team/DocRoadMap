@@ -62,6 +62,7 @@ export default function ChatInterface() {
         setMessages([
           {
             text: t("start_conversation"),
+
             sender: "bot",
           },
         ]);

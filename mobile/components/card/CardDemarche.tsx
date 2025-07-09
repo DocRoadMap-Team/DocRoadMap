@@ -8,6 +8,7 @@ import {
   ScrollView,
   Switch,
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { LinearGradient } from "expo-linear-gradient";
 import request from "@/constants/Request";
@@ -85,6 +86,12 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
     }
   }, [id, t, calculateProgress, onProgressUpdate]);
 
+  useFocusEffect(
+    useCallback(() => {
+      fetchSteps();
+    }, [fetchSteps]),
+  );
+
   useEffect(() => {
     fetchSteps();
   }, [fetchSteps]);
@@ -94,7 +101,11 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
   };
 
   const handleModifyRoadmap = async () => {
-    router.push("/editRoadmap");
+    setModalVisible(false);
+    router.push({
+      pathname: "/editRoadmap",
+      params: { processId: id.toString() },
+    });
   };
 
   const handleCalendarNavigation = useCallback(
@@ -125,6 +136,11 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
       onProgressUpdate(id, newProgress);
     }
   };
+
+  const handleRefresh = useCallback(() => {
+    setRefreshing(true);
+    fetchSteps();
+  }, [fetchSteps]);
 
   const StepItem = ({ item, index }: { item: Step; index: number }) => {
     const isSelected = selectedStep?.id === item.id;
@@ -299,11 +315,8 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
               />
             </View>
             <View style={styles.progressLabels}>
-              <Text style={[styles.progressLabel, { color: theme.text }]}>
-                {t("progress")}
-              </Text>
               <Text style={[styles.progressValue, { color: theme.text }]}>
-                {currentProgress}% {t("completed")}
+                {currentProgress}% {t("finish")}
               </Text>
             </View>
           </View>
@@ -351,13 +364,22 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
                   {name}
                 </Text>
               </View>
-              <TouchableOpacity
-                style={styles.modalCloseButton}
-                onPress={() => setModalVisible(false)}
-                activeOpacity={0.7}
-              >
-                <Icon name="close" size={24} color="#000000" />
-              </TouchableOpacity>
+              <View style={styles.headerActions}>
+                <TouchableOpacity
+                  style={styles.refreshButton}
+                  onPress={handleRefresh}
+                  activeOpacity={0.7}
+                >
+                  <Icon name="refresh" size={20} color="#000000" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.modalCloseButton}
+                  onPress={() => setModalVisible(false)}
+                  activeOpacity={0.7}
+                >
+                  <Icon name="close" size={24} color="#000000" />
+                </TouchableOpacity>
+              </View>
             </View>
 
             <View style={styles.modalBody}>
@@ -429,16 +451,12 @@ const CardDemarche: React.FC<CardDemarcheProps> = ({
               >
                 <TouchableOpacity
                   style={styles.closeButtonInner}
-                  onPress={() => {
-                    setModalVisible(false);
-                    router.push({
-                      pathname: "/editRoadmap",
-                      params: { processId: id.toString() },
-                    });
-                  }}
+                  onPress={handleModifyRoadmap}
                   activeOpacity={0.9}
                 >
-                  <Text style={styles.closeButtonText}>{t("edit_rodamp")}</Text>
+                  <Text style={styles.closeButtonText}>
+                    {t("edit_rodamap")}
+                  </Text>
                 </TouchableOpacity>
               </LinearGradient>
             </View>
@@ -628,6 +646,19 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(14),
     opacity: 0.7,
     fontWeight: "500",
+  },
+  headerActions: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  refreshButton: {
+    width: moderateScale(40),
+    height: moderateScale(40),
+    borderRadius: moderateScale(20),
+    backgroundColor: "#F3F4F6",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: wp("2%"),
   },
   modalCloseButton: {
     width: moderateScale(44),
