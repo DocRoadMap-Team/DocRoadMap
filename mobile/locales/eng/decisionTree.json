@@ -58,7 +58,7 @@
         "next": "dem_4"
       },
       {
-        "label": "Foreigner (non-EU)",
+        "label": "Foreigner (other country)",
         "next": "dem_4"
       }
     ]
@@ -97,6 +97,7 @@
       }
     ]
   },
+
   "dem_answers": {
     "dem_step_1": {
       "step_title": "Steps related to the home I'm leaving",
@@ -209,77 +210,102 @@
           "answer": "I can use La Poste's paid mail forwarding service: https://www.laposte.fr/demenagement-absence"
         }
       ]
+    },
+    "dem_step_9": {
+      "step_title": "Address Change Declaration",
+      "step_question": "dem_5",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "Private sector employee",
+          "answer": "Single online declaration to CPAM, tax office, EDF, France Travail, Caf...\n\nYou can declare your address change online in a single operation to multiple organizations (CPAM, tax office, EDF, France Travail, Caf...):\nAddress change form: https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=balzS22bLtXcqK4vPbGsMCexPyi-qidsA0V0Dyz_uGc%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid"
+        },
+        {
+          "label": "Public sector employee",
+          "answer": "Single and online declaration to CPAM, tax office, EDF, France Travail, Caf...\n\nI can declare my change of address online and in a single operation to several organizations (CPAM, tax office, EDF, France Travail, Caf...):\nChange of address online: https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=balzS22bLtXcqK4vPbGsMCexPyi-qidsA0V0Dyz_uGc%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid_connect_login&nonce=pHLCVO3vzTvUwKBtj8XD_KNRQRZds1akgBjlyyDSk6Q\n\nAdministrations\n\nI must notify the tax office.\n\nSocial organizations\n\nI must inform the organizations that manage the benefits that concern me:\n- Family Allowance Fund (Caf) or Agricultural Social Mutual Fund (MSA)\n- Primary Health Insurance Fund (CPAM) or, if I am a public sector employee, the organization in charge of my health coverage\n- Supplementary health insurance, mutual insurance\n\nBank - Insurance\n\n- I am a tenant\n- I am an owner\n- I am a tenant\nI indicate my new address to the organizations that manage:\n- My bank accounts\n- My car insurance\n- My life insurance\n\nEmployment - Work\n\nIf I am a public sector employee (civil servant or contract worker), I must inform my administration.\n\nCondominium manager\n\nIf I own one or more condominium lots (apartment, parking space, etc.), I inform the condominium manager of my new address so that I am notified of the next general meeting of co-owners."
+        },
+        {
+          "label": "Job seeker",
+          "answer": "Single and online declaration to CPAM, tax office, EDF, France Travail, Caf...\n\nI can declare my change of address online and in a single operation to several organizations (CPAM, tax office, EDF, France Travail, Caf...):\nChange of address online: https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=balzS22bLtXcqK4vPbGsMCexPyi-qidsA0V0Dyz_uGc%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid_connect_login&nonce=pHLCVO3vzTvUwKBtj8XD_KNRQRZds1akgBjlyyDSk6Q\n\nAdministrations\n\nI must notify the tax office.\n\nSocial organizations\n\nI must inform the organizations that manage the benefits that concern me:\n- Family Allowance Fund (Caf) or Agricultural Social Mutual Fund (MSA)\n- Primary Health Insurance Fund (CPAM) or, if I am a public sector employee, the organization in charge of my health coverage\n- Supplementary health insurance, mutual insurance\n\nBank - Insurance\n\n- I am a tenant\n- I am an owner\n- I am a tenant\nI indicate my new address to the organizations that manage:\n- My bank accounts\n- My car insurance\n- My life insurance\n\nEmployment - Work\n\nIf I am registered with France Travail (formerly Pôle emploi), I must update my situation.\n\nCondominium manager\n\nIf I own one or more condominium lots (apartment, parking space, etc.), I inform the condominium manager of my new address so that I am notified of the next general meeting of co-owners."
+        },
+        {
+          "label": "Retired",
+          "answer": "Single and online declaration to CPAM, tax office, EDF, France Travail, Caf...\n\nI can declare my change of address online and in a single operation to several organizations (CPAM, tax office, EDF, France Travail, Caf...):\n\nChange of address online: https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=LeJS-NUeAnHarFZ52rZL282HZTJQctIA42c2mcNtuzg%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid_connect_login&nonce=pTx0lOl6v80wV7lKEuDPamIUUhyX_m_tOZZkZbuJG7c\n\nAdministrations\n\nI must notify the tax office.\n\nSocial organizations\n\nI must inform the organizations that manage the benefits that concern me:\n- Family Allowance Fund (Caf) or Agricultural Social Mutual Fund (MSA)\n- Primary Health Insurance Fund (CPAM) or, if I am a public sector employee, the organization in charge of my health coverage\n- Supplementary health insurance, mutual insurance\n- Pension fund\n\nBank - Insurance\n\nI indicate my new address to the organizations that manage:\n- My bank accounts\n- My car insurance\n- My life insurance\n\nCondominium manager\nIf I own one or more condominium lots (apartment, parking space, etc.), I inform the condominium manager of my new address so that I am notified of the next general meeting of co-owners."
+        }
+      ]
+    },
+    "dem_step_10": {
+      "step_title": "Vehicle registration and driver's license",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "Vehicle registration (Carte grise)\n\nGeneral case\n\nI must have my new address registered on the vehicle registration certificate.\nLeasing or long-term rental\n\nIf my vehicle is leased or on a long-term rental (LLD), I must contact the lending organization so they can handle the address change procedures.\n\nDriver's license\n\nI am not required to change the address on my driver's license. For example, I can do it when requesting a new license (in case of loss, theft, etc.)."
+        }
+      ]
+    },
+    "dem_step_11": {
+      "step_title": "Identity documents",
+      "step_question": "dem_3",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "French",
+          "answer": "I am French\n\nI am not required to update the address shown on my national identity card and passport.\nBut if I want my new address to appear, I must apply for a renewal of my identity card and passport.\nIf I am between 16 and 25 years old, I must notify my national service center."
+        },
+        {
+          "label": "European (EU)",
+          "answer": "If I am a citizen of a European Union member state and have an EU residence card (not mandatory), I must have it updated."
+        },
+        {
+          "label": "Foreigner (other country)",
+          "answer": "I must have my residence permit updated: https://www.service-public.fr/particuliers/vosdroits/N110"
+        }
+      ]
+    },
+    "dem_step_12": {
+      "step_title": "Electoral rolls",
+      "step_question": "dem_2",
+      "status": "mandatory",
+      "options": [
+        {
+          "label": "In the same municipality",
+          "answer": "TO DO"
+        },
+        {
+          "label": "In another municipality",
+          "answer": "TO DO"
+        }
+      ]
+    },
+    "dem_step_13": {
+      "step_title": "Pet",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "If I have a dog, cat, or ferret that is identified (tattooed or microchipped), I must update my new address in the national identification file for domestic carnivores (I-Cad file)."
+        }
+      ]
+    },
+    "dem_step_14": {
+      "step_title": "Health",
+      "step_question": null,
+      "status": "mandatory",
+      "options": [
+        {
+          "label": null,
+          "answer": "I can choose a new primary care physician if, for example, their office is closer to my new home."
+        }
+      ]
     }
   },
-  "dem_step_9": {
-    "step_title": "Address Change Declaration",
-    "step_question": "dem_5",
-    "status": "mandatory",
-    "options": [
-      {
-        "label": "Private sector employee",
-        "answer": "Single online declaration to CPAM, tax office, EDF, France Travail, Caf...\n\nYou can declare your address change online in a single operation to multiple organizations (CPAM, tax office, EDF, France Travail, Caf...):\nAddress change form: https://auth.service-public.fr/realms/service-public/protocol/openid-connect/auth?response_type=code&client_id=pslclient&scope=openid%20email%20particulier&state=balzS22bLtXcqK4vPbGsMCexPyi-qidsA0V0Dyz_uGc%3D&redirect_uri=https://demarches.service-public.fr/mademarche/JeChangeDeCoordonnees/openid"
-      }
-    ]
-  },
-  "dem_step_10": {
-    "step_title": "Energy and Internet Contracts",
-    "step_question": "dem_5",
-    "status": "optional",
-    "options": [
-      {
-        "label": "Yes",
-        "answer": "You must transfer or cancel your electricity, gas, water, and internet contracts for your old home and subscribe to new ones for the new home.\nCheck your providers' websites and compare offers before moving."
-      }
-    ]
-  },
-  "dem_step_11": {
-    "step_title": "Mail Forwarding",
-    "step_question": "dem_5",
-    "status": "optional",
-    "options": [
-      {
-        "label": "Yes",
-        "answer": "To ensure you don't miss important mail, you can set up a mail forwarding service via La Poste (the French postal service).\nLink: https://www.laposte.fr/demenagement-absence"
-      }
-    ]
-  },
-  "dem_step_12": {
-    "step_title": "Vehicle Registration Change",
-    "step_question": "dem_5",
-    "status": "optional",
-    "options": [
-      {
-        "label": "Yes",
-        "answer": "You must change the address on your car's registration within 1 month of moving.\nYou can do this online on the ANTS website: https://immatriculation.ants.gouv.fr"
-      }
-    ]
-  },
-  "dem_step_13": {
-    "step_title": "Electoral Roll Registration",
-    "step_question": "dem_5",
-    "status": "optional",
-    "options": [
-      {
-        "label": "Yes",
-        "answer": "You can register on the electoral roll of your new municipality.\nYou can do this online via this link: https://www.service-public.fr/particuliers/vosdroits/R16396"
-      }
-    ]
-  },
-  "dem_step_14": {
-    "step_title": "School Registration (if you have children)",
-    "step_question": "dem_5",
-    "status": "optional",
-    "options": [
-      {
-        "label": "Yes",
-        "answer": "You must enroll your child in a school in your new town.\nContact the town hall or visit the official government website: https://www.service-public.fr/particuliers/vosdroits/F1385"
-      }
-    ]
-  },
+
   "logement_1": {
     "step_title": "Do you already have housing?",
-    "step_question": "dem_1",
+    "step_question": "aide_logement_answers",
     "status": "mandatory",
     "options": [
       {
@@ -294,7 +320,7 @@
   },
   "aide_logement_answers": {
     "step_title": "Can I get housing assistance?",
-    "step_question": "dem_1",
+    "step_question": "logement_1",
     "status": "optional",
     "options": [
       {
@@ -307,6 +333,7 @@
       }
     ]
   },
+
   "independance_1": {
     "question": "What is your situation?",
     "options": [
